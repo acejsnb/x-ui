@@ -2,7 +2,7 @@
   "Button": "./src/components/button",
   "Drawer": "./src/components/drawer",
   "Modal": "./src/components/modal",
+  "Toggle": "./src/components/toggle",
 
-  "List": "./src/components/list",
-  "Toggle": "./src/components/toggle"
+  "List": "./src/components/list"
 }

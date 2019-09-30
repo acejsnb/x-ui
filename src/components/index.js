@@ -3,20 +3,21 @@ import Icon from './icon/Icon';
 import Button from './button/Button';
 import Modal from './modal/Modal';
 import Drawer from './drawer/Drawer';
+import Toggle from './toggle';
 
 import Message from './message'; // 函数式组件
 // import Message from './message/Message';
 import List from './list';
-import Toggle from './toggle';
 
 const Components = {
     Icon
     ,Button
     ,Modal
     ,Drawer
+    ,Toggle
+
     ,Message
     ,List
-    ,Toggle
 };
 
 const install = Vue => Object.keys(Components).forEach(name => {

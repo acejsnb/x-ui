@@ -3,7 +3,9 @@
         <div class="component component-padding">
             <h1>Toggle组件</h1>
             <Toggle v-model="toggleVal" />
+            <Toggle v-model="toggleVal" :disable="true" />
             <Toggle v-model="toggleVal2" />
+            <Toggle v-model="toggleVal2" :disable="true" />
         </div>
     </div>
 </template>
@@ -18,15 +20,16 @@
             }
         },
         watch: {
-            toggleVal(now, old) {
-                if (now !== old) console.log(now);
+            toggleVal(n, o) {
+                if (n !== o) console.log('toggleVal::', n);
+            },
+            toggleVal2(n, o) {
+                if (n !== o) console.log('toggleVal2::', n);
             }
         }
     }
 </script>
 
 <style lang="stylus" scoped>
-.s-toggle~.s-toggle
-  margin-top 8px
 
 </style>

@@ -7,9 +7,10 @@ import ComponentLists from './views/ComponentLists';
 import ButtonView from './views/ButtonView';
 import ModalView from './views/ModalView';
 import DrawerView from './views/DrawerView';
+import ToggleView from './views/toggleView';
+
 import MessageView from './views/MessageView';
 import ListView from './views/ListView';
-import ToggleView from './views/toggleView';
 
 export default new Router({
     // mode: 'history',
@@ -57,6 +58,14 @@ export default new Router({
                 title: 'DrawerView'
             }
         },
+        {
+            path: '/toggleView',
+            name: 'ToggleView',
+            component: ToggleView,
+            meta: {
+                title: 'ToggleView'
+            }
+        },
 
         {
             path: '/messageView',
@@ -64,14 +73,6 @@ export default new Router({
             component: MessageView,
             meta: {
                 title: 'MessageView'
-            }
-        },
-        {
-            path: '/toggleView',
-            name: 'ToggleView',
-            component: ToggleView,
-            meta: {
-                title: 'ToggleView'
             }
         },
         {
