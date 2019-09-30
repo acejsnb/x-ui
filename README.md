@@ -1,8 +1,5 @@
 # s-vue-ui：
-- 基于vue的ui库，github地址 `https://github.com/xiongshuang/sui.git`
-
-## 注意
-- 此UI框架是针对移动端开发，所以请使用移动端相关事件，如：`@touchend="handleTouchend"`
+- 基于vue的ui库，github地址 `https://github.com/xiongshuang/persagy-ui.git`
 
 ## config
 - 所有组件打包到一起 `webpack.config.js`
@@ -12,11 +9,11 @@
 - 组件引用路径
 
 ## 安装
-- `npm install -S s-vue-ui`
+- `npm install -S persagy-ui`
 
 ## 全局引入
 ```
-    import Sui from 's-vue-ui';
+    import Sui from 'persagy-ui';
     
     Vue.use(Sui);
 ```
@@ -27,7 +24,7 @@
     [
       "component",
       {
-        "libraryName": "s-vue-ui",
+        "libraryName": "persagy-ui",
         "styleLibrary": {
           "name": "theme",
           "base": false
@@ -40,7 +37,8 @@
     <template>
       <div class="app">
         <Button type="default">default</Button>
-        <Button type="normal">normal</Button>
+        <Button type="primary">normal</Button>
+        <Button type="success">warning</Button>
         <Button type="warning">warning</Button>
         <Button type="error">error</Button>
         <Button type="disabled">disabled</Button>
@@ -48,7 +46,7 @@
     </template>
     
     <script>    
-      import { Button } from 's-vue-ui';
+      import { Button } from 'persagy-ui';
       export default {
         name: 'App',
         components: { Button }

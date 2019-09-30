@@ -2,20 +2,53 @@
 
 1. Button
     ```
-        type必传参数，值为default normal warning error disabled，
-        其中type=disabled是不会执行点击函数的;
-        loading可选参数，true表示显示loading图标
+        type必传参数，值为default primary success warning error disabled，
+        其中type=disabled是不会执行点击函数的，类型String;
+        loading可选参数，true表示显示loading图标，类型Boolean
+        size可选参数，可选值large medium(默认值) small，类型String
         
         <template>
             <div class="Button">
                 <div class="component component-padding">
                     <h1>Button组件</h1>
                     <div class="btn">
-                        <Button :type="type" @touchend="defaultClick">{{type}}</Button>
-                        <Button type="normal" @touchend="normalClick">normal</Button>
-                        <Button type="warning">warning</Button>
-                        <Button type="error">error</Button>
-                        <Button type="disabled" :loading="false">disabled</Button>
+                        <p>size=large</p>
+                        <section class="list">
+                            <Button type="default" size="large">default</Button>
+                            <Button type="primary" size="large">primary</Button>
+                            <Button type="success" size="large">success</Button>
+                            <Button type="warning" size="large">warning</Button>
+                            <Button type="error" size="large">error</Button>
+                            <Button type="disabled" size="large">disabled</Button>
+                            <Button type="primary" :loading="true" size="large">primary-loading</Button>
+                        </section>
+                    </div>
+                    <div class="btn">
+                        <p>size=medium（默认medium）</p>
+                        <section class="list">
+                            <Button type="default">default</Button>
+                            <Button type="primary">primary</Button>
+                            <Button type="success">success</Button>
+                            <Button type="warning">warning</Button>
+                            <Button type="error">error</Button>
+                            <Button type="disabled">disabled</Button>
+                            <Button type="primary" :loading="true">primary-loading</Button>
+                        </section>
+                        <section class="list">
+                            <Button type="link">default</Button>
+                        </section>
+                    </div>
+                    <div class="btn">
+                        <p>size=small</p>
+                        <section class="list">
+                            <Button type="default" size="small">default</Button>
+                            <Button type="primary" size="small">primary</Button>
+                            <Button type="success" size="small">success</Button>
+                            <Button type="warning" size="small">warning</Button>
+                            <Button type="error" size="small">error</Button>
+                            <Button type="disabled" size="small">disabled</Button>
+                            <Button type="primary" :loading="true" size="small">primary-loading</Button>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -23,76 +56,250 @@
         
         <script>
             export default {
-                name: "ButtonView",
+                name: "ButtonView"
+            }
+        </script>
+        
+        <style lang="stylus" scoped>
+        .btn
+          margin-bottom 16px
+          p
+            font-size 16px
+            margin-bottom 8px
+          .list
+            margin-bottom 8px
+        
+        </style>
+    ```
+    
+2.Modal
+    ```
+        
+        show控制弹窗显示，类型Boolean，必须
+        title弹窗标题，类型String，非必须
+        iconLoading确定按钮是否显示，费必须
+        mode full-全屏显示 default-(默认值)自适应宽高 small-最小对话框，非必须
+        @close关闭弹窗回调
+        @confirm确定按钮回调
+    
+        <template>
+            <div class="Button">
+                <div class="component component-padding">
+                    <h1>Modal组件</h1>
+                    <Button type="primary" @click="modalShowDefault">modalShowDefault</Button>
+                    <Button type="primary" @click="modalShowFull">modalShowFull</Button>
+                    <Button type="primary" @click="modalShowSmall">modalShowSmall</Button>
+                    <!--
+                        组件说明:
+                            show
+                            title
+                            iconLoading
+                            mode full-全屏显示 default-(默认值)自适应宽高 small-最小对话框
+                            close
+                            confirm
+                    -->
+                    <Modal
+                            :show="modalStatusDefault"
+                            title="弹窗提示"
+                            :iconLoading="true"
+                            mode="default"
+                            @close="modalClose"
+                            @confirm="modalConfirm"
+                    >
+                        <div style="font-size: 20px; width: 600px">
+                            123
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            456
+                        </div>
+                    </Modal>
+                    <Modal
+                            :show="modalStatusFull"
+                            title="弹窗提示"
+                            :iconLoading="true"
+                            mode="full"
+                            @close="modalClose"
+                            @confirm="modalConfirm"
+                    >
+                        <div style="font-size: 20px; width: 600px">
+                            123
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br><br>
+                            456
+                        </div>
+                    </Modal>
+                    <Modal
+                            :show="modalStatusSmall"
+                            title="弹窗提示"
+                            :iconLoading="true"
+                            mode="small"
+                            @close="modalClose"
+                            @confirm="modalConfirm"
+                    >
+                        <div style="font-size: 20px;">
+                            123
+                            456
+                        </div>
+                    </Modal>
+                    <div style="font-size: 16px;">
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                    </div>
+                </div>
+            </div>
+        </template>
+                
+        <script>
+            export default {
+                name: 'ModalView',
                 data() {
                     return {
-                        type: 'default',
+                        modalStatusDefault: false,
+                        modalStatusFull: false,
+                        modalStatusSmall: false,
                     }
                 },
                 methods: {
-                    defaultClick() {
-                        console.log('default');
-                        if (this.type==='default') this.type='disabled';
-                        else this.type='default';
+                    modalShowDefault() {
+                        this.modalStatusDefault=true
                     },
-                    normalClick() {
-                        console.log('normal')
+                    modalShowFull() {
+                        this.modalStatusFull=true
+                    },
+                    modalShowSmall() {
+                        this.modalStatusSmall=true
+                    },
+                    modalClose() {
+                        this.modalStatusDefault=false;
+                        this.modalStatusFull=false;
+                        this.modalStatusSmall=false;
+                    },
+                    modalConfirm() {
+                        console.log('alertConfirm')
                     },
                 }
             }
         </script>
+        
     ```
-2. Alert
-    ```
-    alertShow必传参数，显示弹窗
-    title必传参数，弹窗标题
-    content必传参数，弹窗内容提示
-    iconLoading可选参数，是否显示loading效果
-    close可选参数，关闭弹窗
-    confirm可选参数，确定按钮执行的方法
     
-    <template>
-        <div class="Button">
-            <div class="component component-padding">
-                <h1>Alert组件</h1>
-                <div class="alertShow">
-                    <Button type="normal" @touchend="alertShowFn">alertShow</Button>
+3.Drawer
+    ```
+    
+        参数   说明           默认值   类型   是否必须
+        show  控制弹窗隐藏显示 false   Boolean true
+        title 弹窗标题  '' String false
+        focus 是否自动关闭弹窗 false Boolean false
+        iconLoading 点击确定是否出现loading效果 false Boolean false
+        bottom 是否固定在底部 false Boolean false
+        close 关闭弹窗函数 无  Function true
+        confirm 关闭弹窗函数 无  Function false
+    
+        <template>
+            <div class="Button">
+                <div class="component component-padding">
+                    <h1 @click="drawerShow">Drawer组件</h1>
+                    <Button type="primary" @click="drawerShow">drawerShow</Button>
+                    <Drawer
+                            :show="drawerStatus"
+                            title="弹窗提示"
+                            :focus="false"
+                            :iconLoading="true"
+                            :bottom="true"
+                            @close="drawerClose"
+                            @confirm="drawerConfirm"
+                    >
+                        <div style="width: 500px;font-size: 20px">
+                            123
+                            456
+                            789
+                        </div>
+                    </Drawer>
+                    <div style="font-size: 16px;">
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
+                    </div>
                 </div>
-                <Alert
-                        :alertShow="alertShow"
-                        title="弹窗提示"
-                        content="确定要删除此列表吗？"
-                        :iconLoading="true"
-                        @close="alertClose"
-                        @confirm="alertConfirm"
-                />
             </div>
-        </div>
-    </template>
-    
-    <script>
-        export default {
-            name: "AlertView",
-            data() {
-                return {
-                    alertShow: false,
+        </template>
+        
+        <script>
+            export default {
+                name: 'DrawerView',
+                data() {
+                    return {
+                        drawerStatus: false
+                    }
+                },
+                methods: {
+                    drawerShow() {
+                        this.drawerStatus=true
+                    },
+                    drawerClose() {
+                        this.drawerStatus=false
+                    },
+                    drawerConfirm() {
+                        console.log('alertConfirm')
+                    },
                 }
-            },
-            methods: {
-                alertShowFn() {
-                    this.alertShow=true
-                },
-                alertClose() {
-                    this.alertShow=false
-                },
-                alertConfirm() {
-                    console.log('alertConfirm')
-                },
             }
-        }
-    </script>
+        </script>
+    
     ```
-3. Message
+
+000000000. Message
     ```
     Message有四个方法：
     1.info：this.$message.info('这是一条消息');
@@ -136,7 +343,7 @@
         }
     </script>
     ```
-4. List
+000000000. List
     ```
     List组件的data参数类型是Array，格式：[{title: 'xxx'}, more: 'more', url: 'url'],
     其中title是列表显示的名字，必传蚕食、
@@ -167,183 +374,8 @@
         }
     </script>
     ```
-5. Carousel
-    ```
-    轮播组件，data参数类是是Array，格式：[{img: imgUrl, {img: imgUrl, url: 'url'}}],
-    img是轮播图片地址、url要跳转到的路由，次参数可选.
-    
-    <template>
-        <div class="Button">
-            <div class="component">
-                <h1>Carousel组件</h1>
-                <Carousel :data="dataCarousel"></Carousel>
-            </div>
-        </div>
-    </template>
-    
-    <script>
-        import duizhang from 'images/duizhang.jpg';
-        import leishen from 'images/leishen.jpg';
-        import zuhe from 'images/zuhe.jpg';
-    
-        export default {
-            name: "CarouselView",
-            data() {
-                return {
-                    dataCarousel: [
-                        {img: duizhang},
-                        {img: leishen, url: 'https://baidu.com'},
-                        {img: zuhe, url: 'https://jd.com'}
-                    ]
-                }
-            },
-        }
-    </script>
-    ```
-6. Select
-    ```
-    data--数组，[
-              {text: '宋江', id: 1},
-              {text: '鲁智深', id: 2},
-              {text: '吴勇', id: 3}
-            ]；
-        @touchend="selectedFn"--回调，返回选择的值
-    
-    <template>
-        <div class="Select">
-            <div class="component component-padding">
-                <h1>Select组件</h1>
-                <Select
-                        :data="dataSelect"
-                        @touchend="selectedFn"
-                >{{selectedVal}}</Select>
-            </div>
-        </div>
-    </template>
-    
-    <script>
-        export default {
-            name: "SelectView",
-            data() {
-                return {
-                    dataSelect: [
-                        {text: '宋江', id: 1},
-                        {text: '鲁智深', id: 2},
-                        {text: '吴勇', id: 3},
-                        {text: '孙二娘', id: 4},
-                        {text: '卢俊义', id: 5},
-                        {text: '公孙胜', id: 6},
-                        {text: '林冲', id: 7},
-                        {text: '呼延灼', id: 8},
-                        {text: '花荣', id: 9},
-                        {text: '柴进', id: 10},
-                        {text: '李应', id: 11},
-                        {text: '朱仝', id: 12},
-                        {text: '董平', id: 13},
-                        {text: '关胜', id: 14},
-                        {text: '时迁', id: 15},
-                    ],
-                    selectedVal: '请选择人物',
-                }
-            },
-            methods: {
-                selectedFn(d) {
-                    console.log('selected', d);
-                    this.selectedVal=d.text;
-                },
-            }
-        }
-    </script>
-    ```
-7. Input
-    ```
-    参数说明：
-    title：input输入框的名字，
-    required：值为true会显示*号，
-    type：输入框的类型，
-    placeholder：占位文字，
-    maxlength：最大长度
-    v-model：双向绑定的值
-    
-    <template>
-        <div class="Button">
-            <div class="component component-padding">
-                <h1>Input组件</h1>
-                <Input
-                        title="用户名"
-                        required="true"
-                        type="text"
-                        placeholder="请输入用户名"
-                        maxlength="10"
-                        v-model="inputUsername"
-                />
-                <Input
-                        title="密码"
-                        required="true"
-                        type="password"
-                        placeholder="请输入密码"
-                        maxlength="8"
-                        v-model="inputPassword"
-                />
-                <Input
-                        type="text"
-                        placeholder="请输入"
-                />
-                <Button type="normal" @touchend="inputValueFn">inputValue</Button>
-            </div>
-        </div>
-    </template>
-    
-    <script>
-        export default {
-            name: "InputView",
-            data() {
-                return {
-                    inputUsername: '',
-                    inputPassword: '',
-                }
-            },
-            methods: {
-                inputValueFn() {
-                    console.log('username', this.inputUsername);
-                    console.log('password', this.inputPassword);
-                }
-            }
-        }
-    </script>
-    ```
-8. Datepicker
-    ```
-    参数说明：
-    title:日期选择器的名字
-    v-model:双向绑定的数据
-    range:值范围
-    
-    <template>
-        <div class="Button">
-            <div class="component component-padding">
-                <h1>Datepicker组件</h1>
-                <Datepicker
-                        title="生日"
-                        v-model="date"
-                        range="2000-2099"
-                />
-            </div>
-        </div>
-    </template>
-    
-    <script>
-        export default {
-            name: "DatepickerView",
-            data() {
-                return {
-                    date: '2019-10-01',
-                }
-            }
-        }
-    </script>
-    ```
-9. Toggle
+
+000000000. Toggle
     ```
     v-model:双向绑定的值
     
