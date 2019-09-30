@@ -1,11 +1,8 @@
 {
-  "Alert": "./src/components/alert",
   "Button": "./src/components/button",
-  "Message": "./src/components/message",
+  "Drawer": "./src/components/drawer",
+  "Modal": "./src/components/modal",
+
   "List": "./src/components/list",
-  "Carousel": "./src/components/carousel",
-  "Select": "./src/components/select",
-  "Input": "./src/components/input",
-  "Datepicker": "./src/components/datepicker",
   "Toggle": "./src/components/toggle"
 }

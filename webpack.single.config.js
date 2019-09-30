@@ -14,6 +14,9 @@ const components=require('./components.json')
     ,entryObj={};
 Object.keys(components).forEach(item => entryObj[item]=components[item]);
 
+// 获取时间
+const TimeFn=require('./get_time');
+
 /**
  *  css和stylus开发、生产依赖
  *  生产分离css
@@ -134,7 +137,7 @@ const config={
         ]
     },
     plugins: [
-        new webpack.BannerPlugin(`xs build at ${Date.now()}`),
+        new webpack.BannerPlugin(`@xs ${TimeFn()}`),
         new VueLoaderPlugin(), // vue加载器
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,       //一个正则表达式，指示应优化/最小化的资产的名称。提供的正则表达式针对配置中ExtractTextPlugin实例导出的文件的文件名运行，而不是源CSS文件的文件名。默认为/\.css$/g
