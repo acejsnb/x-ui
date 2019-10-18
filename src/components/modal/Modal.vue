@@ -1,9 +1,9 @@
 <template>
     <div class="p-modal">
-        <transition name="modalBg">
+        <transition name="opacityInOut">
             <div class="p-modal-bg" @click="$emit('close')" v-if="show"></div>
         </transition>
-        <transition-group name="modal">
+        <transition-group name="bounceInOut">
             <!-- 默认弹窗样式 -->
             <Default
                     key="default"
@@ -101,8 +101,6 @@
                 }
             }
         },
-        methods: {
-        },
         beforeDestroy() {
             document.body.style.overflow='auto';
         }
@@ -111,6 +109,8 @@
 
 <style lang="stylus">
 @import "~stylus/tools.styl"
+@import "~stylus/animate/opacityInOut.styl"
+@import "~stylus/animate/bounceInOut.styl"
 
 .p-modal-bg
   position fixed
@@ -159,39 +159,5 @@
   max-height 648px
 .p-modal-content-max
   overflow auto
-
-@keyframes modalBgIn
-  from
-    opacity 0
-  to
-    opacity 1
-@keyframes modalBgOut
-  from
-    opacity 1
-  to
-    opacity 0
-.modalBg-enter-active
-  animation modalBgIn .3s
-.modalBg-leave-active
-  animation modalBgOut .3s
-
-@keyframes bounceIn
-  from
-    opacity 0
-    transform scale3d(.8, .8, .8)
-  to
-    opacity 1
-    transform scale3d(1, 1, 1)
-@keyframes bounceOut
-  from
-    opacity 1
-    transform scale3d(1, 1, 1)
-  to
-    opacity 0
-    transform scale3d(.8, .8, .8)
-.modal-enter-active
-  animation bounceIn .3s
-.modal-leave-active
-  animation bounceOut .3s
 
 </style>

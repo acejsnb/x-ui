@@ -1,13 +1,18 @@
+import 'stylus/main.styl';
 
 import Icon from './icon/Icon';
 import Button from './button/Button';
 import Modal from './modal/Modal';
 import Drawer from './drawer/Drawer';
 import Toggle from './toggle';
+import Dropdown from './dropdown';
+import Dropgroup from './dropgroup';
+import Select from './select';
+import Badge from './badge';
+import Divider from './divider';
+import Carouseltext from './carouseltext';
 
 import Message from './message'; // 函数式组件
-// import Message from './message/Message';
-import List from './list';
 
 const Components = {
     Icon
@@ -15,9 +20,14 @@ const Components = {
     ,Modal
     ,Drawer
     ,Toggle
+    ,Dropdown
+    ,Dropgroup
+    ,Select
+    ,Badge
+    ,Divider
+    ,Carouseltext
 
     ,Message
-    ,List
 };
 
 const install = Vue => Object.keys(Components).forEach(name => {

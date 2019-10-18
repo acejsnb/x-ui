@@ -1,9 +1,6 @@
 <template>
   <div class="app">
     <div class="backBox">
-      <section class="back" v-if="backShow">
-        <img src="~icon/right.png" alt="" @click="backFn">
-      </section>
       <section class="title">{{routeName}}</section>
     </div>
     <router-view/>
@@ -48,20 +45,11 @@
   .app
     font-size 0
     .backBox
-      position relative
       background-color #fff
       box-shadow 0 3px 3px rgba(0,0,0,.1)
+      width 100%
       height 48px
       line-height 48px
-      z-index 900
-      .back
-        position absolute
-        left 16px
-        top 12px
-        cursor pointer
-        img
-          width 24px
-          transform rotate(-180deg)
       .title
         text-align center
         color #000

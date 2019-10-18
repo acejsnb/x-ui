@@ -1,5 +1,5 @@
 <template>
-    <transition name="drawer">
+    <transition name="slideRightLeft">
         <div class="p-drawer" :tabindex="focus&&-1" v-focus="focus" @blur="onClose" v-if="show">
             <div class="p-drawer-title">
                 <section class="p-title-text">{{title}}</section>
@@ -97,6 +97,7 @@
 
 <style lang="stylus">
 @import "~stylus/tools.styl"
+@import "~stylus/animate/slideRightLeft.styl"
 
 .p-drawer
   outline none
@@ -144,26 +145,5 @@
   right 0
   bottom 0
   box-shadow 0 -2px 10px 0 rgba(31,35,41,.1)
-
-@keyframes slideIn
-  from
-    opacity 0
-    transform translate3d(100%, 0, 0)
-    visibility visible
-  to
-    opacity 1
-    transform translate3d(0, 0, 0)
-@keyframes slideOut
-  from
-    opacity 1
-    transform translate3d(0, 0, 0)
-  to
-    opacity 0
-    visibility hidden
-    transform translate3d(100%, 0, 0)
-.drawer-enter-active
-  animation slideIn .3s
-.drawer-leave-active
-  animation slideOut .3s
 
 </style>

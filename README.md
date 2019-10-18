@@ -13,9 +13,9 @@
 
 ## 全局引入
 ```
-    import Sui from 'persagy-ui';
+    import Pui from 'persagy-ui';
     
-    Vue.use(Sui);
+    Vue.use(Pui);
 ```
 ## 按需引入
 - 安装依赖包   `npm i -D babel-plugin-component`
@@ -27,7 +27,7 @@
         "libraryName": "persagy-ui",
         "styleLibrary": {
           "name": "theme",
-          "base": false
+          "base": true
         }
       }
     ]

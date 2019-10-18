@@ -3,6 +3,7 @@
   "Drawer": "./src/components/drawer",
   "Modal": "./src/components/modal",
   "Toggle": "./src/components/toggle",
+  "Dropdown": "./src/components/dropdown",
+  "Select": "./src/components/select"
 
-  "List": "./src/components/list"
 }

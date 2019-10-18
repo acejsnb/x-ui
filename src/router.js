@@ -8,9 +8,14 @@ import ButtonView from './views/ButtonView';
 import ModalView from './views/ModalView';
 import DrawerView from './views/DrawerView';
 import ToggleView from './views/toggleView';
+import DropdownView from './views/dropdownView';
+import DropGroupView from './views/dropGroupView';
+import SelectView from './views/selectView';
+import BadgeView from './views/badgeView';
+import DividerView from './views/dividerView';
+import CarouseltextView from './views/carouseltextView';
 
 import MessageView from './views/MessageView';
-import ListView from './views/ListView';
 
 export default new Router({
     // mode: 'history',
@@ -23,14 +28,6 @@ export default new Router({
             component: ComponentLists,
             meta: {
                 title: 'ComponentLists'
-            }
-        },
-        {
-            path: '/listView',
-            name: 'ListView',
-            component: ListView,
-            meta: {
-                title: 'ListView'
             }
         },
 
@@ -59,11 +56,59 @@ export default new Router({
             }
         },
         {
+            path: '/dropGroupView',
+            name: 'DropGroupView',
+            component: DropGroupView,
+            meta: {
+                title: 'DropGroupView'
+            }
+        },
+        {
             path: '/toggleView',
             name: 'ToggleView',
             component: ToggleView,
             meta: {
                 title: 'ToggleView'
+            }
+        },
+        {
+            path: '/selectView',
+            name: 'SelectView',
+            component: SelectView,
+            meta: {
+                title: 'SelectView'
+            }
+        },
+        {
+            path: '/dropdownView',
+            name: 'DropdownView',
+            component: DropdownView,
+            meta: {
+                title: 'DropdownView'
+            }
+        },
+        {
+            path: '/badgeView',
+            name: 'BadgeView',
+            component: BadgeView,
+            meta: {
+                title: 'BadgeView'
+            }
+        },
+        {
+            path: '/dividerView',
+            name: 'DividerView',
+            component: DividerView,
+            meta: {
+                title: 'DividerView'
+            }
+        },
+        {
+            path: '/carouseltextView',
+            name: 'CarouseltextView',
+            component: CarouseltextView,
+            meta: {
+                title: 'CarouseltextView'
             }
         },
 

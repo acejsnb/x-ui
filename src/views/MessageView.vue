@@ -2,10 +2,10 @@
     <div class="Button">
         <div class="component component-padding">
             <h1>Message组件</h1>
-            <Button type="default" @touchend="messageInfo">info</Button>
-            <Button type="normal" @touchend="messageSuccess">success</Button>
-            <Button type="warning" @touchend="messageWarning">warning</Button>
-            <Button type="error" @touchend="messageError">error</Button>
+            <Button type="default" @click="messageInfo">info</Button>
+            <Button type="primary" @click="messageSuccess">success</Button>
+            <Button type="warning" @click="messageWarning">warning</Button>
+            <Button type="error" @click="messageError">error</Button>
         </div>
     </div>
 </template>
@@ -26,7 +26,16 @@
             messageError() {
                 this.$message({
                     type: 'error',
-                    message: '错了哦，这是一条错误消息'
+                    message: `
+                        错了哦，这是一条错误消息
+                        错了哦，这是一条错误消息
+                        错了哦，这是一条错误消息
+                        错了哦，这是一条错误消息
+                        错了哦，这是一条错误消息
+                        错了哦，这是一条错误消息
+                        错了哦，这是一条错误消息
+                        错了哦，这是一条错误消息
+                    `
                 });
             },
         }

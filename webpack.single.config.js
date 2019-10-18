@@ -4,15 +4,16 @@ const MiniCssExtractPlugin=require('mini-css-extract-plugin'); // 文本分离�
 const OptimizeCssAssetsPlugin=require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin=require('clean-webpack-plugin'); // 清理垃圾文件
 
+const WebpackBar = require('webpackbar');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const VueLoaderPlugin = require('vue-loader/lib/plugin'); // vue加载器
 const PostStylus=require('poststylus'); // stylus加前缀
 const HappyPack = require('happypack'); // 分块打包
 const os=require('os');
 const happyThreadPool=HappyPack.ThreadPool({ size: os.cpus().length });
 
-const components=require('./components.json')
-    ,entryObj={};
-Object.keys(components).forEach(item => entryObj[item]=components[item]);
+const EntryObj=require('./src/components/single.js');
 
 // 获取时间
 const TimeFn=require('./get_time');
@@ -30,9 +31,9 @@ const cssConfig=[
         }
     },
     'postcss-loader'
-]
+    ]
     ,stylusConfig=[
-    MiniCssExtractPlugin.loader,
+        MiniCssExtractPlugin.loader,
         {
             loader: 'css-loader',
             options: {
@@ -48,7 +49,7 @@ const cssConfig=[
     ];
 
 const config={
-    entry: entryObj,
+    entry: EntryObj,
     output: {
         path: path.resolve(__dirname, 'lib'),
         filename: '[name].js', // [name] 是entry的key
@@ -165,7 +166,12 @@ const config={
             }], // 用什么loader处理
             threadPool: happyThreadPool, // 共享进程池
             verbose: true //允许 HappyPack 输出日志
-        })
+        }),
+        new CopyWebpackPlugin([{
+            from:'./src/assets/base', // 需要拷贝的静态资源目录地址，这里只做打包单个组件的公共样式拷贝
+            to: path.resolve(__dirname, 'lib/theme') //打包到lib下面的theme
+        }]),
+        new WebpackBar()
     ],
     externals: {
         vue: {

@@ -1,36 +1,29 @@
 <template>
-    <div :class="`s-message s-message-${type}`" @touchend="clearTimer">
-        <span class="text">{{message}}</span>
-    </div>
+    <transition name="fadeDownUp">
+        <div v-show="visible" :class="`p-message p-message-${type}`">
+            <section class="msg">
+                <article class="text">{{message}}</article>
+            </section>
+            <section class="p-message-close" @click="closeNode"><IconClose /></section>
+        </div>
+    </transition>
 </template>
 
 <script>
+    import IconClose from 'icon/icon_close_white.svg';
+
     export default {
-        name: "Message",
+        name: 'Message',
+        components: { IconClose },
         data() {
             return {
                 type: 'info',
                 message: '',
-                duration: 3, // 倒计时
-                timer: null // 定时器名字
-            }
-        },
-        mounted() {
-            this.startTimer(); // 开启定时器
-        },
-        watch: {
-            duration(newVal) {
-                newVal === 0 && this.clearTimer();
+                visible: false
             }
         },
         methods: {
-            startTimer() { // 开启定时器
-                this.timer = setInterval(() => {
-                    this.duration=this.duration-1;
-                }, 1000);
-            },
-            clearTimer() { // 关闭定时器
-                this.timer && clearInterval(this.timer);
+            closeNode() { // 移除当前节点
                 this.$el.parentNode.removeChild(this.$el);
             }
         }
@@ -38,48 +31,41 @@
 </script>
 
 <style lang="stylus">
-@import "~stylus/common.styl"
+@import "~stylus/tools.styl"
+@import "~stylus/animate/fadeDownUp.styl"
 
-.s-message
-  position fixed
-  top 32px
-  left 10%
+.p-message
+  position relative
   display flex
-  align-items center
-  padding-left 16px
-  padding-right 16px
+  justify-content space-between
+  align-items flex-start
+  padding 8px 8px 8px 16px
   border-radius 4px
-  width 80%
-  height 48px
-  line-height @height
-  animation fadeInDown .5s
-  &+.s-message
-    margin-top 16px
-  span
-    padding-left 28px
-    font-size 18px
-.s-message-info
-  background-color $normal_bg
-  border 1px solid $normal_br
-  span
-    background url("~icon/info.png") no-repeat left top 10px/24px
-    color $normal
-.s-message-success
-  background-color $success_bg
-  border 1px solid $success_br
-  span
-    background url("~icon/success.png") no-repeat left top 10px/24px
-    color $success
-.s-message-warning
-  background-color $warning_bg
-  border 1px solid $warning_br
-  span
-    background url("~icon/warning.png") no-repeat left top 10px/24px
-    color $warning
-.s-message-error
-  background-color $error_bg
-  border 1px solid $error_br
-  span
-    background url("~icon/error.png") no-repeat left top 10px/24px
-    color $error
+  box-shadow 0 2px 10px 0 rgba(98,28,24,.2)
+  min-width 216px
+  max-width 576px
+  min-height 24px
+  &+.p-message
+    margin-top 24px
+  .text
+    padding-left 8px
+    font-size 14px
+    line-height 22px
+    color #fff
+  .p-message-close
+    margin-left 8px
+    margin-top 4px
+    cursor pointer
+    text-align right
+    svg
+      vertical-align middle
+.p-message-info
+  background-color $primary-blue-500
+.p-message-success
+  background-color $success-turquoise-500
+.p-message-warning
+  background-color $warning-orange-400
+.p-message-error
+  background-color $error-red-400
+
 </style>

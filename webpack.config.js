@@ -5,6 +5,8 @@ const MiniCssExtractPlugin=require('mini-css-extract-plugin'); // 文本分离�
 const OptimizeCssAssetsPlugin=require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin=require('clean-webpack-plugin'); // 清理垃圾文件
 
+const WebpackBar = require('webpackbar');
+
 const VueLoaderPlugin = require('vue-loader/lib/plugin'); // vue加载器
 const PostStylus=require('poststylus'); // stylus加前缀
 const HappyPack = require('happypack'); // 分块打包
@@ -194,7 +196,8 @@ const config={
                     ]
                 }
             }
-        })
+        }),
+        new WebpackBar()
     ]
 };
 
@@ -239,6 +242,9 @@ if(isProd){
         , hot: true
         , overlay: { // 当出现编译器错误或警告时，就在网页上显示一层黑色的背景层和错误信息
             errors: true
+        }
+        ,historyApiFallback: { // 当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 /
+            rewrites: [{ from: /./, to: '/' }]
         }
     };
 }
