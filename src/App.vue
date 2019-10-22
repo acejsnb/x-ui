@@ -8,6 +8,9 @@
 </template>
 
 <script>
+
+  // import 'highlight.js/styles/github-gist.css';
+
   export default {
     name: 'App',
     data() {
@@ -43,7 +46,7 @@
 
 <style lang="stylus">
   .app
-    font-size 0
+    //font-size 0
     .backBox
       background-color #fff
       box-shadow 0 3px 3px rgba(0,0,0,.1)

@@ -13,6 +13,17 @@ Vue.use(Components);
 
 Vue.config.productionTip = false;
 
+
+import hljs from 'highlight.js'
+import 'stylus/github'
+
+Vue.directive('highlight', (el) => {
+    let blocks = el.querySelectorAll('pre code');
+    blocks.forEach((block) => {
+        hljs.highlightBlock(block)
+    })
+});
+
 new Vue({
     router,
     store,

@@ -64,6 +64,20 @@
                 }
             }
         },
+        // watch: {
+        //     show(n, o) {
+        //         if (n !== o) {
+        //             if (n) {
+        //                 this.loading=false;
+        //                 document.body.style.overflow='hidden';
+        //                 document.body.style.width='calc(100% - 17px)';
+        //             } else {
+        //                 document.body.style.overflow='auto';
+        //                 document.body.style.width='auto';
+        //             }
+        //         }
+        //     }
+        // },
         methods: {
             onClose() {
                 if (this.loading) this.$emit('changeLoading', false);
@@ -75,6 +89,11 @@
                 this.$emit('confirm');
             }
         }
+        // ,
+        // beforeDestroy() {
+        //     document.body.style.overflow='auto';
+        //     document.body.style.width='auto';
+        // }
     }
 </script>
 

@@ -5,15 +5,19 @@ Vue.use(Router);
 
 import ComponentLists from './views/ComponentLists';
 import ButtonView from './views/ButtonView';
+// import ButtonView from './docs/Button.md';
 import ModalView from './views/ModalView';
 import DrawerView from './views/DrawerView';
-import ToggleView from './views/toggleView';
-import DropdownView from './views/dropdownView';
-import DropGroupView from './views/dropGroupView';
-import SelectView from './views/selectView';
-import BadgeView from './views/badgeView';
-import DividerView from './views/dividerView';
-import CarouseltextView from './views/carouseltextView';
+import ToggleView from './views/ToggleView';
+import DropdownView from './views/DropdownView';
+import DropGroupView from './views/DropGroupView';
+import SelectView from './views/SelectView';
+import BadgeView from './views/BadgeView';
+import DividerView from './views/DividerView';
+import CarouseltextView from './views/CarouseltextView';
+import TabsView from './views/TabsView';
+import HeadersView from './views/HeadersView';
+import BreadcrumbView from './views/BreadcrumbView';
 
 import MessageView from './views/MessageView';
 
@@ -111,7 +115,34 @@ export default new Router({
                 title: 'CarouseltextView'
             }
         },
+        {
+            path: '/tabsView',
+            name: 'TabsView',
+            component: TabsView,
+            meta: {
+                title: 'TabsView'
+            }
+        },
+        {
+            path: '/breadcrumbView',
+            name: 'BreadcrumbView',
+            component: BreadcrumbView,
+            meta: {
+                title: 'BreadcrumbView'
+            }
+        },
 
+        // 组合组件
+        {
+            path: '/headersView',
+            name: 'HeadersView',
+            component: HeadersView,
+            meta: {
+                title: 'HeadersView'
+            }
+        },
+
+        // 函数组件
         {
             path: '/messageView',
             name: 'MessageView',

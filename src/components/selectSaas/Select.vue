@@ -106,7 +106,7 @@ export default {
         padding-right 12px
         background-color #fff
         border 1px solid $grey-grey-400
-        border-radius 4px
+        border-radius 16px
         width 100%
         height 32px
         line-height @height

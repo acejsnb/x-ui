@@ -11,6 +11,10 @@ import Select from './select';
 import Badge from './badge';
 import Divider from './divider';
 import Carouseltext from './carouseltext';
+import Tabs from './tabs';
+import Breadcrumb from './breadcrumb';
+
+import Headers from './headers';
 
 import Message from './message'; // 函数式组件
 
@@ -26,6 +30,10 @@ const Components = {
     ,Badge
     ,Divider
     ,Carouseltext
+    ,Tabs
+    ,Breadcrumb
+
+    ,Headers
 
     ,Message
 };

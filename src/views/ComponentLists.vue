@@ -22,6 +22,10 @@
                     {title: 'Badge', more: '徽标', url: 'badgeView'},
                     {title: 'Divider', more: '分割线', url: 'dividerView'},
                     {title: 'Carouseltext', more: '文字轮播', url: 'carouseltextView'},
+                    {title: 'TabsView', more: '标签页', url: 'tabsView'},
+                    {title: 'BreadcrumbView', more: '头部title', url: 'breadcrumbView'},
+
+                    {title: 'HeadersView', more: '头部title', url: 'headersView'},
 
                     {title: 'Message', more: '信息提示', url: 'messageView'}
                 ],

@@ -1,8 +1,8 @@
 <template>
-    <section :class="`p-btn p-btn-${type} p-btn-${size}`" @click="handleClick">
+    <button type="button" :class="`p-btn p-btn-${type} p-btn-${size}`" @click="handleClick">
         <span><slot></slot></span>
         <LoadingIcon class="loading" v-if="loading" />
-    </section>
+    </button>
 </template>
 
 <script>
@@ -39,7 +39,6 @@
 
 .p-btn
   position relative
-  display inline-block
   vertical-align middle
   padding-left 8px
   padding-right 8px
@@ -49,7 +48,6 @@
   border-radius 4px
   transition all .36s
   overflow hidden
-  text-align center
   &+.p-btn
     margin-left 12px
   span

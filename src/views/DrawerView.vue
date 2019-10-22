@@ -9,18 +9,22 @@
                     show  控制弹窗隐藏显示 false   Boolean true
                     title 弹窗标题  '' String false
                     focus 是否自动关闭弹窗 false Boolean false
-                    iconLoading 点击确定是否出现loading效果 false Boolean false
-                    bottom 是否固定在底部 false Boolean false
-                    close 关闭弹窗函数 无  Function true
-                    confirm 关闭弹窗函数 无  Function false
+                    loading 点击确定是否出现loading效果 false Boolean false
+                    changeLoading 改变加载中状态 false Function false
+                    btnShow 底部操作按钮是否显示 false Boolean false
+                    bottom 操作按钮是否固定在底部 false Boolean false
+                    changeDrawerStatus 打开/关闭弹窗函数 无  Function true
+                    confirm 弹窗确定函数 无  Function false
             -->
             <Drawer
                     :show="drawerStatus"
-                    title="弹窗提示"
-                    :focus="false"
-                    :iconLoading="true"
+                    title="抽屉"
+                    :focus="true"
+                    :loading="iconLoading"
+                    @changeLoading="changeLoading"
+                    :btnShow="true"
                     :bottom="true"
-                    @close="drawerClose"
+                    @changeStatus="changeStatus"
                     @confirm="drawerConfirm"
             >
                 <div style="width: 500px;font-size: 20px">
@@ -58,15 +62,23 @@
         name: 'DrawerView',
         data() {
             return {
-                drawerStatus: false
+                drawerStatus: false,
+                iconLoading: false
             }
         },
         methods: {
-            drawerShow() {
-                this.drawerStatus=true
+            // 改变抽屉显示状态
+            changeStatus(v) {
+                this.drawerStatus=v
             },
-            drawerClose() {
-                this.drawerStatus=false
+            // 改变loading状态
+            changeLoading(v) {
+                this.iconLoading=v
+            },
+            drawerShow() {
+                if (this.drawerStatus) return;
+                this.drawerStatus=true;
+                console.log(this.drawerStatus);
             },
             drawerConfirm() {
                 console.log('alertConfirm')

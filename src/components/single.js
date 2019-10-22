@@ -12,7 +12,10 @@ const EntryObj={
     Select: './src/components/select',
     Badge: './src/components/badge',
     Divider: './src/components/divider',
-    Carouseltext: './src/components/carouseltext'
+    Carouseltext: './src/components/carouseltext',
+    Tabs: './src/components/tabs',
+    Headers: './src/components/headers',
+    Breadcrumb: './src/components/breadcrumb'
 };
 
 module.exports=EntryObj;
