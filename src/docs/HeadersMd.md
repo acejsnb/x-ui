@@ -1,6 +1,6 @@
 
 ### 代码演示
-```html
+```vue
 <template>
     <div>
         <Headers

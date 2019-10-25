@@ -1,6 +1,6 @@
 {
   "name": "persagy-ui",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "基于vue框架的ui库",
   "private": false,
   "author": "xiongshuang <xsmails@163.com>",
@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --profile",
-    "prod": "cross-env NODE_ENV=production webpack --mode production --profile --progress",
+    "prod": "cross-env NODE_ENV=production webpack --mode production --profile --progress --config webpack.prod.config.js",
     "components": "cross-env NODE_ENV=production webpack --mode production --profile --progress --config webpack.components.config.js",
     "single": "cross-env NODE_ENV=production webpack --mode production --profile --progress --config webpack.single.config.js",
     "styleguide": "vue-styleguidist server",

@@ -1,6 +1,6 @@
 
 ### 代码演示
-```html
+```vue
 <template>
     <div>
         <h1>Button组件</h1>

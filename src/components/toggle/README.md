@@ -1,8 +1,9 @@
+### 示例
 ```vue
 <template>
     <div class="toggleView">
         <div class="component component-padding">
-            <h1>Toggle组件</h1>
+            <h1 style="margin-bottom: 20px">Toggle组件</h1>
             <Toggle v-model="toggleVal" />
             <Toggle v-model="toggleVal" :disable="true" />
             <Toggle v-model="toggleVal2" />
@@ -31,5 +32,10 @@
     }
 </script>
 
+<style lang="stylus" scoped>
+    h1
+        margin-bottom 16px
+
+</style>
 
 ```
