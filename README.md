@@ -1,5 +1,5 @@
-# s-vue-ui：
-- 基于vue的ui库，github地址 `https://github.com/xiongshuang/persagy-ui.git`
+# persagy-ui：
+- 基于vue的ui库，github地址 `ssh://git@101.254.183.198:5522/bi-web/persagy-ui-kit.git`
 
 ## config
 - 所有组件打包到一起 `webpack.config.js`
@@ -32,25 +32,12 @@
       }
     ]
 ```
-- 使用
-```
-    <template>
-      <div class="app">
-        <Button type="default">default</Button>
-        <Button type="primary">normal</Button>
-        <Button type="success">warning</Button>
-        <Button type="warning">warning</Button>
-        <Button type="error">error</Button>
-        <Button type="disabled">disabled</Button>
-      </div>
-    </template>
-    
-    <script>    
-      import { Button } from 'persagy-ui';
-      export default {
-        name: 'App',
-        components: { Button }
-      }
-    <script>
-```
+
+## 启动说明
+- npm run dev ` 启动开发预览 `
+- npm run prod ` 打包成静态 `
+- npm run components ` 打包所有组件 `
+- npm run single ` 打包单个组件 `
+- npm run styleguide ` 启动开发文档预览 `
+- npm run styleguide:build ` 打包文档 `
     

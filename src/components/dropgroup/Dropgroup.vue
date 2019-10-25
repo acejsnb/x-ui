@@ -1,7 +1,10 @@
 <template>
     <div class="p-drop-group" @mouseenter="dropdownShow" @mouseleave="dropdownHide">
         <section class="p-drop-group-title">
-            <article><slot></slot></article>
+            <article>
+                <!-- @slot html内容 -->
+                <slot></slot>
+            </article>
             <article :class="['triangle', optionStatus && 'triangleRotate']"><Triangle /></article>
         </section>
         <transition name="slideDownUp">
@@ -29,18 +32,24 @@
         name: "Dropgroup",
         components: { Triangle },
         props: {
-            // 数据列表
+            /**
+             * 数据列表
+             */
             data: {
                 type: Array,
                 default: [],
                 require: true
             },
-            // 父组件传过来的v-model值
+            /**
+             * 绑定的v-model值
+             */
             value: {
                 type: String,
                 default: ''
             },
-            // 下拉菜单位置
+            /**
+             * 下拉菜单位置，可选值【left， right】
+             */
             position: {
                 type: String,
                 default: 'left'
@@ -48,7 +57,9 @@
         },
         data() {
             return {
-                // 下拉菜单状态
+                /**
+                 * 下拉菜单状态
+                 */
                 optionStatus: false
             }
         },
@@ -59,7 +70,13 @@
             dropdownHide() {
                 this.optionStatus=false;
             },
-            // 提交当前选择的值
+            /**
+             * 提交当前选择的值
+             * @param pId parentId
+             * @param cId childId
+             * @param cName childName
+             * @param disabled 是否禁用点击
+             */
             optionClick(pId, cId, cName, disabled) {
                 if (disabled) return;
                 this.$emit('change', {cId, cName, pId});

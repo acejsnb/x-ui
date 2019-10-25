@@ -9,11 +9,15 @@
 
             <Breadcrumb :data="breadData" v-model="breadId" />
             <Breadcrumb :data="breadData" />
+
+            <VueMarkdown v-highlight>{{html}}</VueMarkdown>
         </div>
     </div>
 </template>
 
 <script>
+    import VueMarkdown from 'vue-markdown';
+    import BreadcrumbMd from 'BreadcrumbMd';
     const data=[
         { id: 'totalEnergy', name: '总量' },
         { id: 'singleParty', name: '单平米' },
@@ -22,10 +26,12 @@
     ];
     export default {
         name: "BreadcrumbView",
+        components: { VueMarkdown },
         data() {
             return {
                 breadData: data,
-                breadId: 'average'
+                breadId: 'average',
+                html: BreadcrumbMd
             }
         },
         watch: {

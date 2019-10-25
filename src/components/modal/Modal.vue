@@ -13,6 +13,7 @@
                     @close="$emit('close')"
             >
                 <template #default>
+                    <!-- @slot html内容 -->
                     <slot></slot>
                 </template>
                 <template #handle>
@@ -56,30 +57,41 @@
 </template>
 
 <script>
-    import Default from './Default';
-    import Full from './Full';
-    import Small from './Small';
-    import Handle from './Handle';
+    import Default from './depend/default';
+    import Full from './depend/full';
+    import Small from './depend/small';
+    import Handle from './depend/handle';
 
     export default {
         name: 'Modal',
         components: { Default, Full, Small, Handle },
         props: {
+            /**
+             * 模态框显示状态
+             */
             show: {
                 type: Boolean,
                 default: false,
                 require: true
             },
+            /**
+             * 模态框标题
+             */
             title: {
                 type: String,
                 default: '',
                 require: true
             },
+            /**
+             * 模态框确定按钮的loading
+             */
             iconLoading: {
                 type: Boolean,
                 default: false
             },
-            // full-全屏显示 default-(默认值)自适应宽高 small-最小对话框
+            /**
+             * 模态框显示模式，【可选值 full-全屏显示 default-(默认值)自适应宽高 small-最小对话框】
+             */
             mode: {
                 type: String,
                 default: 'default'

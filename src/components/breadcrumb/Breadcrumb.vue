@@ -21,17 +21,26 @@
         name: "Breadcrumb",
         components: { ArrowRight },
         props: {
+            /**
+             * 数据列表
+             */
             data: {
                 type: Array,
                 default: []
             },
-            // 当前高亮显示的id
+            /**
+             * 当前高亮显示的id
+             */
             value: {
                 type: String,
                 default: ''
             }
         },
         methods: {
+            /**
+             * 点击某项执行的钩子
+             * @param id
+             */
             breadcrumbClick(id) {
                 if (this.value) this.$emit('input', id);
             }

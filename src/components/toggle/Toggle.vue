@@ -15,10 +15,16 @@
     export default {
         name: 'Toggle',
         props: {
+            /**
+             * 绑定的值
+             */
             value: {
                 type: Boolean,
                 default: false
             },
+            /**
+             * 是否禁用
+             */
             disable: {
                 type: Boolean,
                 default: false
@@ -30,6 +36,9 @@
         },
         methods: {
             handleToggle() {
+                /**
+                 * 开关切换回调
+                 */
                 if (!this.disable) this.$emit('change', !this.value)
             }
         }

@@ -1,6 +1,9 @@
 <template>
     <div class="p-badge">
-        <section><slot></slot></section>
+        <section>
+            <!-- @slot html内容 -->
+            <slot></slot>
+        </section>
         <sup
              v-if="count.toString() || typeof dot==='string'"
              :class="['p-badge-normal', typeof dot==='string'?'p-badge-dot':'p-badge-text']"
@@ -13,19 +16,32 @@
     export default {
         name: "Badge",
         props: {
+            /**
+             * 右上角显示内容
+             */
             count: {
                 type: Number | String,
                 default: ''
             },
+            /**
+             * 是否显示圆点
+             */
             dot: {
                 type: String
             },
+            /**
+             * 背景颜色
+             */
             bgColor: {
                 type: String,
                 default: '#f54e45'
             }
         },
         computed: {
+            /**
+             * 当传入的count大于等于100
+             * @returns {string|default.props.count|{default, type}}
+             */
             countVal() {
                 if (typeof this.count==='number' && this.count>=100) return '99+';
                 else return this.count;

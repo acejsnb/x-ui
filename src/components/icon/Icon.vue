@@ -11,6 +11,9 @@
         name: 'Icon',
         components: { IconClose },
         props: {
+            /**
+             * icon类型
+             */
             type: {
                 type: String,
                 default: 'close'
@@ -18,6 +21,10 @@
         },
         methods: {
             handleClick() {
+                /**
+                 * 点击icon的回调
+                 * @type {Function}
+                 */
                 this.$emit('click')
             }
         }

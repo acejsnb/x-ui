@@ -15,11 +15,16 @@
         name: "Carouseltext",
         components: { MessageSvg },
         props: {
+            /**
+             * 文字轮播列表
+             */
             data: {
                 type: Array,
                 default: []
             },
-            // 定时器时间,单位s（秒）
+            /**
+             * 定时器时间,单位s（秒）
+             */
             time: {
                 type: Number,
                 default: 3
@@ -44,7 +49,10 @@
                 clearInterval(this.timer);
                 //this.num=0;
             },
-            // 点击某项
+            /**
+             * 点击某项执行的函数
+             * @param id
+             */
             itemClick(id) {
                 this.$emit('click', id)
             }

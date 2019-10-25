@@ -17,13 +17,13 @@
                     {title: 'Drawer', more: '抽屉', url: 'drawerView'},
                     {title: 'Toggle', more: '开关', url: 'toggleView'},
                     {title: 'Dropdown', more: '下拉菜单', url: 'dropdownView'},
-                    {title: 'DropGroup', more: '下拉菜单', url: 'dropGroupView'},
-                    {title: 'Select', more: '下拉菜单', url: 'selectView'},
+                    {title: 'DropGroup', more: '下拉菜单组', url: 'dropGroupView'},
+                    {title: 'Select', more: '下拉列表', url: 'selectView'},
                     {title: 'Badge', more: '徽标', url: 'badgeView'},
                     {title: 'Divider', more: '分割线', url: 'dividerView'},
                     {title: 'Carouseltext', more: '文字轮播', url: 'carouseltextView'},
                     {title: 'TabsView', more: '标签页', url: 'tabsView'},
-                    {title: 'BreadcrumbView', more: '头部title', url: 'breadcrumbView'},
+                    {title: 'BreadcrumbView', more: '面包屑', url: 'breadcrumbView'},
 
                     {title: 'HeadersView', more: '头部title', url: 'headersView'},
 

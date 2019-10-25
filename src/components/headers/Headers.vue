@@ -6,14 +6,14 @@
             <Breadcrumb :data="breadData" v-model="breadIdModel" />
         </div>
         <div class="p-header-right" v-if="btnType">
-            <Button :type="btnType" @click="$emit('btnClick')">更多</Button>
+            <Button :type="btnType" @click="btnClick">更多</Button>
         </div>
     </div>
 </template>
 
 <script>
     import Tabs from 'tabs/Tabs';
-    import Select from 'selectSaas/Select';
+    import Select from 'selectSaas/select';
     import Breadcrumb from 'breadcrumb/Breadcrumb';
     import Button from 'button/Button';
 
@@ -21,62 +21,101 @@
         name: "Headers",
         components: { Tabs, Select, Breadcrumb, Button },
         props: {
+            /**
+             * 标签页id
+             */
             tabId: {
                 type: String,
                 default: ''
             },
+            /**
+             * 标签页数据
+             */
             tabData: {
                 type: Array,
                 default: []
             },
+            /**
+             * 下拉列表id
+             */
             selectId: {
                 type: String,
                 default: ''
             },
+            /**
+             * 下拉列表数据
+             */
             selectData: {
                 type: Array,
                 default: ()=>[]
             },
+            /**
+             * 面包屑id
+             */
             breadId: {
                 type: String,
                 default: ''
             },
+            /**
+             * 面包屑数据
+             */
             breadData: {
                 type: Array,
                 default: []
             },
+            /**
+             * 右侧按钮类型，默认不显示按钮
+             */
             btnType: {
                 type: String,
                 default: ''
             }
         },
         computed: {
-            // tab标签页绑定的值
             tabIdModel: {
                 get() {
                     return this.tabId;
                 },
                 set(v) {
+                    /**
+                     * 标签页id改变
+                     * @type {Function}
+                     */
                     this.$emit('tabChange', v)
                 }
             },
-            // 下拉列表绑定的值
             selectIdModel: {
                 get() {
                     return this.selectId;
                 },
                 set(v) {
+                    /**
+                     * 下拉列表id改变
+                     * @type {Function}
+                     */
                     this.$emit('selectChange', v)
                 }
             },
-            // 面包屑绑定的值
             breadIdModel: {
                 get() {
                     return this.breadId;
                 },
                 set(v) {
+                    /**
+                     * 面包屑id改变
+                     * @type {Function}
+                     */
                     this.$emit('breadChange', v)
                 }
+            }
+        },
+        methods: {
+            btnClick() {
+                /**
+                 * 点击右侧按钮的回调
+                 * @type {Function}
+                 */
+                this.$emit('btnClick')
             }
         }
     }

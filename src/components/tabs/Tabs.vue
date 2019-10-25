@@ -14,10 +14,16 @@
     export default {
         name: "Tabs",
         props: {
+            /**
+             * 标签页id
+             */
             tabId: {
                 type: String,
                 default: ''
             },
+            /**
+             * 标签页数据
+             */
             data: {
                 type: Array,
                 default: []
@@ -36,6 +42,9 @@
             tabClick(id) {
                 const ind=this.data.findIndex(d => d.id===id);
                 this.left=ind*(this.lineWidth+16);
+                /**
+                 * 提交绑定的值
+                 */
                 this.$emit('input', id);
             },
             countWidth() {

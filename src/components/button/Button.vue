@@ -12,21 +12,35 @@
         name: 'Button',
         components: { LoadingIcon },
         props: {
+            /**
+             * 按钮类型
+             * 可选值 【default primary success warning error disabled】
+             */
             type: {
                 type: String,
                 required: true,
-                default: 'default' // default primary success warning error disabled
+                default: 'default'
             },
+            /**
+             * 按钮loading状态
+             */
             loading: {
                 type: Boolean,
                 default: false
             },
+            /**
+             * 按钮大小
+             * 可选值【large medium small】
+             */
             size: {
                 type: String,
-                default: 'medium' // large medium small
+                default: 'medium'
             }
         },
         methods: {
+            /**
+             * 点击按钮的回调
+             */
             handleClick() {
                 this.$emit('click')
             }

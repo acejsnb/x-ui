@@ -8,9 +8,12 @@
     export default {
         name: "Divider",
         props: {
+            /**
+             * 线条展示方向，可选值【h-水平 v-垂直】
+             */
             type: {
                 type: String,
-                default: 'h' // h-水平 v-垂直
+                default: 'h'
             }
         }
     }

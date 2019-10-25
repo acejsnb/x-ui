@@ -24,17 +24,23 @@ export default {
     name: "Select",
     components: { Triangle },
     props: {
-        // 数据列表
+        /**
+         * 下拉列表数据
+         */
         data: {
             type: Array,
             default: []
         },
-        // 父组件传过来的v-model值
+        /**
+         * 绑定的v-model值
+         */
         value: {
             type: String,
             default: ''
         },
-        // 宽度
+        /**
+         * 下拉列表宽度
+         */
         width: {
             type: String,
             default: '88'
@@ -72,6 +78,9 @@ export default {
         // 提交当前选择的值
         optionClick(v) {
             this.titleFormat(v);
+            /**
+             * 提交绑定的值
+             */
             this.$emit('input', v);
             this.selectBlur();
         },

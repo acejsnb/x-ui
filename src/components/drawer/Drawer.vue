@@ -6,6 +6,7 @@
                 <Icon type="close" class="p-drawer-title-icon" @click="onClose" />
             </div>
             <div :class="['p-drawer-content', bottom&&'p-drawer-content-bottom']">
+                <!-- @slot html内容 -->
                 <slot></slot>
             </div>
             <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">
@@ -24,40 +25,55 @@
         name: 'Drawer',
         components: { Icon, Button },
         props: {
-            // 抽屉显示
+            /**
+             * 侧拉窗显示状态
+             */
             show: {
                 type: Boolean,
                 default: false,
                 require: true
             },
-            // 是否聚焦
+            /**
+             * 是否聚焦（也就是失去交掉是否关闭侧拉窗）
+             */
             focus: {
                 type: Boolean,
                 default: false
             },
-            // 抽屉标题
+            /**
+             * 侧拉窗标题
+             */
             title: {
                 type: String,
                 default: '',
                 require: true
             },
-            // 是否加载确定按钮loading动画
+            /**
+             * 点击确定按钮 是否加载确定按钮loading动画
+             */
             loading: {
                 type: Boolean,
                 default: false
             },
-            // 是否固定底部操作栏
+            /**
+             * 是否固定底部操作栏
+             */
             bottom: {
                 type: Boolean,
                 default: false
             },
+            /**
+             * 是否显示底部按钮
+             */
             btnShow: {
                 type: Boolean,
                 default: false
             }
         },
         directives: {
-            // 自定义指令
+            /**
+             * 自定义指令
+             */
             focus: {
                 inserted(e, ct) {
                     if (ct.value) e.focus();
@@ -65,10 +81,16 @@
             }
         },
         methods: {
+            /**
+             * 关闭侧拉窗
+             */
             onClose() {
                 if (this.loading) this.$emit('changeLoading', false);
                 this.$emit('changeStatus', false);
             },
+            /**
+             * 点击确定按钮执行的回调
+             */
             onConfirm() {
                 if (this.loading) return;
                 this.$emit('changeLoading', true);
