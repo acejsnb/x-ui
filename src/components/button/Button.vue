@@ -53,8 +53,9 @@
 
 .p-btn
   position relative
-  display inline-block
-  vertical-align middle
+  display inline-flex
+  align-items center
+  justify-content center
   padding-left 8px
   padding-right 8px
   background-color #fff

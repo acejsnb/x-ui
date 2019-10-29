@@ -15,7 +15,9 @@ const EntryObj={
     Carouseltext: './src/components/carouseltext',
     Tabs: './src/components/tabs',
     Headers: './src/components/headers',
-    Breadcrumb: './src/components/breadcrumb'
+    Breadcrumb: './src/components/breadcrumb',
+    Pickertime: './src/components/pickertime',
+    Pickerday: './src/components/pickerday'
 };
 
 module.exports=EntryObj;

@@ -18,6 +18,8 @@ import CarouseltextView from './views/CarouseltextView';
 import TabsView from './views/TabsView';
 import HeadersView from './views/HeadersView';
 import BreadcrumbView from './views/BreadcrumbView';
+import PickertimeView from './views/PickertimeView';
+import PickerdayView from './views/PickerdayView';
 
 import MessageView from './views/MessageView';
 
@@ -139,6 +141,22 @@ export default new Router({
             component: HeadersView,
             meta: {
                 title: 'HeadersView'
+            }
+        },
+        {
+            path: '/pickertimeView',
+            name: 'PickertimeView',
+            component: PickertimeView,
+            meta: {
+                title: 'PickertimeView'
+            }
+        },
+        {
+            path: '/pickerdayView',
+            name: 'PickerdayView',
+            component: PickerdayView,
+            meta: {
+                title: 'PickerdayView'
             }
         },
 

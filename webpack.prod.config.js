@@ -13,9 +13,6 @@ const HappyPack = require('happypack'); // 分块打包
 const os=require('os');
 const happyThreadPool=HappyPack.ThreadPool({ size: os.cpus().length });
 
-// 获取本机ip
-const get_ip=require('./get_ip')();
-
 // 获取时间
 const TimeFn=require('./get_time');
 console.log(
@@ -86,7 +83,7 @@ const config={
         index: ['core-js/stable', 'regenerator-runtime/runtime', './src/main.js'] // 入口文件
     },
     output: {
-        path: path.resolve(__dirname, 'production'),
+        path: path.resolve(__dirname, 'persagy-ui'),
         filename: 'javascript/[name].[hash:8].js', // [name] 是entry的key
         publicPath: './'
     },
@@ -167,7 +164,7 @@ const config={
             'node_modules'
             ,path.resolve(__dirname, 'src/assets')
             ,path.resolve(__dirname, 'src/components')
-            ,path.resolve(__dirname, 'src/docs')
+            ,path.resolve(__dirname, 'src/utils')
         ]
     },
     plugins: [
@@ -199,10 +196,10 @@ const config={
                 ,removeAttributeQuotes: true // 去掉引号
             }
             ,hash: true // 去掉上次浏览器的缓存（使浏览器每次获取到的是最新的html）
-            // ,chunks:['vendor','main'] // 在产出的html文件里面引入哪些代码块，里面的名字要跟entry里面key对应(一般用于多文件入口)
+            //,chunks:['bundle', 'vendor', 'main'] // 在产出的html文件里面引入哪些代码块，里面的名字要跟entry里面key对应(一般用于多文件入口)
             ,inlineSource:  '.(js|css)'
         }),
-        new CleanWebpackPlugin([path.join(__dirname, 'production')]),
+        new CleanWebpackPlugin([path.join(__dirname, 'persagy-ui')]),
         new MiniCssExtractPlugin({ // 分离css
             filename: 'stylesheets/[name].[contenthash:8].css'
             // chunkFilename: isProd?'stylesheets/[name].[contenthash:8].css':'[name].css'

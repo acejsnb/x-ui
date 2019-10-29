@@ -169,6 +169,7 @@ const config={
             ,path.resolve(__dirname, 'src/assets')
             ,path.resolve(__dirname, 'src/components')
             ,path.resolve(__dirname, 'src/docs')
+            ,path.resolve(__dirname, 'src/utils')
         ]
     },
     plugins: [

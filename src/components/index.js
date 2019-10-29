@@ -13,6 +13,8 @@ import Divider from './divider';
 import Carouseltext from './carouseltext';
 import Tabs from './tabs';
 import Breadcrumb from './breadcrumb';
+import Pickertime from './pickertime';
+import Pickerday from './pickerday';
 
 import Headers from './headers';
 
@@ -32,6 +34,8 @@ const Components = {
     ,Carouseltext
     ,Tabs
     ,Breadcrumb
+    ,Pickertime
+    ,Pickerday
 
     ,Headers
 

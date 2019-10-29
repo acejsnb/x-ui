@@ -1,0 +1,41 @@
+.p-picker-input
+  display flex
+  align-items center
+  justify-content center
+  padding-left 12px
+  padding-right 12px
+  border-radius 4px
+  //width 296px
+  min-width 120px
+  max-width 332px
+  height 32px
+  line-height @height
+  color $grey-grey-400
+  font-size 14px
+  text-align center
+  cursor pointer
+  article
+    color $grey-grey-900
+    font-size 14px
+  .p-picker-input-solstice
+    margin-left 20px
+    margin-right @margin-left
+    color $grey-grey-500
+.p-picker-input-values
+  margin-top 12px
+  margin-bottom @margin-top
+  border 1px solid $primary-blue-500
+  color $grey-grey-900
+  .clearSvg
+    path
+      transition fill .3s
+    &:hover
+      path
+        fill #646A73
+.p-picker-input-border
+  display flex
+  justify-content space-between
+  align-items center
+  border 1px solid $grey-grey-400
+  &:hover
+    border-color $primary-blue-500
