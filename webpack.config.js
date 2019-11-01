@@ -84,7 +84,8 @@ const cssConfig=[
 
 const config={
     entry: {
-        index: isProd ? ['core-js/stable', 'regenerator-runtime/runtime', './src/main.js'] : './src/main.js' // 入口文件
+        // index: isProd ? ['core-js/stable', 'regenerator-runtime/runtime', './src/main.js'] : './src/main.js' // 入口文件
+        index: ['core-js/stable', 'regenerator-runtime/runtime', './src/main.js'] // 入口文件
     },
     output: {
         path: path.resolve(__dirname, 'production'),
@@ -259,7 +260,8 @@ if(isProd){
         , hot: true
         , overlay: { // 当出现编译器错误或警告时，就在网页上显示一层黑色的背景层和错误信息
             errors: true
-        }
+        },
+        disableHostCheck: true //  不检查主机
         ,historyApiFallback: { // 当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 /
             rewrites: [{ from: /./, to: '/' }]
         }

@@ -2,23 +2,24 @@
 ```vue
 <template>
     <div class="component component-padding">
-        <h1>Pickerday组件</h1>
-        <Pickerday :date="dateDouble" :range="true" @change="dateChangeDouble" />
+        <h1>Pickeryear组件</h1>
+        <Pickeryear :date="dateDouble" :range="true" @change="dateChangeDouble" />
         <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br>
-        <Pickerday :date="dateSingle" @change="dateChangeSingle" />
+        <Pickeryear :date="dateSingle" @change="dateChangeSingle" />
     </div>
 </template>
 
 <script>
     export default {
-        name: "PickertimeView",
+        name: "PickeryearView",
         data() {
             return {
-                // dateSingle: '2020.02.29',
+                // dateSingle: '2020',
                 dateSingle: '',
                 dateDouble: ''
+                // dateDouble: '2007-2020'
             }
         },
         methods: {

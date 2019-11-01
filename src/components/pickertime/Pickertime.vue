@@ -1,12 +1,12 @@
 <template>
-    <div class="p-picker-time">
+    <div class="p-picker-child">
         <div
-                :class="['p-picker-input', 'p-picker-input-border', selectedTime&&'p-picker-input-values']"
+                :class="['p-picker-input', selectedTime&&'p-picker-input-values']"
                 @click="pickerBoxShow"
-                @mouseover="pickerClearShow"
-                @mouseout="pickerClearHide"
+                @mouseenter="pickerClearShow"
+                @mouseleave="pickerClearHide"
         >
-            <section>{{selectedTime?selectedTime:'请选择时间'}}</section>
+            <section class="p-picker-input-tip">{{selectedTime?selectedTime:'请选择时间'}}</section>
             <transition name="opacityScale">
                 <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
             </transition>
@@ -19,21 +19,25 @@
             -->
             <div
                     class="p-picker-main"
+                    ref="pickerMain"
                     tabindex="-1"
-                    v-focus="pickerBoxStatus"
                     v-if="pickerBoxStatus"
+                    @mouseenter="pickerMainBlur"
+                    @mouseleave="pickerMainFocus"
                     @blur="pickerBoxHide"
             >
-                <div class="p-picker-time-item-box">
-                    <div class="p-picker-time-item-input-box">
-                        <section class="p-picker-input p-picker-input-values">
+                <div class="p-picker-main-item-box">
+                    <div class="p-picker-main-item-input-box">
+                        <section class="p-picker-input p-picker-input-values-default">
                             <article>{{format==='hms'?`${hourStart}:${minuteStart}:${secondStart}`:`${hourStart}:${minuteStart}`}}</article>
                             <article class="p-picker-input-solstice" v-if="range">至</article>
                             <article v-if="range">{{format==='hms'?`${hourEnd}:${minuteEnd}:${secondEnd}`:`${hourEnd}:${minuteEnd}`}}</article>
                         </section>
                     </div>
-                    <div class="p-picker-time-item">
+                    <div class="p-picker-main-item">
                         <TimeSelect
+                                title="开始时间"
+                                :range="range"
                                 :hour="hourStart"
                                 :minute="minuteStart"
                                 :second="secondStart"
@@ -44,6 +48,8 @@
                         />
                         <TimeSelect
                                 v-if="range"
+                                title="结束时间"
+                                :range="range"
                                 :hour="hourEnd"
                                 :minute="minuteEnd"
                                 :second="secondEnd"
@@ -55,7 +61,7 @@
                     </div>
                 </div>
 
-                <div class="p-picker-time-handle">
+                <div class="p-picker-main-handle">
                     <Button type="primary" size="small" @click="pickerConfirm">确定</Button>
                 </div>
             </div>
@@ -116,6 +122,7 @@
         data() {
             return {
                 pickerBoxStatus: false, // 显示选择时间框
+                blurStatus: false, // 是否可执行blur
                 clearStatus: false, // 关闭按钮
                 selectedTime: '', // 选中的时间
                 hourStart: '', // 选择的小时-开始时间
@@ -130,12 +137,30 @@
             this.setTime();
         },
         methods: {
+            pickerMainBlur() {
+                this.$nextTick(() => {
+                    this.blurStatus=false;
+                    this.$refs.pickerMain.blur()
+                })
+            },
+            pickerMainFocus() {
+                this.$nextTick(() => {
+                    this.blurStatus=true;
+                    if (this.$refs.pickerMain) this.$refs.pickerMain.focus()
+                })
+            },
             /**
              * 打开时间选择盒子
              */
             pickerBoxShow() {
                 this.pickerBoxStatus=true;
                 this.setTime();
+            },
+            /**
+             * 关闭时间选择盒子
+             */
+            pickerBoxHide() {
+                if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
             },
             /**
              * 设置时间
@@ -180,12 +205,6 @@
                 this.hourEnd=hourE;
                 this.minuteEnd=minuteE;
                 this.secondEnd=secondE;
-            },
-            /**
-             * 关闭时间选择盒子
-             */
-            pickerBoxHide() {
-                this.pickerBoxStatus=false;
             },
             /**
              * 显示清除按钮
@@ -268,7 +287,8 @@
                  * @type Function
                  */
                 this.$emit('change', selectedTime);
-                this.pickerBoxHide();
+                this.blurStatus=false;
+                this.pickerBoxStatus=false;
             }
         }
     }
@@ -279,56 +299,7 @@
 @import "~stylus/tools.styl"
 @import "~stylus/animate/opacityScale.styl"
 
+@import "~stylus/datePicker/pickerMain.styl"
 @import "~stylus/datePicker/pickerInput.styl"
-
-.p-picker-time
-    position relative
-    .p-picker-main
-        outline none
-        position absolute
-        left 0
-        top 0
-        background-color #fff
-        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
-        border-radius 4px
-        height 384px
-        z-index 100
-        .p-picker-time-item-box
-            padding 0 16px
-            .p-picker-time-item-input-box
-                display flex
-                align-items center
-                justify-content flex-end
-            .p-picker-time-item
-                display flex
-                align-items center
-                justify-content center
-                //border 1px solid $grey-grey-200
-        .p-picker-time-handle
-            padding 16px
-            text-align right
-            width 100%
-            height 42px
-            line-height 42px
-
-@keyframes opacityTopIn
-    from
-        opacity 0
-        top -32px
-    to
-        opacity 1
-        top 0
-@keyframes opacityTopOut
-    from
-        opacity 1
-        top 0
-    to
-        opacity 0
-        top -32px
-
-.opacityTop-enter-active
-    animation opacityTopIn .3s
-.opacityTop-leave-active
-    animation opacityTopOut .3s
 
 </style>

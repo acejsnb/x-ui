@@ -15,6 +15,7 @@ import Tabs from './tabs';
 import Breadcrumb from './breadcrumb';
 import Pickertime from './pickertime';
 import Pickerday from './pickerday';
+import Pickeryear from './pickeryear';
 
 import Headers from './headers';
 
@@ -36,6 +37,7 @@ const Components = {
     ,Breadcrumb
     ,Pickertime
     ,Pickerday
+    ,Pickeryear
 
     ,Headers
 

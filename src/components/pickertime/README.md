@@ -33,4 +33,12 @@
     }
 </script>
 
+<style lang="stylus" scoped>
+
+.component-padding
+    padding-bottom 200px !important
+    width 240px
+
+</style>
+
 ```

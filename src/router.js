@@ -20,6 +20,7 @@ import HeadersView from './views/HeadersView';
 import BreadcrumbView from './views/BreadcrumbView';
 import PickertimeView from './views/PickertimeView';
 import PickerdayView from './views/PickerdayView';
+import PickeryearView from './views/PickeryearView';
 
 import MessageView from './views/MessageView';
 
@@ -157,6 +158,14 @@ export default new Router({
             component: PickerdayView,
             meta: {
                 title: 'PickerdayView'
+            }
+        },
+        {
+            path: '/pickeryearView',
+            name: 'PickeryearView',
+            component: PickeryearView,
+            meta: {
+                title: 'PickeryearView'
             }
         },
 

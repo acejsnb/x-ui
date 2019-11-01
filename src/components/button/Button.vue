@@ -69,8 +69,10 @@
     margin-left 12px
   span
     position relative
+    display ruby
     vertical-align middle
     z-index 1
+    user-select none
     //font-size 14px
   .loading
     margin-left 4px

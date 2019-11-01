@@ -1,7 +1,11 @@
 <template>
-<!--    <div :class="['p-picker-time-select-box', 'p-picker-time-select-box-'+format]">-->
-    <div class="p-picker-time-select-box">
-        <div class="p-picker-time-title">
+    <div class="p-picker-child-select-box">
+        <div class="p-picker-child-select-box-title" v-if="range">
+            <section class="p-picker-child-select-box-title-text">
+                <article>{{title}}</article>
+            </section>
+        </div>
+        <div class="p-picker-child-title">
             <section :class="['p-picker-time-title-item', 'p-picker-time-title-item-'+format]">时</section>
             <section :class="['p-picker-time-title-item', 'p-picker-time-title-item-'+format]">分</section>
             <section :class="['p-picker-time-title-item', 'p-picker-time-title-item-'+format]" v-if="format==='hms'">秒</section>
@@ -9,7 +13,8 @@
         <div class="p-picker-time-content">
             <div
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
-                    ref="hoursDom">
+                    ref="hoursDom"
+            >
                 <ul>
                     <li
                             :class="['p-picker-time-text', hour===hh&&'p-picker-time-text-selected']"
@@ -21,7 +26,8 @@
             </div>
             <div
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
-                    ref="minutesDom">
+                    ref="minutesDom"
+            >
                 <ul>
                     <li
                             :class="['p-picker-time-text', minute===mm&&'p-picker-time-text-selected']"
@@ -34,7 +40,8 @@
             <div
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
                     ref="secondsDom"
-                    v-if="format==='hms'">
+                    v-if="format==='hms'"
+            >
                 <ul>
                     <li
                             :class="['p-picker-time-text', second===ss&&'p-picker-time-text-selected']"
@@ -53,17 +60,21 @@
 
     export default {
         name: "TimeSelect",
-        directives: {
-            /**
-             * 自定义指令
-             */
-            focus: {
-                inserted: function inserted(e, ct) {
-                    if (ct.value) e.focus();
-                }
-            }
-        },
         props: {
+            /**
+             * 时间title
+             */
+            title: {
+                type: String,
+                default: ''
+            },
+            /**
+             * 继承父级range
+             */
+            range: {
+                type: Boolean,
+                default: false
+            },
             /**
              * 选择的小时
              */
@@ -168,77 +179,79 @@
 
 @import "~stylus/tools.styl"
 @import "~stylus/animate/opacityScale.styl"
+@import "~stylus/datePicker/pickerChild.styl"
 
-//.p-picker-time-select-box-hms
-//    width 296px
-//.p-picker-time-select-box-hm
-//    width 197.33px
-.p-picker-time-select-box
-    border 1px solid $grey-grey-200
-    width 296px
-    &+.p-picker-time-select-box
-        border-left 0
-    .p-picker-time-title
-        display flex
-        align-items center
-        justify-content space-around
-        margin-top 12px
-        margin-bottom 8px
-        .p-picker-time-title-item-hms
-            width 98px
-        .p-picker-time-title-item-hm
-            width 147px
-        .p-picker-time-title-item
-            //width 98.66px
+.p-picker-child-title
+    display flex
+    align-items center
+    justify-content space-around
+    margin-top 12px
+    margin-bottom 8px
+    padding-left 16px
+    padding-right 16px
+    .p-picker-child-title-item
+        height 24px
+        line-height @height
+        color $grey-grey-500
+        font-size 14px
+        text-align center
+.p-picker-time-content
+    position relative
+    display flex
+    justify-content space-around
+    padding 8px 16px
+    width 100%
+    height 208px
+    overflow hidden
+    &::before
+        position absolute
+        display block
+        background-color $grey-grey-200
+        border-radius 4px
+        width 262px
+        height 24px
+        z-index 9
+        content ''
+    .p-picker-time-select-hms
+        width 98px
+        ul
+            li
+                padding-left 36px
+    .p-picker-time-select-hm
+        width 147px
+        ul
+            li
+                padding-left 60px
+    .p-picker-time-select
+        position relative
+        z-index 10
+        height 192px
+        overflow hidden
+        &:hover
+            overflow-y auto
+        ul
+            padding-bottom 160px
+            width 100%
+        .p-picker-time-text
+            margin-bottom 8px
+            width 100%
             height 24px
             line-height @height
-            color $grey-grey-500
-            font-size 14px
-            text-align center
-    .p-picker-time-content
-        display flex
-        justify-content space-around
-        padding-top 8px
-        padding-bottom 8px
-        width 100%
-        height 208px
-        overflow hidden
-        .p-picker-time-select-hms
-            padding-left 36px
-            width 98px
-        .p-picker-time-select-hm
-            padding-left 60px
-            width 147px
-        .p-picker-time-select
-            height 192px
-            overflow hidden
             &:hover
-                overflow-y auto
-            ul
-                position relative
-                padding-bottom 160px
-                width 100%
-            .p-picker-time-text
-                margin-bottom 8px
-                width 100%
-                height 24px
+                background-color $grey-grey-200
+                border-radius 4px
+            span
+                color $grey-grey-900
+                font-size 14px
+                text-align center
+                cursor pointer
+                transition color .3s
+                user-select none
+                &:hover
+                    background-color $grey-grey-200
+            &.p-picker-time-text-selected
                 span
-                    display block
-                    border-radius 4px
-                    width 24px
-                    height @width
-                    line-height @height
-                    color $grey-grey-900
-                    font-size 14px
-                    text-align center
-                    cursor pointer
-                    transition background .3s
-                    user-select none
-                    &:hover
-                        background-color $grey-grey-200
-                &.p-picker-time-text-selected
-                    span
-                        background-color $primary-blue-500
-                        color #fff
+                    color $primary-blue-500
+
 
 </style>
