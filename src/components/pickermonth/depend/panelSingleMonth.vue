@@ -29,33 +29,26 @@
                     <div class="p-picker-main-item-input-box">
                         <section class="p-picker-input p-picker-input-values-default">
                             <article
-                                    :class="[(yearSelected&&monthSelected&&daySelected)&&'p-picker-input-values']"
-                            >{{(yearSelected&&monthSelected&&daySelected)?`${yearSelected}.${monthSelected}.${daySelected}`:'请选择日期'}}</article>
+                                    :class="[yearSelected&&'p-picker-input-values']"
+                            >{{yearSelected?(yearSelected+'.'+monthSelected):'请选择日期'}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">
-                        <DaySelect
+                        <MonthSelect
                                 :yearNow="yearNow"
-                                :monthNow="monthNow"
-                                :dayNow="dayNow"
                                 :yearActive="yearActive"
+                                :monthNow="monthNow"
                                 :monthActive="monthActive"
-                                :dayActive="dayActive"
-                                :yearSelected="yearSelected"
-                                :monthSelected="monthSelected"
-                                :daySelected="daySelected"
-                                :daysArray="daysArray"
+                                :monthsArray="monthsArray"
                                 @prevYear="prevYear"
                                 @nextYear="nextYear"
-                                @prevMonth="prevMonth"
-                                @nextMonth="nextMonth"
                                 @change="changeDate"
                         />
                     </div>
                 </div>
 
                 <div class="p-picker-main-handle">
-                    <Button :type="btnType" size="small" @click="pickerConfirm">确定</Button>
+                    <Button :type="btnType" size="small" disabled @click="pickerConfirm">确定</Button>
                 </div>
             </div>
         </transition>
@@ -63,21 +56,16 @@
 </template>
 
 <script>
-    import CountDay from 'datePicker/CountDay';
+    import CountMonth from 'datePicker/CountMonth';
 
-    import CountNextYear from 'datePicker/CountNextYear';
-    import CountPrevYear from 'datePicker/CountPrevYear';
-    import CountNextMonth from 'datePicker/CountNextMonth';
-    import CountPrevMonth from 'datePicker/CountPrevMonth';
-
-    import DaySelect from './day';
+    import MonthSelect from './month';
     import Button from 'button/Button';
 
     import ClearSvg from 'icon/clear2.svg';
     export default {
-        name: "panelSingleDay",
+        name: "panelSingleMonth",
         components: {
-            DaySelect,
+            MonthSelect,
             Button,
             ClearSvg
         },
@@ -100,51 +88,39 @@
 
                 yearNow: '', // 当前年
                 monthNow: '', // 当前月
-                dayNow: '', // 当前日
 
                 // 活动的年月日
                 yearActive: '',
                 monthActive: '',
-                dayActive: '',
 
                 yearSelected: '', // 选择的年
-                monthSelected: '', // 选择的月
-                daySelected: '', // 选择的日
+                monthSelected: '', // 选择的年
 
-                daysArray: [] // 日列表
+                monthsArray: [] // 日列表
             }
         },
         created() {
             // 初始化日期对象
             this.init();
         },
-        watch: {
-            /**
-             * 监听传入的日期改变
-             */
-            date(n, o) {
-                if (n === o) return;
-                this.setDate(n);
-            }
-        },
         methods: {
             /**
              * 改变按钮状态
              */
             changeBtnType(str) {
-                if (str && str.replace(/\./g, '')) this.btnType='primary';
+                if (str && str.replace(/\./, '')) this.btnType='primary';
                 else this.btnType='disabled';
             },
             /**
              * 初始化日期对象
              */
             init() {
-                this.countDay=new CountDay(this.date); // 当前计算天的对象
-                this.daysArray=this.countDay.getDaysArray();
-                const [year, month, day]=this.countDay.countNowDate(); // 获取当前时间、日期
+                const countMonth=new CountMonth(this.date);
+                this.monthsArray=countMonth.getMonthsArray();
+                const [year, month]=countMonth.countNowMonth();
                 this.yearNow=year;
                 this.monthNow=month;
-                this.dayNow=day;
+
                 this.setDate(this.date);
             },
             /**
@@ -154,37 +130,28 @@
             setDate(date) {
                 this.selectedDate=date;
                 this.changeBtnType(date);
-                let year='', month='', day='',
-                    yearActive='', monthActive='', dayActive='';
                 if (date) {
-                    const [YY, MM, DD]=date.split('.'); // 获取传入的时间、日期
-                    year=YY;
-                    month=MM;
-                    day=DD;
-                    yearActive=YY;
-                    monthActive=MM;
-                    dayActive=DD;
+                    const [year, m]=date.split('.');
+                    const month=m?m:'';
+                    this.yearSelected=year;
+                    this.monthSelected=month;
+                    this.yearActive=year;
+                    this.monthActive=month;
+                    this.changeMonthsArray({year, month});
                 } else {
-                    yearActive=this.yearNow;
-                    monthActive=this.monthNow;
-                    dayActive=this.dayNow;
+                    this.yearActive=this.yearNow;
+                    this.monthActive=this.monthNow;
+                    this.changeMonthsArray({year: '', month: ''});
                 }
-
-                this.yearActive=yearActive;
-                this.monthActive=monthActive;
-                this.dayActive=dayActive;
-                this.yearSelected=year;
-                this.monthSelected=month;
-                this.daySelected=day;
-                this.changeDaysArray({year, month, day});
             },
             /**
              * 改变选中状态
-             * @param obj {year, month, day}
+             * @param year
+             * @param month
              */
-            changeDaysArray({year, month, day}) {
-                this.daysArray=this.daysArray.map(d => {
-                    if (d.year===year&&d.month===month&&d.day===day) d.selected='selected';
+            changeMonthsArray({year, month}) {
+                this.monthsArray=this.monthsArray.map(d => {
+                    if (d.year===year && d.month===month) d.selected='selected';
                     else d.selected='';
                     return d;
                 })
@@ -206,12 +173,8 @@
              */
             clearTime() {
                 this.selectedDate='';
-                // this.yearNow='';
-                // this.monthNow='';
-                // this.dayNow='';
                 this.yearSelected='';
                 this.monthSelected='';
-                this.daySelected='';
                 this.$emit('change', '');
                 this.pickerClearHide();
             },
@@ -233,6 +196,7 @@
              */
             pickerBoxShow() {
                 this.pickerBoxStatus=true;
+                this.init();
             },
             /**
              * 关闭时间选择盒子
@@ -242,61 +206,47 @@
             },
             /**
              * 切换日期
-             * @param date String '2019.10.31'
+             * @param date String '2019.03'
              */
             switchDate(date) {
-                this.countDay=new CountDay(date); // 当前计算天的对象
-                this.daysArray=this.countDay.getDaysArray();
-                const [yearActive, monthActive, dayActive]=date.split('.'); // 获取传入的时间、日期
-                this.yearActive=yearActive;
-                this.monthActive=monthActive;
-                this.dayActive=dayActive;
+                this.yearActive=date;
+                const countMonth=new CountMonth(date);
+                this.monthsArray=countMonth.getMonthsArray().map(d => {
+                    if (d.year===this.yearSelected && d.month===this.monthSelected) d.selected='selected';
+                    return d;
+                });
             },
             /**
-             * 上一年
+             * 上一组年
              */
             prevYear() {
-                const date=CountPrevYear([this.yearActive, this.monthActive, this.dayActive]);
+                const date=(this.yearActive-1).toString();
                 this.switchDate(date);
             },
             /**
-             * 下一年
+             * 下一组年
              */
             nextYear() {
-                const date=CountNextYear([this.yearActive, this.monthActive, this.dayActive]);
-                this.switchDate(date);
-            },
-            /**
-             * 上一月
-             */
-            prevMonth() {
-                const date=CountPrevMonth([this.yearActive, this.monthActive, this.dayActive]);
-                this.switchDate(date);
-            },
-            /**
-             * 下一月
-             */
-            nextMonth() {
-                const date=CountNextMonth([this.yearActive, this.monthActive, this.dayActive]);
+                const date=(parseInt(this.yearActive)+1).toString();
                 this.switchDate(date);
             },
             /**
              * 点击日期
-             * @param obj {year, month, day}
+             * @param year
+             * @param month
              */
-            changeDate({year, month, day}) {
+            changeDate({year, month}) {
                 this.yearSelected=year;
                 this.monthSelected=month;
-                this.daySelected=day;
                 this.btnType='primary';
-                this.changeDaysArray({year, month, day});
+                this.changeMonthsArray({year, month});
             },
             /**
              * 确定
              */
             pickerConfirm() {
                 if (this.btnType==='disabled') return;
-                const selectedDate=this.yearSelected+'.'+this.monthSelected+'.'+this.daySelected;
+                const selectedDate=this.yearSelected+'.'+this.monthSelected;
                 this.selectedDate=selectedDate;
                 this.blurStatus=false;
                 this.pickerBoxStatus=false;

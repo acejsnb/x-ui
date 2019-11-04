@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="p-picker-main-handle">
-                    <Button type="primary" size="small" @click="pickerConfirm">确定</Button>
+                    <Button :type="btnType" size="small" @click="pickerConfirm">确定</Button>
                 </div>
             </div>
         </transition>
@@ -121,6 +121,7 @@
         },
         data() {
             return {
+                btnType: 'disabled', // 按钮状态
                 pickerBoxStatus: false, // 显示选择时间框
                 blurStatus: false, // 是否可执行blur
                 clearStatus: false, // 关闭按钮
@@ -177,11 +178,19 @@
         },
         methods: {
             /**
+             * 改变按钮状态
+             */
+            changeBtnType(str) {
+                if (str && str.replace(/\./, '')) this.btnType='primary';
+                else this.btnType='disabled';
+            },
+            /**
              * 日期
              * @param date String '2019.09.30-2019.10.31'
              */
             dateFormat(date) {
                 this.selectedDate=date;
+                this.changeBtnType(date);
                 let dateStart='', dateEnd='';
                 if (date && date.includes('-')) {
                     const [ds, de]=date.split('-');
@@ -653,6 +662,9 @@
                     this.dayStartSelected=day;
                 }
 
+                if (this.yearStartSelected && this.yearEndSelected) this.btnType='primary';
+                else this.btnType='disabled';
+
                 this.changeDaysArrayStart({year, month, day}, clearOther);
             },
             /**
@@ -681,6 +693,9 @@
                     this.monthEndSelected=month;
                     this.dayEndSelected=day;
                 }
+
+                if (this.yearStartSelected && this.yearEndSelected) this.btnType='primary';
+                else this.btnType='disabled';
 
                 this.changeDaysArrayEnd({year, month, day}, clearOther);
             },
@@ -873,6 +888,7 @@
              * 确定
              */
             pickerConfirm() {
+                if (this.btnType==='disabled') return;
                 const dateS=this.yearStartSelected+'.'+this.monthStartSelected+'.'+this.dayStartSelected;
                 const dateE=this.yearEndSelected+'.'+this.monthEndSelected+'.'+this.dayEndSelected;
                 const selectedDate=dateS>dateE?(dateE+'-'+dateS):(dateS+'-'+dateE);

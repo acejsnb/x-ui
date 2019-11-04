@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="p-picker-main-handle">
-                    <Button type="primary" size="small" @click="pickerConfirm">确定</Button>
+                    <Button :type="btnType" size="small" @click="pickerConfirm">确定</Button>
                 </div>
             </div>
         </transition>
@@ -61,7 +61,7 @@
 
     import ClearSvg from 'icon/clear2.svg';
     export default {
-        name: "panelSingle",
+        name: "panelSingleYear",
         components: {
             YearSelect,
             Button,
@@ -78,6 +78,7 @@
         },
         data() {
             return {
+                btnType: 'disabled', // 按钮状态
                 pickerBoxStatus: false, // 显示选择时间框
                 blurStatus: false, // 是否可执行blur
                 clearStatus: false, // 关闭按钮
@@ -97,16 +98,14 @@
             // 初始化日期对象
             this.init();
         },
-        watch: {
-            /**
-             * 监听传入的日期改变
-             */
-            date(n, o) {
-                if (n === o) return;
-                this.setDate(n);
-            }
-        },
         methods: {
+            /**
+             * 改变按钮状态
+             */
+            changeBtnType(str) {
+                if (str) this.btnType='primary';
+                else this.btnType='disabled';
+            },
             /**
              * 初始化日期对象
              */
@@ -122,6 +121,7 @@
              * @param date String 2019.10.31
              */
             setDate(date) {
+                this.changeBtnType(date);
                 this.setYearActive(this.yearsArray);
                 this.selectedDate=date;
                 this.yearSelected=date;
@@ -177,6 +177,7 @@
              */
             pickerBoxShow() {
                 this.pickerBoxStatus=true;
+                this.init();
             },
             /**
              * 关闭时间选择盒子
@@ -197,7 +198,10 @@
              */
             switchDate(date) {
                 this.countYear=new CountYear(date); // 当前计算天的对象
-                this.yearsArray=this.countYear.getYearsArray();
+                this.yearsArray=this.countYear.getYearsArray().map(d => {
+                    if (d.year===this.yearSelected) d.selected='selected';
+                    return d;
+                });
                 this.setYearActive(this.yearsArray);
             },
             /**
@@ -220,12 +224,14 @@
              */
             changeDate(year) {
                 this.yearSelected=year;
+                this.btnType='primary';
                 this.changeYearsArray(year);
             },
             /**
              * 确定
              */
             pickerConfirm() {
+                if (this.btnType==='disabled') return;
                 const selectedDate=this.yearSelected;
                 this.selectedDate=selectedDate;
                 this.blurStatus=false;

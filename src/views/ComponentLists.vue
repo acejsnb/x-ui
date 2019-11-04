@@ -26,6 +26,7 @@
                     {title: 'BreadcrumbView', more: '面包屑', url: 'breadcrumbView'},
                     {title: 'Pickertime', more: '时分秒选择', url: 'pickertimeView'},
                     {title: 'Pickerday', more: '日选择', url: 'pickerdayView'},
+                    {title: 'Pickermonth', more: '月选择', url: 'pickermonthView'},
                     {title: 'Pickeryear', more: '年选择', url: 'pickeryearView'},
 
                     {title: 'HeadersView', more: '头部title', url: 'headersView'},
