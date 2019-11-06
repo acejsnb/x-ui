@@ -45,8 +45,6 @@
                 <section class="list">
                 </section>
             </div>
-
-            <VueMarkdown v-highlight>{{html}}</VueMarkdown>
         </div>
     </div>
 </template>
