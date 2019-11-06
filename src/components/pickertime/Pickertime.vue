@@ -6,7 +6,9 @@
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
-            <section class="p-picker-input-tip">{{selectedTime?selectedTime:'请选择时间'}}</section>
+            <section
+                    :class="['p-picker-input-tip', selectedTime&&'p-picker-input-values']"
+            >{{selectedTime?selectedTime:'请选择时间'}}</section>
             <transition name="opacityScale">
                 <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
             </transition>

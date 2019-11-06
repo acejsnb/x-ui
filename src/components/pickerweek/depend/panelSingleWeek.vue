@@ -15,15 +15,15 @@
         </div>
         <transition name="opacityTop">
             <!--
+                    v-show="pickerBoxStatus"
+                    @mouseenter="pickerMainBlur"
+                    @mouseleave="pickerMainFocus"
+                    @blur="pickerBoxHide"
             -->
             <div
                     class="p-picker-main"
                     ref="pickerMain"
                     tabindex="-1"
-                    v-show="pickerBoxStatus"
-                    @mouseenter="pickerMainBlur"
-                    @mouseleave="pickerMainFocus"
-                    @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
                     <div class="p-picker-main-item-input-box">
@@ -34,12 +34,12 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
-                        <MonthSelect
+                        <WeekSelect
                                 :yearNow="yearNow"
                                 :yearActive="yearActive"
                                 :monthNow="monthNow"
                                 :monthActive="monthActive"
-                                :monthsArray="monthsArray"
+                                :weeksArray="weeksArray"
                                 @prevYear="prevYear"
                                 @nextYear="nextYear"
                                 @change="changeDate"
@@ -57,15 +57,16 @@
 
 <script>
     import CountMonth from 'datePicker/CountMonth';
+    import CountWeek from 'datePicker/CountWeek';
 
-    import MonthSelect from './month';
+    import WeekSelect from './week';
     import Button from 'button/Button';
 
     import ClearSvg from 'icon/clear2.svg';
     export default {
         name: "panelSingleMonth",
         components: {
-            MonthSelect,
+            WeekSelect,
             Button,
             ClearSvg
         },
@@ -76,7 +77,15 @@
             date: {
                 type: String,
                 default: ''
-            }
+            },
+            /**
+             * 排序规则
+             * 可选值【year-按照年排序（默认），month-按照月排序】
+             */
+            sort: {
+                type: String,
+                default: 'year'
+            },
         },
         data() {
             return {
@@ -96,7 +105,7 @@
                 yearSelected: '', // 选择的年
                 monthSelected: '', // 选择的年
 
-                monthsArray: [] // 日列表
+                weeksArray: [] // 周列表
             }
         },
         created() {
@@ -115,13 +124,14 @@
              * 初始化日期对象
              */
             init() {
-                const countMonth=new CountMonth(this.date);
-                this.monthsArray=countMonth.getMonthsArray();
-                const [year, month]=countMonth.countNowMonth();
+                const countWeek=new CountWeek(this.date);
+                this.weeksArray=countWeek.getWeeksArray();
+                console.log(this.weeksArray);
+                const [year, month]=countWeek.countNowDate();
                 this.yearNow=year;
                 this.monthNow=month;
 
-                this.setDate(this.date);
+                // this.setDate(this.date);
             },
             /**
              * 设置选择的年月日

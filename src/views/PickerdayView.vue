@@ -16,8 +16,8 @@
             return {
                 // dateSingle: '2020.02.29',
                 dateSingle: '',
-                dateDouble: '2007.08.16-2020.02.29'
-                // dateDouble: '2020.02.14-2020.02.29'
+                // dateDouble: '2007.08.16-2020.02.29'
+                dateDouble: '2020.02.14-2020.02.29'
                 // dateDouble: ''
             }
         },

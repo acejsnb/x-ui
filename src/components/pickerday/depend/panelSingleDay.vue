@@ -118,15 +118,6 @@
             // 初始化日期对象
             this.init();
         },
-        watch: {
-            /**
-             * 监听传入的日期改变
-             */
-            date(n, o) {
-                if (n === o) return;
-                this.setDate(n);
-            }
-        },
         methods: {
             /**
              * 改变按钮状态
@@ -295,7 +286,6 @@
              * 确定
              */
             pickerConfirm() {
-                if (this.btnType==='disabled') return;
                 const selectedDate=this.yearSelected+'.'+this.monthSelected+'.'+this.daySelected;
                 this.selectedDate=selectedDate;
                 this.blurStatus=false;

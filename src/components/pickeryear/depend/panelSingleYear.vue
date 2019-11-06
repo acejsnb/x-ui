@@ -231,7 +231,6 @@
              * 确定
              */
             pickerConfirm() {
-                if (this.btnType==='disabled') return;
                 const selectedDate=this.yearSelected;
                 this.selectedDate=selectedDate;
                 this.blurStatus=false;

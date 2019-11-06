@@ -160,17 +160,6 @@
                 disableMonthLeft: false,  // 禁用结束时间左箭头-月
             }
         },
-        watch: {
-            /**
-             * 监听传入的日期改变
-             */
-            date(n, o) {
-                if (n === o) return;
-                this.dateFormat(n);
-                this.setDateEnd(this.dateEnd);
-                this.setDateStart(this.dateStart);
-            }
-        },
         created() {
             this.dateFormat(this.date);
 
@@ -461,54 +450,20 @@
 
                 this.disableArrow();
 
-                // 如果选择了开始时间
-                if (this.yearStartSelected && this.yearEndSelected) {
-                    const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
-                    const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
-                    const sInd=this.daysArrayStart.findIndex(d => d.year===this.yearStartSelected&&d.month===this.monthStartSelected&&d.day===this.dayStartSelected);
-                    const eInd=this.daysArrayStart.findIndex(d => d.year===this.yearEndSelected&&d.month===this.monthEndSelected&&d.day===this.dayEndSelected);
-                    if (eInd === -1) { // 开始结束时间不在同一面板
-                        if (dateS > dateE) {
-                            this.daysArrayStart=this.daysArrayStart.map((d, i) => {
-                                if (d.flag==='n' && d.year===this.yearStartSelected && d.month===this.monthStartSelected) {
-                                    if (i < sInd) d.multiple='multiple';
-                                    if (i === sInd) d.selected='selected';
-                                }
-                                return d;
-                            })
-                        } else {
-                            this.daysArrayStart=this.daysArrayStart.map((d, i) => {
-                                if (d.flag==='n' && d.year===this.yearStartSelected && d.month===this.monthStartSelected) {
-                                    if (i > sInd) d.multiple='multiple';
-                                    if (i === sInd) d.selected='selected';
-                                }
-                                return d;
-                            })
-                        }
-                    } else { // 开始结束时间在同一面板
-                        if (sInd > eInd) {
-                            this.daysArrayStart=this.daysArrayStart.map((d, i) => {
-                                if (d.flag==='n' && d.year===this.yearStartSelected && d.month===this.monthStartSelected) {
-                                    if (i < sInd && i > eInd) d.multiple='multiple';
-                                    if (i === sInd || i === eInd) d.selected='selected';
-                                }
-                                return d;
-                            })
-                        } else {
-                            this.daysArrayStart=this.daysArrayStart.map((d, i) => {
-                                if (d.flag==='n' && d.year===this.yearStartSelected && d.month===this.monthStartSelected) {
-                                    if (i > sInd && i < eInd) d.multiple='multiple';
-                                    if (i === sInd || i === eInd) d.selected='selected';
-                                }
-                                return d;
-                            })
-                        }
-                    }
-                } else if (this.yearStartSelected && !this.yearEndSelected) {
+                const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
+                const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
+                if (dateS > dateE) {
                     this.daysArrayStart=this.daysArrayStart.map(d => {
-                        if (d.flag==='n' && d.year===this.yearStartSelected && d.month===this.monthStartSelected && d.day===this.dayStartSelected) {
-                            d.selected='selected'
-                        }
+                        const dateC=d.year+d.month+d.day;
+                        if (d.flag==='n' && dateC > dateE && dateC < dateS) d.multiple='multiple';
+                        if (d.flag==='n' && dateC === dateS || dateC === dateE) d.selected='selected';
+                        return d;
+                    })
+                } else {
+                    this.daysArrayStart=this.daysArrayStart.map(d => {
+                        const dateC=d.year+d.month+d.day;
+                        if (d.flag==='n' && dateC > dateS && dateC < dateE) d.multiple='multiple';
+                        if (d.flag==='n' && dateC === dateS || dateC === dateE) d.selected='selected';
                         return d;
                     })
                 }
@@ -527,54 +482,21 @@
 
                 this.disableArrow();
 
-                // 如果选择了结束时间
-                if (this.yearStartSelected && this.yearEndSelected) {
-                    const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
-                    const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
-                    const sInd=this.daysArrayEnd.findIndex(d => d.year===this.yearStartSelected&&d.month===this.monthStartSelected&&d.day===this.dayStartSelected);
-                    const eInd=this.daysArrayEnd.findIndex(d => d.year===this.yearEndSelected&&d.month===this.monthEndSelected&&d.day===this.dayEndSelected);
-                    if (sInd === -1) { // 开始结束时间不在同一面板
-                        if (dateS < dateE) {
-                            this.daysArrayEnd=this.daysArrayEnd.map((d, i) => {
-                                if (d.flag==='n' && d.year===this.yearEndSelected && d.month===this.monthEndSelected) {
-                                    if (i < eInd) d.multiple='multiple';
-                                    if (i === eInd) d.selected='selected';
-                                }
-                                return d;
-                            })
-                        } else {
-                            this.daysArrayEnd=this.daysArrayEnd.map((d, i) => {
-                                if (d.flag==='n' && d.year===this.yearEndSelected && d.month===this.monthEndSelected) {
-                                    if (i > eInd) d.multiple='multiple';
-                                    if (i === eInd) d.selected='selected';
-                                }
-                                return d;
-                            })
-                        }
-                    } else { // 开始结束时间在同一面板
-                        if (sInd < eInd) {
-                            this.daysArrayEnd=this.daysArrayEnd.map((d, i) => {
-                                if (d.flag==='n' && d.year===this.yearEndSelected && d.month===this.monthEndSelected) {
-                                    if (i > sInd && i < eInd) d.multiple='multiple';
-                                    if (i === sInd || i === eInd) d.selected='selected';
-                                }
-                                return d;
-                            })
-                        } else {
-                            this.daysArrayEnd=this.daysArrayEnd.map((d, i) => {
-                                if (d.flag==='n' && d.year===this.yearEndSelected && d.month===this.monthEndSelected) {
-                                    if (i < sInd && i > eInd) d.multiple='multiple';
-                                    if (i === sInd || i === eInd) d.selected='selected';
-                                }
-                                return d;
-                            })
-                        }
-                    }
-                } else if (!this.yearStartSelected && this.yearEndSelected) {
+                const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
+                const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
+
+                if (dateS > dateE) {
                     this.daysArrayEnd=this.daysArrayEnd.map(d => {
-                        if (d.flag==='n' && d.year===this.yearEndSelected && d.month===this.monthEndSelected && d.day===this.dayEndSelected) {
-                            d.selected='selected'
-                        }
+                        const dateC=d.year+d.month+d.day;
+                        if (d.flag==='n' && dateC > dateE && dateC < dateS) d.multiple='multiple';
+                        if (d.flag==='n' && dateC === dateS || dateC === dateE) d.selected='selected';
+                        return d;
+                    })
+                } else {
+                    this.daysArrayEnd=this.daysArrayEnd.map(d => {
+                        const dateC=d.year+d.month+d.day;
+                        if (d.flag==='n' && dateC > dateS && dateC < dateE) d.multiple='multiple';
+                        if (d.flag==='n' && dateC === dateS || dateC === dateE) d.selected='selected';
                         return d;
                     })
                 }
@@ -704,34 +626,32 @@
              * @param obj {year, month, day}
              */
             dayEnterStart({year, month, day}) {
-                if (!this.yearStartSelected && !this.yearEndSelected) return;
-                if (this.yearStartSelected && this.yearEndSelected) return;
+                if ((!this.yearStartSelected && !this.yearEndSelected) || (this.yearStartSelected && this.yearEndSelected)) return;
                 const daysArray=this.daysArrayStart;
                 const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
                 const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
                 const dateN=year+month+day;
 
+                // 当前传入时间的索引
+                const nInd=daysArray.findIndex(d => d.flag === 'n' && d.year===year&&d.month===month&&d.day===day);
+                // 已选择的时间的索引
+                const sInd=daysArray.findIndex(d => d.flag === 'n' && d.year===this.yearStartSelected&&d.month===this.monthStartSelected&&d.day===this.dayStartSelected);
+
                 /* 修改开始右侧结束时间面板multiple -s */
-                if (this.yearEndSelected) {
+                if (dateE) {
                     const daysArrayEnd=this.daysArrayEnd;
-                    if (dateE > dateN) { // 选中的左侧面板开始时间大于当前鼠标hover的时间
-                        const sInd=daysArrayEnd.findIndex(d => d.year===this.yearEndSelected&&d.month===this.monthEndSelected&&d.day===this.dayEndSelected);
-                        this.daysArrayEnd=daysArrayEnd.map((d, i) => {
-                            if (i < sInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
+                    if (dateN > dateE) { // 选中的左侧面板开始时间大于当前鼠标hover的时间
+                        this.daysArrayEnd=daysArrayEnd.map(d => {
+                            const dateC=d.year+d.month+d.day;
+                            if (d.flag === 'n' && dateC < dateN && dateC > dateE) d.multiple='multiple';
+                            else d.multiple='';
                             return d;
                         })
                     } else {
-                        const sInd=daysArrayEnd.findIndex(d => d.year===this.yearEndSelected&&d.month===this.monthEndSelected&&d.day===this.dayEndSelected);
-                        this.daysArrayEnd=daysArrayEnd.map((d, i) => {
-                            if (i > sInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
+                        this.daysArrayEnd=daysArrayEnd.map(d => {
+                            const dateC=d.year+d.month+d.day;
+                            if (d.flag === 'n' && dateC > dateN && dateC < dateE) d.multiple='multiple';
+                            else d.multiple='';
                             return d;
                         })
                     }
@@ -743,52 +663,45 @@
                 }
                 /* 修改开始右侧结束时间面板multiple -e */
 
-                // 当前传入时间的索引
-                const nInd=daysArray.findIndex(d => d.year===year&&d.month===month&&d.day===day);
-                // 以选择的时间的索引
-                const sInd=daysArray.findIndex(d => d.year===this.yearStartSelected&&d.month===this.monthStartSelected&&d.day===this.dayStartSelected);
-
-                if (dateS) { // 选择了开始时间
-                    if (nInd > sInd) {
-                        this.daysArrayStart=daysArray.map((d, i) => {
-                            if (i > sInd && i <= nInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
-                            return d;
-                        })
-                    } else {
-                        this.daysArrayStart=daysArray.map((d, i) => {
-                            if (i < sInd && i >= nInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
-                            return d;
-                        })
+                // 修改当前鼠标hover状态
+                if (dateS) { // 已选择开始时间
+                    if (sInd === -1) { // 不在当前面板
+                        if (dateN < dateS) {
+                            this.daysArrayStart=daysArray.map(d => {
+                                if (d.flag === 'n' && d.year+d.month+d.day >= dateN) d.multiple='multiple';
+                                else d.multiple='';
+                                return d;
+                            })
+                        } else {
+                            this.daysArrayStart=daysArray.map(d => {
+                                if (d.flag === 'n' && d.year+d.month+d.day <= dateN) d.multiple='multiple';
+                                else d.multiple='';
+                                return d;
+                            })
+                        }
+                    } else { // 在当前面板
+                        if (nInd > sInd) {
+                            this.daysArrayStart=daysArray.map(d => {
+                                const dateC=d.year+d.month+d.day;
+                                if (dateC <= dateN && dateC > dateS) d.multiple='multiple';
+                                else d.multiple='';
+                                return d;
+                            })
+                        } else {
+                            this.daysArrayStart=daysArray.map(d => {
+                                const dateC=d.year+d.month+d.day;
+                                if (dateC >= dateN && dateC < dateS) d.multiple='multiple';
+                                else d.multiple='';
+                                return d;
+                            })
+                        }
                     }
-                } else { // 选择了结束时间
-                    const len=daysArray.length;
-                    if (dateN > dateE) {
-                        this.daysArrayStart=daysArray.map((d, i) => {
-                            if (i > 0 && i <= nInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
-                            return d;
-                        })
-                    } else {
-                        this.daysArrayStart=daysArray.map((d, i) => {
-                            if (i < len && i >= nInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
-                            return d;
-                        })
-                    }
+                } else { // 未选择开始时间
+                    this.daysArrayStart=daysArray.map(d => {
+                        if (d.year+d.month+d.day >= dateN) d.multiple='multiple';
+                        else d.multiple='';
+                        return d;
+                    })
                 }
             },
             /**
@@ -796,34 +709,32 @@
              * @param obj {year, month, day}
              */
             dayEnterEnd({year, month, day}) {
-                if (!this.yearStartSelected && !this.yearEndSelected) return;
-                if (this.yearStartSelected && this.yearEndSelected) return;
+                if ((!this.yearStartSelected && !this.yearEndSelected) || (this.yearStartSelected && this.yearEndSelected)) return;
                 const daysArray=this.daysArrayEnd;
                 const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
                 const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
                 const dateN=year+month+day;
 
+                // 当前传入时间的索引
+                const nInd=daysArray.findIndex(d => d.year===year&&d.month===month&&d.day===day);
+                // 以选择的时间的索引
+                const sInd=daysArray.findIndex(d => d.year===this.yearEndSelected&&d.month===this.monthEndSelected&&d.day===this.dayEndSelected);
+
                 /* 修改开始左侧开始时间面板multiple -s */
-                if (this.yearStartSelected) {
+                if (dateS) {
                     const daysArrayStart=this.daysArrayStart;
-                    if (dateS > dateN) { // 选中的左侧面板开始时间大于当前鼠标hover的时间
-                        const sInd=daysArrayStart.findIndex(d => d.year===this.yearStartSelected&&d.month===this.monthStartSelected&&d.day===this.dayStartSelected);
-                        this.daysArrayStart=daysArrayStart.map((d, i) => {
-                            if (i < sInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
+                    if (dateN > dateS) { // 选中的左侧面板开始时间大于当前鼠标hover的时间
+                        this.daysArrayStart=daysArrayStart.map(d => {
+                            const dateC=d.year+d.month+d.day;
+                            if (d.flag==='n' && dateC < dateN && dateC > dateS) d.multiple='multiple';
+                            else d.multiple='';
                             return d;
                         })
                     } else {
-                        const sInd=daysArrayStart.findIndex(d => d.year===this.yearStartSelected&&d.month===this.monthStartSelected&&d.day===this.dayStartSelected);
-                        this.daysArrayStart=daysArrayStart.map((d, i) => {
-                            if (i > sInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
+                        this.daysArrayStart=daysArrayStart.map(d => {
+                            const dateC=d.year+d.month+d.day;
+                            if (d.flag==='n' && dateC > dateN && dateC < dateS) d.multiple='multiple';
+                            else d.multiple='';
                             return d;
                         })
                     }
@@ -835,50 +746,34 @@
                 }
                 /* 修改开始左侧开始时间面板multiple -e */
 
-                // 当前传入时间的索引
-                const nInd=daysArray.findIndex(d => d.year===year&&d.month===month&&d.day===day);
-                // 以选择的时间的索引
-                const sInd=daysArray.findIndex(d => d.year===this.yearEndSelected&&d.month===this.monthEndSelected&&d.day===this.dayEndSelected);
-
-                if (dateE) {
-                    // 向前选择
-                    if (nInd > sInd) {
-                        this.daysArrayEnd=daysArray.map((d, i) => {
-                            if (i > sInd && i <= nInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
+                // 修改当前鼠标hover状态
+                if (sInd === -1) { // 不在当前面板
+                    if (dateN < dateE) {
+                        this.daysArrayEnd=daysArray.map(d => {
+                            if (d.flag==='n' && d.year+d.month+d.day >= dateN) d.multiple='multiple';
+                            else d.multiple='';
                             return d;
                         })
                     } else {
-                        this.daysArrayEnd=daysArray.map((d, i) => {
-                            if (i < sInd && i >= nInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
+                        this.daysArrayEnd=daysArray.map(d => {
+                            if (d.flag==='n' && d.year+d.month+d.day <= dateN) d.multiple='multiple';
+                            else d.multiple='';
                             return d;
                         })
                     }
-                } else {
-                    const len=daysArray.length;
-                    if (dateN > dateS) {
-                        this.daysArrayEnd=daysArray.map((d, i) => {
-                            if (i <= nInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
+                } else { // 在当前面板
+                    if (nInd > sInd) {
+                        this.daysArrayEnd=daysArray.map(d => {
+                            const dateC=d.year+d.month+d.day;
+                            if (d.flag==='n' && dateC <= dateN && dateC > dateE) d.multiple='multiple';
+                            else d.multiple='';
                             return d;
                         })
                     } else {
-                        this.daysArrayEnd=daysArray.map((d, i) => {
-                            if (i < len && i >= nInd && d.flag === 'n') {
-                                d.multiple='multiple'
-                            } else {
-                                d.multiple=''
-                            }
+                        this.daysArrayEnd=daysArray.map(d => {
+                            const dateC=d.year+d.month+d.day;
+                            if (d.flag==='n' && dateC >= dateN && dateC < dateE) d.multiple='multiple';
+                            else d.multiple='';
                             return d;
                         })
                     }
@@ -888,7 +783,6 @@
              * 确定
              */
             pickerConfirm() {
-                if (this.btnType==='disabled') return;
                 const dateS=this.yearStartSelected+'.'+this.monthStartSelected+'.'+this.dayStartSelected;
                 const dateE=this.yearEndSelected+'.'+this.monthEndSelected+'.'+this.dayEndSelected;
                 const selectedDate=dateS>dateE?(dateE+'-'+dateS):(dateS+'-'+dateE);

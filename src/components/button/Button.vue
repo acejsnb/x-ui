@@ -42,6 +42,7 @@
              * 点击按钮的回调
              */
             handleClick() {
+                if (this.type === 'disabled') return;
                 this.$emit('click')
             }
         }

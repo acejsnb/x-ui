@@ -8,12 +8,90 @@ const isProd=process.env.NODE_ENV==='production';
 
 
 module.exports = {
-
     title: 'persagy-ui', // 文档的标题
     version: '1.1.1',
     components: 'src/components/**/[A-Z]*.vue', // 组件的目录
     defaultExample: true, // 是否使用默认样例
-    require: [path.join(__dirname, './src/assets/stylus/main.styl')],
+    require: [path.join(__dirname, './src/assets/stylus/main.styl'), path.join(__dirname, './src/assets/stylus/styleguide.styl')],
+    sections: [
+        {
+            name: 'Components',
+            sections: [
+                {
+                    name: '按钮',
+                    components: './src/components/button/Button.vue'
+                },
+                {
+                    name: '面包屑',
+                    components: './src/components/breadcrumb/Breadcrumb.vue'
+                },
+                {
+                    name: '徽标',
+                    components: './src/components/badge/Badge.vue'
+                },
+                {
+                    name: '右侧拉窗',
+                    components: './src/components/drawer/Drawer.vue'
+                },
+                {
+                    name: '标签页',
+                    components: './src/components/tabs/Tabs.vue'
+                },
+                {
+                    name: '开关',
+                    components: './src/components/toggle/Toggle.vue'
+                },
+                {
+                    name: '下拉选择',
+                    sections: [
+                        {
+                            name: '点击显示下拉列表',
+                            components: './src/components/select/Select.vue'
+                        },
+                        {
+                            name: 'hover显示下拉列表',
+                            components: './src/components/dropdown/Dropdown.vue'
+                        },
+                        {
+                            name: 'hover显示下拉列表组',
+                            components: './src/components/dropgroup/Dropgroup.vue'
+                        }
+                    ]
+                },
+                {
+                    name: '弹窗',
+                    sections: [
+                        {
+                            name: '模态框',
+                            components: './src/components/modal/Modal.vue'
+                        }
+                    ]
+                },
+                {
+                    name: '时间选择组件',
+                    sections: [
+                        {
+                            name: '时分秒选择',
+                            components: './src/components/pickertime/Pickertime.vue'
+                        },
+                        {
+                            name: '日选择',
+                            components: './src/components/pickerday/Pickerday.vue'
+                        },
+                        {
+                            name: '月选择',
+                            components: './src/components/pickermonth/Pickermonth.vue'
+                        },
+                        {
+                            name: '年选择',
+                            components: './src/components/pickeryear/Pickeryear.vue'
+                        }
+                    ]
+                }
+            ],
+            sectionDepth: 1
+        }
+    ],
     //simpleEditor: false, // 文档可编辑
     //pagePerSection: true,
     showSidebar: true,

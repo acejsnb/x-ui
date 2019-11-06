@@ -5,7 +5,7 @@
         <div class="component component-padding">
             <h1>Button组件</h1>
             <div class="btn">
-                <p>size=large</p>
+                <h2>size=large</h2>
                 <section class="list">
                     <Button type="default" size="large">default</Button>
                     <Button type="primary" size="large">primary</Button>
@@ -17,7 +17,7 @@
                 </section>
             </div>
             <div class="btn">
-                <p>size=medium（默认medium）</p>
+                <h2>size=medium（默认medium）</h2>
                 <section class="list">
                     <Button type="default">default</Button>
                     <Button type="primary">primary</Button>
@@ -32,7 +32,7 @@
                 </section>
             </div>
             <div class="btn">
-                <p>size=small</p>
+                <h2>size=small</h2>
                 <section class="list">
                     <Button type="default" size="small">default</Button>
                     <Button type="primary" size="small">primary</Button>
@@ -45,11 +45,14 @@
                 <section class="list">
                 </section>
             </div>
+
+            <VueMarkdown v-highlight>{{html}}</VueMarkdown>
         </div>
     </div>
 </template>
 
 <script>
+
     export default {
         name: "ButtonView"
     }

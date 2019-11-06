@@ -18,6 +18,7 @@ const EntryObj={
     Breadcrumb: './src/components/breadcrumb',
     Pickertime: './src/components/pickertime',
     Pickerday: './src/components/pickerday',
+    Pickerweek: './src/components/pickerweek',
     Pickermonth: './src/components/pickermonth',
     Pickeryear: './src/components/pickeryear'
 };
