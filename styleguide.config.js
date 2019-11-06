@@ -15,6 +15,11 @@ module.exports = {
     require: [path.join(__dirname, './src/assets/stylus/main.styl'), path.join(__dirname, './src/assets/stylus/styleguide.styl')],
     sections: [
         {
+            name: '使用说明',
+            content: './src/docs/Documentation.md',
+            description: '使用说明文档',
+        },
+        {
             name: 'Components',
             sections: [
                 {
