@@ -1,8 +1,7 @@
-// import '../assets/base.css';
-
-// require('../assets/base.css');
-
-const EntryObj={
+/**
+ * 单组件打包
+ */
+module.exports={
     Button: './src/components/button',
     Drawer: './src/components/drawer',
     Modal: './src/components/modal',
@@ -20,7 +19,6 @@ const EntryObj={
     Pickerday: './src/components/pickerday',
     Pickerweek: './src/components/pickerweek',
     Pickermonth: './src/components/pickermonth',
-    Pickeryear: './src/components/pickeryear'
+    Pickeryear: './src/components/pickeryear',
+    Tree: './src/components/tree'
 };
-
-module.exports=EntryObj;

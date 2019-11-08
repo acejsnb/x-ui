@@ -1,8 +1,8 @@
 <template>
     <div class="p-select" :style="{width: width+'px'}" tabindex="-1" @blur="selectBlur">
         <section class="p-select-title" @click="selectBoxHandle">
-            <span>{{title}}</span>
-            <section :class="['triangle', optionStatus && 'triangleRotate']"><Triangle /></section>
+            <article class="p-select-title-text"><span>{{title}}</span></article>
+            <article :class="['triangle', optionStatus && 'triangleRotate']"><Triangle /></article>
         </section>
         <transition name="slideDownUp">
             <section class="p-select-option-box" v-show="optionStatus">
@@ -11,7 +11,7 @@
                         v-for="item in data"
                         :key="item.id"
                         @click="optionClick(item.id)"
-                >{{item.name}}</article>
+                ><span>{{item.name}}</span></article>
             </section>
         </transition>
     </div>
@@ -113,14 +113,16 @@ export default {
         text-align left
         cursor pointer
         z-index 10
-        span
-            display inline-block
+        .p-select-title-text
+            display block
             text-overflow ellipsis
             white-space nowrap
             overflow hidden
             width 100%
-            font-size 14px
             color $grey-grey-900
+            span
+                display ruby
+                font-size 14px
         .triangle
             position absolute
             top 0
@@ -153,11 +155,13 @@ export default {
             width 100%
             height 32px
             line-height @height
-            font-size 14px
             color #262626
             text-align left
             cursor pointer
             overflow hidden
+            span
+                display ruby
+                font-size 14px
             &:hover
                 background-color $grey-grey-200
             &.option-selected

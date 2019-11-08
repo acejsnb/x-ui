@@ -1,7 +1,7 @@
 <template>
     <div class="Button">
         <div class="component component-padding">
-            <h1>Dropdown组件</h1>
+            <h1>Dropgroup组件</h1>
             <!--
                 组件说明:
                     参数   说明           默认值   类型   是否必须   可选值

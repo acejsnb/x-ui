@@ -17,7 +17,7 @@ module.exports = {
         {
             name: '使用说明',
             content: './src/docs/Documentation.md',
-            description: '使用说明文档',
+            description: 'persagy-ui使用说明文档',
         },
         {
             name: 'Components',

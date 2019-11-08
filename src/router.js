@@ -23,6 +23,7 @@ import PickerdayView from './views/PickerdayView';
 import PickerweekView from './views/PickerweekView';
 import PickeryearView from './views/PickeryearView';
 import PickermonthView from './views/PickermonthView';
+import TreeView from './views/treeView';
 
 import MessageView from './views/MessageView';
 
@@ -184,6 +185,14 @@ export default new Router({
             component: PickermonthView,
             meta: {
                 title: 'PickermonthView'
+            }
+        },
+        {
+            path: '/treeView',
+            name: 'TreeView',
+            component: TreeView,
+            meta: {
+                title: 'TreeView'
             }
         },
 

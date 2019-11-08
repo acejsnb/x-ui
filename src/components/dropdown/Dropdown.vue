@@ -90,20 +90,21 @@
     vertical-align middle
     .p-drop-title
         position relative
-        display flex
+        display inline-flex
         align-items center
         cursor pointer
         z-index 10
+        > article
+            line-height 16px
         .triangle
             margin-left 4px
             width 16px
             height @width
-            text-align center
-            transition transform .3s
             svg
-                margin-top 4px
+                transition transform .3s
         .triangleRotate
-            transform rotate(180deg)
+            svg
+                transform rotate(90deg)
     .p-drop-option
         position absolute
         top 100%

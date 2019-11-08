@@ -1,3 +1,6 @@
+/**
+ * 所有组件打包
+ */
 import 'stylus/main.styl';
 
 import Icon from './icon/Icon';
@@ -18,6 +21,7 @@ import Pickerday from './pickerday';
 import Pickerweek from './pickerweek';
 import Pickeryear from './pickeryear';
 import Pickermonth from './pickermonth';
+import Tree from './tree';
 
 import Headers from './headers';
 
@@ -42,6 +46,7 @@ const Components = {
     ,Pickerweek
     ,Pickermonth
     ,Pickeryear
+    ,Tree
 
     ,Headers
 
