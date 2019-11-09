@@ -1,25 +1,18 @@
 <template>
     <div class="p-tree-node">
         <div
-                :class="['p-tree-node-content', !multiple&&treeItem.selected==='checked'&&'p-tree-node-content-selected']"
-                :style="{paddingLeft: (index.split('-').length-1)*16+'px'}"
+                :class="['p-tree-node-content', !multiple&&treeItem.checked==='checked'&&'p-tree-node-content-checked']"
+                :style="{paddingLeft: paddingLeft+'px'}"
         >
             <section
                     class="p-tree-svg"
                     @click="openChild"
-                    :style="{opacity: triangleShow?1:0}"
-            ><TriangleSvg :class="['svg', treeItem.open&&'rotate']" /></section>
+            ><TriangleSvg :class="['svg', treeItem.open&&'rotate']" v-if="triangleShow" /></section>
             <section class="p-tree-node-check" @click="handleCheck(treeItem.id, index)">
-                <article class="p-tree-svg" v-if="multiple">
-                    <transition-group name="checkSvg">
-                        <CheckedSvg class="svg" key="checkedSvg" v-if="treeItem.selected==='checked'" />
-                        <UncheckSvg class="svg" key="uncheckSvg"  v-else-if="treeItem.selected==='uncheck'" />
-                        <NotNullSvg class="svg" key="notNullSvg"  v-else />
-                    </transition-group>
-                </article>
-                <article class="p-tree-node-title">
+                <i :class="['p-tree-check-box', 'p-tree-check-box-'+treeItem.checked]" v-if="multiple"></i>
+                <article class="p-tree-node-title" :style="{width: (164-paddingLeft)+'px'}">
                     <span class="p-tree-node-name" @mouseenter="treeItemEnter">{{treeItem.name}}</span>
-                    <span class="p-tree-selected-num" v-if="multiple && treeItem.children">{{`${selectedQuantity(treeItem.children )}/${treeItem.children.length}`}}</span>
+                    <span class="p-tree-checked-num" v-if="checkedNumShow">{{quantity}}/{{treeItem.children.length}}</span>
                 </article>
             </section>
         </div>
@@ -31,7 +24,7 @@
                     :treeItem="item"
                     :triangleShow="!!(item.children&&item.children.length)"
                     :index="`${index}-${ind}`"
-                    :select="select"
+                    :change="change"
             ></TreeNode>
         </div>
     </div>
@@ -39,13 +32,10 @@
 
 <script>
     import TriangleSvg from 'icon/triangle.svg';
-    import CheckedSvg from 'icon/checked.svg';
-    import UncheckSvg from 'icon/uncheck.svg';
-    import NotNullSvg from 'icon/not_null.svg';
 
     export default {
         name: 'TreeNode',
-        components: { TriangleSvg, CheckedSvg, UncheckSvg, NotNullSvg },
+        components: { TriangleSvg },
         props: {
             /**
              * 是否开启多选
@@ -64,73 +54,80 @@
             /**
              * 点击某项
              */
-            select: {
-                type: Function
-            },
-            /**
-             * 递归改变check状态
-             */
-            changeStatus: {
-                type: Function
+            change: {
+                type: Function,
+                default: () => false
             },
             /**
              * 下拉三角形是否显示
              */
             triangleShow: {
-                type: Boolean
+                type: Boolean,
+                default: false
             },
             /**
              * 索引
              */
             index: {
-                type: String
+                type: String,
+                default: ''
+            }
+        },
+        computed: {
+            // 没想左边内边距
+            paddingLeft() {
+                return (this.index.split('-').length-1)*16;
+            },
+            // 显示选中数量比
+            checkedNumShow() {
+                return this.multiple && this.treeItem.children && this.treeItem.children.length;
+            },
+            // 选中的数量
+            quantity() {
+                return this.treeItem.children.filter(d => d.checked==='checked' || d.checked==='notNull').length;
             }
         },
         methods: {
-            // 展开
+            // 展开/收起
             openChild() {
                 this.treeItem.open=!this.treeItem.open
             },
             // 鼠标hover
             treeItemEnter(e) {
-                const srcElement=e.srcElement;
-                const {clientWidth, scrollWidth}=srcElement;
-                if (scrollWidth > clientWidth) srcElement.title=srcElement.innerText;
+                const target=e.target;
+                const {clientWidth, scrollWidth, title}=target;
+                if (!title && scrollWidth > clientWidth) target.title=target.innerText;
             },
             // 选择
             handleCheck(id, index) {
                 if (this.multiple) {
                     let status='';
                     const treeItem=this.treeItem;
-                    const {selected, children}=treeItem;
+                    const {checked, children}=treeItem;
 
-                    if (selected === 'checked') { // 未选中
+                    if (checked === 'checked') {
                         status='uncheck';
                     } else {
-                        //  if (selected === 'uncheck' || selected === 'notNull')
+                        //  if (checked === 'uncheck' || checked === 'notNull')
                         status='checked';
                     }
-                    setTimeout(() => {
-                        treeItem.selected=status;
-                        if (children && children.length) treeItem.children=this.setSelectedStatus(children, status);
-                        this.treeItem=treeItem;
-                    }, 0);
+
+                    if (children && children.length) treeItem.children=this.setCheckedStatus(children, status);
+                    treeItem.checked=status;
+                    this.treeItem=treeItem;
                 }
 
                 // 执行父级的函数
-                this.select(id, index);
+                this.change(id, index);
             },
-            // 设置selected状态
-            setSelectedStatus(data, status) {
+            // 设置checked状态
+            setCheckedStatus(data, status) {
                 return data.map(d => {
-                    d.selected=status;
-                    if (d.children && d.children.length) d.children=this.setSelectedStatus(d.children, status);
+                    d.checked=status;
+                    if (d.children && d.children.length)
+                        d.children=this.setCheckedStatus(d.children, status);
                     return d;
                 })
-            },
-            // 选择的数量
-            selectedQuantity(data) {
-                return data.filter(d => d.selected==='checked' || d.selected==='notNull').length;
             }
         }
     }
@@ -152,69 +149,86 @@
         cursor pointer
         &:hover
             background-color $grey-grey-200
-        &.p-tree-node-content-selected
+        &.p-tree-node-content-checked
             background-color $primary-blue-500
             .p-tree-node-check
                 .p-tree-node-title
                     .p-tree-node-name
                         color #fff
         .p-tree-svg
-            margin-left 4px
+            //margin-left 4px
             //margin-right 4px
             width 20px
-            height 20px
+            height @width
             line-height @height
             text-align center
-            overflow hidden
+            //overflow hidden
             .svg
                 vertical-align middle
                 transition transform .3s
             .rotate
                 transform rotate(90deg)
         .p-tree-node-check
-            display flex
+            display inline-flex
             align-items center
-            width 100%
+            width 184px
+            .p-tree-check-box
+                position relative
+                display inline-block
+                margin-right 4px
+                background-color #fff
+                border 1px solid $grey-grey-200
+                border-radius 2px
+                width 16px
+                height @width
+                &::after
+                    position absolute
+                    background none
+                    transition transform .2s ease-in-out
+                    transform rotate(0deg) scale(0)
+                    z-index 1
+                    content ''
+                &.p-tree-check-box-checked
+                    background-color $primary-blue-500
+                    border-color $primary-blue-500
+                    &::after
+                        top 2px
+                        left 5px
+                        border-right 2px solid #fff
+                        border-bottom 2px solid #fff
+                        width 4px
+                        height 8px
+                        transform rotate(45deg) scale(1)
+                &.p-tree-check-box-notNull
+                    background-color $primary-blue-500
+                    border-color $primary-blue-500
+                    &::after
+                        display block
+                        top 6px
+                        left 3px
+                        background-color #fff
+                        width 8px
+                        height 2px
+                        transform scale(1)
             .p-tree-svg
                 margin-right 4px
             .p-tree-node-title
                 display flex
                 align-items center
                 justify-content space-between
-                padding-top 2px
-                width 100%
                 user-select none
                 .p-tree-node-name
                     max-width 110px
+                    line-height 32px
                     white-space nowrap
                     text-overflow ellipsis
                     overflow hidden
                     font-size 14px
                     color $grey-grey-900
-                .p-tree-selected-num
+                .p-tree-checked-num
                     font-size 12px
                     color $grey-grey-600
     .p-tree-child
         width 100%
-
-@keyframes checkIn
-    from
-        opacity .5
-        transform translate3d(0,0,0) scale(0.7)
-    to
-        opacity 1
-        transform scale(1)
-@keyframes checkOut
-    from
-        opacity 1
-        transform translate3d(0,0,0) scale(1)
-    to
-        opacity .5
-        transform scale(0.7)
-
-.checkSvg-enter-active
-    animation checkIn .3s
-.checkSvg-leave-active
-    animation checkOut .3s
 
 </style>

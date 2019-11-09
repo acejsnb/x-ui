@@ -47,6 +47,10 @@ module.exports = {
                     components: './src/components/toggle/Toggle.vue'
                 },
                 {
+                    name: '树形结构',
+                    components: './src/components/tree/Tree.vue'
+                },
+                {
                     name: '下拉选择',
                     sections: [
                         {

@@ -7,8 +7,8 @@
                 :treeItem="item"
                 :triangleShow="!!(item.children&&item.children.length)"
                 :index="String(ind)"
-                :select="select"
-        ></TreeNode>
+                :change="change"
+        />
     </div>
 </template>
 
@@ -17,9 +17,7 @@
 
     export default {
         name: 'Tree',
-        components: {
-            TreeNode
-        },
+        components: { TreeNode },
         props: {
             /**
              * 树形结构的高
@@ -40,7 +38,7 @@
              */
             data: {
                 type: Array,
-                default: []
+                default: () => []
             }
         },
         computed: {
@@ -59,23 +57,30 @@
              * @param id
              * @param index 索引串
              */
-            select(id, index) {
-                setTimeout(() => {
-                    if (this.multiple) {
-                        let iArr=index.split('-');
-                        this.treeData=this.changeParent(this.treeData, iArr);
-                        const selectedIds=this.filterIds(this.treeData);
-                        /**
-                         * 点击某项返回的数据
-                         * @param id
-                         * @param selectedIds 选择的id组
-                         */
-                        this.$emit('select', {id, selectedIds});
-                    } else {
-                        this.treeData=this.changeSelectedItem(this.treeData, id);
-                        this.$emit('select', {id});
-                    }
-                });
+            change(id, index) {
+                // return;
+                if (this.multiple) {
+                    let iArr=(index.split('-')); // 拿到索引值
+                    iArr.pop(); // 这里不需要遍历最后一个索引的数据
+                    let data=this.treeData;
+                    this.changeParentChecked(data, iArr);
+                    const checkedIds=this.filterIds(this.treeData);
+                    /**
+                     * 点击某项返回的数据
+                     * @param id
+                     * @param checkedIds 选择的id组，多选时才返回
+                     * @type Function
+                     */
+                    this.$emit('change', {id, checkedIds});
+                } else {
+                    this.treeData=this.changeCheckedItem(this.treeData, id);
+                    /**
+                     * 点击某项返回的数据
+                     * @param id
+                     * @type Function
+                     */
+                    this.$emit('change', {id});
+                }
             },
             /**
              * 单选改变状态
@@ -83,54 +88,62 @@
              * @param id
              * @return {*}
              */
-            changeSelectedItem(data, id) {
+            changeCheckedItem(data, id) {
                 return data.map(d => {
                     if (d.id === id) {
-                        d.selected='checked';
+                        d.checked='checked';
                     } else {
-                        d.selected='uncheck';
+                        d.checked='uncheck';
                     }
-                    if (d.children && d.children.length) d.children=this.changeSelectedItem(d.children, id);
+                    if (d.children && d.children.length) d.children=this.changeCheckedItem(d.children, id);
                     return d;
                 });
             },
             /**
-             * 修改状态
+             * 多选修改状态
              * @param data
              * @return {string}
              */
             changeStatus(data) {
-                let selected='';
-                const everyChecked=data.every(d => d.selected==='checked');
-                const everyUncheck=data.every(d => d.selected==='uncheck');
-                // const someNotNull=data.some(d => d.selected==='notNull');
-                if (everyChecked) {
-                    selected = 'checked';
-                } else if (everyUncheck) {
-                    selected = 'uncheck';
+                let checked='';
+                if (data.every(d => d.checked==='checked')) {
+                    checked = 'checked';
+                } else if (data.every(d => d.checked==='uncheck')) {
+                    checked = 'uncheck';
                 } else {
-                    selected = 'notNull';
+                    checked = 'notNull';
                 }
 
-                return selected;
+                return checked;
             },
             /**
-             * 递归改变check状态
+             * 改变被筛选到的数据的状态
              * @param data
              * @param iArr
-             * @return {*}
              */
-            changeParent(data, iArr) {
-                return data.map((d, i) => {
-                    if (d.children && d.children.length) {
-                        if (iArr && iArr.length && i===Number(iArr.shift())) {
-                            d.children=this.changeParent(d.children, iArr);
-                            d.selected=this.changeStatus(d.children);
-                        }
-                    }
+            changeParentChecked(data, iArr) {
+                // 当前筛选的数据
+                const curr=[];
+                this.currentData(data, iArr, curr);
 
-                    return d;
-                })
+                curr.forEach(d => {
+                    d.checked=this.changeStatus(d.children);
+                });
+            },
+            /**
+             * 递归筛选子项有选中的数据
+             * @param data
+             * @param iArr
+             * @param curr 筛选到的数据放入数组
+             */
+            currentData(data, iArr, curr) {
+                let ind=iArr.shift();
+                data.forEach((d, i) => {
+                    if (ind && i===Number(ind)) {
+                        curr.unshift(d);
+                        if (d.children && d.children.length) this.currentData(d.children, iArr, curr);
+                    }
+                });
             },
             /**
              *  筛选选中的id
@@ -148,7 +161,7 @@
              */
             recursionIds(data, arr) {
                 data.forEach(d => {
-                    if (d.selected === 'checked') arr.push(d.id);
+                    if (d.checked === 'checked') arr.push(d.id);
                     if (d.children && d.children.length) this.recursionIds(d.children, arr);
                 });
             }
