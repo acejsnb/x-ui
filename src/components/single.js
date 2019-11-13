@@ -1,7 +1,7 @@
 /**
  * 单组件打包
  */
-module.exports={
+const com={
     Button: './src/components/button',
     Drawer: './src/components/drawer',
     Modal: './src/components/modal',
@@ -20,5 +20,9 @@ module.exports={
     Pickerweek: './src/components/pickerweek',
     Pickermonth: './src/components/pickermonth',
     Pickeryear: './src/components/pickeryear',
-    Tree: './src/components/tree'
+    Tree: './src/components/tree',
+
+
+    Message: './src/components/message' // 函数式组件
 };
+module.exports=com;

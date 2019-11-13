@@ -12,7 +12,7 @@
 <style lang="stylus">
 
   .p-message-box
-    position absolute
+    position fixed
     top 36px
     left 0
     display flex

@@ -1,11 +1,9 @@
 <template>
-    <div class="p-tree">
-        <TreeNode
-                :multiple="multiple"
-                v-for="(item, ind) in treeData"
-                :key="item.id+'-'+ind"
-                :treeItem="item"
-                :triangleShow="!!(item.children&&item.children.length)"
+    <div class="p-select-check">
+        <CheckNode
+                v-for="(item, ind) in selectData"
+                :key="item.id"
+                :selectItem="item"
                 :index="String(ind)"
                 :change="change"
         />
@@ -13,19 +11,12 @@
 </template>
 
 <script>
-    import TreeNode from './depend/treeNode';
+    import CheckNode from './depend/checkNode';
 
     export default {
-        name: 'Tree',
-        components: { TreeNode },
+        name: 'Selectcheck',
+        components: { CheckNode },
         props: {
-            /**
-             * 是否开启多选
-             */
-            multiple: {
-                type: Boolean,
-                default: false
-            },
             /**
              * 树形结构数据列表
              */
@@ -35,7 +26,7 @@
             }
         },
         computed: {
-            treeData: {
+            selectData: {
                 get() {
                     return this.data;
                 },
@@ -52,45 +43,18 @@
              */
             change(id, index) {
                 // return;
-                if (this.multiple) {
-                    let iArr=(index.split('-')); // 拿到索引值
-                    iArr.pop(); // 这里不需要遍历最后一个索引的数据
-                    let data=this.treeData;
-                    this.changeParentChecked(data, iArr);
-                    const checkedIds=this.filterIds(this.treeData);
-                    /**
-                     * 点击某项返回的数据
-                     * @param id
-                     * @param checkedIds 选择的id组，多选时才返回
-                     * @type Function
-                     */
-                    this.$emit('change', {id, checkedIds});
-                } else {
-                    this.treeData=this.changeCheckedItem(this.treeData, id);
-                    /**
-                     * 点击某项返回的数据
-                     * @param id
-                     * @type Function
-                     */
-                    this.$emit('change', {id});
-                }
-            },
-            /**
-             * 单选改变状态
-             * @param data
-             * @param id
-             * @return {*}
-             */
-            changeCheckedItem(data, id) {
-                return data.map(d => {
-                    if (d.id === id) {
-                        d.checked='checked';
-                    } else {
-                        d.checked='uncheck';
-                    }
-                    if (d.children && d.children.length) d.children=this.changeCheckedItem(d.children, id);
-                    return d;
-                });
+                let iArr=(index.split('-')); // 拿到索引值
+                iArr.pop(); // 这里不需要遍历最后一个索引的数据
+                let data=this.selectData;
+                this.changeParentChecked(data, iArr);
+                const checkedIds=this.filterIds(this.selectData);
+                /**
+                 * 点击某项返回的数据
+                 * @param id
+                 * @param checkedIds 选择的id组，多选时才返回
+                 * @type Function
+                 */
+                this.$emit('change', {id, checkedIds});
             },
             /**
              * 多选修改状态
@@ -164,8 +128,8 @@
 
 <style lang="stylus" scoped>
 
-.p-tree
-    //background-color #ccc
+.p-select-check
+    background-color #ccc
     width 100%
     //min-width 224px
     max-width 280px

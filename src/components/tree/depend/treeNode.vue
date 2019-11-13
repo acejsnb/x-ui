@@ -8,19 +8,23 @@
                     class="p-tree-svg"
                     @click="openChild"
             ><TriangleSvg :class="['svg', treeItem.open&&'rotate']" v-if="triangleShow" /></section>
-            <section class="p-tree-node-check" @click="handleCheck(treeItem.id, index)">
+            <div class="p-tree-node-check" @click="handleCheck(treeItem.id, index)">
                 <i :class="['p-tree-check-box', 'p-tree-check-box-'+treeItem.checked]" v-if="multiple"></i>
-                <article class="p-tree-node-title" :style="{width: (164-paddingLeft)+'px'}">
-                    <span class="p-tree-node-name" @mouseenter="treeItemEnter">{{treeItem.name}}</span>
-                    <span class="p-tree-checked-num" v-if="checkedNumShow">{{quantity}}/{{treeItem.children.length}}</span>
-                </article>
-            </section>
+                <section class="p-tree-node-title">
+                    <article
+                            class="p-tree-node-name"
+                            @mouseenter="treeItemEnter"
+                            v-html="treeItem.name"
+                    ></article>
+                    <article class="p-tree-checked-num" v-if="index.length>2&&checkedNumShow">{{quantity}}/{{treeItem.children.length}}</article>
+                </section>
+            </div>
         </div>
         <div class="p-tree-child" v-show="treeItem.open">
             <TreeNode
                     :multiple="multiple"
                     v-for="(item, ind) in treeItem.children"
-                    :key="item.id"
+                    :key="item.id+'-'+ind"
                     :treeItem="item"
                     :triangleShow="!!(item.children&&item.children.length)"
                     :index="`${index}-${ind}`"
@@ -76,7 +80,7 @@
         computed: {
             // 没想左边内边距
             paddingLeft() {
-                return (this.index.split('-').length-1)*16;
+                return (this.index.split('-').length-1)*24;
             },
             // 显示选中数量比
             checkedNumShow() {
@@ -144,34 +148,33 @@
         align-items center
         margin-top 4px
         margin-bottom 4px
-        padding-right 16px
+        //margin-right 16px
+        //width 100%
         height 32px
         cursor pointer
         &:hover
             background-color $grey-grey-200
         &.p-tree-node-content-checked
-            background-color $primary-blue-500
+            background-color $primary-blue-100
             .p-tree-node-check
                 .p-tree-node-title
                     .p-tree-node-name
-                        color #fff
+                        color $primary-blue-500
         .p-tree-svg
-            //margin-left 4px
-            //margin-right 4px
-            width 20px
+            //margin-left 8px
+            margin-right 8px
+            width 16px
             height @width
-            line-height @height
             text-align center
-            //overflow hidden
             .svg
-                vertical-align middle
+                vertical-align text-bottom
                 transition transform .3s
             .rotate
                 transform rotate(90deg)
         .p-tree-node-check
             display inline-flex
             align-items center
-            width 184px
+            width 85%
             .p-tree-check-box
                 position relative
                 display inline-block
@@ -210,22 +213,30 @@
                         width 8px
                         height 2px
                         transform scale(1)
-            .p-tree-svg
-                margin-right 4px
             .p-tree-node-title
-                display flex
-                align-items center
-                justify-content space-between
+                position relative
                 user-select none
+                width 81%
                 .p-tree-node-name
-                    max-width 110px
-                    line-height 32px
+                    -ms-transform translateY(3px)
+                    width 80%
+                    //min-width 110px
+                    max-width 160px
+                    height 32px
+                    line-height @height
                     white-space nowrap
                     text-overflow ellipsis
                     overflow hidden
                     font-size 14px
                     color $grey-grey-900
                 .p-tree-checked-num
+                    position absolute
+                    right 0
+                    top 0
+                    width 20%
+                    height 32px
+                    line-height @height
+                    text-align right
                     font-size 12px
                     color $grey-grey-600
     .p-tree-child

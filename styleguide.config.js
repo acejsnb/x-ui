@@ -73,6 +73,10 @@ module.exports = {
                         {
                             name: '模态框',
                             components: './src/components/modal/Modal.vue'
+                        },
+                        {
+                            name: '消息提示',
+                            components: './src/components/message/Message.vue'
                         }
                     ]
                 },
@@ -94,6 +98,15 @@ module.exports = {
                         {
                             name: '年选择',
                             components: './src/components/pickeryear/Pickeryear.vue'
+                        }
+                    ]
+                },
+                {
+                    name: '多维组件',
+                    sections: [
+                        {
+                            name: '头部封装',
+                            components: './src/components/headers/Headers.vue'
                         }
                     ]
                 }

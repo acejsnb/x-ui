@@ -1,22 +1,25 @@
+### 示例
+```vue
 <template>
     <div class="component component-padding">
         <h1>Tree组件</h1>
         <div class="treeCom">
             <div>
                 <Tree
+                        :height="500"
                         :data="treeData"
                         @change="change"
                 />
             </div>
             <div>
                 <Tree
+                        :height="500"
                         :multiple="true"
                         :data="treeData2"
                         @change="change2"
                 />
             </div>
         </div>
-        <br><br><br><br><br><br><br><br><br>
     </div>
 </template>
 
@@ -123,17 +126,4 @@
     }
 </script>
 
-<style lang="stylus" scoped>
-
-.component-padding
-    padding-bottom 200px !important
-    //width 240px
-    .treeCom
-        display flex
-        width 600px
-        > div
-            width 190px
-            margin-right 24px
-            overflow-y auto
-
-</style>
+```

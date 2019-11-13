@@ -1,9 +1,13 @@
 <template>
     <transition name="fadeDownUp">
         <div v-show="visible" :class="`p-message p-message-${type}`">
-            <section class="msg">
-                <article class="text">{{message}}</article>
+            <section class="p-message-hint">
+                <HintInfo v-if="type==='info'" />
+                <HintSuccess v-else-if="type==='success'" />
+                <HintWaring v-else-if="type==='warning'" />
+                <HintError v-else />
             </section>
+            <section class="p-message-text">{{message}}</section>
             <section class="p-message-close" @click="closeNode"><IconClose /></section>
         </div>
     </transition>
@@ -11,10 +15,17 @@
 
 <script>
     import IconClose from 'icon/icon_close_white.svg';
+    import HintError from 'icon/hint_error.svg';
+    import HintInfo from 'icon/hint_info.svg';
+    import HintSuccess from 'icon/hint_success.svg';
+    import HintWaring from 'icon/hint_waring.svg';
 
     export default {
         name: 'Message',
-        components: { IconClose },
+        components: {
+            IconClose,
+            HintError, HintInfo, HintSuccess, HintWaring
+        },
         data() {
             return {
                 type: 'info',
@@ -35,37 +46,42 @@
 @import "~stylus/animate/fadeDownUp.styl"
 
 .p-message
-  position relative
-  display flex
-  justify-content space-between
-  align-items flex-start
-  padding 8px 8px 8px 16px
-  border-radius 4px
-  box-shadow 0 2px 10px 0 rgba(98,28,24,.2)
-  min-width 216px
-  max-width 576px
-  min-height 24px
-  &+.p-message
-    margin-top 24px
-  .text
-    padding-left 8px
-    font-size 14px
-    line-height 22px
-    color #fff
-  .p-message-close
-    margin-left 8px
-    margin-top 4px
-    cursor pointer
-    text-align right
-    svg
-      vertical-align middle
+    position relative
+    display inline-flex
+    justify-content space-between
+    align-items flex-start
+    padding 8px
+    border-radius 4px
+    box-shadow 0 2px 10px 0 rgba(0,66,117,.2)
+    min-width 240px
+    max-width 600px
+    min-height 40px
+    & + .p-message
+        margin-top 24px
+    .p-message-hint
+        padding-top 3px
+    .p-message-text
+        width calc(100% - 48px)
+        text-align left
+        font-size 14px
+        color #fff
+        word-wrap break-word
+        line-height 22px
+    .p-message-close
+        padding-top 2px
+        svg
+            opacity .5
+            transition opacity .3s
+            cursor pointer
+            &:hover
+                opacity 1
 .p-message-info
-  background-color $primary-blue-500
+    background-color $primary-blue-500
 .p-message-success
-  background-color $success-turquoise-500
+    background-color $success-turquoise-500
 .p-message-warning
-  background-color $warning-orange-400
+    background-color $warning-orange-400
 .p-message-error
-  background-color $error-red-400
+    background-color $error-red-400
 
 </style>

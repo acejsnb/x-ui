@@ -1,4 +1,12 @@
 ### 示例
+
+### 当全局引入时，请使用 `this.$message.xxx('msg')`
+### 当按需引入时，请使用
+```text
+    import { Message } from 'persagy-ui';
+    Message.xxx('msg');
+```
+
 ```vue
 <template>
     <div class="Button">
@@ -13,20 +21,25 @@
 </template>
 
 <script>
+    import Message from 'message';
     export default {
         name: "MessageView",
         methods: {
             messageInfo() {
-                this.$message.info('这是一条消息');
+                // this.$message.info('这是一条消息');
+                Message.info('这是一条消息');
             },
             messageSuccess() {
-                this.$message.success('Oh,yes');
+                // this.$message.success('Oh,yes');
+                Message.success('Oh,yes');
             },
             messageWarning() {
-                this.$message.warning('Oh,no');
+                // this.$message.warning('Oh,no');
+                Message.warning('Oh,no');
             },
             messageError() {
-                this.$message({
+                // this.$message({
+                Message({
                     type: 'error',
                     message: `
                         错了哦，这是一条错误消息
