@@ -17,7 +17,7 @@
                             @mouseenter="treeItemEnter"
                             v-html="treeItem.name"
                     ></article>
-                    <article class="p-tree-checked-num" v-if="index.length>2&&checkedNumShow">{{quantity}}/{{treeItem.children.length}}</article>
+                    <article class="p-tree-checked-num" v-if="index.length>2&&checkedNumShow">{{quantity}}/{{total}}</article>
                 </section>
             </div>
         </div>
@@ -88,8 +88,12 @@
                 return this.multiple && this.treeItem.children && this.treeItem.children.length;
             },
             // 选中的数量
+            total() {
+                return this.treeItem.children.filter(d => !d.isHide).length;
+            },
+            // 选中的数量
             quantity() {
-                return this.treeItem.children.filter(d => d.checked==='checked' || d.checked==='notNull').length;
+                return this.treeItem.children.filter(d => !d.isHide && (d.checked==='checked' || d.checked==='notNull')).length;
             }
         },
         methods: {

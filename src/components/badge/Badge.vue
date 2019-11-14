@@ -1,11 +1,11 @@
 <template>
-    <div class="p-badge">
+    <div class="p-badge" @click="handleClick">
         <section>
             <!-- @slot html内容 -->
             <slot></slot>
         </section>
         <sup
-             v-if="count.toString() || typeof dot==='string'"
+             v-if="count || typeof dot==='string'"
              :class="['p-badge-normal', typeof dot==='string'?'p-badge-dot':'p-badge-text']"
              :style="{backgroundColor: bgColor}"
         >{{countVal}}</sup>
@@ -45,6 +45,15 @@
             countVal() {
                 if (typeof this.count==='number' && this.count>=100) return '99+';
                 else return this.count;
+            }
+        },
+        methods: {
+            handleClick() {
+                /**
+                 * 点击事件
+                 * @type Function
+                 */
+                this.$emit('click')
             }
         }
     }
