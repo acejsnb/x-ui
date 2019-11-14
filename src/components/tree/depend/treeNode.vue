@@ -1,6 +1,7 @@
 <template>
     <div class="p-tree-node">
         <div
+                v-show="!treeItem.isHide"
                 :class="['p-tree-node-content', !multiple&&treeItem.checked==='checked'&&'p-tree-node-content-checked']"
                 :style="{paddingLeft: paddingLeft+'px'}"
         >

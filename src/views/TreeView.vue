@@ -22,6 +22,7 @@
 
 <script>
     /**
+     * 参数说明
      * @id id String
      *
      * @name name String
@@ -32,6 +33,8 @@
      * notNull 非空
      *
      * @open 展开子项 Boolean
+     *
+     * @isHide 是否隐藏 Boolean
      */
     const dataArr=[
         {

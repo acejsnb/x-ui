@@ -1,6 +1,6 @@
 {
   "name": "persagy-ui",
-  "version": "0.5.2",
+  "version": "0.5.4",
   "description": "基于vue框架的ui库",
   "private": false,
   "author": "xiongshuang <xsmails@163.com>",
@@ -11,11 +11,10 @@
     "ui框架"
   ],
   "license": "ISC",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "files": [
-    "dist/*",
     "lib/*",
-    "README.ch.md"
+    "README.md"
   ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --profile",

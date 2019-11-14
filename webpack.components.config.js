@@ -76,7 +76,7 @@ const config={
         index: './src/components/index.js' // 入口文件
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'lib'),
         filename: 'index.js', // [name] 是entry的key
         publicPath: '/',
         library: 'persagy-ui', // 指定的就是你使用require时的模块名
@@ -189,7 +189,7 @@ const config={
             }
         }),
         new WebpackBar(),
-        new CleanWebpackPlugin([path.join(__dirname, 'dist')]),
+        new CleanWebpackPlugin([path.join(__dirname, 'lib')]),
         new MiniCssExtractPlugin({ // 分离css
             filename: '[name].css'
         })

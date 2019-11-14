@@ -6,25 +6,25 @@
         <div class="treeCom">
             <div>
                 <Tree
-                        :height="500"
                         :data="treeData"
                         @change="change"
                 />
             </div>
             <div>
                 <Tree
-                        :height="500"
                         :multiple="true"
                         :data="treeData2"
                         @change="change2"
                 />
             </div>
         </div>
+        <br><br><br><br><br><br><br><br><br>
     </div>
 </template>
 
 <script>
     /**
+     * 参数说明 
      * @id id String
      *
      * @name name String
@@ -35,6 +35,8 @@
      * notNull 非空
      *
      * @open 展开子项 Boolean
+     * 
+     * @isHide 是否隐藏 Boolean
      */
     const dataArr=[
         {

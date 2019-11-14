@@ -157,7 +157,7 @@ const config={
                 }
             }
         }),
-        new CleanWebpackPlugin([path.join(__dirname, 'lib')]),
+        //new CleanWebpackPlugin([path.join(__dirname, 'lib')]),
         new MiniCssExtractPlugin({ // 分离css
             // filename: 'theme/[name].css'
             filename: '[name]/style.css'
