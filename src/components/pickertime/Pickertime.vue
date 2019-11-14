@@ -80,7 +80,7 @@
     import ClearSvg from 'icon/clear2.svg';
 
     export default {
-        name: "Pickertime",
+        name: "PickerTime",
         components: {
             TimeSelect,
             Button,

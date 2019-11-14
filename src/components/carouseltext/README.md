@@ -2,13 +2,13 @@
 ```vue
 <template>
     <div>
-        <Carouseltext :data="carData" :time="5" @click="handleCarousel" />
+        <CarouselText :data="carData" :time="5" @click="handleCarousel" />
     </div>
 </template>
 
 <script>
     export default {
-        name: "CarouseltextView",
+        name: "CarouselTextView",
         data() {
             return {
                 carData: [

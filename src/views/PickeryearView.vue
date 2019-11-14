@@ -1,17 +1,17 @@
 <template>
     <div class="component component-padding">
-        <h1>Pickeryear组件</h1>
-        <Pickeryear :date="dateDouble" :range="true" @change="dateChangeDouble" />
+        <h1>PickerYear组件</h1>
+        <PickerYear :date="dateDouble" :range="true" @change="dateChangeDouble" />
         <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br>
-        <Pickeryear :date="dateSingle" @change="dateChangeSingle" />
+        <PickerYear :date="dateSingle" @change="dateChangeSingle" />
     </div>
 </template>
 
 <script>
     export default {
-        name: "PickeryearView",
+        name: "PickerYearView",
         data() {
             return {
                 // dateSingle: '2020',

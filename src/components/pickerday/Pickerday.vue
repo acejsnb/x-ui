@@ -19,7 +19,7 @@
 
 
     export default {
-        name: "Pickerday",
+        name: "PickerDay",
         components: {
             PanelSingleDay,
             PanelDoubleDay

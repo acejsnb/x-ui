@@ -18,6 +18,7 @@
     Vue.use(Pui);
 ```
 ## 按需引入
+- 引入组件 `import { Button } from 'persagy-ui''`
 - 安装依赖包   `npm i -D babel-plugin-component`
 - 在 .babelrc中的plugins里添加
 ```
@@ -25,9 +26,12 @@
       "component",
       {
         "libraryName": "persagy-ui",
+        "camel2Dash": false,
         "styleLibrary": {
           "name": "theme",
-          "base": true
+          "base": true,
+          "path": "[module]/index.css",
+          "mixin": true
         }
       }
     ]

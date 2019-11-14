@@ -29,7 +29,7 @@
     import Triangle from 'icon/triangle.svg';
 
     export default {
-        name: "Dropgroup",
+        name: "DropGroup",
         components: { Triangle },
         props: {
             /**

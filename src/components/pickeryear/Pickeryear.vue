@@ -19,7 +19,7 @@
 
 
     export default {
-        name: "Pickeryear",
+        name: "PickerYear",
         components: {
             PanelSingleYear,
             PanelDoubleYear

@@ -12,7 +12,7 @@
 <script>
     import MessageSvg from 'icon/message.svg';
     export default {
-        name: "Carouseltext",
+        name: "CarouselText",
         components: { MessageSvg },
         props: {
             /**

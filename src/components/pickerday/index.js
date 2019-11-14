@@ -1,5 +1,5 @@
-import Pickerday from './Pickerday';
+import PickerDay from './PickerDay';
 
-Pickerday.install = Vue => Vue.component(Pickerday.name, Pickerday);
+PickerDay.install = Vue => Vue.component(PickerDay.name, PickerDay);
 
-export default Pickerday;
+export default PickerDay;

@@ -1,5 +1,5 @@
-import Dropgroup from './Dropgroup';
+import DropGroup from './DropGroup';
 
-Dropgroup.install = Vue => Vue.component(Dropgroup.name, Dropgroup);
+DropGroup.install = Vue => Vue.component(DropGroup.name, DropGroup);
 
-export default Dropgroup;
+export default DropGroup;

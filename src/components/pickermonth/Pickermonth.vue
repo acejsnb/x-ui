@@ -17,7 +17,7 @@
     import PanelSingleMonth from './depend/panelSingleMonth';
     import PanelDoubleMonth from './depend/panelDoubleMonth';
     export default {
-        name: "Pickermonth",
+        name: "PickerMonth",
         components: {
             PanelSingleMonth,
             PanelDoubleMonth

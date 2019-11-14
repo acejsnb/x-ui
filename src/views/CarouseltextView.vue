@@ -1,14 +1,14 @@
 <template>
     <div class="toggleView">
         <div class="component component-padding">
-            <h1>Carouseltext组件</h1>
+            <h1>CarouselText组件</h1>
             <!--
              data:数据
              time：轮播时间，单位s
              click：点击事件
              -->
             <div class="textCar">
-                <Carouseltext :data="carData" :time="2" @click="handleCarousel" />
+                <CarouselText :data="carData" :time="2" @click="handleCarousel" />
             </div>
         </div>
     </div>
@@ -16,7 +16,7 @@
 
 <script>
     export default {
-        name: "CarouseltextView",
+        name: "CarouselTextView",
         data() {
             return {
                 carData: [

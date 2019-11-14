@@ -1,5 +1,5 @@
-import Carouseltext from './Carouseltext';
+import CarouselText from './CarouselText';
 
-Carouseltext.install = Vue => Vue.component(Carouseltext.name, Carouseltext);
+CarouselText.install = Vue => Vue.component(CarouselText.name, CarouselText);
 
-export default Carouseltext;
+export default CarouselText;

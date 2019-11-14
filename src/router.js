@@ -14,17 +14,16 @@ import DropGroupView from './views/DropGroupView';
 import SelectView from './views/SelectView';
 import BadgeView from './views/BadgeView';
 import DividerView from './views/DividerView';
-import CarouseltextView from './views/CarouseltextView';
+import CarouselTextView from './views/CarouselTextView';
 import TabsView from './views/TabsView';
 import HeadersView from './views/HeadersView';
 import BreadcrumbView from './views/BreadcrumbView';
-import PickertimeView from './views/PickertimeView';
-import PickerdayView from './views/PickerdayView';
-import PickerweekView from './views/PickerweekView';
-import PickeryearView from './views/PickeryearView';
-import PickermonthView from './views/PickermonthView';
+import PickerTimeView from './views/PickerTimeView';
+import PickerDayView from './views/PickerDayView';
+import PickerWeekView from './views/PickerWeekView';
+import PickerYearView from './views/PickerYearView';
+import PickerMonthView from './views/PickerMonthView';
 import TreeView from './views/TreeView';
-import SelectcheckView from './views/SelectcheckView';
 
 import MessageView from './views/MessageView';
 
@@ -115,11 +114,11 @@ export default new Router({
             }
         },
         {
-            path: '/carouseltextView',
-            name: 'CarouseltextView',
-            component: CarouseltextView,
+            path: '/carouselTextView',
+            name: 'CarouselTextView',
+            component: CarouselTextView,
             meta: {
-                title: 'CarouseltextView'
+                title: 'CarouselTextView'
             }
         },
         {
@@ -149,43 +148,43 @@ export default new Router({
             }
         },
         {
-            path: '/pickertimeView',
-            name: 'PickertimeView',
-            component: PickertimeView,
+            path: '/pickerTimeView',
+            name: 'PickerTimeView',
+            component: PickerTimeView,
             meta: {
-                title: 'PickertimeView'
+                title: 'PickerTimeView'
             }
         },
         {
-            path: '/pickerdayView',
-            name: 'PickerdayView',
-            component: PickerdayView,
+            path: '/pickerDayView',
+            name: 'PickerDayView',
+            component: PickerDayView,
             meta: {
-                title: 'PickerdayView'
+                title: 'PickerDayView'
             }
         },
         {
-            path: '/pickerweekView',
-            name: 'PickerweekView',
-            component: PickerweekView,
+            path: '/pickerWeekView',
+            name: 'PickerWeekView',
+            component: PickerWeekView,
             meta: {
-                title: 'PickerweekView'
+                title: 'PickerWeekView'
             }
         },
         {
-            path: '/pickeryearView',
-            name: 'PickeryearView',
-            component: PickeryearView,
+            path: '/pickerYearView',
+            name: 'PickerYearView',
+            component: PickerYearView,
             meta: {
-                title: 'PickeryearView'
+                title: 'PickerYearView'
             }
         },
         {
-            path: '/pickermonthView',
-            name: 'PickermonthView',
-            component: PickermonthView,
+            path: '/pickerMonthView',
+            name: 'PickerMonthView',
+            component: PickerMonthView,
             meta: {
-                title: 'PickermonthView'
+                title: 'PickerMonthView'
             }
         },
         {
@@ -194,14 +193,6 @@ export default new Router({
             component: TreeView,
             meta: {
                 title: 'TreeView'
-            }
-        },
-        {
-            path: '/selectcheckView',
-            name: 'SelectcheckView',
-            component: SelectcheckView,
-            meta: {
-                title: 'SelectcheckView'
             }
         },
 

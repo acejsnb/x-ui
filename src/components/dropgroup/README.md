@@ -5,9 +5,9 @@
         <div class="component component-padding">
             <h1>Dropdown组件</h1>
             <div>
-                <Dropgroup :value="selVal" :data="dataSelect" @change="groupChange">
+                <DropGroup :value="selVal" :data="dataSelect" @change="groupChange">
                     <span class="text">{{selText}}</span>
-                </Dropgroup>
+                </DropGroup>
             </div>
 
             <div style="font-size: 16px;">

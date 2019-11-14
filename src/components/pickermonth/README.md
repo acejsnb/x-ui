@@ -2,18 +2,18 @@
 ```vue
 <template>
     <div class="component component-padding">
-        <h1>Pickermonth组件</h1>
-        <Pickermonth :date="dateDouble" :range="true" @change="dateChangeDouble" />
+        <h1>PickerMonth组件</h1>
+        <PickerMonth :date="dateDouble" :range="true" @change="dateChangeDouble" />
         <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br>
-        <Pickermonth :date="dateSingle" @change="dateChangeSingle" />
+        <PickerMonth :date="dateSingle" @change="dateChangeSingle" />
     </div>
 </template>
 
 <script>
     export default {
-        name: "PickermonthView",
+        name: "PickerMonthView",
         data() {
             return {
                 // dateSingle: '2020.03',

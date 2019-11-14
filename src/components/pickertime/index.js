@@ -1,5 +1,5 @@
-import Pickertime from './Pickertime';
+import PickerTime from './PickerTime';
 
-Pickertime.install = Vue => Vue.component(Pickertime.name, Pickertime);
+PickerTime.install = Vue => Vue.component(PickerTime.name, PickerTime);
 
-export default Pickertime;
+export default PickerTime;

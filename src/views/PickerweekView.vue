@@ -1,17 +1,17 @@
 <template>
     <div class="component component-padding">
-        <h1>Pickerweek组件</h1>
-<!--        <Pickerweek :date="dateDouble" sort="year" :range="true" @change="dateChangeDouble" />-->
+        <h1>PickerWeek组件</h1>
+<!--        <PickerWeek :date="dateDouble" sort="year" :range="true" @change="dateChangeDouble" />-->
         <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br>
-        <Pickerweek :date="dateSingle" sort="year" @change="dateChangeSingle" />
+        <PickerWeek :date="dateSingle" sort="year" @change="dateChangeSingle" />
     </div>
 </template>
 
 <script>
     export default {
-        name: "PickerweekView",
+        name: "PickerWeekView",
         data() {
             return {
                 // dateSingle: '2020.03',

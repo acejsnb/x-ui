@@ -1,5 +1,5 @@
-import Pickermonth from './Pickermonth';
+import PickerMonth from './PickerMonth';
 
-Pickermonth.install = Vue => Vue.component(Pickermonth.name, Pickermonth);
+PickerMonth.install = Vue => Vue.component(PickerMonth.name, PickerMonth);
 
-export default Pickermonth;
+export default PickerMonth;

@@ -63,7 +63,7 @@ module.exports = {
                         },
                         {
                             name: 'hover显示下拉列表组',
-                            components: './src/components/dropgroup/Dropgroup.vue'
+                            components: './src/components/dropGroup/DropGroup.vue'
                         }
                     ]
                 },
@@ -85,19 +85,19 @@ module.exports = {
                     sections: [
                         {
                             name: '时分秒选择',
-                            components: './src/components/pickertime/Pickertime.vue'
+                            components: './src/components/pickerTime/PickerTime.vue'
                         },
                         {
                             name: '日选择',
-                            components: './src/components/pickerday/Pickerday.vue'
+                            components: './src/components/pickerDay/PickerDay.vue'
                         },
                         {
                             name: '月选择',
-                            components: './src/components/pickermonth/Pickermonth.vue'
+                            components: './src/components/pickerMonth/PickerMonth.vue'
                         },
                         {
                             name: '年选择',
-                            components: './src/components/pickeryear/Pickeryear.vue'
+                            components: './src/components/pickerYear/PickerYear.vue'
                         }
                     ]
                 },

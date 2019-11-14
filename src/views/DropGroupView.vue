@@ -1,7 +1,7 @@
 <template>
     <div class="Button">
         <div class="component component-padding">
-            <h1>Dropgroup组件</h1>
+            <h1>DropGroup组件</h1>
             <!--
                 组件说明:
                     参数   说明           默认值   类型   是否必须   可选值
@@ -10,9 +10,9 @@
                     position 下拉菜单位置  'left' String false  【'left', 'right'】
             -->
             <div>
-                <Dropgroup :value="selVal" :data="dataSelect" @change="groupChange">
+                <DropGroup :value="selVal" :data="dataSelect" @change="groupChange">
                     <span class="text">{{selText}}</span>
-                </Dropgroup>
+                </DropGroup>
             </div>
 
             <div style="font-size: 16px;">

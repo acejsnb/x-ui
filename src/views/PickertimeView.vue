@@ -1,17 +1,17 @@
 <template>
     <div class="component component-padding">
-        <h1>Pickertime组件</h1>
+        <h1>PickerTime组件</h1>
         <h3>format="hms"</h3>
-        <Pickertime :time="time1" format="hms" :range="true" @change="timeChange1" />
+        <PickerTime :time="time1" format="hms" :range="true" @change="timeChange1" />
         <br><br><br><br><br>
         <h3>format="hm"</h3>
-        <Pickertime :time="time2" format="hm" @change="timeChange2" />
+        <PickerTime :time="time2" format="hm" @change="timeChange2" />
     </div>
 </template>
 
 <script>
     export default {
-        name: "PickertimeView",
+        name: "PickerTimeView",
         data() {
             return {
                 time1: '',

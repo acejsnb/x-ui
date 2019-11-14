@@ -1,5 +1,5 @@
-import Pickeryear from './Pickeryear';
+import PickerYear from './PickerYear';
 
-Pickeryear.install = Vue => Vue.component(Pickeryear.name, Pickeryear);
+PickerYear.install = Vue => Vue.component(PickerYear.name, PickerYear);
 
-export default Pickeryear;
+export default PickerYear;

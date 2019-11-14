@@ -1,5 +1,5 @@
-import Pickerweek from './Pickerweek';
+import PickerWeek from './PickerWeek';
 
-Pickerweek.install = Vue => Vue.component(Pickerweek.name, Pickerweek);
+PickerWeek.install = Vue => Vue.component(PickerWeek.name, PickerWeek);
 
-export default Pickerweek;
+export default PickerWeek;

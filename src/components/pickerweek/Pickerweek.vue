@@ -19,7 +19,7 @@
     import PanelSingleWeek from './depend/panelSingleWeek';
     import PanelDoubleWeek from './depend/panelDoubleWeek';
     export default {
-        name: "Pickerweek",
+        name: "PickerWeek",
         components: {
             PanelSingleWeek,
             PanelDoubleWeek
