@@ -12,11 +12,12 @@
     
     Vue.use(Pui);
 ```
-## 三、按需引入-方式一（不用配置主题色）
+## 三、推荐-按需引入-方式一（不用配置主题色）
 - 引入组件 `import { Button } from 'persagy-ui''`
-- 安装依赖包   `npm i -D babel-plugin-component`
+- 安装依赖包 `npm i -D babel-plugin-component`
 
 - 在 .babelrc中的plugins里添加
+
 ```json
     [
       "component",
@@ -31,14 +32,15 @@
 
 ## 四、按需引入-方式二（自定义主题色）
 
-```html
-    <span style="color: red">本项目样式使用stylus开发，需要自定义主题色请按照以下说明配置</span>
+```
+    <font color="red">本项目样式使用stylus开发，需要自定义主题色请按照以下说明配置</div>
 ```
 
 1.安装style-resources-loader `npm i -D style-resources-loader`
 
 2.新建variables.styl文件，放在src目录下
-```text
+
+```stylus
 /* base-color -start */
 // primary
 $primary-blue-900=#004275
