@@ -1,7 +1,6 @@
 /**
  * 所有组件打包
  */
-import 'stylus/main.styl';
 
 import Icon from './icon/Icon';
 import Button from './button/Button';

@@ -58,7 +58,6 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
 
 .p-tabs
     position relative

@@ -46,7 +46,6 @@
 </script>
 
 <style lang="stylus">
-@import "~stylus/tools.styl"
 
 .p-toggle
   position relative

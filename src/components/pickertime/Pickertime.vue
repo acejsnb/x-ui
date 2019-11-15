@@ -72,12 +72,12 @@
 </template>
 
 <script>
-    import CountNowDate from 'datePicker/CountNowDate';
+    import CountNowDate from '../static/utils/datePicker/CountNowDate';
 
     import TimeSelect from './depend/time';
-    import Button from 'button/Button';
+    import Button from '../button';
 
-    import ClearSvg from 'icon/clear2.svg';
+    import ClearSvg from '../static/iconSvg/clear2.svg';
 
     export default {
         name: "PickerTime",
@@ -298,10 +298,9 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
-@import "~stylus/animate/opacityScale.styl"
+@import "../static/stylus/animate/opacityScale.styl"
 
-@import "~stylus/datePicker/pickerMain.styl"
-@import "~stylus/datePicker/pickerInput.styl"
+@import "../static/stylus/datePicker/pickerMain.styl"
+@import "../static/stylus/datePicker/pickerInput.styl"
 
 </style>

@@ -2,7 +2,7 @@ const path=require('path');
 const webpack=require('webpack');
 const MiniCssExtractPlugin=require('mini-css-extract-plugin'); // 文本分离插件，分离js和css
 const OptimizeCssAssetsPlugin=require('optimize-css-assets-webpack-plugin');
-const CleanWebpackPlugin=require('clean-webpack-plugin'); // 清理垃圾文件
+// const CleanWebpackPlugin=require('clean-webpack-plugin'); // 清理垃圾文件
 
 const WebpackBar = require('webpackbar');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -45,13 +45,19 @@ const cssConfig=[
             options: {
                 sourceMap: false
             }
+        },{
+        loader: 'style-resources-loader',
+        options: {
+            injector: 'prepend',
+            patterns: path.resolve(__dirname, 'src/assets/stylus/variables.styl')
         }
+    }
     ];
 
 const config={
     entry: EntryObj,
     output: {
-        path: path.resolve(__dirname, 'lib'),
+        path: path.resolve(__dirname, 'dist'),
         // filename: '[name].js', // [name] 是entry的key
         filename: '[name]/index.js', // [name] 是entry的key
         // publicPath: './lib',
@@ -172,7 +178,10 @@ const config={
         }),
         new CopyWebpackPlugin([{
             from:'./src/assets/base', // 需要拷贝的静态资源目录地址，这里只做打包单个组件的公共样式拷贝
-            to: path.resolve(__dirname, 'lib/theme') //打包到lib下面的theme
+            to: path.resolve(__dirname, 'dist/theme') // 打包到dist下面的theme
+        },{
+            from:'./src/components', // 需要拷贝的静态资源目录地址，这里只做打包单个组件的公共样式拷贝
+            to: path.resolve(__dirname, 'lib') // 打包到dist下面的theme
         }]),
         new WebpackBar()
     ],

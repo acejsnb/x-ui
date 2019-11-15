@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import ArrowRight from 'icon/arrow_right.svg';
+    import ArrowRight from '../static/iconSvg/arrow_right.svg';
     export default {
         name: "Breadcrumb",
         components: { ArrowRight },
@@ -50,7 +50,6 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
 
 .p-breadcrumb
     display flex

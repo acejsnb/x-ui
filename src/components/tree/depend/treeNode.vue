@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import TriangleSvg from 'icon/triangle.svg';
+    import TriangleSvg from '../../static/iconSvg/triangle.svg';
 
     export default {
         name: 'TreeNode',
@@ -143,7 +143,6 @@
 </script>
 
 <style lang="stylus" scoped>
-@import '~stylus/tools.styl'
 
 .p-tree-node
     width 100%

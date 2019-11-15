@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import Triangle from 'icon/triangle.svg';
+    import Triangle from '../static/iconSvg/triangle.svg';
 
     export default {
         name: "Dropdown",
@@ -81,8 +81,7 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
-@import "~stylus/animate/slideDownUp.styl"
+@import "../static/stylus/animate/slideDownUp.styl"
 
 .p-drop
     position relative

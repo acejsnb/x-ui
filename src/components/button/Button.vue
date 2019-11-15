@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import LoadingIcon from 'icon/loading.svg';
+    import LoadingIcon from '../static/iconSvg/loading.svg';
 
     export default {
         name: 'Button',
@@ -50,7 +50,6 @@
 </script>
 
 <style lang="stylus">
-@import "~stylus/tools.styl"
 
 .p-btn
   position relative

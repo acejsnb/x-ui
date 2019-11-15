@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import IconClose from 'icon/icon_close.svg';
+    import IconClose from '../static/iconSvg/icon_close.svg';
 
     export default {
         name: 'Icon',
@@ -32,7 +32,6 @@
 </script>
 
 <style lang="stylus">
-@import "~stylus/tools.styl"
 
 .p-icon
   display inline-block

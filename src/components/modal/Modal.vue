@@ -120,9 +120,8 @@
 </script>
 
 <style lang="stylus">
-@import "~stylus/tools.styl"
-@import "~stylus/animate/opacityInOut.styl"
-@import "~stylus/animate/bounceInOut.styl"
+@import "../static/stylus/animate/opacityInOut.styl"
+@import "../static/stylus/animate/bounceInOut.styl"
 
 .p-modal-bg
   position fixed

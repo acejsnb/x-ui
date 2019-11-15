@@ -14,11 +14,11 @@
 </template>
 
 <script>
-    import IconClose from 'icon/icon_close_white.svg';
-    import HintError from 'icon/hint_error.svg';
-    import HintInfo from 'icon/hint_info.svg';
-    import HintSuccess from 'icon/hint_success.svg';
-    import HintWaring from 'icon/hint_waring.svg';
+    import IconClose from '../static/iconSvg/icon_close_white.svg';
+    import HintError from '../static/iconSvg/hint_error.svg';
+    import HintInfo from '../static/iconSvg/hint_info.svg';
+    import HintSuccess from '../static/iconSvg/hint_success.svg';
+    import HintWaring from '../static/iconSvg/hint_waring.svg';
 
     export default {
         name: 'Message',
@@ -42,8 +42,7 @@
 </script>
 
 <style lang="stylus">
-@import "~stylus/tools.styl"
-@import "~stylus/animate/fadeDownUp.styl"
+@import "../static/stylus/animate/fadeDownUp.styl"
 
 .p-message
     position relative

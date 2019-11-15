@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import MessageSvg from 'icon/message.svg';
+    import MessageSvg from '../static/iconSvg/message.svg';
     export default {
         name: "CarouselText",
         components: { MessageSvg },
@@ -65,8 +65,7 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
-@import "~stylus/animate/slideUp.styl"
+@import "../static/stylus/animate/slideUp.styl"
 
 .p-carousel
     display flex

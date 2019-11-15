@@ -63,17 +63,17 @@
 </template>
 
 <script>
-    import CountDay from 'datePicker/CountDay';
+    import CountDay from '../../static/utils/datePicker/CountDay';
 
-    import CountNextYear from 'datePicker/CountNextYear';
-    import CountPrevYear from 'datePicker/CountPrevYear';
-    import CountNextMonth from 'datePicker/CountNextMonth';
-    import CountPrevMonth from 'datePicker/CountPrevMonth';
+    import CountNextYear from '../../static/utils/datePicker/CountNextYear';
+    import CountPrevYear from '../../static/utils/datePicker/CountPrevYear';
+    import CountNextMonth from '../../static/utils/datePicker/CountNextMonth';
+    import CountPrevMonth from '../../static/utils/datePicker/CountPrevMonth';
 
     import DaySelect from './day';
-    import Button from 'button/Button';
+    import Button from '../../button';
 
-    import ClearSvg from 'icon/clear2.svg';
+    import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {
         name: "panelSingleDay",
         components: {

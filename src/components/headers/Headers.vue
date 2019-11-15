@@ -12,10 +12,10 @@
 </template>
 
 <script>
-    import Tabs from 'tabs/Tabs';
-    import Select from 'selectSaas/select';
-    import Breadcrumb from 'breadcrumb/Breadcrumb';
-    import Button from 'button/Button';
+    import Tabs from '../tabs';
+    import Select from '../selectSaas';
+    import Breadcrumb from '../breadcrumb';
+    import Button from '../button';
 
     export default {
         name: "Headers",
@@ -123,7 +123,6 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
 
 .p-headers
     position relative

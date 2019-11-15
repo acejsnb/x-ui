@@ -18,8 +18,8 @@
 </template>
 
 <script>
-    import Icon from 'icon';
-    import Button from 'button';
+    import Icon from '../icon';
+    import Button from '../button';
 
     export default {
         name: 'Drawer',
@@ -101,8 +101,7 @@
 </script>
 
 <style lang="stylus">
-@import "~stylus/tools.styl"
-@import "~stylus/animate/slideRightLeft.styl"
+@import "../static/stylus/animate/slideRightLeft.styl"
 
 .p-drawer
   outline none

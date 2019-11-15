@@ -21,7 +21,6 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
 
 .p-divider
     .p-divider-line

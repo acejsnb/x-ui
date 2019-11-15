@@ -76,12 +76,12 @@
 </template>
 
 <script>
-    import CountMonth from 'datePicker/CountMonth';
+    import CountMonth from '../../static/utils/datePicker/CountMonth';
 
     import MonthSelect from './month';
-    import Button from 'button/Button';
+    import Button from '../../button';
 
-    import ClearSvg from 'icon/clear2.svg';
+    import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {
         name: "panelDoubleMonth",
         components: {

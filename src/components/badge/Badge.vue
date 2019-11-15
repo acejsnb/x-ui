@@ -61,7 +61,6 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
 
 .p-badge
     position relative

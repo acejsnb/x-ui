@@ -56,13 +56,13 @@
 </template>
 
 <script>
-    import CountMonth from 'datePicker/CountMonth';
-    import CountWeek from 'datePicker/CountWeek';
+    import CountMonth from '../../static/utils/datePicker/CountMonth';
+    import CountWeek from '../../static/utils/datePicker/CountWeek';
 
     import WeekSelect from './week';
-    import Button from 'button/Button';
+    import Button from '../../button';
 
-    import ClearSvg from 'icon/clear2.svg';
+    import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {
         name: "panelSingleMonth",
         components: {

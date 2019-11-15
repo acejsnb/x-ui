@@ -68,7 +68,13 @@ const cssConfig=[
             options: {
                 sourceMap: false
             }
+        },{
+        loader: 'style-resources-loader',
+        options: {
+            injector: 'prepend',
+            patterns: path.resolve(__dirname, 'src/assets/stylus/variables.styl')
         }
+    }
     ];
 
 const config={
@@ -76,7 +82,7 @@ const config={
         index: './src/components/index.js' // 入口文件
     },
     output: {
-        path: path.resolve(__dirname, 'lib'),
+        path: path.resolve(__dirname, 'dist'),
         filename: 'index.js', // [name] 是entry的key
         publicPath: '/',
         library: 'persagy-ui', // 指定的就是你使用require时的模块名
@@ -189,7 +195,7 @@ const config={
             }
         }),
         new WebpackBar(),
-        new CleanWebpackPlugin([path.join(__dirname, 'lib')]),
+        new CleanWebpackPlugin([path.join(__dirname, 'dist'), path.join(__dirname, 'lib')]),
         new MiniCssExtractPlugin({ // 分离css
             filename: '[name].css'
         })

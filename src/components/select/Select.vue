@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Triangle from 'icon/triangle.svg';
+import Triangle from '../static/iconSvg/triangle.svg';
 
 export default {
     name: "Select",
@@ -93,8 +93,7 @@ export default {
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
-@import "~stylus/animate/slideDownUp.styl"
+@import "../static/stylus/animate/slideDownUp.styl"
 
 .p-select
     outline none

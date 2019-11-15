@@ -21,7 +21,6 @@
 </script>
 
 <style lang="stylus">
-@import "~stylus/tools.styl"
 
 .s-list
   width 100%

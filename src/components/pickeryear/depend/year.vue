@@ -47,7 +47,7 @@
 </template>
 
 <script>
-    import ArrowRightDoubleSvg from 'icon/arrow_right_double.svg';
+    import ArrowRightDoubleSvg from '../../static/iconSvg/arrow_right_double.svg';
 
     export default {
         name: "YearSelect",
@@ -129,9 +129,8 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
-@import "~stylus/animate/opacityScale.styl"
-@import "~stylus/datePicker/pickerChild.styl"
+@import "../../static/stylus/animate/opacityScale.styl"
+@import "../../static/stylus/datePicker/pickerChild.styl"
 
 .p-picker-child-select-box-title
     display flex

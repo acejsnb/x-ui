@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import CountNumber from 'datePicker/CountNumber';
+    import CountNumber from '../../static/utils/datePicker/CountNumber';
 
     export default {
         name: "TimeSelect",
@@ -177,9 +177,8 @@
 
 <style lang="stylus" scoped>
 
-@import "~stylus/tools.styl"
-@import "~stylus/animate/opacityScale.styl"
-@import "~stylus/datePicker/pickerChild.styl"
+@import "../../static/stylus/animate/opacityScale.styl"
+@import "../../static/stylus/datePicker/pickerChild.styl"
 
 .p-picker-child-title
     display flex

@@ -72,12 +72,12 @@
 </template>
 
 <script>
-    import CountYear from 'datePicker/CountYear';
+    import CountYear from '../../static/utils/datePicker/CountYear';
 
     import DaySelect from './year';
-    import Button from 'button/Button';
+    import Button from '../../button';
 
-    import ClearSvg from 'icon/clear2.svg';
+    import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {
         name: "panelDoubleYear",
         components: {
