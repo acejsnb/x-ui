@@ -81,7 +81,7 @@
         computed: {
             // 没想左边内边距
             paddingLeft() {
-                return (this.index.split('-').length-1)*24;
+                return (this.index.split('-').length-1)*24+8;
             },
             // 显示选中数量比
             checkedNumShow() {

@@ -79,7 +79,7 @@ const cssConfig=[
 
 const config={
     entry: {
-        index: './src/components/index.js' // 入口文件
+        index: './src/components/multiple.js' // 入口文件
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
