@@ -27,7 +27,7 @@
         "libraryName": "persagy-ui",
         "camel2Dash": false,
         "libDir": "dist",
-        "style": true
+        "styleLibrary": { "name": "theme", "base": true, "path": "[module]/style.css", "mixin": true }
       }
     ]
 ```
