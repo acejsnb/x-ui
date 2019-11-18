@@ -4,7 +4,7 @@
     <div class="toggleView">
         <div class="component component-padding">
             <h1>Tabs组件</h1>
-            <Tabs :data="tabData" v-model="tabId" @change="tabChange" />
+            <Tabs :data="tabData" v-model="tabId" />
         </div>
     </div>
 </template>
@@ -26,11 +26,6 @@
                     { id: '4', name: '第4模块' },
                     { id: '5', name: '第5模块' },
                 ]
-            }
-        },
-        methods: {
-            tabChange(id) {
-                console.log('********tabChange:::', id);
             }
         }
     }

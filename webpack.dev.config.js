@@ -1,9 +1,6 @@
 const path=require('path');
 const webpack=require('webpack');
 const HtmlWebpackPlugin=require('html-webpack-plugin'); // 自动生成index.html
-const MiniCssExtractPlugin=require('mini-css-extract-plugin'); // 文本分离插件，分离js和css
-const OptimizeCssAssetsPlugin=require('optimize-css-assets-webpack-plugin');
-const CleanWebpackPlugin=require('clean-webpack-plugin'); // 清理垃圾文件
 
 const WebpackBar = require('webpackbar');
 
@@ -86,7 +83,7 @@ const config={
         index: './src/main.js' // 入口文件
     },
     output: {
-        path: path.resolve(__dirname, 'production'),
+        path: path.resolve(__dirname, 'development'),
         filename: '[name].js', // [name] 是entry的key
         publicPath: '/'
     },
@@ -132,11 +129,6 @@ const config={
                         limit: 8192, // 小于8k将图片转换成base64
                         name: '[name].[ext]?[hash:8]',
                         outputPath: 'images/'
-                    }
-                },{
-                    loader: 'image-webpack-loader', // 图片压缩
-                    options: {
-                        bypassOnDebug: true
                     }
                 }]
             },

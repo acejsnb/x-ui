@@ -6,7 +6,7 @@ import router from './router';
 import store from './store';
 
 import App from './App';
-import Components from 'index';
+import Components from 'multiple';
 
 
 

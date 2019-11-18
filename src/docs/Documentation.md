@@ -7,12 +7,14 @@
 - `npm install -S persagy-ui`
 
 ## 二、全局引入
-```text
+
+```clike
     import Pui from 'persagy-ui';
-    
     Vue.use(Pui);
 ```
+
 ## 三、推荐-按需引入-方式一（不用配置主题色）
+
 - 引入组件 `import { Button } from 'persagy-ui''`
 - 安装依赖包 `npm i -D babel-plugin-component`
 
@@ -32,15 +34,16 @@
 
 ## 四、按需引入-方式二（自定义主题色）
 
-```
-    <font color="red">本项目样式使用stylus开发，需要自定义主题色请按照以下说明配置</div>
-```
+- ***本项目样式使用stylus开发，需要自定义主题色请按照以下说明配置***
+---
 
-1.安装style-resources-loader `npm i -D style-resources-loader`
+
+1.安装style-resources-loader
+ - `npm i -D style-resources-loader`
 
 2.新建variables.styl文件，放在src目录下
 
-```stylus
+```clike
 /* base-color -start */
 // primary
 $primary-blue-900=#004275
@@ -105,7 +108,7 @@ $error-red-50=#fef2f1
 
 3.在config里配置引入色值变量，如下
 
-```text
+```clike
     {
         test: /\.styl(us)?$/,
         use: [
@@ -126,7 +129,7 @@ $error-red-50=#fef2f1
 ```
 
 4.配置svg解析
-```text
+```clike
      {
          test: /\.svg$/,
          loader: ['babel-loader', 'vue-svg-loader']
@@ -147,4 +150,5 @@ $error-red-50=#fef2f1
     ]
 ```
 
-5.安装svg解析器 `npm i -D vue-svg-loader`
+5.安装svg解析器
+- `npm i -D vue-svg-loader`

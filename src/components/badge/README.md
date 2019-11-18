@@ -52,7 +52,7 @@
     }
 </script>
 
-<style>
+<style lang="css">
 
 .avatar > img {
     width: 28px;

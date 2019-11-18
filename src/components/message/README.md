@@ -2,9 +2,10 @@
 
 ### 当全局引入时，请使用 `this.$message.xxx('msg')`
 ### 当按需引入时，请使用
-```text
-    import { Message } from 'persagy-ui';
-    Message.xxx('msg');
+
+```clike
+    import Pui from 'persagy-ui';
+    Vue.use(Pui);
 ```
 
 ```vue
@@ -21,7 +22,7 @@
 </template>
 
 <script>
-    import Message from 'message';
+    import Message from './index';
     export default {
         name: "MessageView",
         methods: {

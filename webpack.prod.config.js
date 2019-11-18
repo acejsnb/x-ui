@@ -75,7 +75,13 @@ const cssConfig=[
             options: {
                 sourceMap: false
             }
+        },{
+        loader: 'style-resources-loader',
+        options: {
+            injector: 'prepend',
+            patterns: path.resolve(__dirname, 'src/assets/stylus/variables.styl')
         }
+    }
     ];
 
 const config={

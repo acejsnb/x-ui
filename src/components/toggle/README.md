@@ -32,10 +32,4 @@
     }
 </script>
 
-<style lang="stylus" scoped>
-    h1
-        margin-bottom 16px
-
-</style>
-
 ```
