@@ -175,7 +175,7 @@
     }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 @import "../../static/stylus/animate/opacityScale.styl"
 @import "../../static/stylus/datePicker/pickerChild.styl"

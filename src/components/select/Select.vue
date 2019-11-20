@@ -1,13 +1,16 @@
 <template>
     <div class="p-select" :style="{width: width+'px'}" tabindex="-1" @blur="selectBlur">
-        <section class="p-select-title" @click="selectBoxHandle">
-            <article class="p-select-title-text"><span>{{title}}</span></article>
-            <section :class="['triangle', optionStatus && 'triangleRotate']"><Triangle /></section>
+        <section
+                :class="['p-select-title', radius&&'p-select-title-radius']"
+                @click="selectBoxHandle"
+        >
+            <article class="p-select-title-text"><span v-if="title">{{title}}</span><span>{{text}}</span></article>
+            <section :class="['p-select-triangle', optionStatus && 'p-select-triangle-rotate']"><Triangle /></section>
         </section>
         <transition name="slideDownUp">
             <section class="p-select-option-box" v-show="optionStatus">
                 <article
-                        :class="['option', value===item.id&&'option-selected']"
+                        :class="['p-select-option', value===item.id&&'p-select-option-selected']"
                         v-for="item in data"
                         :key="item.id"
                         @click="optionClick(item.id)"
@@ -41,14 +44,28 @@ export default {
         /**
          * 下拉列表宽度
          */
-        width: {
+        title: {
             type: String,
+            default: ''
+        },
+        /**
+         * 下拉列表宽度
+         */
+        width: {
+            type: [String, Number],
             default: '88'
+        },
+        /**
+         * 圆角
+         */
+        radius: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         return {
-            title: '',
+            text: '',
             optionStatus: false
         }
     },
@@ -65,7 +82,7 @@ export default {
     methods: {
         // 设置title
         titleFormat(v) {
-            this.title=this.data.find(d => d.id === v).name;
+            this.text=this.data.find(d => d.id === v).name;
         },
         // 打开下拉选择盒子
         selectBoxHandle() {
@@ -91,7 +108,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 @import "../static/stylus/animate/slideDownUp.styl"
 
@@ -131,7 +148,7 @@ export default {
             span
                 display ruby
                 font-size 14px
-        .triangle
+        .p-select-triangle
             position absolute
             top 0
             right 0
@@ -141,9 +158,11 @@ export default {
             width 32px
             height @width
             text-align center
-            transition all .3s
-        .triangleRotate
+            transition transform .3s
+        .p-select-triangle-rotate
             transform rotate(90deg)
+    .p-select-title-radius
+        border-radius 16px
     .p-select-option-box
         position absolute
         left 0
@@ -158,7 +177,7 @@ export default {
         max-height 136px
         overflow hidden
         z-index 1
-        .option
+        .p-select-option
             padding-left 12px
             width 100%
             height 32px
@@ -172,7 +191,7 @@ export default {
                 font-size 14px
             &:hover
                 background-color $grey-grey-200
-            &.option-selected
+            &.p-select-option-selected
                 color $primary-blue-500
                 background-color $primary-blue-100
 

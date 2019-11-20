@@ -1,20 +1,20 @@
 /*CSS动画*/
-@keyframes opacityScaleIn
+@keyframes slideInUp
   from
+    transform translate3d(0, 100%, 0)
     opacity 0
-    transform scale(0)
   to
+    transform translate3d(0, 0, 0)
     opacity 1
-    transform scale(1)
-@keyframes opacityScaleOut
+@keyframes slideOutUp
   from
+    transform translate3d(0, 0, 0)
     opacity 1
-    transform scale(1)
   to
+    transform translate3d(0, -100%, 0)
     opacity 0
-    transform scale(0)
 
-.opacityScale-enter-active
-  animation opacityScaleIn .3s ease-out
-.opacityScale-leave-active
-  animation opacityScaleOut .15s ease-in
+.slideUp-enter-active
+  animation slideInUp .3s ease-out
+.slideUp-leave-active
+  animation slideOutUp .15s ease-in

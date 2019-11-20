@@ -7,15 +7,26 @@
                     参数   说明           默认值   类型   是否必须   可选值
                     v-model  当前绑定的值 --   String false
                     data 下拉菜单数据列表  [] Array true
+                    title 标题  '' String false
                     width 宽  'left' String false
+                    radius 圆角 false Boolean
             -->
             <div>
                 <Select v-model="selVal" :data="dataSelect" width="120" />
             </div>
-
             <div style="font-size: 16px;">
                 <br><br><br><br><br><br><br><br>
             </div>
+            <div>
+                <Select v-model="selVal" :radius="true" :data="dataSelect" width="120" />
+            </div>
+            <div style="font-size: 16px;">
+                <br><br><br><br><br><br><br><br>
+            </div>
+            <div>
+                <Select v-model="selVal" title="项目：" :data="dataSelect" width="160" />
+            </div>
+
         </div>
     </div>
 </template>

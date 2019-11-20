@@ -1,9 +1,15 @@
 <template>
     <div class="p-carousel" @mouseenter="stopTimer" @mouseleave="setTimer">
-        <i class="icon"><MessageSvg /></i>
+        <i class="p-carousel-icon"><MessageSvg /></i>
         <div class="p-carousel-msg">
             <transition-group name="slideUp">
-                <section v-show="num === i" class="p-carousel-item" v-for="(item, i) in data" :key="item.id" @click="itemClick(item.id)">{{item.text}}</section>
+                <section
+                        v-show="num === i"
+                        class="p-carousel-item"
+                        v-for="(item, i) in data"
+                        :key="item.id"
+                        @click="itemClick(item.id)"
+                >{{item.text}}</section>
             </transition-group>
         </div>
     </div>
@@ -40,14 +46,14 @@
         },
         methods: {
             setTimer() {
-                this.timer=setInterval(() => {
+                this.timer=window.setInterval(() => {
                     if (this.num < this.data.length-1) this.num++;
                     else this.num=0;
                 }, this.time*1000)
             },
             stopTimer() {
-                clearInterval(this.timer);
-                //this.num=0;
+                window.clearInterval(this.timer);
+                this.num=0;
             },
             /**
              * 点击某项执行的函数
@@ -63,29 +69,31 @@
     }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
-@import "../static/stylus/animate/slideUp.styl"
+    @import "../static/stylus/animate/slideUp.styl"
 
-.p-carousel
-    display flex
-    align-items center
-    width 100%
-    .icon
-      margin-right 8px
-    .p-carousel-msg
+    .p-carousel
+        display flex
+        align-items center
         width 100%
-        height 24px
-        overflow hidden
-        .p-carousel-item
-            max-width 204px
-            height @height
-            line-height @height
-            font-size 14px
-            color $grey-grey-600
+        .p-carousel-icon
+            margin-right 8px
+            svg
+                vertical-align middle
+        .p-carousel-msg
+            width 100%
+            height 24px
             overflow hidden
-            text-overflow ellipsis
-            white-space nowrap
-            cursor pointer
+            .p-carousel-item
+                max-width 204px
+                height @height
+                line-height @height
+                font-size 14px
+                color $grey-grey-600
+                overflow hidden
+                text-overflow ellipsis
+                white-space nowrap
+                cursor pointer
 
 </style>

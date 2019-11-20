@@ -2,7 +2,7 @@
     <div class="p-headers">
         <Tabs :data="tabData" v-model="tabIdModel" />
         <div class="p-header-left">
-            <Select v-if="selectData.length" class="p-header-select" :data="selectData" v-model="selectIdModel" width="120" />
+            <Select v-if="selectData.length" class="p-header-select" :data="selectData" :radius="true" v-model="selectIdModel" width="120" />
             <Breadcrumb :data="breadData" v-model="breadIdModel" />
         </div>
         <div class="p-header-right" v-if="btnType">
@@ -13,7 +13,7 @@
 
 <script>
     import Tabs from '../tabs';
-    import Select from '../selectSaas';
+    import Select from '../select';
     import Breadcrumb from '../breadcrumb';
     import Button from '../button';
 
@@ -121,7 +121,7 @@
     }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 
 .p-headers

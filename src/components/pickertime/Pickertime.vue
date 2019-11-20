@@ -9,9 +9,7 @@
             <section
                     :class="['p-picker-input-tip', selectedTime&&'p-picker-input-values']"
             >{{selectedTime?selectedTime:'请选择时间'}}</section>
-            <transition name="opacityScale">
-                <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
-            </transition>
+            <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
         </div>
         <transition name="opacityTop">
             <!--
@@ -296,10 +294,7 @@
     }
 </script>
 
-<style lang="stylus" scoped>
-
-@import "../static/stylus/animate/opacityScale.styl"
-
+<style lang="stylus">
 @import "../static/stylus/datePicker/pickerMain.styl"
 @import "../static/stylus/datePicker/pickerInput.styl"
 

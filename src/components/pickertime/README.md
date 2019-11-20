@@ -33,7 +33,7 @@
     }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 .component-padding
     padding-bottom 200px !important

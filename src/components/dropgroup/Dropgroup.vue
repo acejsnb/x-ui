@@ -8,7 +8,7 @@
             <article :class="['triangle', optionStatus && 'triangleRotate']"><Triangle /></article>
         </section>
         <transition name="slideDownUp">
-            <div class="p-drop" v-show="optionStatus">
+            <div class="p-drop-item" v-show="optionStatus">
                 <div v-for="group in data" :key="group.id">
                     <section class="p-drop-item-title">{{group.name}}</section>
                     <section :class="['p-drop-option', 'p-drop-option-'+position]">
@@ -86,7 +86,7 @@
     }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 @import "../static/stylus/animate/slideDownUp.styl"
 
@@ -111,7 +111,7 @@
         .triangleRotate
             svg
                 transform rotate(90deg)
-    .p-drop
+    .p-drop-item
         position absolute
         top 100%
         padding-top 4px
@@ -152,9 +152,9 @@
             &.option-disable
                 color #c3c7cb !important
                 cursor not-allowed
-    .p-drop-option-left
-        left 0
-    .p-drop-option-right
-        right 0
+        .p-drop-option-left
+            left 0
+        .p-drop-option-right
+            right 0
 
 </style>

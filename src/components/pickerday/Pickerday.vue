@@ -61,7 +61,6 @@
 </script>
 
 <style lang="stylus">
-    @import "../static/stylus/animate/opacityScale.styl"
     @import "../static/stylus/datePicker/pickerInput.styl"
     @import "../static/stylus/datePicker/pickerMain.styl"
 

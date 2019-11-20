@@ -162,7 +162,7 @@
     }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 .p-tree
     //background-color #ccc

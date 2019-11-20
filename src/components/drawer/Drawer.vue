@@ -9,7 +9,8 @@
                 <!-- @slot html内容 -->
                 <slot></slot>
             </div>
-            <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">
+<!--            <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">-->
+            <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="bottom">
                 <Button type="primary" @click="onConfirm" :loading="loading">确定</Button>
                 <Button type="default" @click="onClose">取消</Button>
             </div>
@@ -59,13 +60,6 @@
              * 是否固定底部操作栏
              */
             bottom: {
-                type: Boolean,
-                default: false
-            },
-            /**
-             * 是否显示底部按钮
-             */
-            btnShow: {
                 type: Boolean,
                 default: false
             }
@@ -120,7 +114,7 @@
   padding-right 32px
   border-bottom 1px solid $grey-grey-300
   width 100%
-  height 48px
+  height 56px
   line-height @height
   .p-title-text
     max-width 98%
@@ -131,15 +125,16 @@
     white-space nowrap
   .p-drawer-title-icon
     position absolute
-    top 12px
+    top 16px
     right 28px
     overflow-y auto
 .p-drawer-content
-  padding 16px 32px
+  padding 12px 32px
   width 100%
-.p-drawer-content-bottom
-  height calc(100% - 120px)
+  height calc(100% - 56px)
   overflow auto
+.p-drawer-content-bottom
+  height calc(100% - 128px)
 .p-drawer-handle
   padding 20px 32px
   background-color #fff

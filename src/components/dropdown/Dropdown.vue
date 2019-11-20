@@ -79,7 +79,7 @@
     }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 @import "../static/stylus/animate/slideDownUp.styl"
 
