@@ -4,8 +4,8 @@
 ### 当按需引入时，请使用
 
 ```clike
-    import Pui from 'persagy-ui';
-    Vue.use(Pui);
+    import { Message } from 'persagy-ui';
+    Message.xxx('string');
 ```
 
 ```vue
