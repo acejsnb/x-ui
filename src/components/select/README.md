@@ -8,18 +8,20 @@
                 <Select v-model="selVal" :data="dataSelect" width="120" />
             </div>
             <div style="font-size: 16px;">
-                <br><br><br><br><br><br><br><br>
+                <br><br><br>
             </div>
             <div>
                 <Select v-model="selVal" :radius="true" :data="dataSelect" width="120" />
             </div>
             <div style="font-size: 16px;">
-                <br><br><br><br><br><br><br><br>
+                <br><br><br>
             </div>
             <div>
                 <Select v-model="selVal" title="项目：" :data="dataSelect" width="160" />
             </div>
-
+            <div style="font-size: 16px;">
+                <br><br><br><br><br><br><br><br>
+            </div>
         </div>
     </div>
 </template>

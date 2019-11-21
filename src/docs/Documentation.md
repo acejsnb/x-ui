@@ -37,11 +37,7 @@
 - ***本项目样式使用stylus开发，需要自定义主题色请按照以下说明配置***
 ---
 
-
-1.安装style-resources-loader
- - `npm i -D style-resources-loader`
-
-2.新建variables.styl文件，放在src目录下
+1.新建variables.styl文件，放在src目录下
 
 ```clike
 /* base-color -start */
@@ -78,15 +74,21 @@ $secondary-cyan-400=#03b5da
 //$secondary-cyan
 
 // warning
+$warning-orange-900=#6b3900
+$warning-orange-800=#8f4f04
+$warning-orange-700=#b26206
 $warning-orange-600=#de7802
-$warning-orange-500=#ff8800
+$warning-orange-500=#f58300
 $warning-orange-400=#ffa53d
-$warning-orange-300=#f7dc82
-$warning-orange-100=#faf1d1
+$warning-orange-300=#ffba6b
+$warning-orange-200=#fed4a4
+$warning-orange-100=#feead2
 $warning-orange-50=#fff5eb
 
 // grey
 $grey-grey-900=#1f2429
+$grey-grey-800=#333940
+$grey-grey-700=#454d54
 $grey-grey-600=#646c73
 $grey-grey-500=#8d9399
 $grey-grey-400=#c3c7cb
@@ -95,6 +97,9 @@ $grey-grey-200=#eff0f1
 $grey-grey-100=#f5f6f7
 
 // error
+$error-red-900=#621c18
+$error-red-800=#812520
+$error-red-700=#ac2f28
 $error-red-600=#d83931
 $error-red-500=#f54e45
 $error-red-400=#f76b64
@@ -103,20 +108,34 @@ $error-red-200=#eff0f1
 $error-red-100=#fde3e2
 $error-red-50=#fef2f1
 
+// purple
+$error-purple-900=#460b46
+$error-purple-800=#681268
+$error-purple-700=#8c218c
+$error-purple-600=#b320b3
+$error-purple-500=#d136d1
+$error-purple-400=#db66db
+$error-purple-300=#e58fe5
+$error-purple-200=#efb9ef
+$error-purple-100=#f8def8
+$error-purple-50=#fceefc
+
+/* base-color -end */
+
+
 /* base-color -end */
 ```
 
-3.在config里配置引入色值变量，如下
+2.在config里配置引入色值变量，如下
+
+ - 安装style-resources-loader `npm i -D style-resources-loader`
 
 ```clike
     {
         test: /\.styl(us)?$/,
         use: [
             {
-                loader: 'stylus-loader',
-                options: {
-                    sourceMap: !isProd
-                }
+                loader: 'stylus-loader'
             },{
                 loader: 'style-resources-loader',
                 options: {
@@ -129,6 +148,7 @@ $error-red-50=#fef2f1
 ```
 
 4.配置svg解析
+- 安装svg解析器 `npm i -D vue-svg-loader`
 ```clike
      {
          test: /\.svg$/,
@@ -149,6 +169,3 @@ $error-red-50=#fef2f1
       }
     ]
 ```
-
-5.安装svg解析器
-- `npm i -D vue-svg-loader`

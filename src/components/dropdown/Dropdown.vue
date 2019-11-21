@@ -116,7 +116,7 @@
         min-width 120px
         max-width 240px
         max-height 138px
-        z-index 1
+        z-index 11
         .option
             padding-left 12px
             padding-right 12px

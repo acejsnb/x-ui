@@ -176,7 +176,7 @@ export default {
         width 100%
         max-height 136px
         overflow hidden
-        z-index 1
+        z-index 11
         .p-select-option
             padding-left 12px
             width 100%

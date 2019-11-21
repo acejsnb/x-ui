@@ -124,7 +124,7 @@
         max-width 240px
         max-height 240px
         overflow-y auto
-        z-index 1
+        z-index 11
         .p-drop-item-title
             padding-left 12px
             padding-right 12px

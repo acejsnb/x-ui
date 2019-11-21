@@ -72,7 +72,7 @@
                 console.log('********breadChange:::', id);
                 this.breadId=id;
             },
-            // 面包屑改变
+            // 点击按钮
             btnClick() {
                 console.log('********btnClick:::');
             }
