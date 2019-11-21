@@ -7,27 +7,27 @@
                     <img src="http://upload.jianshu.io/users/upload_avatars/11576163/f8c67791-cf2f-42ef-86dc-68a974830f8f.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="">
                 </span>
             </Badge>
-            <Badge :count="9">
+            <Badge :content="countNum">
                 <span class="avatar">
                     <img src="http://upload.jianshu.io/users/upload_avatars/11576163/f8c67791-cf2f-42ef-86dc-68a974830f8f.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="">
                 </span>
             </Badge>
-            <Badge :count="10" bgColor="#4eb1fd">
+            <Badge :content="10" bgColor="#4eb1fd">
                 <span class="avatar">
                     <img src="http://upload.jianshu.io/users/upload_avatars/11576163/f8c67791-cf2f-42ef-86dc-68a974830f8f.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="">
                 </span>
             </Badge>
-            <Badge :count="100">
+            <Badge :content="100">
                 <span class="avatar">
                     <img src="http://upload.jianshu.io/users/upload_avatars/11576163/f8c67791-cf2f-42ef-86dc-68a974830f8f.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="">
                 </span>
             </Badge>
-            <Badge :count="'New'">
+            <Badge :content="'New'">
                 <span class="avatar">
                     <img src="http://upload.jianshu.io/users/upload_avatars/11576163/f8c67791-cf2f-42ef-86dc-68a974830f8f.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="">
                 </span>
             </Badge>
-            <Badge :count="'Hot'">
+            <Badge :content="'Hot'">
                 <span class="avatar">
                     <img src="http://upload.jianshu.io/users/upload_avatars/11576163/f8c67791-cf2f-42ef-86dc-68a974830f8f.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="">
                 </span>
@@ -40,7 +40,7 @@
             <Badge dot>
                 <Button type="primary">按钮</Button>
             </Badge>
-            <Badge :count="25">
+            <Badge :content="25">
                 <Button type="default">按钮1</Button>
             </Badge>
         </div>
@@ -49,7 +49,25 @@
 
 <script>
     export default {
-        name: "BadgeView"
+        name: "BadgeView",
+        data() {
+            return {
+                countNum: 9
+            }
+        },
+        mounted() {
+            this.setCountNum();
+        },
+        methods: {
+            setCountNum() {
+                clearInterval(this.timer);
+                this.countNum=0;
+                this.timer=setInterval(() => {
+                    if (this.countNum<111) this.countNum+=parseInt(10*Math.random());
+                    else this.setCountNum();
+                }, 3000)
+            }
+        }
     }
 </script>
 

@@ -34,8 +34,7 @@
     const data=[
         { id: 'totalEnergy', name: '总量' },
         { id: 'singleParty', name: '单平米' },
-        { id: 'lowerLevel', name: '下级分项' },
-        { id: 'average', name: '滑动平均啊啊啊啊', disabled: true }
+        { id: 'lowerLevel', name: '下级分项' }
     ];
 
     export default {
@@ -53,10 +52,7 @@
             tabData() {
                 return [
                     { id: '1', name: '第1模块' },
-                    { id: '2', name: '第2模块' },
-                    { id: '3', name: '第3模块' },
-                    { id: '4', name: '第4模块' },
-                    { id: '5', name: '第5模块' },
+                    { id: '2', name: '第2模块' }
                 ]
             }
         },
