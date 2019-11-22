@@ -30,6 +30,7 @@
                     {title: 'PickerMonth', more: '月选择', url: 'pickerMonthView'},
                     {title: 'PickerYear', more: '年选择', url: 'pickerYearView'},
                     {title: 'Tree', more: '树形结构', url: 'treeView'},
+                    {title: 'Shake', more: '抖动', url: 'shakeView'},
 
                     {title: 'Headers', more: '头部title', url: 'headersView'},
 

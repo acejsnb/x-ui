@@ -21,6 +21,7 @@ const components={
     PickerMonth: './src/components/pickerMonth',
     PickerYear: './src/components/pickerYear',
     Tree: './src/components/tree',
+    Shake: './src/components/shake',
 
 
     Message: './src/components/message' // 函数式组件

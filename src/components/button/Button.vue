@@ -1,5 +1,6 @@
 <template>
     <section :class="`p-btn p-btn-${type} p-btn-${size}`" @click="handleClick">
+        <!-- @slot html内容 -->
         <span><slot></slot></span>
         <LoadingIcon class="loading" v-if="loading" />
     </section>

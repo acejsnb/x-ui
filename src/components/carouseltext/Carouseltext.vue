@@ -1,6 +1,12 @@
 <template>
     <div class="p-carousel" @mouseenter="stopTimer" @mouseleave="setTimer">
-        <i class="p-carousel-icon"><MessageSvg /></i>
+        <i class="p-carousel-icon">
+            <transition-group name="slideUp">
+                <CommissionSvg v-show="num === 0" :key="'commission'" />
+                <ExecutorySvg v-show="num === 1" :key="'executory'" />
+                <PendingSvg v-show="num === 2" :key="'pending'" />
+            </transition-group>
+        </i>
         <div class="p-carousel-msg">
             <transition-group name="slideUp">
                 <section
@@ -9,6 +15,7 @@
                         v-for="(item, i) in data"
                         :key="item.id"
                         @click="itemClick(item.id)"
+                        :title="item.text"
                 >{{item.text}}</section>
             </transition-group>
         </div>
@@ -16,10 +23,13 @@
 </template>
 
 <script>
-    import MessageSvg from '../static/iconSvg/message.svg';
+    import CommissionSvg from '../static/iconSvg/commission.svg';
+    import ExecutorySvg from '../static/iconSvg/executory.svg';
+    import PendingSvg from '../static/iconSvg/pending.svg';
+
     export default {
         name: "CarouselText",
-        components: { MessageSvg },
+        components: { CommissionSvg, ExecutorySvg, PendingSvg },
         props: {
             /**
              * 文字轮播列表
@@ -79,14 +89,21 @@
         width 100%
         .p-carousel-icon
             margin-right 8px
+            padding-top 4px
+            background-color $error-red-400
+            border-radius 11px
+            width 22px
+            height @width
+            text-align center
+            overflow-y hidden
             svg
                 vertical-align middle
         .p-carousel-msg
-            width 100%
+            width 87%
             height 24px
-            overflow hidden
+            overflow-y hidden
             .p-carousel-item
-                max-width 204px
+                width 100%
                 height @height
                 line-height @height
                 font-size 14px
