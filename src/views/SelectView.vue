@@ -36,7 +36,7 @@
         { id: 'totalEnergy', name: '总量' },
         { id: 'singleParty', name: '单平米' },
         { id: 'lowerLevel', name: '下级分项' },
-        { id: 'average', name: '滑动平均', disabled: true }
+        { id: 'average', name: '滑动平均滑动平均', disabled: true }
     ];
     const data2=[
         { id: 'totalEnergy', name: '总量' },

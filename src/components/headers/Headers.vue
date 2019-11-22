@@ -1,123 +1,24 @@
 <template>
     <div class="p-headers">
-        <Tabs :data="tabData" v-model="tabIdModel" />
-        <div class="p-header-left">
-            <Select v-if="selectData.length" class="p-header-select" :data="selectData" :radius="true" v-model="selectIdModel" width="120" />
-            <Breadcrumb :data="breadData" v-model="breadIdModel" />
+        <div class="p-headers-left">
+            <!-- @slot-左侧内容 -->
+            <slot name="left"></slot>
         </div>
-        <div class="p-header-right" v-if="btnType">
-            <Button :type="btnType" @click="btnClick">更多</Button>
+        <div class="p-headers-middle">
+            <!-- @slot-居中内容 -->
+            <slot name="middle"></slot>
+        </div>
+        <div class="p-headers-right">
+            <!-- @slot-右侧内容 -->
+            <slot name="right"></slot>
         </div>
     </div>
 </template>
 
 <script>
-    import Tabs from '../tabs';
-    import Select from '../select';
-    import Breadcrumb from '../breadcrumb';
-    import Button from '../button';
 
     export default {
         name: "Headers",
-        components: { Tabs, Select, Breadcrumb, Button },
-        props: {
-            /**
-             * 标签页id
-             */
-            tabId: {
-                type: String,
-                default: ''
-            },
-            /**
-             * 标签页数据
-             */
-            tabData: {
-                type: Array,
-                default: []
-            },
-            /**
-             * 下拉列表id
-             */
-            selectId: {
-                type: String,
-                default: ''
-            },
-            /**
-             * 下拉列表数据
-             */
-            selectData: {
-                type: Array,
-                default: ()=>[]
-            },
-            /**
-             * 面包屑id
-             */
-            breadId: {
-                type: String,
-                default: ''
-            },
-            /**
-             * 面包屑数据
-             */
-            breadData: {
-                type: Array,
-                default: []
-            },
-            /**
-             * 右侧按钮类型，默认不显示按钮
-             */
-            btnType: {
-                type: String,
-                default: ''
-            }
-        },
-        computed: {
-            tabIdModel: {
-                get() {
-                    return this.tabId;
-                },
-                set(v) {
-                    /**
-                     * 标签页id改变
-                     * @type {Function}
-                     */
-                    this.$emit('tabChange', v)
-                }
-            },
-            selectIdModel: {
-                get() {
-                    return this.selectId;
-                },
-                set(v) {
-                    /**
-                     * 下拉列表id改变
-                     * @type {Function}
-                     */
-                    this.$emit('selectChange', v)
-                }
-            },
-            breadIdModel: {
-                get() {
-                    return this.breadId;
-                },
-                set(v) {
-                    /**
-                     * 面包屑id改变
-                     * @type {Function}
-                     */
-                    this.$emit('breadChange', v)
-                }
-            }
-        },
-        methods: {
-            btnClick() {
-                /**
-                 * 点击右侧按钮的回调
-                 * @type {Function}
-                 */
-                this.$emit('btnClick')
-            }
-        }
     }
 </script>
 
@@ -131,22 +32,29 @@
     width 100%
     height 48px
     text-align center
-    .p-header-left
+    .p-headers-left
         position absolute
         left 16px
         top 0
-        display flex
+        display inline-flex
         align-items center
+        justify-content center
         height @height
-        .p-header-select
-            margin-right 12px
-    .p-header-right
+    .p-headers-middle
+        position relative
+        top 0
+        left 0
+        display inline-flex
+        align-items center
+        justify-content center
+        height @height
+    .p-headers-right
         position absolute
         right 16px
         top 0
-        display flex
-        justify-content flex-end
+        display inline-flex
         align-items center
+        justify-content center
         height @height
 
 </style>

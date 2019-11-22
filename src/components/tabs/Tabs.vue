@@ -1,11 +1,13 @@
 <template>
     <div class="p-tabs" ref="pTabs">
         <section
-                :class="['p-tab-item', tabId===tab.id&&'p-tab-active']"
+                :class="['p-tab-item', value===tab.id&&'p-tab-active']"
                 v-for="tab in data"
                 :key="tab.id"
                 @click="tabClick(tab.id)"
-        >{{tab.name}}</section>
+        >
+            <span>{{tab.name}}</span>
+        </section>
         <section class="p-tabs-line" :style="{left: left+'px', width: lineWidth+'px'}"></section>
     </div>
 </template>
@@ -17,7 +19,7 @@
             /**
              * 标签页id
              */
-            tabId: {
+            value: {
                 type: String,
                 default: ''
             },
@@ -65,8 +67,9 @@
     text-align center
     .p-tab-item
         display inline-block
-        vertical-align middle
         padding 12px 16px
+        height 48px
+        line-height @height/2
         font-size 16px
         color $grey-grey-900
         cursor pointer
@@ -75,6 +78,10 @@
             margin-left 16px
         &:hover
             color $primary-blue-500
+        span
+            display ruby
+            font-size 16px
+            line-height 24px
     .p-tab-active
         color $primary-blue-500
     .p-tabs-line

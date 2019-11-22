@@ -14,7 +14,8 @@
                         v-for="item in data"
                         :key="item.id"
                         @click="optionClick(item.id)"
-                ><span>{{item.name}}</span></article>
+                        @mouseenter="optionEnter"
+                >{{item.name}}</article>
             </section>
         </transition>
     </div>
@@ -101,6 +102,12 @@ export default {
             this.$emit('input', v);
             this.selectBlur();
         },
+        // 子项鼠标移入
+        optionEnter(e) {
+            const target=e.target;
+            const {clientWidth, scrollWidth, title}=target;
+            if (!title && scrollWidth > clientWidth) target.title=target.innerText;
+        },
         selectBlur() {
             this.optionStatus=false;
         }
@@ -184,11 +191,11 @@ export default {
             line-height @height
             color #262626
             text-align left
+            font-size 14px
             cursor pointer
             overflow hidden
-            span
-                display ruby
-                font-size 14px
+            text-overflow ellipsis
+            white-space nowrap
             &:hover
                 background-color $grey-grey-200
             &.p-select-option-selected

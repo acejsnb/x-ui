@@ -10,7 +10,9 @@
                     ]"
                     @click="breadcrumbClick(item.id)"
             >{{item.name}}</article>
-            <ArrowRight class="p-breadcrumb-arrow" v-if="i<data.length-1" />
+            <article class="p-breadcrumb-arrow" v-if="i<data.length-1">
+                <ArrowRight />
+            </article>
         </section>
     </div>
 </template>
@@ -55,9 +57,12 @@
     display flex
     align-items center
     .p-breadcrumb-item
-        display flex
-        align-items center
+        display inline-flex
+        align-content center
         .p-breadcrumb-item-text
+            display ruby
+            height 24px
+            line-height @height
             color $grey-grey-500
             font-size 14px
             overflow hidden
@@ -73,5 +78,9 @@
         .p-breadcrumb-arrow
             margin-left 4px
             margin-right 4px
+            padding-top 5px
+            height 24px
+            svg
+                vertical-align middle
 
 </style>
