@@ -1,24 +1,23 @@
 <template>
     <div class="p-drop-group" @mouseenter="dropdownShow" @mouseleave="dropdownHide">
         <section class="p-drop-group-title">
-            <article>
+            <article class="p-drop-group-title-content">
                 <!-- @slot html内容 -->
                 <slot></slot>
             </article>
-            <article :class="['triangle', optionStatus && 'triangleRotate']"><Triangle /></article>
+            <article :class="['p-drop-group-triangle', optionStatus && 'p-drop-group-triangle-rotate']"><Triangle /></article>
         </section>
         <transition name="slideDownUp">
-            <div class="p-drop-item" v-show="optionStatus">
+            <div class="p-drop-group-item" v-show="optionStatus">
                 <div v-for="group in data" :key="group.id">
                     <section class="p-drop-item-title">{{group.name}}</section>
-                    <section :class="['p-drop-option', 'p-drop-option-'+position]">
-                        <article
-                                :class="['option', value===item.id&&'option-selected', item.disabled&&'option-disable']"
-                                v-for="item in group.children"
-                                :key="item.id"
-                                @click="optionClick(group.id, item.id, item.name, item.disabled)"
-                        >{{item.name}}</article>
-                    </section>
+                    <article
+                            :class="['p-drop-group-option', value===item.id&&'p-drop-group-option-selected', item.disabled&&'p-drop-group-option-disable']"
+                            v-for="item in group.children"
+                            :key="item.id"
+                            @click="optionClick(group.id, item.id, item.name, item.disabled)"
+                            @mouseenter="optionEnter"
+                    >{{item.name}}</article>
                 </div>
             </div>
         </transition>
@@ -70,6 +69,12 @@
             dropdownHide() {
                 this.optionStatus=false;
             },
+            // 子项鼠标移入
+            optionEnter(e) {
+                const target=e.target;
+                const {clientWidth, scrollWidth, title}=target;
+                if (!title && scrollWidth > clientWidth) target.title=target.innerText;
+            },
             /**
              * 提交当前选择的值
              * @param pId parentId
@@ -100,18 +105,22 @@
         align-items center
         cursor pointer
         z-index 10
-        > article
-            line-height 16px
-        .triangle
-            margin-left 4px
+        .p-drop-group-title-content
+            display inline-flex
+            align-items center
+            font-size 14px
+            color $grey-grey-900
+        .p-drop-group-triangle
+            padding-left 4px
             width 16px
             height @width
+            text-align center
             svg
                 transition transform .3s
-        .triangleRotate
+        .p-drop-group-triangle-rotate
             svg
                 transform rotate(90deg)
-    .p-drop-item
+    .p-drop-group-item
         position absolute
         top 100%
         padding-top 4px
@@ -132,24 +141,23 @@
             line-height @height
             color $grey-grey-500
             font-size 14px
-        .option
-            padding-left 20px
-            padding-right 12px
+        .p-drop-group-option
+            padding 5px 12px 5px 20px
             width 100%
             height 32px
-            line-height @height
+            line-height 22px
             font-size 14px
-            color #262626
+            color $grey-grey-900
             cursor pointer
             white-space nowrap
             text-overflow ellipsis
             overflow hidden
             &:hover
                 background-color $grey-grey-200
-            &.option-selected
+            &.p-drop-group-option-selected
                 color $primary-blue-500
                 background-color $primary-blue-100
-            &.option-disable
+            &.p-drop-group-option-disable
                 color #c3c7cb !important
                 cursor not-allowed
         .p-drop-option-left

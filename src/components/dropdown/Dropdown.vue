@@ -1,19 +1,20 @@
 <template>
     <div class="p-drop" @mouseenter="dropdownShow" @mouseleave="dropdownHide">
         <section class="p-drop-title">
-            <article>
+            <article class="p-drop-title-content">
                 <!-- @slot html内容 -->
                 <slot></slot>
             </article>
-            <article :class="['triangle', optionStatus && 'triangleRotate']"><Triangle /></article>
+            <article :class="['p-drop-triangle', optionStatus && 'p-drop-triangle-rotate']"><Triangle /></article>
         </section>
         <transition name="slideDownUp">
             <section :class="['p-drop-option', 'p-drop-option-'+position]" v-show="optionStatus">
                 <article
-                        :class="['option', value===item.id&&'option-selected', item.disabled&&'option-disable']"
+                        :class="['p-drop-option-item', value===item.id&&'option-selected', item.disabled&&'option-disable']"
                         v-for="item in data"
                         :key="item.id"
                         @click="optionClick(item.id, item.disabled)"
+                        @mouseenter="optionEnter"
                 >{{item.name}}</article>
             </section>
         </transition>
@@ -65,6 +66,12 @@
             dropdownHide() {
                 this.optionStatus=false;
             },
+            // 子项鼠标移入
+            optionEnter(e) {
+                const target=e.target;
+                const {clientWidth, scrollWidth, title}=target;
+                if (!title && scrollWidth > clientWidth) target.title=target.innerText;
+            },
             /**
              * 提交当前选择的值
              * @param v 返回值
@@ -93,15 +100,19 @@
         align-items center
         cursor pointer
         z-index 10
-        > article
-            line-height 16px
-        .triangle
-            margin-left 4px
+        .p-drop-title-content
+            display inline-flex
+            align-items center
+            font-size 14px
+            color $grey-grey-900
+        .p-drop-triangle
+            padding-left 4px
             width 16px
             height @width
+            text-align center
             svg
                 transition transform .3s
-        .triangleRotate
+        .p-drop-triangle-rotate
             svg
                 transform rotate(90deg)
     .p-drop-option
@@ -117,14 +128,13 @@
         max-width 240px
         max-height 138px
         z-index 11
-        .option
-            padding-left 12px
-            padding-right 12px
+        .p-drop-option-item
+            padding 5px 12px
             width 100%
             height 32px
-            line-height @height
+            line-height 22px
             font-size 14px
-            color #262626
+            color $grey-grey-900
             cursor pointer
             white-space nowrap
             text-overflow ellipsis
@@ -135,7 +145,7 @@
                 color $primary-blue-500
                 background-color $primary-blue-100
             &.option-disable
-                color #c3c7cb !important
+                color $grey-grey-400 !important
                 cursor not-allowed
     .p-drop-option-left
         left 0

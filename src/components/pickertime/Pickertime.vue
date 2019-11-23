@@ -29,9 +29,9 @@
                 <div class="p-picker-main-item-box">
                     <div class="p-picker-main-item-input-box">
                         <section class="p-picker-input p-picker-input-values-default">
-                            <article>{{format==='hms'?`${hourStart}:${minuteStart}:${secondStart}`:`${hourStart}:${minuteStart}`}}</article>
+                            <article class="p-picker-input-values">{{format==='hms'?`${hourStart}:${minuteStart}:${secondStart}`:`${hourStart}:${minuteStart}`}}</article>
                             <article class="p-picker-input-solstice" v-if="range">至</article>
-                            <article v-if="range">{{format==='hms'?`${hourEnd}:${minuteEnd}:${secondEnd}`:`${hourEnd}:${minuteEnd}`}}</article>
+                            <article class="p-picker-input-values" v-if="range">{{format==='hms'?`${hourEnd}:${minuteEnd}:${secondEnd}`:`${hourEnd}:${minuteEnd}`}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">

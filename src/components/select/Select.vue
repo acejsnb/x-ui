@@ -132,7 +132,6 @@ export default {
             border-color $primary-blue-500
             box-shadow 0 0 0 2px rgba(0,145,255,.2)
     .p-select-title
-        outline none
         position relative
         padding-left 12px
         padding-right 12px
@@ -147,10 +146,8 @@ export default {
         z-index 10
         .p-select-title-text
             display block
-            text-overflow ellipsis
-            white-space nowrap
-            overflow hidden
             width 100%
+            height 32px
             color $grey-grey-900
             span
                 display ruby
@@ -186,10 +183,12 @@ export default {
         z-index 11
         .p-select-option
             padding-left 12px
+            padding-top 5px
+            padding-bottom 5px
             width 100%
             height 32px
-            line-height @height
-            color #262626
+            line-height 22px
+            color $grey-grey-900
             text-align left
             font-size 14px
             cursor pointer
