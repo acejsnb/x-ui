@@ -23,7 +23,9 @@
     "components": "cross-env NODE_ENV=production webpack --mode production --profile --progress --config webpack.components.config.js",
     "single": "cross-env NODE_ENV=production webpack --mode production --profile --progress --config webpack.single.config.js",
     "styleguide": "vue-styleguidist server",
-    "styleguide:build": "vue-styleguidist build"
+    "styleguide:build": "vue-styleguidist build",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -59,9 +61,10 @@
     "url-loader": "^1.1.2",
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
-    "vue-styleguidist": "^3.25.0",
+    "vue-styleguidist": "^4.0.5",
     "vue-svg-loader": "^0.15.0",
     "vue-template-compiler": "^2.6.10",
+    "vuepress": "^1.2.0",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.1",

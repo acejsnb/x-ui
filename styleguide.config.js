@@ -106,7 +106,7 @@ module.exports = {
                     sections: [
                         {
                             name: '头部封装',
-                            components: './src/components/headers/Headers.vue'
+                            // components: './src/components/headers/Headers.vue'
                         }
                     ]
                 }
