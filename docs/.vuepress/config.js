@@ -1,5 +1,5 @@
 module.exports = {
-    //base: '/bar',
+    // base: './',
     title: 'persagy-ui',
     description: '博锐尚格ui组件使用文档',
     head: [
@@ -12,6 +12,8 @@ module.exports = {
     dest: './docs/dist',
     evergreen: true,
     themeConfig: {
+        logo: '/logo_persagy.png',
+        smoothScroll: true,
         nav: [
             { text: '首页', link: '/' },
             { text: '组件', link: '/guide/' },
@@ -19,6 +21,7 @@ module.exports = {
         ],
         //sidebarDepth: 2,
         sidebar: [
+            ['/', '首页'],
             '/guide/',
             {
                 title: '组件',

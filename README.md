@@ -2,7 +2,6 @@
 - 基于vue的ui库，github地址 `ssh://git@101.254.183.198:5522/bi-web/persagy-ui-kit.git`
 
 ## config
-- 文档配置 `styleguide.configjs`
 - 开发模式下使用 `webpack.config.js`
 - 开发预览文档 `webpack.dev.config.js`
 - 文档打包 `webpack.prod.config.js`

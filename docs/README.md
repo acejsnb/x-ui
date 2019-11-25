@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /logo_persagy.png
-actionText: 快速上手 →
+actionText: 开始使用 →
 actionLink: /guide/
 features:
 - title: PUD出品
