@@ -22,6 +22,7 @@ import PickerYear from './pickerYear';
 import PickerMonth from './pickerMonth';
 import Tree from './tree';
 import Shake from './shake';
+import Stick from './stick';
 
 import Headers from './headers';
 
@@ -48,6 +49,7 @@ const Components = {
     ,PickerYear
     ,Tree
     ,Shake
+    ,Stick
 
     ,Headers
 

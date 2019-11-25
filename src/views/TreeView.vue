@@ -133,6 +133,7 @@
     //width 240px
     .treeCom
         display flex
+        justify-content space-between
         width 600px
         > div
             width 190px

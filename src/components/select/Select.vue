@@ -5,7 +5,7 @@
                 @click="selectBoxHandle"
         >
             <article class="p-select-title-text"><span v-if="title">{{title}}</span><span>{{text}}</span></article>
-            <section :class="['p-select-triangle', optionStatus && 'p-select-triangle-rotate']"><Triangle /></section>
+            <section :class="['p-select-triangle', !optionStatus && 'p-select-triangle-rotate']"><Triangle /></section>
         </section>
         <transition name="slideDownUp">
             <section class="p-select-option-box" v-show="optionStatus">
@@ -164,7 +164,7 @@ export default {
             text-align center
             transition transform .3s
         .p-select-triangle-rotate
-            transform rotate(90deg)
+            transform rotate(180deg)
     .p-select-title-radius
         border-radius 16px
     .p-select-option-box
@@ -185,8 +185,8 @@ export default {
             padding-left 12px
             padding-top 5px
             padding-bottom 5px
-            width 100%
-            height 32px
+            //width 100%
+            //height 32px
             line-height 22px
             color $grey-grey-900
             text-align left

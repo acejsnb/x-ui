@@ -8,9 +8,13 @@ import store from './store';
 import App from './App';
 import Components from 'multiple';
 
+
+
 Vue.use(Components);
 
+
 Vue.config.productionTip = false;
+
 
 new Vue({
     router,

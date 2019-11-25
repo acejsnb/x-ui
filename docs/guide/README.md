@@ -13,7 +13,8 @@
     Vue.use(Pui);
 ```
 
-## 三、推荐-按需引入-方式一（不用配置主题色）
+## 三、推荐-按需引入-方式一
+（不用配置主题色）
 
 - 引入组件 `import { Button } from 'persagy-ui''`
 - 安装依赖包 `npm i -D babel-plugin-component`
@@ -32,14 +33,18 @@
     ]
 ```
 
-## 四、按需引入-方式二（自定义主题色）
+## 四、按需引入-方式二
+（自定义主题色）
 
-- ***本项目样式使用stylus开发，需要自定义主题色请按照以下说明配置***
+::: tip
+本项目样式使用stylus开发，需要自定义主题色请按照以下说明配置
+:::
+
 ---
 
 1.新建variables.styl文件，放在src目录下
 
-```clike
+```stylus
 /* base-color -start */
 // primary
 $primary-blue-900=#004275
@@ -122,8 +127,6 @@ $error-purple-50=#fceefc
 
 /* base-color -end */
 
-
-/* base-color -end */
 ```
 
 2.在config里配置引入色值变量，如下

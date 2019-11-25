@@ -5,7 +5,7 @@
                 <!-- @slot html内容 -->
                 <slot></slot>
             </article>
-            <article :class="['p-drop-triangle', optionStatus && 'p-drop-triangle-rotate']"><Triangle /></article>
+            <article :class="['p-drop-triangle', !optionStatus && 'p-drop-triangle-rotate']"><Triangle /></article>
         </section>
         <transition name="slideDownUp">
             <section :class="['p-drop-option', 'p-drop-option-'+position]" v-show="optionStatus">
@@ -96,25 +96,22 @@
     vertical-align middle
     .p-drop-title
         position relative
-        display inline-flex
-        align-items center
+        padding-right 16px
         cursor pointer
         z-index 10
         .p-drop-title-content
-            display inline-flex
-            align-items center
             font-size 14px
             color $grey-grey-900
         .p-drop-triangle
-            padding-left 4px
-            width 16px
-            height @width
-            text-align center
+            position absolute
+            right 0
+            top 50%
+            transform translateY(-8px)
             svg
                 transition transform .3s
         .p-drop-triangle-rotate
             svg
-                transform rotate(90deg)
+                transform rotate(180deg)
     .p-drop-option
         position absolute
         top 100%
@@ -130,8 +127,8 @@
         z-index 11
         .p-drop-option-item
             padding 5px 12px
-            width 100%
-            height 32px
+            //width 100%
+            //height 32px
             line-height 22px
             font-size 14px
             color $grey-grey-900

@@ -58,16 +58,16 @@
     & + .p-message
         margin-top 24px
     .p-message-hint
-        padding-top 3px
+        padding-top 4px
     .p-message-text
         width calc(100% - 48px)
         text-align left
         font-size 14px
         color #fff
         word-wrap break-word
-        line-height 22px
+        line-height 24px
     .p-message-close
-        padding-top 2px
+        padding-top 5px
         svg
             opacity .5
             transition opacity .3s

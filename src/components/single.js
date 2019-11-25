@@ -22,6 +22,7 @@ const components={
     PickerYear: './src/components/pickerYear',
     Tree: './src/components/tree',
     Shake: './src/components/shake',
+    Stick: './src/components/stick',
 
 
     Message: './src/components/message' // 函数式组件

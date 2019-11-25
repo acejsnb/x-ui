@@ -36,7 +36,7 @@ const Message = (options) => {
     instance.vm.visible = true; // 这里修改message.vue数据中的visible,这样message组件就显示出来
     instanceBox.vm.$el.appendChild(instance.vm.$el);
     instance.vm.$el.style.zIndex=seed + 1001; // 后插入的Notice组件z-index加一，保证能盖在之前的上面
-    instance.vm.$el.style.transform='translateZ(0)'; // 后插入的Notice组件z-index加一，保证能盖在之前的上面
+    instance.vm.$el.style.transform='translateZ(0)'; // 解决transform带来的z-index失效
     instances.push(instance);
     Message.setTimer(id, instance);
 

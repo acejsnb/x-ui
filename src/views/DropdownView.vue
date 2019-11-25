@@ -67,6 +67,7 @@
 .text
     font-size 14px
     color #1f2329
+    line-height 16px
 
 .avatar
     display inline-block

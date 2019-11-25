@@ -26,6 +26,7 @@ import PickerYearView from './views/PickerYearView';
 import PickerMonthView from './views/PickerMonthView';
 import TreeView from './views/TreeView';
 import ShakeView from './views/ShakeView';
+import StickView from './views/StickView';
 
 import MessageView from './views/MessageView';
 
@@ -203,6 +204,14 @@ export default new Router({
             component: ShakeView,
             meta: {
                 title: 'ShakeView'
+            }
+        },
+        {
+            path: '/stickView',
+            name: 'StickView',
+            component: StickView,
+            meta: {
+                title: 'StickView'
             }
         },
 

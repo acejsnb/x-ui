@@ -78,7 +78,6 @@
         { id: 'average', name: '滑动平均啊啊啊啊', disabled: true }
     ];
 
-    import HeadersMd from 'HeadersMd';
     export default {
         name: "HeadersView",
         data() {
@@ -87,8 +86,7 @@
                 selectId: 'totalEnergy', // 下拉列表绑定的值
                 selectData: data, // 下拉列表数据
                 breadId: 'average', // 面包屑id
-                breadData: data, // 面包屑数据
-                html: HeadersMd
+                breadData: data // 面包屑数据
             }
         },
         computed: {
@@ -121,8 +119,5 @@
 </script>
 
 <style lang="stylus" scoped>
-
-    .textCar
-        width 240px
 
 </style>

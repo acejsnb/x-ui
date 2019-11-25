@@ -31,6 +31,7 @@
                     {title: 'PickerYear', more: '年选择', url: 'pickerYearView'},
                     {title: 'Tree', more: '树形结构', url: 'treeView'},
                     {title: 'Shake', more: '抖动', url: 'shakeView'},
+                    {title: 'Stick', more: '抖动', url: 'stickView'},
 
                     {title: 'Headers', more: '头部title', url: 'headersView'},
 

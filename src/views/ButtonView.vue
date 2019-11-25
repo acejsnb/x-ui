@@ -43,24 +43,13 @@
                 <section class="list">
                 </section>
             </div>
-
-            <VueMarkdown v-highlight>{{html}}</VueMarkdown>
         </div>
     </div>
 </template>
 
 <script>
-    import VueMarkdown from 'vue-markdown';
-    import ButtonMd from 'ButtonMd';
-
     export default {
-        name: "ButtonView",
-        components: { VueMarkdown },
-        data() {
-            return {
-                html: ButtonMd
-            }
-        }
+        name: "ButtonView"
     }
 </script>
 
