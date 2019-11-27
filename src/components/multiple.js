@@ -10,6 +10,7 @@ import Toggle from './toggle';
 import Dropdown from './dropdown';
 import DropGroup from './dropGroup';
 import Select from './select';
+import SelectSearch from './selectSearch';
 import Badge from './badge';
 import Divider from './divider';
 import CarouselText from './carouselText';
@@ -21,8 +22,10 @@ import PickerWeek from './pickerWeek';
 import PickerYear from './pickerYear';
 import PickerMonth from './pickerMonth';
 import Tree from './tree';
+import TreeBi from './treeBi';
 import Shake from './shake';
 import Stick from './stick';
+import Tag from './tag';
 
 import Headers from './headers';
 
@@ -37,6 +40,7 @@ const Components = {
     ,Dropdown
     ,DropGroup
     ,Select
+    ,SelectSearch
     ,Badge
     ,Divider
     ,CarouselText
@@ -48,8 +52,10 @@ const Components = {
     ,PickerMonth
     ,PickerYear
     ,Tree
+    ,TreeBi
     ,Shake
     ,Stick
+    ,Tag
 
     ,Headers
 

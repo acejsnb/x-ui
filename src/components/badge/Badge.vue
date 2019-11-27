@@ -5,15 +5,15 @@
             <slot></slot>
         </div>
         <div
-              v-if="typeof dot==='string'"
-              class="p-badge-normal p-badge-dot"
-             :style="{backgroundColor: bgColor}"
+                v-if="typeof dot==='string'"
+                class="p-badge-normal p-badge-dot"
+                :style="{backgroundColor: bgColor}"
         >
         </div>
         <div
-             v-else-if="contentArr.length&&contentArr[0]>0"
-             class="p-badge-normal"
-             :style="{backgroundColor: bgColor}"
+                v-else-if="contentArr.length&&contentArr[0]>0"
+                class="p-badge-normal"
+                :style="{backgroundColor: bgColor}"
         >
             <section class="p-badge-text" v-if="contentArr.length<3">
                 <article class="p-badge-figure" v-if="contentArr[0]" :style="{transform: `translate3d(0,-${contentArr[0]*18}px,0)`}">
@@ -35,9 +35,9 @@
             </section>
         </div>
         <div
-             v-else-if="contentStr"
-             class="p-badge-normal"
-             :style="{backgroundColor: bgColor}"
+                v-else-if="contentStr"
+                class="p-badge-normal"
+                :style="{backgroundColor: bgColor}"
         >
             <section class="p-badge-str">{{contentStr}}</section>
         </div>
@@ -128,57 +128,57 @@
 
 <style lang="stylus">
 
-.p-badge
-    position relative
-    display inline-block
-    cursor pointer
-    &+.p-badge
-        margin-left 20px
-    .p-badge-normal
-        position absolute
-        top 0
-        right 0
-        transform translate(50%, -50%)
-        //background-color $error-red-500
-        border-radius 9px
-        height 18px
-        text-align center
-        color #fff
-        z-index 10
-        &.p-badge-dot
-            padding 0
-            width 8px
-            height 8px
-        .p-badge-text
-            display flex
-            align-items flex-start
-            justify-content center
-            padding-left 4px
-            padding-right 4px
-            min-width 18px
+    .p-badge
+        position relative
+        display inline-block
+        cursor pointer
+        &+.p-badge
+            margin-left 20px
+        .p-badge-normal
+            position absolute
+            top 0
+            right 0
+            transform translate(50%, -50%)
+            //background-color $red-500
+            border-radius 9px
             height 18px
-            overflow-y hidden
-            .p-badge-figure
-                height 180px
-                text-align center
-                transition transform .3s
-                span
-                    display block
+            text-align center
+            color #fff
+            z-index 10
+            &.p-badge-dot
+                padding 0
+                width 8px
+                height 8px
+            .p-badge-text
+                display flex
+                align-items flex-start
+                justify-content center
+                padding-left 4px
+                padding-right 4px
+                min-width 18px
+                height 18px
+                overflow-y hidden
+                .p-badge-figure
+                    height 180px
+                    text-align center
+                    transition transform .3s
+                    span
+                        display block
+                        width 7px
+                        height 18px
+                        line-height @height
+                        font-size 12px
+                        text-align center
+                .p-badge-add
                     width 7px
                     height 18px
                     line-height @height
                     font-size 12px
-                    text-align center
-            .p-badge-add
-                width 7px
+            .p-badge-str
+                padding-left 4px
+                padding-right 4px
                 height 18px
                 line-height @height
                 font-size 12px
-        .p-badge-str
-            padding-left 4px
-            padding-right 4px
-            height 18px
-            line-height @height
-            font-size 12px
 
 </style>

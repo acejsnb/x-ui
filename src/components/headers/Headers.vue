@@ -25,36 +25,36 @@
 <style lang="stylus">
 
 
-.p-headers
-    position relative
-    background-color $grey-grey-100
-    border-bottom 1px solid $grey-grey-300
-    width 100%
-    height 48px
-    text-align center
-    .p-headers-left
-        position absolute
-        left 16px
-        top 0
-        display inline-flex
-        align-items center
-        justify-content center
-        height @height
-    .p-headers-middle
+    .p-headers
         position relative
-        top 0
-        left 0
-        display inline-flex
-        align-items center
-        justify-content center
-        height @height
-    .p-headers-right
-        position absolute
-        right 16px
-        top 0
-        display inline-flex
-        align-items center
-        justify-content center
-        height @height
+        background-color $grey-100
+        border-bottom 1px solid $grey-300
+        width 100%
+        height 48px
+        text-align center
+        .p-headers-left
+            position absolute
+            left 16px
+            top 0
+            display inline-flex
+            align-items center
+            justify-content center
+            height @height
+        .p-headers-middle
+            position relative
+            top 0
+            left 0
+            display inline-flex
+            align-items center
+            justify-content center
+            height @height
+        .p-headers-right
+            position absolute
+            right 16px
+            top 0
+            display inline-flex
+            align-items center
+            justify-content center
+            height @height
 
 </style>

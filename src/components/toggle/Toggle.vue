@@ -47,46 +47,46 @@
 
 <style lang="stylus">
 
-.p-toggle
-  position relative
-  display inline-block
-  vertical-align middle
-  width 40px
-  height 22px
-  border-radius (@height/2)
-  cursor pointer
-  transition background-color .3s
-  &:before
-    content ''
-    position absolute
-    top 2px
-    display block
-    background-color #fff
-    width 18px
-    height @width
-    border-radius (@height/2)
-    box-shadow 0 2px 8px 0 rgba(31,35,41,.1)
-    transition right .3s
-    z-index 2
-  input
-    display none
-    width 0
-    height 0
-  &+.p-toggle
-    margin-left 8px
-.p-toggle-off
-  background-color $grey-grey-400
-  &:before
-    right 20px
-.p-toggle-on
-  background-color $primary-blue-500
-  &:before
-    right 2px
-.p-toggle-disable-on
-  background-color $primary-blue-200
-  cursor not-allowed
-.p-toggle-disable-off
-  background-color $grey-grey-300
-  cursor not-allowed
+    .p-toggle
+        position relative
+        display inline-block
+        vertical-align middle
+        width 40px
+        height 22px
+        border-radius (@height/2)
+        cursor pointer
+        transition background-color .3s
+        &:before
+            content ''
+            position absolute
+            top 2px
+            display block
+            background-color #fff
+            width 18px
+            height @width
+            border-radius (@height/2)
+            box-shadow 0 2px 8px 0 rgba(31,35,41,.1)
+            transition right .3s
+            z-index 2
+        input
+            display none
+            width 0
+            height 0
+        &+.p-toggle
+            margin-left 8px
+    .p-toggle-off
+        background-color $grey-400
+        &:before
+            right 20px
+    .p-toggle-on
+        background-color $blue-500
+        &:before
+            right 2px
+    .p-toggle-disable-on
+        background-color $blue-200
+        cursor not-allowed
+    .p-toggle-disable-off
+        background-color $grey-300
+        cursor not-allowed
 
 </style>

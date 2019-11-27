@@ -297,3 +297,7 @@ checked-选中
 notNull-半选状态
 <br>
 :::
+
+::: tip
+在多选情况下返回选中的id也就是checked的id，半选状态notNull不会返回
+:::

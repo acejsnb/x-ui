@@ -19,6 +19,7 @@
                     {title: 'Dropdown', more: '下拉菜单', url: 'dropdownView'},
                     {title: 'DropGroup', more: '下拉菜单组', url: 'dropGroupView'},
                     {title: 'Select', more: '下拉列表', url: 'selectView'},
+                    {title: 'SelectSearch', more: '下拉搜索', url: 'selectSearchView'},
                     {title: 'Badge', more: '徽标', url: 'badgeView'},
                     {title: 'Divider', more: '分割线', url: 'dividerView'},
                     {title: 'CarouselText', more: '文字轮播', url: 'carouselTextView'},
@@ -30,8 +31,10 @@
                     {title: 'PickerMonth', more: '月选择', url: 'pickerMonthView'},
                     {title: 'PickerYear', more: '年选择', url: 'pickerYearView'},
                     {title: 'Tree', more: '树形结构', url: 'treeView'},
+                    {title: 'TreeBi', more: '树形结构', url: 'treeBiView'},
                     {title: 'Shake', more: '抖动', url: 'shakeView'},
                     {title: 'Stick', more: '抖动', url: 'stickView'},
+                    {title: 'Tag', more: '抖动', url: 'tagView'},
 
                     {title: 'Headers', more: '头部title', url: 'headersView'},
 

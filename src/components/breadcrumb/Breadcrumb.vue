@@ -53,34 +53,34 @@
 <style lang="stylus">
 
 
-.p-breadcrumb
-    display flex
-    align-items center
-    .p-breadcrumb-item
-        display inline-flex
-        align-content center
-        .p-breadcrumb-item-text
-            display ruby
-            height 24px
-            line-height @height
-            color $grey-grey-500
-            font-size 14px
-            overflow hidden
-            text-overflow ellipsis
-            white-space nowrap
-            cursor pointer
-        .p-breadcrumb-item-active
-            color $grey-grey-900
-        .p-breadcrumb-item-width
-            width 44px
-        .p-breadcrumb-item-max-width
-            max-width 100px
-        .p-breadcrumb-arrow
-            margin-left 4px
-            margin-right 4px
-            padding-top 5px
-            height 24px
-            svg
-                vertical-align middle
+    .p-breadcrumb
+        display flex
+        align-items center
+        .p-breadcrumb-item
+            display inline-flex
+            align-content center
+            .p-breadcrumb-item-text
+                display ruby
+                height 24px
+                line-height @height
+                color $grey-500
+                font-size 14px
+                overflow hidden
+                text-overflow ellipsis
+                white-space nowrap
+                cursor pointer
+            .p-breadcrumb-item-active
+                color $grey-900
+            .p-breadcrumb-item-width
+                width 44px
+            .p-breadcrumb-item-max-width
+                max-width 100px
+            .p-breadcrumb-arrow
+                margin-left 4px
+                margin-right 4px
+                padding-top 5px
+                height 24px
+                svg
+                    vertical-align middle
 
 </style>

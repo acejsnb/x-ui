@@ -177,80 +177,80 @@
 
 <style lang="stylus">
 
-@import "../../static/stylus/animate/opacityScale.styl"
-@import "../../static/stylus/datePicker/pickerChild.styl"
+    @import "../../static/stylus/animate/opacityScale.styl"
+    @import "../../static/stylus/datePicker/pickerChild.styl"
 
-.p-picker-child-title
-    display flex
-    align-items center
-    justify-content space-around
-    margin-top 12px
-    margin-bottom 8px
-    padding-left 16px
-    padding-right 16px
-    .p-picker-child-title-item
-        height 24px
-        line-height @height
-        color $grey-grey-500
-        font-size 14px
-        text-align center
-.p-picker-time-content
-    position relative
-    display flex
-    justify-content space-around
-    padding 8px 16px
-    width 100%
-    height 208px
-    overflow hidden
-    &::before
-        position absolute
-        display block
-        background-color $grey-grey-200
-        border-radius 4px
-        width 262px
-        height 24px
-        z-index 9
-        content ''
-    .p-picker-time-select-hms
-        width 98px
-        ul
-            li
-                padding-left 36px
-    .p-picker-time-select-hm
-        width 147px
-        ul
-            li
-                padding-left 60px
-    .p-picker-time-select
-        position relative
-        z-index 10
-        height 192px
-        overflow hidden
-        &:hover
-            overflow-y auto
-        ul
-            padding-bottom 160px
-            width 100%
-        .p-picker-time-text
-            margin-bottom 8px
-            width 100%
+    .p-picker-child-title
+        display flex
+        align-items center
+        justify-content space-around
+        margin-top 12px
+        margin-bottom 8px
+        padding-left 16px
+        padding-right 16px
+        .p-picker-child-title-item
             height 24px
             line-height @height
+            color $grey-500
+            font-size 14px
+            text-align center
+    .p-picker-time-content
+        position relative
+        display flex
+        justify-content space-around
+        padding 8px 16px
+        width 100%
+        height 208px
+        overflow hidden
+        &::before
+            position absolute
+            display block
+            background-color $grey-200
+            border-radius 4px
+            width 262px
+            height 24px
+            z-index 9
+            content ''
+        .p-picker-time-select-hms
+            width 98px
+            ul
+                li
+                    padding-left 36px
+        .p-picker-time-select-hm
+            width 147px
+            ul
+                li
+                    padding-left 60px
+        .p-picker-time-select
+            position relative
+            z-index 10
+            height 192px
+            overflow hidden
             &:hover
-                background-color $grey-grey-200
-                border-radius 4px
-            span
-                color $grey-grey-900
-                font-size 14px
-                text-align center
-                cursor pointer
-                transition color .3s
-                user-select none
+                overflow-y auto
+            ul
+                padding-bottom 160px
+                width 100%
+            .p-picker-time-text
+                margin-bottom 8px
+                width 100%
+                height 24px
+                line-height @height
                 &:hover
-                    background-color $grey-grey-200
-            &.p-picker-time-text-selected
+                    background-color $grey-200
+                    border-radius 4px
                 span
-                    color $primary-blue-500
+                    color $grey-900
+                    font-size 14px
+                    text-align center
+                    cursor pointer
+                    transition color .3s
+                    user-select none
+                    &:hover
+                        background-color $grey-200
+                &.p-picker-time-text-selected
+                    span
+                        color $blue-500
 
 
 </style>

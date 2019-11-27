@@ -22,29 +22,29 @@
 
 <style lang="stylus">
 
-.s-list
-  width 100%
+    .s-list
+        width 100%
 
-.s-list-item
-  display flex
-  justify-content space-between
-  align-items center
-  border-bottom 1px solid $grey-grey-300
-  &:last-child
-    border-bottom 0
-  article
-    padding 10px
-  .s-item-left
-    font-size 18px
-    color $grey-grey-900
-  .s-item-right
-    padding-top 2px
-    color $grey-grey-600
-    span
-      font-size 14px
-    i
-      padding-left 4px
-      font-style normal
-      font-size 20px
+    .s-list-item
+        display flex
+        justify-content space-between
+        align-items center
+        border-bottom 1px solid $grey-300
+        &:last-child
+            border-bottom 0
+        article
+            padding 10px
+        .s-item-left
+            font-size 18px
+            color $grey-900
+        .s-item-right
+            padding-top 2px
+            color $grey-600
+            span
+                font-size 14px
+            i
+                padding-left 4px
+                font-style normal
+                font-size 20px
 
 </style>

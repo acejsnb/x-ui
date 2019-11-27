@@ -9,7 +9,7 @@
                 <!-- @slot html内容 -->
                 <slot></slot>
             </div>
-<!--            <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">-->
+            <!--            <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">-->
             <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="bottom">
                 <Button type="primary" @click="onConfirm" :loading="loading">确定</Button>
                 <Button type="default" @click="onClose">取消</Button>
@@ -95,54 +95,54 @@
 </script>
 
 <style lang="stylus">
-@import "../static/stylus/animate/slideRightLeft.styl"
+    @import "../static/stylus/animate/slideRightLeft.styl"
 
-.p-drawer
-  outline none
-  position fixed
-  right 0
-  top 48px
-  background-color #fff
-  box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
-  min-width 304px
-  max-width 680px
-  height calc(100% - 48px)
-  z-index 899
-.p-drawer-title
-  position relative
-  padding-left 32px
-  padding-right 32px
-  border-bottom 1px solid $grey-grey-300
-  width 100%
-  height 56px
-  line-height @height
-  .p-title-text
-    max-width 98%
-    color $grey-grey-900
-    font-size 16px
-    overflow hidden
-    text-overflow ellipsis
-    white-space nowrap
-  .p-drawer-title-icon
-    position absolute
-    top 16px
-    right 28px
-    overflow-y auto
-.p-drawer-content
-  padding 12px 32px
-  width 100%
-  height calc(100% - 56px)
-  overflow auto
-.p-drawer-content-bottom
-  height calc(100% - 128px)
-.p-drawer-handle
-  padding 20px 32px
-  background-color #fff
-  width 100%
-.p-drawer-handle-bottom
-  position absolute
-  right 0
-  bottom 0
-  box-shadow 0 -2px 10px 0 rgba(31,35,41,.1)
+    .p-drawer
+        outline none
+        position fixed
+        right 0
+        top 48px
+        background-color #fff
+        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
+        min-width 304px
+        max-width 680px
+        height calc(100% - 48px)
+        z-index 899
+    .p-drawer-title
+        position relative
+        padding-left 32px
+        padding-right 32px
+        border-bottom 1px solid $grey-300
+        width 100%
+        height 56px
+        line-height @height
+        .p-title-text
+            max-width 98%
+            color $grey-900
+            font-size 16px
+            overflow hidden
+            text-overflow ellipsis
+            white-space nowrap
+        .p-drawer-title-icon
+            position absolute
+            top 16px
+            right 28px
+            overflow-y auto
+    .p-drawer-content
+        padding 12px 32px
+        width 100%
+        height calc(100% - 56px)
+        overflow auto
+    .p-drawer-content-bottom
+        height calc(100% - 128px)
+    .p-drawer-handle
+        padding 20px 32px
+        background-color #fff
+        width 100%
+    .p-drawer-handle-bottom
+        position absolute
+        right 0
+        bottom 0
+        box-shadow 0 -2px 10px 0 rgba(31,35,41,.1)
 
 </style>

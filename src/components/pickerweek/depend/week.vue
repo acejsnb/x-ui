@@ -244,7 +244,7 @@
                     svg
                         path
                             transition fill .5s
-                            fill $primary-blue-500
+                            fill $blue-500
             .p-picker-child-select-box-icon-svg-left
                 transform rotate(-180deg)
     .p-picker-child-title
@@ -258,7 +258,7 @@
             width 24px
             height 24px
             line-height @height
-            color $grey-grey-500
+            color $grey-500
             font-size 14px
             text-align center
             user-select none
@@ -276,7 +276,7 @@
                 width 100%
                 cursor pointer
                 &:hover
-                    background-color $grey-grey-200
+                    background-color $grey-200
                 .p-picker-weeks-list-text
                     position absolute
                     display flex
@@ -286,10 +286,10 @@
                     background-color #fff
                     box-shadow 0 2px 10px 0 rgba(31,35,41,0.1)
                     border-radius 4px
-                    color $grey-grey-900
+                    color $grey-900
                     font-size 14px
                     span
-                        color $primary-blue-500
+                        color $blue-500
             .p-picker-day-text
                 margin-right 16px
                 border-width 1px
@@ -305,7 +305,7 @@
                     margin-right 0
                 span
                     position relative
-                    color $grey-grey-900
+                    color $grey-900
                     font-size 14px
                     text-align center
                     transition color .3s

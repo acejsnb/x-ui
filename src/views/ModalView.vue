@@ -2,8 +2,11 @@
     <div class="Button">
         <div class="component component-padding">
             <h1>Modal组件</h1>
+            <h3>1.默认模态框</h3>
             <Button type="primary" @click="modalShowDefault">modalShowDefault</Button>
+            <h3>2.全屏模态框</h3>
             <Button type="primary" @click="modalShowFull">modalShowFull</Button>
+            <h3>2.最小模态框</h3>
             <Button type="primary" @click="modalShowSmall">modalShowSmall</Button>
             <!--
                 组件说明:
@@ -24,6 +27,7 @@
             >
                 <div style="font-size: 20px; width: 600px">
                     123
+                    <br><br><br><br><br><br><br><br>
                     <br><br><br><br><br><br><br><br>
                     <br><br><br><br><br><br><br><br>
                     <br><br><br><br><br><br><br><br>
@@ -69,6 +73,7 @@
                     title="弹窗提示"
                     :iconLoading="true"
                     mode="small"
+                    type="info"
                     @close="modalClose"
                     @confirm="modalConfirm"
             >
@@ -134,5 +139,9 @@
 </script>
 
 <style lang="stylus" scoped>
+.component
+    h3
+        margin 8px
+        font-size 16px
 
 </style>

@@ -90,7 +90,7 @@
         .p-carousel-icon
             margin-right 8px
             padding-top 4px
-            background-color $error-red-400
+            background-color $red-400
             border-radius 11px
             width 22px
             height @width
@@ -107,7 +107,7 @@
                 height @height
                 line-height @height
                 font-size 14px
-                color $grey-grey-600
+                color $grey-600
                 overflow hidden
                 text-overflow ellipsis
                 white-space nowrap

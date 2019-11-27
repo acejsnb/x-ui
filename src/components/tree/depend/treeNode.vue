@@ -8,7 +8,7 @@
             <section
                     class="p-tree-svg"
                     @click="openChild"
-            ><TriangleSvg :class="['svg', treeItem.open&&'rotate']" v-if="triangleShow" /></section>
+            ><ArrowTriangle :class="['p-tree-icon-svg', treeItem.open&&'p-tree-icon-rotate']" v-if="triangleShow" /></section>
             <div class="p-tree-node-check" @click="handleCheck(treeItem.id, index)">
                 <i :class="['p-tree-check-box', 'p-tree-check-box-'+treeItem.checked]" v-if="multiple"></i>
                 <section class="p-tree-node-title">
@@ -17,7 +17,6 @@
                             @mouseenter="treeItemEnter"
                             v-html="treeItem.name"
                     ></article>
-                    <article class="p-tree-checked-num" v-if="index.length>2&&checkedNumShow">{{quantity}}/{{total}}</article>
                 </section>
             </div>
         </div>
@@ -36,11 +35,11 @@
 </template>
 
 <script>
-    import TriangleSvg from '../../static/iconSvg/triangle.svg';
+    import ArrowTriangle from '../../static/iconSvg/arrow_triangle.svg';
 
     export default {
         name: 'TreeNode',
-        components: { TriangleSvg },
+        components: { ArrowTriangle },
         props: {
             /**
              * 是否开启多选
@@ -82,18 +81,6 @@
             // 没想左边内边距
             paddingLeft() {
                 return (this.index.split('-').length-1)*24+8;
-            },
-            // 显示选中数量比
-            checkedNumShow() {
-                return this.multiple && this.treeItem.children && this.treeItem.children.length;
-            },
-            // 选中的数量
-            total() {
-                return this.treeItem.children.filter(d => !d.isHide).length;
-            },
-            // 选中的数量
-            quantity() {
-                return this.treeItem.children.filter(d => !d.isHide && (d.checked==='checked' || d.checked==='notNull')).length;
             }
         },
         methods: {
@@ -143,107 +130,4 @@
 </script>
 
 <style lang="stylus">
-
-.p-tree-node
-    width 100%
-    .p-tree-node-content
-        position relative
-        display flex
-        align-items center
-        margin-top 4px
-        margin-bottom 4px
-        //margin-right 16px
-        //width 100%
-        height 32px
-        cursor pointer
-        &:hover
-            background-color $grey-grey-200
-        &.p-tree-node-content-checked
-            background-color $primary-blue-100
-            .p-tree-node-check
-                .p-tree-node-title
-                    .p-tree-node-name
-                        color $primary-blue-500
-        .p-tree-svg
-            //margin-left 8px
-            margin-right 8px
-            width 16px
-            height @width
-            text-align center
-            .svg
-                vertical-align text-bottom
-                transition transform .3s
-            .rotate
-                transform rotate(90deg)
-        .p-tree-node-check
-            display inline-flex
-            align-items center
-            width 85%
-            .p-tree-check-box
-                position relative
-                display inline-block
-                margin-right 4px
-                background-color #fff
-                border 1px solid $grey-grey-200
-                border-radius 2px
-                width 16px
-                height @width
-                &::after
-                    position absolute
-                    background none
-                    transition transform .2s ease-in-out
-                    transform rotate(0deg) scale(0)
-                    z-index 1
-                    content ''
-                &.p-tree-check-box-checked
-                    background-color $primary-blue-500
-                    border-color $primary-blue-500
-                    &::after
-                        top 2px
-                        left 5px
-                        border-right 2px solid #fff
-                        border-bottom 2px solid #fff
-                        width 4px
-                        height 8px
-                        transform rotate(45deg) scale(1)
-                &.p-tree-check-box-notNull
-                    background-color $primary-blue-500
-                    border-color $primary-blue-500
-                    &::after
-                        display block
-                        top 6px
-                        left 3px
-                        background-color #fff
-                        width 8px
-                        height 2px
-                        transform scale(1)
-            .p-tree-node-title
-                position relative
-                user-select none
-                width 81%
-                .p-tree-node-name
-                    -ms-transform translateY(3px)
-                    width 80%
-                    //min-width 110px
-                    max-width 160px
-                    height 32px
-                    line-height @height
-                    white-space nowrap
-                    text-overflow ellipsis
-                    overflow hidden
-                    font-size 14px
-                    color $grey-grey-900
-                .p-tree-checked-num
-                    position absolute
-                    right 0
-                    top 0
-                    width 20%
-                    height 32px
-                    line-height @height
-                    text-align right
-                    font-size 12px
-                    color $grey-grey-600
-    .p-tree-child
-        width 100%
-
 </style>

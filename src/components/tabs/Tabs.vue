@@ -61,35 +61,35 @@
 <style lang="stylus">
 
 
-.p-tabs
-    position relative
-    display inline-block
-    text-align center
-    .p-tab-item
+    .p-tabs
+        position relative
         display inline-block
-        padding 12px 16px
-        height 48px
-        line-height @height/2
-        font-size 16px
-        color $grey-grey-900
-        cursor pointer
-        transition color .3s
-        &+.p-tab-item
-            margin-left 16px
-        &:hover
-            color $primary-blue-500
-        span
-            display ruby
+        text-align center
+        .p-tab-item
+            display inline-block
+            padding 12px 16px
+            height 48px
+            line-height @height/2
             font-size 16px
-            line-height 24px
-    .p-tab-active
-        color $primary-blue-500
-    .p-tabs-line
-        position absolute
-        bottom 0
-        background $primary-blue-500
-        width 100%
-        height 2px
-        transition left .2s ease-out
+            color $grey-900
+            cursor pointer
+            transition color .3s
+            &+.p-tab-item
+                margin-left 16px
+            &:hover
+                color $blue-500
+            span
+                display ruby
+                font-size 16px
+                line-height 24px
+        .p-tab-active
+            color $blue-500
+        .p-tabs-line
+            position absolute
+            bottom 0
+            background $blue-500
+            width 100%
+            height 2px
+            transition left .2s ease-out
 
 </style>

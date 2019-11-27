@@ -1,7 +1,7 @@
 <template>
     <div class="p-modal-handle">
         <Button type="default" @click="onClose">取消</Button>
-        <Button type="primary" @click="onConfirm" :loading="loading">确定</Button>
+        <Button :type="btnType" @click="onConfirm" :loading="loading">确定</Button>
     </div>
 </template>
 
@@ -15,11 +15,27 @@
             iconLoading: {
                 type: Boolean,
                 default: false
+            },
+            type: {
+                type: String,
+                default: ''
             }
         },
         data() {
             return {
                 loading: false // 确定按钮的loading属性
+            }
+        },
+        computed: {
+            // 确定按钮type属性
+            btnType() {
+                const thisType=this.type;
+                let typeStr='primary';
+                if (thisType) {
+                    if (thisType === 'info') typeStr='primary';
+                    else typeStr='error'
+                }
+                return typeStr;
             }
         },
         watch: {

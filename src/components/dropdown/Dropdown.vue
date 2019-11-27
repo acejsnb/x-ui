@@ -88,65 +88,65 @@
 
 <style lang="stylus">
 
-@import "../static/stylus/animate/slideDownUp.styl"
+    @import "../static/stylus/animate/slideDownUp.styl"
 
-.p-drop
-    position relative
-    display inline-block
-    vertical-align middle
-    .p-drop-title
+    .p-drop
         position relative
-        padding-right 16px
-        cursor pointer
-        z-index 10
-        .p-drop-title-content
-            font-size 14px
-            color $grey-grey-900
-        .p-drop-triangle
-            position absolute
-            right 0
-            top 50%
-            transform translateY(-8px)
-            svg
-                transition transform .3s
-        .p-drop-triangle-rotate
-            svg
-                transform rotate(180deg)
-    .p-drop-option
-        position absolute
-        top 100%
-        padding-top 4px
-        padding-bottom 4px
-        background-color #fff
-        border 1px solid $grey-grey-300
-        border-radius 4px
-        box-shadow 0 5px 10px rgba(31,35,41,.1)
-        min-width 120px
-        max-width 240px
-        max-height 138px
-        z-index 11
-        .p-drop-option-item
-            padding 5px 12px
-            //width 100%
-            //height 32px
-            line-height 22px
-            font-size 14px
-            color $grey-grey-900
+        display inline-block
+        vertical-align middle
+        .p-drop-title
+            position relative
+            padding-right 16px
             cursor pointer
-            white-space nowrap
-            text-overflow ellipsis
-            overflow hidden
-            &:hover
-                background-color $grey-grey-200
-            &.option-selected
-                color $primary-blue-500
-                background-color $primary-blue-100
-            &.option-disable
-                color $grey-grey-400 !important
-                cursor not-allowed
-    .p-drop-option-left
-        left 0
-    .p-drop-option-right
-        right 0
+            z-index 10
+            .p-drop-title-content
+                font-size 14px
+                color $grey-900
+            .p-drop-triangle
+                position absolute
+                right 0
+                top 50%
+                transform translateY(-8px)
+                svg
+                    transition transform .3s
+            .p-drop-triangle-rotate
+                svg
+                    transform rotate(180deg)
+        .p-drop-option
+            position absolute
+            top 100%
+            padding-top 4px
+            padding-bottom 4px
+            background-color #fff
+            border 1px solid $grey-300
+            border-radius 4px
+            box-shadow 0 5px 10px rgba(31,35,41,.1)
+            min-width 120px
+            max-width 240px
+            max-height 138px
+            z-index 11
+            .p-drop-option-item
+                padding 5px 12px
+                //width 100%
+                //height 32px
+                line-height 22px
+                font-size 14px
+                color $grey-900
+                cursor pointer
+                white-space nowrap
+                text-overflow ellipsis
+                overflow hidden
+                &:hover
+                    background-color $grey-200
+                &.option-selected
+                    color $blue-500
+                    background-color $blue-100
+                &.option-disable
+                    color $grey-400 !important
+                    cursor not-allowed
+        .p-drop-option-left
+            left 0
+        .p-drop-option-right
+            right 0
 
 </style>

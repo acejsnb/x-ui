@@ -53,6 +53,7 @@
                     if (!mc) return;
                     const modalContentWidth=mc.clientWidth;
                     const modalContentHeight=mc.clientHeight;
+                    console.log(modalContentWidth, modalContentHeight);
                     this.modalMainLeft=(bodyWidth - modalContentWidth-64)/2;
                     const top=(bodyHeight-modalContentHeight-161)/2;
                     if (top>60 && top<120) this.modalMainTop=top;

@@ -12,6 +12,7 @@ import ToggleView from './views/ToggleView';
 import DropdownView from './views/DropdownView';
 import DropGroupView from './views/DropGroupView';
 import SelectView from './views/SelectView';
+import SelectSearchView from './views/SelectSearchView';
 import BadgeView from './views/BadgeView';
 import DividerView from './views/DividerView';
 import CarouselTextView from './views/CarouselTextView';
@@ -25,8 +26,10 @@ import PickerWeekView from './views/PickerWeekView';
 import PickerYearView from './views/PickerYearView';
 import PickerMonthView from './views/PickerMonthView';
 import TreeView from './views/TreeView';
+import TreeBiView from './views/TreeBiView';
 import ShakeView from './views/ShakeView';
 import StickView from './views/StickView';
+import TagView from './views/TagView';
 
 import MessageView from './views/MessageView';
 
@@ -90,6 +93,14 @@ export default new Router({
             component: SelectView,
             meta: {
                 title: 'SelectView'
+            }
+        },
+        {
+            path: '/selectSearchView',
+            name: 'SelectSearchView',
+            component: SelectSearchView,
+            meta: {
+                title: 'SelectSearchView'
             }
         },
         {
@@ -199,6 +210,14 @@ export default new Router({
             }
         },
         {
+            path: '/treeBiView',
+            name: 'TreeBiView',
+            component: TreeBiView,
+            meta: {
+                title: 'TreeBiView'
+            }
+        },
+        {
             path: '/shakeView',
             name: 'ShakeView',
             component: ShakeView,
@@ -212,6 +231,14 @@ export default new Router({
             component: StickView,
             meta: {
                 title: 'StickView'
+            }
+        },
+        {
+            path: '/tagView',
+            name: 'TagView',
+            component: TagView,
+            meta: {
+                title: 'TagView'
             }
         },
 

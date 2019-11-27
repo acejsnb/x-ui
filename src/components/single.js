@@ -9,6 +9,7 @@ const components={
     Dropdown: './src/components/dropdown',
     DropGroup: './src/components/dropGroup',
     Select: './src/components/select',
+    SelectSearch: './src/components/selectSearch',
     Badge: './src/components/badge',
     Divider: './src/components/divider',
     CarouselText: './src/components/carouselText',
@@ -21,8 +22,10 @@ const components={
     PickerMonth: './src/components/pickerMonth',
     PickerYear: './src/components/pickerYear',
     Tree: './src/components/tree',
+    TreeBi: './src/components/treeBi',
     Shake: './src/components/shake',
     Stick: './src/components/stick',
+    Tag: './src/components/tag',
 
 
     Message: './src/components/message' // 函数式组件

@@ -23,6 +23,7 @@ module.exports = {
         sidebar: [
             ['/', '首页'],
             '/guide/',
+            '/guide/log/',
             {
                 title: '组件',
                 collapsable: false,
@@ -43,6 +44,8 @@ module.exports = {
                     '/guide/tabs/',
                     '/guide/toggle/',
                     '/guide/tree/',
+                    '/guide/treeBi/',
+                    '/guide/tag/',
                 ]
             },
         ]

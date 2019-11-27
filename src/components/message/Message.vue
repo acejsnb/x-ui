@@ -42,45 +42,45 @@
 </script>
 
 <style lang="stylus">
-@import "../static/stylus/animate/fadeDownUp.styl"
+    @import "../static/stylus/animate/fadeDownUp.styl"
 
-.p-message
-    position relative
-    display inline-flex
-    justify-content space-between
-    align-items flex-start
-    padding 8px
-    border-radius 4px
-    box-shadow 0 2px 10px 0 rgba(0,66,117,.2)
-    min-width 240px
-    max-width 600px
-    min-height 40px
-    & + .p-message
-        margin-top 24px
-    .p-message-hint
-        padding-top 4px
-    .p-message-text
-        width calc(100% - 48px)
-        text-align left
-        font-size 14px
-        color #fff
-        word-wrap break-word
-        line-height 24px
-    .p-message-close
-        padding-top 5px
-        svg
-            opacity .5
-            transition opacity .3s
-            cursor pointer
-            &:hover
-                opacity 1
-.p-message-info
-    background-color $primary-blue-500
-.p-message-success
-    background-color $success-turquoise-500
-.p-message-warning
-    background-color $warning-orange-400
-.p-message-error
-    background-color $error-red-400
+    .p-message
+        position relative
+        display inline-flex
+        justify-content space-between
+        align-items flex-start
+        padding 8px
+        border-radius 4px
+        box-shadow 0 2px 10px 0 rgba(0,66,117,.2)
+        min-width 240px
+        max-width 600px
+        min-height 40px
+        & + .p-message
+            margin-top 24px
+        .p-message-hint
+            padding-top 4px
+        .p-message-text
+            width calc(100% - 48px)
+            text-align left
+            font-size 14px
+            color #fff
+            word-wrap break-word
+            line-height 24px
+        .p-message-close
+            padding-top 5px
+            svg
+                opacity .5
+                transition opacity .3s
+                cursor pointer
+                &:hover
+                    opacity 1
+    .p-message-info
+        background-color $blue-500
+    .p-message-success
+        background-color $turquoise-500
+    .p-message-warning
+        background-color $orange-400
+    .p-message-error
+        background-color $red-400
 
 </style>

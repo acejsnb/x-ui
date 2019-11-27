@@ -1,0 +1,97 @@
+.p-tree
+  //background-color #ccc
+  width 100%
+  //min-width 224px
+  max-width 280px
+  overflow-x hidden
+  //overflow-y auto
+.p-tree-node
+  width 100%
+  .p-tree-node-content
+    position relative
+    display flex
+    align-items center
+    margin-top 4px
+    margin-bottom 4px
+    //margin-right 16px
+    width 100%
+    height 32px
+    cursor pointer
+    &:hover
+      background-color $grey-200
+    &.p-tree-node-content-checked
+      background-color $blue-100
+      .p-tree-node-check
+        .p-tree-node-title
+          .p-tree-node-name
+            color $blue-500
+    .p-tree-svg
+      margin-right 8px
+      width 16px
+      height @width
+      text-align center
+      .p-tree-icon-svg
+        vertical-align text-bottom
+        transform rotate(90deg)
+        transition transform .3s
+      .p-tree-icon-rotate
+        transform rotate(180deg)
+    .p-tree-node-check
+      display inline-flex
+      align-items center
+      width calc(100% - 20px)
+      .p-tree-check-box
+        position relative
+        display inline-block
+        margin-right 4px
+        background-color #fff
+        border 1px solid $grey-200
+        border-radius 2px
+        width 16px
+        height @width
+        &::after
+          position absolute
+          background none
+          transition transform .2s ease-in-out
+          transform rotate(0deg) scale(0)
+          z-index 1
+          content ''
+        &.p-tree-check-box-checked
+          background-color $blue-500
+          border-color $blue-500
+          &::after
+            top 2px
+            left 5px
+            border-right 2px solid #fff
+            border-bottom 2px solid #fff
+            width 4px
+            height 8px
+            transform rotate(45deg) scale(1)
+        &.p-tree-check-box-notNull
+          background-color $blue-500
+          border-color $blue-500
+          &::after
+            display block
+            top 6px
+            left 3px
+            background-color #fff
+            width 8px
+            height 2px
+            transform scale(1)
+      .p-tree-node-title
+        position relative
+        user-select none
+        width calc(100% - 20px)
+        .p-tree-node-name
+          -ms-transform translateY(3px)
+          width 100%
+          max-width 160px
+          height 32px
+          line-height @height
+          white-space nowrap
+          text-overflow ellipsis
+          overflow hidden
+          font-size 14px
+          color $grey-900
+  .p-tree-child
+    width 100%

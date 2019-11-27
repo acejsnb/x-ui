@@ -163,12 +163,6 @@
 </script>
 
 <style lang="stylus">
-
-.p-tree
-    //background-color #ccc
-    width 100%
-    //min-width 224px
-    max-width 280px
-    //overflow-y auto
+@import "../static/stylus/tree/tree.styl"
 
 </style>
