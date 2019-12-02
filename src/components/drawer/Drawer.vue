@@ -1,6 +1,14 @@
 <template>
     <transition name="slideRightLeft">
-        <div class="p-drawer" :tabindex="focus&&-1" v-focus="focus" @blur="onClose" v-if="show">
+        <div
+                ref="drawerBox"
+                v-if="show"
+                class="p-drawer"
+                :tabindex="-1"
+                @blur="drawerBlur"
+                @mouseenter="drawerEnter"
+                @mouseleave="drawerLeave"
+        >
             <div class="p-drawer-title" v-show="title">
                 <section class="p-title-text">{{title}}</section>
                 <Icon type="close" class="p-drawer-title-icon" @click="onClose" />
@@ -9,7 +17,7 @@
                 <!-- @slot html内容 -->
                 <slot></slot>
             </div>
-            <!--            <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">-->
+            <!--<div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">-->
             <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="bottom">
                 <Button type="primary" @click="onConfirm" :loading="loading">确定</Button>
                 <Button type="default" @click="onClose">取消</Button>
@@ -64,17 +72,44 @@
                 default: false
             }
         },
-        directives: {
-            /**
-             * 自定义指令
-             */
-            focus: {
-                inserted(e, ct) {
-                    if (ct.value) e.focus();
+        data() {
+            return {
+                autoClose: false // 是否拾取焦点就关闭
+            }
+        },
+        watch: {
+            // 监听focus改变
+            focus(n) {
+                this.autoClose=n;
+            },
+            // 监听抽屉显示
+            show(n) {
+                if (n) {
+                    this.$nextTick(() => {
+                        this.$refs.drawerBox.focus();
+                    })
                 }
             }
         },
+        created() {
+            this.autoClose=this.focus;
+        },
         methods: {
+            // 鼠标移入
+            drawerEnter() {
+                if (this.focus) this.autoClose=false;
+            },
+            // 鼠标移出
+            drawerLeave(e) {
+                if (this.focus) {
+                    this.autoClose=true;
+                    e.target.focus();
+                }
+            },
+            // 失去焦点
+            drawerBlur() {
+                if (this.focus && this.autoClose) this.onClose();
+            },
             /**
              * 关闭侧拉窗
              */

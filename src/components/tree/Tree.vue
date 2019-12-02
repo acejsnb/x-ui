@@ -47,24 +47,28 @@
         methods: {
             /**
              * 点击某项
-             * @param id
+             * @param obj
              * @param index 索引串
              */
-            change(id, index) {
+            change(obj, index) {
                 // return;
+                const { id }=obj;
                 if (this.multiple) {
                     let iArr=(index.split('-')); // 拿到索引值
                     iArr.pop(); // 这里不需要遍历最后一个索引的数据
                     let data=this.treeData;
                     this.changeParentChecked(data, iArr);
-                    const checkedIds=this.filterIds(this.treeData);
+                    const checkedObj=this.filterIds(this.treeData);
+                    const checkedIds=checkedObj.map(d => d.id);
                     /**
                      * 点击某项返回的数据
                      * @param id
                      * @param checkedIds 选择的id组，多选时才返回
+                     * @param obj 选择的当前对象，多选时才返回
+                     * @param checkedObj 选择的对象组，多选时才返回
                      * @type Function
                      */
-                    this.$emit('change', {id, checkedIds});
+                    this.$emit('change', {id, checkedIds, obj, checkedObj});
                 } else {
                     this.treeData=this.changeCheckedItem(this.treeData, id);
                     /**
@@ -72,7 +76,7 @@
                      * @param id
                      * @type Function
                      */
-                    this.$emit('change', {id});
+                    this.$emit('change', obj);
                 }
             },
             /**
@@ -154,7 +158,7 @@
              */
             recursionIds(data, arr) {
                 data.forEach(d => {
-                    if (d.checked === 'checked') arr.push(d.id);
+                    if (d.checked === 'checked') arr.push(d);
                     if (d.children && d.children.length) this.recursionIds(d.children, arr);
                 });
             }

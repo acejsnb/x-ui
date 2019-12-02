@@ -1,24 +1,21 @@
 <template>
     <div class="p-carousel" @mouseenter="stopTimer" @mouseleave="setTimer">
-        <i class="p-carousel-icon">
-            <transition-group name="slideUp">
-                <CommissionSvg v-show="num === 0" :key="'commission'" />
-                <ExecutorySvg v-show="num === 1" :key="'executory'" />
-                <PendingSvg v-show="num === 2" :key="'pending'" />
-            </transition-group>
-        </i>
-        <div class="p-carousel-msg">
-            <transition-group name="slideUp">
-                <section
-                        v-show="num === i"
-                        class="p-carousel-item"
-                        v-for="(item, i) in data"
-                        :key="item.id"
-                        @click="itemClick(item.id)"
-                        :title="item.text"
-                >{{item.text}}</section>
-            </transition-group>
-        </div>
+        <transition-group name="slideUp">
+            <div class="p-carousel-msg"
+                 v-show="num === i"
+                 v-for="(item, i) in data"
+                 :key="item.id"
+                 @click="itemClick(item.id)"
+                 :title="item.text"
+            >
+                <i class="p-carousel-icon">
+                    <CommissionSvg v-if="num === 0" />
+                    <ExecutorySvg v-if="num === 1" />
+                    <PendingSvg v-if="num === 2" />
+                </i>
+                <section class="p-carousel-item">{{item.text}}</section>
+            </div>
+        </transition-group>
     </div>
 </template>
 
@@ -86,24 +83,28 @@
     .p-carousel
         display flex
         align-items center
+        justify-content flex-end
         width 100%
-        .p-carousel-icon
-            margin-right 8px
-            padding-top 4px
-            background-color $red-400
-            border-radius 11px
-            width 22px
-            height @width
-            text-align center
-            overflow-y hidden
-            svg
-                vertical-align middle
+        height 24px
+        overflow hidden
         .p-carousel-msg
-            width 87%
-            height 24px
-            overflow-y hidden
+            display flex
+            align-items center
+            justify-content flex-end
+            width 100%
+            height @height
+            .p-carousel-icon
+                margin-right 8px
+                padding-top 4px
+                background-color $red-400
+                border-radius 11px
+                width 22px
+                height @width
+                text-align center
+                svg
+                    vertical-align middle
             .p-carousel-item
-                width 100%
+                max-width calc(100% - 30px)
                 height @height
                 line-height @height
                 font-size 14px

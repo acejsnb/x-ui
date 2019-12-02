@@ -19,6 +19,9 @@
                     <span class="p-select-choice-clear" @click="removeChoiceItem(cdi)"><IconCloseSvg /></span>
                 </article>
                 <article class="p-select-field-item">
+                    <!--
+
+                    -->
                     <input
                             type="text"
                             class="p-select-search-input"
@@ -26,8 +29,8 @@
                             ref="inputField"
                             v-model="inputValue"
                             @input="searchInput"
-                            @blur="inputBlur"
                             @keydown.8="inputKeydown"
+                            @blur="inputBlur"
                     >
                 </article>
             </section>
@@ -38,12 +41,21 @@
         <transition name="slideDownUp">
             <div class="p-select-drop-down-box" v-show="dropDownShow">
                 <div class="p-select-drop-down-not" v-if="notFound">Not found</div>
-                <SelectOptionMultiple
-                        ref="selectOption"
-                        :selectedIds="selectedIds"
-                        :data="searchData"
-                        @change="optionClick"
-                />
+                <div class="p-select-drop-down-tree" v-show="!notFound">
+                    <SelectOptionMultiple
+                            v-show="inputValue"
+                            ref="selectOption"
+                            :selectedIds="selectedIds"
+                            :data="searchData"
+                            @change="optionClick"
+                    />
+                    <Tree
+                            v-show="!inputValue"
+                            :multiple="true"
+                            :data="treeData"
+                            @change="optionClickTree"
+                    />
+                </div>
             </div>
         </transition>
     </div>
@@ -53,10 +65,13 @@
     import IconCloseSvg from '../../static/iconSvg/icon_close.svg';
     import TriangleSvg from '../../static/iconSvg/triangle.svg';
     import SelectOptionMultiple from './selectOptionMultiple';
+    import Tree from '../../tree';
+
+    import {FilterTool, PackageTool, TileTool} from '../../static/utils/TileTool';
 
     export default {
-        name: "SelectSingleSearch",
-        components: { IconCloseSvg, TriangleSvg, SelectOptionMultiple },
+        name: "selectMultipleSearchTree",
+        components: { IconCloseSvg, TriangleSvg, SelectOptionMultiple, Tree },
         props: {
             // 选中项的id
             selectedIds: {
@@ -89,39 +104,35 @@
                 inputWidth: 10, // 输入框的宽度
                 // 下拉框是否显示
                 dropDownShow: false,
+                // 树形结构数据
+                treeData: [],
                 // 搜索的数据
                 searchData: [],
                 // 选中的数据
                 choiceData: [],
                 // 激活关闭
-                closeDrop: false
-            }
-        },
-        computed: {
-            // 搜索无内容
-            notFound() {
-                return this.searchData.length===0;
+                closeDrop: false,
+                // 搜索无内容
+                notFound: false
             }
         },
         watch: {
             // 监听文字输入
             inputValue(n, o) {
                 if (n === o) return;
+                this.notFound=this.searchData.length===0;
                 if (n) {
                     this.setInputWidth(n, this.$refs.inputField);
                 } else {
                     this.inputWidth=10;
-                    setTimeout(() => {
-                        this.setSelectedData(this.data, this.selectedIds);
-                    }, 0);
+                    // setTimeout(() => this.searchData=this.data, 0);
                 }
             }
         },
         created() {
             // 设置option数据
-            this.setSelectedData(this.data, this.selectedIds);
-            // 设置选中的数据
-            this.choiceData=this.data.filter(d => this.selectedIds.includes(d.id));
+            this.treeData=this.data;
+            this.notFound=this.treeData.length===0;
         },
         methods: {
             // 点击p-select-search-box使输入框获取焦点
@@ -134,11 +145,15 @@
 
                 this.boxFocus=true;
             },
-            // 设置输入框宽度
-            setInputWidth(v, obj) {
+            /**
+             * 筛选搜索的收据
+             * @param v 搜索框输入的值
+             * @param dom dom对象
+             */
+            setInputWidth(v, dom) {
                 if (v) {
                     this.fieldStatus=false;
-                    const { scrollWidth }=obj;
+                    const { scrollWidth }=dom;
                     if (scrollWidth < this.width-24) this.inputWidth=scrollWidth;
                     else this.inputWidth=this.width-24;
                     this.filterSelect(v);
@@ -150,23 +165,29 @@
             searchInput(e) {
                 const v=e.data;
                 this.fieldStatus = !v;
-                this.setInputWidth(v, e.target);
+                if (v) this.setInputWidth(v, e.target);
+                else this.searchData=this.data,this.notFound=false;
             },
-            setSelectedData(data, ids) {
-                const dataArr=JSON.parse(JSON.stringify(data));
-                this.searchData = dataArr.map(d => {
-                    d.selected = !!ids.includes(d.id);
-                    return d;
-                });
-            },
-            // 筛选
+            /**
+             * 筛选搜索的收据
+             * @param v 搜索框输入的值
+             */
             filterSelect(v) {
-                const re=new RegExp(v, 'g');
                 const data=JSON.parse(JSON.stringify(this.data));
-                this.searchData=data.filter(d => d.name.includes(v)).map(d => {
-                    d.name=d.name.replace(re, `<span style="color: #0091ff;font-size: 14px;">${v}</span>`);
-                    return d;
+                const tileData=TileTool([], data, '-1'); // 平铺树形结构
+
+                const re=new RegExp(v, 'g');
+                // 筛选出包涵有搜索字符的数据
+                const fData=tileData.filter(d => {
+                    if (d.name.includes(v)) {
+                        d.name=d.name.replace(re, `<span style="color: #0091ff;font-size: 14px;">${v}</span>`);
+                        return d;
+                    }
                 });
+                // 得到筛选后的数据 一维数据列表
+                const tData=FilterTool([], tileData, fData);
+                this.searchData=tData;
+                this.notFound=tData.length===0;
             },
             // 关闭选择框
             inputBlur() {
@@ -193,13 +214,41 @@
                 this.closeDrop=true;
                 if (!this.disabled && this.dropDownShow) this.$refs.inputField.focus();
             },
+            // 设置选中的数据
+            setDataNow(id) {
+                this.dropDownShow=false;
+                this.inputValue='';
+                this.searchPlaceHolder=true;
+                this.fieldStatus=true;
+                this.pleaseSelect=this.setChoiceName(id);
+            },
             // 移除选中的项
             removeChoiceItem(i) {
                 const choiceData=this.choiceData;
                 choiceData.splice(i, 1);
                 const ids=choiceData.map(d => d.id);
+
                 this.choiceData=choiceData;
+                this.setTreeDataChecked(this.treeData, ids);
+
                 this.$emit('change', ids);
+            },
+            /**
+             * 多选修改状态
+             * @param data
+             * @return {string}
+             */
+            changeStatus(data) {
+                let checked='';
+                if (data.every(d => d.checked==='checked')) {
+                    checked = 'checked';
+                } else if (data.every(d => d.checked==='uncheck')) {
+                    checked = 'uncheck';
+                } else {
+                    checked = 'notNull';
+                }
+
+                return checked;
             },
             /**
              * 设置参数
@@ -211,12 +260,68 @@
                 return strArr.pop();
             },
             /**
+             * 设置树形结构被选中
+             * @param arrTree 树形结构数据
+             * @param arr 选择的数据
+             */
+            setTreeDataChecked(arrTree, arr) {
+                const selIds=arr; // 选中的id
+                // 扁平化数据
+                const tileData=TileTool([], arrTree, '-1').map(d => {
+                    if (selIds.includes(d.id)) {
+                        d.checked='checked';
+                    } else {
+                        d.checked='uncheck';
+                    }
+                    return d;
+                });
+
+                let sel=[]; // 查找父级id
+                selIds.forEach(d => {
+                    let arr=[d];
+                    this.getParentIdById(arr, tileData, d);
+                    sel.push(arr)
+                });
+
+                // 查找选中项的父级项，并设置父级项的选中状态
+                for (let i=sel.length; i>=0; i--) {
+                    let seli=sel[i];
+                    if (seli && seli.length) {
+                        for (let j=seli.length; j>=0; j--) {
+                            let arr=tileData.filter(d => d.parentId===seli[j]); // 得到选中项
+                            if (arr && arr.length) {
+                                tileData.forEach(d => {
+                                    if (d.id === arr[0].parentId) d.checked=this.changeStatus(arr);
+                                });
+                            }
+                        }
+                    }
+                }
+
+                this.treeData=PackageTool(tileData);
+            },
+            /**
+             * 通过子项id查找父项id
+             * @param result 查找结果
+             * @param tile 平铺的数据
+             * @param id 当前子项id
+             */
+            getParentIdById(result, tile, id) {
+                tile.forEach(d => {
+                    if (d.id === id){
+                        result.unshift(d.parentId);
+                        this.getParentIdById(result, tile, d.parentId);
+                    }
+                });
+            },
+            /**
              * 提交当前选择的值
              * @param selected 被选中的项
              * @param unselect 被取消的项
              */
             optionClick(selected, unselect) {
-                // console.log('提交当前选择的值:::', selected);
+                // console.log('提交当前选择的值:::selected', selected);
+                // console.log('提交当前选择的值:::unselect', unselect);
                 let choiceData=[];
                 if (selected && selected.id) {
                     const data=JSON.parse(JSON.stringify(selected));
@@ -227,13 +332,34 @@
 
                     choiceData=Array.from(new Set([...this.choiceData, cdNow]));
                 } else {
-                    const unId=unselect.id;
+                    const unId=this.setAttr(unselect.id);
                     choiceData=this.choiceData.filter(d => d.id !== unId);
+                }
+
+                this.choiceData=choiceData;
+                const ids=choiceData.map(d => d.id);
+                this.setTreeDataChecked(this.treeData, ids);
+
+                this.$emit('change', ids);
+            },
+            // 提交当前选择的值
+            optionClickTree(selectedData) {
+                // console.log('提交当前选择的值:::', selectedData);
+                // { 当前改变的id, 选择的id组, 选择的当前对象, 选择的对象组 }
+                const {id, checkedIds, obj, checkedObj}=selectedData;
+                let choiceData=[];
+                if (checkedObj && checkedObj.length) {
+                    const data=JSON.parse(JSON.stringify(checkedObj));
+                    choiceData=data.map(d => {
+                        const id=this.setAttr(d.id);
+                        const n=d.name.replace(/<[^<>]+>/g, '');
+                        const name=this.setAttr(n);
+                        return {id, name};
+                    });
                 }
                 this.choiceData=choiceData;
 
-                const ids=choiceData.map(d => d.id);
-                this.$emit('change', ids);
+                this.$emit('change', checkedIds);
             }
         }
     }

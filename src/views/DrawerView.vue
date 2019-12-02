@@ -19,6 +19,7 @@
                     :show="drawerStatus"
                     title="抽屉"
                     :loading="iconLoading"
+                    :focus="true"
                     @changeLoading="changeLoading"
                     :bottom="true"
                     @changeStatus="changeStatus"

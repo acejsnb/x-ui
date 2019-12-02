@@ -37,6 +37,6 @@
 <style lang="stylus" scoped>
 
     .textCar
-        width 240px
+        width 320px
 
 </style>

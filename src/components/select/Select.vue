@@ -169,8 +169,14 @@
             position absolute
             left 0
             top 100%
+            margin-top 8px
             //transform translateY(8px)
+            border 1px solid $grey-300
+            border-radius 4px
+            box-shadow 0 5px 10px rgba(31,35,41,.1)
             width 100%
+            max-height 184px
+            overflow-y auto
             z-index 11
 
 </style>
