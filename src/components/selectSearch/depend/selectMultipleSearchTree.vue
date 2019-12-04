@@ -13,10 +13,13 @@
                      (pleaseSelect!=='Please select' && searchPlaceHolder)&&'p-select-choice-name'
                     ]"
             >{{pleaseSelect}}</section>
-            <section class="p-select-search-field">
-                <article class="p-select-field-item" v-for="(cd, cdi) in choiceData" :key="cd.id+'-'+cdi">
+            <section :class="['p-select-search-field', !accept&&'p-select-search-field-accept']">
+                <article class="p-select-field-item" v-for="(cd, cdi) in choiceData" :key="cd.id+'-'+cdi" v-show="accept?cdi < 5:true">
                     <span class="p-select-choice" :title="cd.name">{{cd.name}}</span>
                     <span class="p-select-choice-clear" @click="removeChoiceItem(cdi)"><IconCloseSvg /></span>
+                </article>
+                <article class="p-select-field-item" v-show="moreChoiceCount>0 && accept">
+                    <span class="p-select-choice p-select-choice-more">{{`+ ${moreChoiceCount}...`}}</span>
                 </article>
                 <article class="p-select-field-item">
                     <!--
@@ -52,6 +55,7 @@
                     <Tree
                             v-show="!inputValue"
                             :multiple="true"
+                            :linkage="linkage"
                             :data="treeData"
                             @change="optionClickTree"
                     />
@@ -67,12 +71,22 @@
     import SelectOptionMultiple from './selectOptionMultiple';
     import Tree from '../../tree';
 
-    import {FilterTool, PackageTool, TileTool} from '../../static/utils/TileTool';
+    import {FilterTool, PackageTool, TileTool, Unique} from '../../static/utils/TileTool';
 
     export default {
         name: "selectMultipleSearchTree",
         components: { IconCloseSvg, TriangleSvg, SelectOptionMultiple, Tree },
         props: {
+            // 联动
+            linkage: {
+                type: Boolean,
+                default: true
+            },
+            // 收纳
+            accept: {
+                type: Boolean,
+                default: true
+            },
             // 选中项的id
             selectedIds: {
                 type: Array,
@@ -104,6 +118,8 @@
                 inputWidth: 10, // 输入框的宽度
                 // 下拉框是否显示
                 dropDownShow: false,
+                // 平铺的数据
+                tileData: [],
                 // 树形结构数据
                 treeData: [],
                 // 搜索的数据
@@ -116,6 +132,12 @@
                 notFound: false
             }
         },
+        computed: {
+            // 选择的项是否显示更多
+            moreChoiceCount() {
+                return this.choiceData.length-5;
+            }
+        },
         watch: {
             // 监听文字输入
             inputValue(n, o) {
@@ -125,16 +147,26 @@
                     this.setInputWidth(n, this.$refs.inputField);
                 } else {
                     this.inputWidth=10;
-                    // setTimeout(() => this.searchData=this.data, 0);
                 }
+            },
+            // 监听数据改变
+            data(n, o) {
+                if (n === o) return;
+                this.setData(n);
             }
         },
         created() {
-            // 设置option数据
-            this.treeData=this.data;
-            this.notFound=this.treeData.length===0;
+            this.setData(this.data);
         },
         methods: {
+            // 初始化数据
+            setData(data) {
+                const d=JSON.parse(JSON.stringify(data));
+                const tileData=TileTool([], d, '-1');
+                this.tileData=tileData;
+                this.treeData=PackageTool(tileData);
+                this.notFound=this.treeData.length===0;
+            },
             // 点击p-select-search-box使输入框获取焦点
             searchBoxClick() {
                 if (this.disabled) return;
@@ -173,8 +205,7 @@
              * @param v 搜索框输入的值
              */
             filterSelect(v) {
-                const data=JSON.parse(JSON.stringify(this.data));
-                const tileData=TileTool([], data, '-1'); // 平铺树形结构
+                const tileData=JSON.parse(JSON.stringify(this.tileData)); // 平铺树形结构
 
                 const re=new RegExp(v, 'g');
                 // 筛选出包涵有搜索字符的数据
@@ -222,14 +253,79 @@
                 this.fieldStatus=true;
                 this.pleaseSelect=this.setChoiceName(id);
             },
+            /**
+             * 通过子项id查找父项id-筛选出子集id
+             * @param result 结果id
+             * @param tileData 平铺的数据
+             * @param id 子项id
+             */
+            getIdByParentId(result, tileData, id) {
+                tileData.forEach(d => {
+                    if (d.id === id) {
+                        result.push(d.parentId);
+                    }
+                });
+            },
+            /**
+             * 通过子父项id查找子项id
+             * @param result 结果id
+             * @param tileData 平铺的数据
+             * @param id 子项id
+             */
+            getParentIdById(result, tileData, id) {
+                tileData.forEach(d => {
+                    if (d.parentId === id) {
+                        result.push(d.id);
+                        this.getParentIdById(result, tileData, d.id);
+                    }
+                });
+            },
+            /**
+             * 通过id查找id-筛选出子集id
+             * @param result 结果数据id
+             * @param tileData 平铺的数据
+             * @param id 父项id
+             */
+            getIdById(result, tileData, id) {
+                tileData.forEach(d => {
+                    if (d.parentId === id) {
+                        result.push(d.id);
+                        this.getIdById(result, tileData, d.id);
+                    }
+                    if (d.id) result.push(d.parentId);
+                });
+            },
+            /**
+             * 通过父项id查找子项id-筛选出子集id
+             * @param result 结果数据
+             * @param tileData 平铺的数据
+             * @param id 父项id
+             */
+            getItemById(result, tileData, id) {
+                tileData.forEach(d => {
+                    if (d.parentId === id) {
+                        result.push({id: d.id, name: d.name});
+                        this.getItemById(result, tileData, d.id);
+                    }
+                });
+            },
             // 移除选中的项
             removeChoiceItem(i) {
-                const choiceData=this.choiceData;
-                choiceData.splice(i, 1);
+                const cd=this.choiceData;
+                if (!cd || !cd.length) return;
+                // 扁平化数据
+                const tileData=TileTool([], this.treeData, '-1');
+                const cData=this.choiceData;
+                const delId=cData.splice(i, 1)[0].id; // 被删除的id
+                const fIds=[]; // 筛选出需要删除的id
+
+                if (this.linkage) this.getIdById(fIds, tileData, delId);
+
+                const choiceData=cData.filter(d => !fIds.includes(d.id));
                 const ids=choiceData.map(d => d.id);
 
                 this.choiceData=choiceData;
-                this.setTreeDataChecked(this.treeData, ids);
+                this.setTreeDataChecked(tileData, ids);
 
                 this.$emit('change', ids);
             },
@@ -261,38 +357,38 @@
             },
             /**
              * 设置树形结构被选中
-             * @param arrTree 树形结构数据
-             * @param arr 选择的数据
+             * @param tileData 树形结构数据
+             * @param selIds 选中的id
              */
-            setTreeDataChecked(arrTree, arr) {
-                const selIds=arr; // 选中的id
-                // 扁平化数据
-                const tileData=TileTool([], arrTree, '-1').map(d => {
+            setTreeDataChecked(tileData, selIds) {
+                tileData.forEach(d => {
                     if (selIds.includes(d.id)) {
                         d.checked='checked';
                     } else {
                         d.checked='uncheck';
                     }
-                    return d;
                 });
 
-                let sel=[]; // 查找父级id
-                selIds.forEach(d => {
-                    let arr=[d];
-                    this.getParentIdById(arr, tileData, d);
-                    sel.push(arr)
-                });
+                // 树形结构上下级联动
+                if (this.linkage) {
+                    let sel=[]; // 查找父级id
+                    selIds.forEach(d => {
+                        let arr=[d];
+                        this.getParentItemById(arr, tileData, d);
+                        sel.push(arr)
+                    });
 
-                // 查找选中项的父级项，并设置父级项的选中状态
-                for (let i=sel.length; i>=0; i--) {
-                    let seli=sel[i];
-                    if (seli && seli.length) {
-                        for (let j=seli.length; j>=0; j--) {
-                            let arr=tileData.filter(d => d.parentId===seli[j]); // 得到选中项
-                            if (arr && arr.length) {
-                                tileData.forEach(d => {
-                                    if (d.id === arr[0].parentId) d.checked=this.changeStatus(arr);
-                                });
+                    // 查找选中项的父级项，并设置父级项的选中状态
+                    for (let i=sel.length; i>=0; i--) {
+                        let seli=sel[i];
+                        if (seli && seli.length) {
+                            for (let j=seli.length; j>=0; j--) {
+                                let arr=tileData.filter(d => d.parentId===seli[j]); // 得到选中项
+                                if (arr && arr.length) {
+                                    tileData.forEach(d => {
+                                        if (d.id === arr[0].parentId) d.checked=this.changeStatus(arr);
+                                    });
+                                }
                             }
                         }
                     }
@@ -301,16 +397,16 @@
                 this.treeData=PackageTool(tileData);
             },
             /**
-             * 通过子项id查找父项id
+             * 通过子项id查找父项数据
              * @param result 查找结果
              * @param tile 平铺的数据
              * @param id 当前子项id
              */
-            getParentIdById(result, tile, id) {
+            getParentItemById(result, tile, id) {
                 tile.forEach(d => {
                     if (d.id === id){
                         result.unshift(d.parentId);
-                        this.getParentIdById(result, tile, d.parentId);
+                        this.getParentItemById(result, tile, d.parentId);
                     }
                 });
             },
@@ -320,31 +416,43 @@
              * @param unselect 被取消的项
              */
             optionClick(selected, unselect) {
-                // console.log('提交当前选择的值:::selected', selected);
-                // console.log('提交当前选择的值:::unselect', unselect);
-                let choiceData=[];
+                let choiceData=[], cd=[];
                 if (selected && selected.id) {
-                    const data=JSON.parse(JSON.stringify(selected));
-                    const id=this.setAttr(data.id);
-                    const n=data.name.replace(/<[^<>]+>/g, '');
+                    // 选中的tag
+                    const d=JSON.parse(JSON.stringify(selected));
+                    const id=this.setAttr(d.id);
+                    const n=d.name.replace(/<[^<>]+>/g, '');
                     const name=this.setAttr(n);
-                    const cdNow={id, name};
-
-                    choiceData=Array.from(new Set([...this.choiceData, cdNow]));
+                    const sd = {id, name};
+                    cd=Unique([...this.choiceData, sd]);
                 } else {
-                    const unId=this.setAttr(unselect.id);
-                    choiceData=this.choiceData.filter(d => d.id !== unId);
+                    const d=JSON.parse(JSON.stringify(unselect));
+                    const unId=this.setAttr(d.id);
+                    const unIds=[unId];
+                    if (this.linkage) this.getParentIdById(unIds, this.tileData, unId);
+                    cd=this.choiceData.filter(d => !unIds.includes(d.id));
+                }
+
+                if (this.linkage) {
+                    let result=[];
+                    cd.forEach(d => {
+                        this.getItemById(result, this.tileData, d.id);
+                    });
+
+                    choiceData=Unique([...cd, ...result]);
+                } else {
+                    choiceData=cd;
                 }
 
                 this.choiceData=choiceData;
                 const ids=choiceData.map(d => d.id);
-                this.setTreeDataChecked(this.treeData, ids);
+                const tileData=TileTool([], this.treeData, '-1');
+                this.setTreeDataChecked(tileData, ids);
 
                 this.$emit('change', ids);
             },
             // 提交当前选择的值
             optionClickTree(selectedData) {
-                // console.log('提交当前选择的值:::', selectedData);
                 // { 当前改变的id, 选择的id组, 选择的当前对象, 选择的对象组 }
                 const {id, checkedIds, obj, checkedObj}=selectedData;
                 let choiceData=[];
@@ -354,7 +462,7 @@
                         const id=this.setAttr(d.id);
                         const n=d.name.replace(/<[^<>]+>/g, '');
                         const name=this.setAttr(n);
-                        return {id, name};
+                        return {id, name, parentId: d.parentId};
                     });
                 }
                 this.choiceData=choiceData;

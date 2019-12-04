@@ -1,4 +1,4 @@
-### TreeBi - bi项目使用
+### TreeBi - BI项目
 
 <template>
     <div class="component component-padding">

@@ -23,6 +23,7 @@
         <div class="p-tree-child" v-show="treeItem.open">
             <TreeNode
                     :multiple="multiple"
+                    :linkage="linkage"
                     v-for="(item, ind) in treeItem.children"
                     :key="item.id+'-'+ind"
                     :treeItem="item"
@@ -47,6 +48,13 @@
             multiple: {
                 type: Boolean,
                 default: false
+            },
+            /**
+             * 是否联动选择
+             */
+            linkage: {
+                type: Boolean,
+                default: true
             },
             /**
              * 树形结构子项数据列表
@@ -83,7 +91,7 @@
             }
         },
         computed: {
-            // 没想左边内边距
+            // 左边内边距
             paddingLeft() {
                 return (this.index.split('-').length-1)*24+8;
             }
@@ -126,8 +134,8 @@
                         //  if (checked === 'uncheck' || checked === 'notNull')
                         status='checked';
                     }
+                    if (this.linkage && children && children.length) treeItem.children=this.setCheckedStatus(children, status);
 
-                    if (children && children.length) treeItem.children=this.setCheckedStatus(children, status);
                     treeItem.checked=status;
                     this.treeItem=treeItem;
                 }

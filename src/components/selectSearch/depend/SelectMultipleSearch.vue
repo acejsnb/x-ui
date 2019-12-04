@@ -13,12 +13,17 @@
                      (pleaseSelect!=='Please select' && searchPlaceHolder)&&'p-select-choice-name'
                     ]"
             >{{pleaseSelect}}</section>
-            <section class="p-select-search-field">
-                <article class="p-select-field-item" v-for="(cd, cdi) in choiceData" :key="cd.id+'-'+cdi">
+            <section :class="['p-select-search-field', !accept&&'p-select-search-field-accept']">
+                <article class="p-select-field-item" v-for="(cd, cdi) in choiceData" :key="cd.id+'-'+cdi" v-show="accept?cdi < 5:true">
                     <span class="p-select-choice" :title="cd.name">{{cd.name}}</span>
                     <span class="p-select-choice-clear" @click="removeChoiceItem(cdi)"><IconCloseSvg /></span>
                 </article>
+                <article class="p-select-field-item" v-show="moreChoiceCount>0 && accept">
+                    <span class="p-select-choice p-select-choice-more">{{`+ ${moreChoiceCount}...`}}</span>
+                </article>
                 <article class="p-select-field-item">
+                    <!--
+                    -->
                     <input
                             type="text"
                             class="p-select-search-input"
@@ -26,8 +31,8 @@
                             ref="inputField"
                             v-model="inputValue"
                             @input="searchInput"
-                            @blur="inputBlur"
                             @keydown.8="inputKeydown"
+                            @blur="inputBlur"
                     >
                 </article>
             </section>
@@ -58,6 +63,11 @@
         name: "SelectSingleSearch",
         components: { IconCloseSvg, TriangleSvg, SelectOptionMultiple },
         props: {
+            // 收纳
+            accept: {
+                type: Boolean,
+                default: true
+            },
             // 选中项的id
             selectedIds: {
                 type: Array,
@@ -101,6 +111,10 @@
             // 搜索无内容
             notFound() {
                 return this.searchData.length===0;
+            },
+            // 选择的项是否显示更多
+            moreChoiceCount() {
+                return this.choiceData.length-5;
             }
         },
         watch: {
@@ -196,6 +210,7 @@
             // 移除选中的项
             removeChoiceItem(i) {
                 const choiceData=this.choiceData;
+                if (!choiceData || !choiceData.length) return;
                 choiceData.splice(i, 1);
                 const ids=choiceData.map(d => d.id);
                 this.choiceData=choiceData;
@@ -216,7 +231,6 @@
              * @param unselect 被取消的项
              */
             optionClick(selected, unselect) {
-                // console.log('提交当前选择的值:::', selected);
                 let choiceData=[];
                 if (selected && selected.id) {
                     const data=JSON.parse(JSON.stringify(selected));

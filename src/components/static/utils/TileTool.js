@@ -23,34 +23,22 @@ const TileTool = (result, arr, pid) => {
  * @constructor
  */
 const PackageTool = (tile) => {
-    //result存储json数据转为树形结构后的结果。
-    //temp为临时对象，将json数据按照id值排序.
-    //len是json长度，用于循环遍历结束的条件
-    const result = [], temp = {}, len = tile.length;
-    for(let i = 0; i < len; i++) {
-        // 以id作为索引存储元素，可以无需遍历直接快速定位元素
-        temp[tile[i]['id']] = tile[i]
+    let result = [];
+    if(!Array.isArray(tile)) {
+        return result;
     }
-    for(let j = 0; j < len; j++) {
-        const currentElement = tile[j];
-        // 临时变量里面的当前元素的父元素，即pid的值，与找对应id值
-        const tempCurrentElementParent = temp[currentElement['parentId']];
-        // 如果存在父元素，即如果有pid属性
-        if (tempCurrentElementParent) {
-            // 如果父元素没有chindren键
-            if (!tempCurrentElementParent['children']) {
-                // 设上父元素的children键
-                tempCurrentElementParent['children'] = []
-            }
-            // 给父元素加上当前元素作为子元素
-            tempCurrentElementParent['children'].push(currentElement)
+    tile.forEach(item => {
+        delete item.children;
+    });
+    let map = ToMapObj(tile);
+    tile.forEach(item => {
+        let parent = map[item.parentId];
+        if(parent) {
+            (parent.children || (parent.children = [])).push(item);
+        } else {
+            result.push(item);
         }
-        // 不存在父元素，意味着当前元素是一级元素
-        else {
-            result.push(currentElement);
-        }
-    }
-
+    });
     return result;
 };
 
@@ -126,8 +114,19 @@ const FormatArr = (arr) => {
     return {id, name}
 };
 
+/**
+ * 复杂数组去重
+ * @param arr
+ * @return {*}
+ */
+const Unique=(arr) => {
+    const res = new Map();
+    return arr.filter(d => !res.has(d.id) && res.set(d.id, d.name))
+};
+
 export {
     TileTool,
     FilterTool,
-    PackageTool
+    PackageTool,
+    Unique
 };

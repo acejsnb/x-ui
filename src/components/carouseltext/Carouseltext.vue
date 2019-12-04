@@ -8,10 +8,15 @@
                  @click="itemClick(item.id)"
                  :title="item.text"
             >
+                <!--
+                commission 待办
+                executory 待执行
+                pending 待处理
+                -->
                 <i class="p-carousel-icon">
-                    <CommissionSvg v-if="num === 0" />
-                    <ExecutorySvg v-if="num === 1" />
-                    <PendingSvg v-if="num === 2" />
+                    <CommissionSvg v-if="item.type === 'commission'" />
+                    <ExecutorySvg v-if="item.type === 'executory'" />
+                    <PendingSvg v-if="item.type === 'pending'" />
                 </i>
                 <section class="p-carousel-item">{{item.text}}</section>
             </div>
@@ -20,9 +25,9 @@
 </template>
 
 <script>
-    import CommissionSvg from '../static/iconSvg/commission.svg';
-    import ExecutorySvg from '../static/iconSvg/executory.svg';
-    import PendingSvg from '../static/iconSvg/pending.svg';
+    import CommissionSvg from '../static/iconSvg/commission.svg'; // 代办
+    import ExecutorySvg from '../static/iconSvg/executory.svg'; // 待执行
+    import PendingSvg from '../static/iconSvg/pending.svg'; // 待处理
 
     export default {
         name: "CarouselText",
@@ -53,14 +58,18 @@
         },
         methods: {
             setTimer() {
-                this.timer=window.setInterval(() => {
-                    if (this.num < this.data.length-1) this.num++;
-                    else this.num=0;
-                }, this.time*1000)
+                if (this.data && this.data.length) {
+                    this.timer=window.setInterval(() => {
+                        if (this.num < this.data.length-1) this.num++;
+                        else this.num=0;
+                    }, this.time*1000)
+                }
             },
             stopTimer() {
-                window.clearInterval(this.timer);
-                this.num=0;
+                if (this.data && this.data.length) {
+                    window.clearInterval(this.timer);
+                    this.num=0;
+                }
             },
             /**
              * 点击某项执行的函数
@@ -71,7 +80,9 @@
             }
         },
         beforeDestroy() {
-            this.stopTimer();
+            if (this.data && this.data.length) {
+                this.stopTimer();
+            }
         }
     }
 </script>

@@ -2,6 +2,7 @@
     <div class="p-tree">
         <TreeNode
                 :multiple="multiple"
+                :linkage="linkage"
                 v-for="(item, ind) in treeData"
                 :key="item.id+'-'+ind"
                 :treeItem="item"
@@ -25,6 +26,13 @@
             multiple: {
                 type: Boolean,
                 default: false
+            },
+            /**
+             * 是否联动选择
+             */
+            linkage: {
+                type: Boolean,
+                default: true
             },
             /**
              * 树形结构数据列表
@@ -57,8 +65,8 @@
                     let iArr=(index.split('-')); // 拿到索引值
                     iArr.pop(); // 这里不需要遍历最后一个索引的数据
                     let data=this.treeData;
-                    this.changeParentChecked(data, iArr);
-                    const checkedObj=this.filterIds(this.treeData);
+                    if (this.linkage) this.changeParentChecked(data, iArr);
+                    const checkedObj=this.filterIds(data);
                     const checkedIds=checkedObj.map(d => d.id);
                     /**
                      * 点击某项返回的数据

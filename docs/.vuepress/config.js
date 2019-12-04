@@ -39,6 +39,7 @@ module.exports = {
                     '/guide/message/',
                     '/guide/modal/',
                     '/guide/select/',
+                    '/guide/selectSearch/',
                     '/guide/shake/',
                     '/guide/stick/',
                     '/guide/tabs/',

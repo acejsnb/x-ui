@@ -40,26 +40,34 @@
             }
         },
         watch: {
+            selectedIds: {
+                handler(n, o) {
+                    if (n === o) return;
+                    this.setSelectData(this.data, n);
+                },
+                deep: true
+            },
             data: {
                 handler(n, o) {
                     if (n === o) return;
-                    this.setSelectData(n);
+                    this.setSelectData(n, this.selectedIds);
                 },
                 deep: true
             }
         },
         created() {
-            this.setSelectData(this.data);
+            this.setSelectData(this.data, this.selectedIds);
         },
         methods: {
             // 设置数据
-            setSelectData(data) {
+            setSelectData(data, selectedIds) {
                 this.selectData=data.map(d => {
                     if (d.id.includes('/')) {
-                        const id=d.id.split('/').pop();
-                        d.selected = !!this.selectedIds.includes(id);
+                        const idArr=d.id.split('/');
+                        const id=idArr.pop();
+                        d.selected = !!selectedIds.includes(id);
                     } else {
-                        d.selected = !!this.selectedIds.includes(d.id);
+                        d.selected = !!selectedIds.includes(d.id);
                     }
                     return d;
                 });

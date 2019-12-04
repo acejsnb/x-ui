@@ -8,6 +8,8 @@
         -->
         <SelectMultipleSearchTree
                 v-if="flat==='mt'"
+                :linkage="linkage"
+                :accept="accept"
                 :selectedIds="selectedIds"
                 :disabled="disabled"
                 :width="width"
@@ -16,6 +18,7 @@
         />
         <SelectMultipleSearch
                 v-else-if="flat==='mn'"
+                :accept="accept"
                 :selectedIds="selectedIds"
                 :disabled="disabled"
                 :width="width"
@@ -77,6 +80,16 @@
             multiple: {
                 type: Boolean,
                 default: false
+            },
+            // 联动
+            linkage: {
+                type: Boolean,
+                default: true
+            },
+            // 收纳
+            accept: {
+                type: Boolean,
+                default: true
             },
             // 选中的id组
             selectedIds: {
@@ -161,6 +174,10 @@
             &.p-select-choice-name
                 color $grey-900
         .p-select-search-field
+            &.p-select-search-field-accept
+                max-width 93%
+                max-height 96px
+                overflow-y auto
             .p-select-field-item
                 position relative
                 display inline-block
@@ -182,6 +199,8 @@
                     white-space nowrap
                     text-overflow ellipsis
                     overflow hidden
+                    &.p-select-choice-more
+                        padding-right 8px
                 .p-select-choice-name
                     padding-left 0
                     padding-right 0
