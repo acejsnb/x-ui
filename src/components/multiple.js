@@ -22,14 +22,19 @@ import PickerWeek from './pickerWeek';
 import PickerYear from './pickerYear';
 import PickerMonth from './pickerMonth';
 import Tree from './tree';
+import TreeStage from './treeStage';
 import TreeBi from './treeBi';
 import Shake from './shake';
 import Stick from './stick';
 import Tag from './tag';
+import TransferBi from './transferBi';
 
 import Headers from './headers';
 
 import Message from './message'; // 函数式组件
+
+import Checkbox from './checkbox';
+import Radio from './radio';
 
 const Components = {
     Icon
@@ -52,14 +57,20 @@ const Components = {
     ,PickerMonth
     ,PickerYear
     ,Tree
+    ,TreeStage
     ,TreeBi
     ,Shake
     ,Stick
     ,Tag
+    ,TransferBi
 
     ,Headers
 
     ,Message
+
+    // 未公开组件
+    ,Checkbox
+    ,Radio
 };
 
 const install = Vue => Object.keys(Components).forEach(name => {

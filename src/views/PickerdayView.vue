@@ -2,10 +2,10 @@
     <div class="component component-padding">
         <h1>PickerDay组件</h1>
         <PickerDay :date="dateDouble" :range="true" @change="dateChangeDouble" />
-        <br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br>
         <PickerDay :date="dateSingle" @change="dateChangeSingle" />
+        <br><br><br><br><br>
+        <PickerDay :date="dateSingle" :calendar="true" @change="dateChangeSingle" />
     </div>
 </template>
 

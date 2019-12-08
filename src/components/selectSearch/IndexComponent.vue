@@ -156,8 +156,12 @@
             border-color $blue-500
             box-shadow 0 0 0 2px rgba(0,145,255,.2)
         &.p-select-search-box-disabled
-            background-color $grey-400
+            background-color $grey-200
             cursor not-allowed
+            .p-select-search-field-text
+                font-size 0
+            .p-select-search-triangle
+                display none
             &:hover
                 border-color $grey-400
         .p-select-search-field-text

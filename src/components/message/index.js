@@ -69,6 +69,9 @@ Message.setTimer = (id, instance) => {
 Message.clearTimer = (id, instance) => {
     window.clearTimeout(timers[id]);
     instance.vm.visible = false;
+    instance.vm.$el.style.transition='all .3s';
+    instance.vm.$el.style.opacity='.5';
+    instance.vm.$el.style.marginTop='0';
     setTimeout(() => {
         instanceBox.vm.$el.removeChild(instance.vm.$el);
         const ind=instances.findIndex(d => d.id === id);

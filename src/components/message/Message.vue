@@ -35,7 +35,10 @@
         },
         methods: {
             closeNode() { // 移除当前节点
-                this.$el.parentNode.removeChild(this.$el);
+                this.$el.style.transition='all .3s';
+                this.$el.style.opacity='.5';
+                this.$el.style.marginTop='0';
+                setTimeout(() => this.$el.parentNode.removeChild(this.$el), 300);
             }
         }
     }
@@ -45,29 +48,32 @@
     @import "../static/stylus/animate/fadeDownUp.styl"
 
     .p-message
-        position relative
-        display inline-flex
-        justify-content space-between
-        align-items flex-start
+        display inline-block
         padding 8px
         border-radius 4px
-        box-shadow 0 2px 10px 0 rgba(0,66,117,.2)
+        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
         min-width 240px
         max-width 600px
         min-height 40px
+        > section
+            display inline-block
+            vertical-align top
         & + .p-message
             margin-top 24px
         .p-message-hint
+            margin-right 4px
             padding-top 4px
         .p-message-text
-            width calc(100% - 48px)
+            width calc(100% - 52px)
             text-align left
             font-size 14px
             color #fff
             word-wrap break-word
             line-height 24px
         .p-message-close
-            padding-top 5px
+            padding-top 4px
+            height 24px
+            pointer-events auto
             svg
                 opacity .5
                 transition opacity .3s

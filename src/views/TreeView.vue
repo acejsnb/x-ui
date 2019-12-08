@@ -3,12 +3,14 @@
         <h1>Tree组件</h1>
         <div class="treeCom">
             <div>
+                <h3>1.单选</h3>
                 <Tree
                         :data="treeData"
                         @change="change"
                 />
             </div>
             <div>
+                <h3>2.多选-联动</h3>
                 <Tree
                         :multiple="true"
                         :data="treeData2"
@@ -16,6 +18,7 @@
                 />
             </div>
             <div>
+                <h3>3.多选-不联动</h3>
                 <Tree
                         :multiple="true"
                         :linkage="false"

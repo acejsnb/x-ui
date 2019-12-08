@@ -9,6 +9,7 @@
             <section
                     :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
             >{{selectedDate?selectedDate:'请选择日期'}}</section>
+            <CalendarSvg v-if="calendar && !clearStatus" />
             <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
         </div>
         <transition name="opacityTop">
@@ -72,12 +73,14 @@
     import Button from '../../button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
+    import CalendarSvg from '../../static/iconSvg/calendar.svg';
     export default {
         name: "panelSingleDay",
         components: {
             DaySelect,
             Button,
-            ClearSvg
+            ClearSvg,
+            CalendarSvg
         },
         props: {
             /**
@@ -86,6 +89,11 @@
             date: {
                 type: String,
                 default: ''
+            },
+            // 是否显示日历图标
+            calendar: {
+                type: Boolean,
+                default: false
             }
         },
         data() {

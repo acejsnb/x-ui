@@ -10,7 +10,7 @@
                     @click="openChild"
             ><ArrowTriangle :class="['p-tree-icon-svg', treeItem.open&&'p-tree-icon-rotate']" v-if="triangleShow" /></section>
             <div class="p-tree-node-check" @click="handleCheck(treeItem.id, index)">
-                <i :class="['p-tree-check-box', 'p-tree-check-box-'+treeItem.checked]" v-if="multiple"></i>
+                <Checkbox :checked="treeItem.checked" v-if="multiple" />
                 <section class="p-tree-node-title">
                     <article
                             class="p-tree-node-name"
@@ -38,10 +38,11 @@
 
 <script>
     import ArrowTriangle from '../../static/iconSvg/arrow_triangle.svg';
+    import Checkbox from '../../checkbox';
 
     export default {
         name: 'TreeNodeBi',
-        components: { ArrowTriangle },
+        components: { ArrowTriangle, Checkbox },
         props: {
             /**
              * 是否开启多选

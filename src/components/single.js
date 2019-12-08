@@ -22,12 +22,19 @@ const components={
     PickerMonth: './src/components/pickerMonth',
     PickerYear: './src/components/pickerYear',
     Tree: './src/components/tree',
+    TreeStage: './src/components/treeStage',
     TreeBi: './src/components/treeBi',
     Shake: './src/components/shake',
     Stick: './src/components/stick',
     Tag: './src/components/tag',
+    TransferBi: './src/components/transferBi',
 
 
-    Message: './src/components/message' // 函数式组件
+    Message: './src/components/message', // 函数式组件
+
+    // 未公开组件
+    Checkbox: './src/components/checkbox',
+    // 未公开组件
+    Radio: './src/components/radio'
 };
 module.exports=components;

@@ -2,6 +2,21 @@
 ### 更新日志
 
 ::: tip
+版本：0.7.1<br>
+1.更新TreeStage组件<br>
+:::
+
+::: tip
+版本：0.7.0<br>
+1.新增TreeStage组件<br>
+:::
+
+::: tip
+版本：0.6.9<br>
+1.更新Message组件样式<br>
+:::
+
+::: tip
 版本：0.6.8<br>
 1.SelectSearch组件新增<不联动、收纳><br>
 2.修改Tree组件bug

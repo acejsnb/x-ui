@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-picker">
         <PanelDoubleDay
                 v-if="range"
                 :date="date"
@@ -8,6 +8,7 @@
         <PanelSingleDay
                 v-else
                 :date="date"
+                :calendar="calendar"
                 @change="changeSingle"
         />
     </div>
@@ -37,6 +38,11 @@
              * @value 【false-时间点（默认值），true-时间段】
              */
             range: {
+                type: Boolean,
+                default: false
+            },
+            // 是否显示日历图标
+            calendar: {
                 type: Boolean,
                 default: false
             }

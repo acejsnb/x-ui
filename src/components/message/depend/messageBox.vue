@@ -15,11 +15,13 @@
     position fixed
     top 36px
     left 0
+    text-align center
     display flex
     flex-flow column wrap
     justify-content center
     align-items center
     width 100%
-    z-index 10
+    z-index 1000
+    pointer-events none
 
 </style>

@@ -26,12 +26,18 @@ import PickerWeekView from './views/PickerWeekView';
 import PickerYearView from './views/PickerYearView';
 import PickerMonthView from './views/PickerMonthView';
 import TreeView from './views/TreeView';
+import TreeStageView from './views/TreeStageView';
 import TreeBiView from './views/TreeBiView';
 import ShakeView from './views/ShakeView';
 import StickView from './views/StickView';
 import TagView from './views/TagView';
+import TransferBiView from './views/TransferBiView';
 
 import MessageView from './views/MessageView';
+
+// 未公开组件
+import CheckboxView from './views/CheckboxView';
+import RadioView from './views/RadioView';
 
 export default new Router({
     // mode: 'history',
@@ -210,6 +216,14 @@ export default new Router({
             }
         },
         {
+            path: '/treeStageView',
+            name: 'TreeStageView',
+            component: TreeStageView,
+            meta: {
+                title: 'TreeStageView'
+            }
+        },
+        {
             path: '/treeBiView',
             name: 'TreeBiView',
             component: TreeBiView,
@@ -241,6 +255,14 @@ export default new Router({
                 title: 'TagView'
             }
         },
+        {
+            path: '/transferBiView',
+            name: 'TransferBiView',
+            component: TransferBiView,
+            meta: {
+                title: 'TransferBiView'
+            }
+        },
 
         // 函数组件
         {
@@ -249,6 +271,24 @@ export default new Router({
             component: MessageView,
             meta: {
                 title: 'MessageView'
+            }
+        },
+
+        // 未公开组件
+        {
+            path: '/checkboxView',
+            name: 'CheckboxView',
+            component: CheckboxView,
+            meta: {
+                title: 'CheckboxView'
+            }
+        },
+        {
+            path: '/radioView',
+            name: 'RadioView',
+            component: RadioView,
+            meta: {
+                title: 'RadioView'
             }
         },
         {

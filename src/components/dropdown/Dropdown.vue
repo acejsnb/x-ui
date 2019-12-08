@@ -15,7 +15,10 @@
                         :key="item.id"
                         @click="optionClick(item.id, item.disabled)"
                         @mouseenter="optionEnter"
-                >{{item.name}}</article>
+                >
+                    <i class="p-drop-option-svg" v-if="item.icon" v-html="item.icon"></i>
+                    <span>{{item.name}}</span>
+                </article>
             </section>
         </transition>
     </div>
@@ -129,18 +132,28 @@
                 padding 5px 12px
                 //width 100%
                 //height 32px
-                line-height 22px
                 font-size 14px
                 color $grey-900
                 cursor pointer
                 white-space nowrap
                 text-overflow ellipsis
                 overflow hidden
+                .p-drop-option-svg
+                    margin-right 8px
+                    svg
+                        vertical-align middle
+                span
+                    vertical-align middle
+                    line-height 22px
                 &:hover
                     background-color $grey-200
                 &.option-selected
                     color $blue-500
                     background-color $blue-100
+                    .p-drop-option-svg
+                        svg
+                            path
+                                fill $blue-500
                 &.option-disable
                     color $grey-400 !important
                     cursor not-allowed
