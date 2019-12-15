@@ -55,7 +55,7 @@
     import SelectOption from '../../selectOption/SelectOption';
     import Tree from '../../tree';
 
-    import {FilterTool, PackageTool, TileTool} from '../../static/utils/TileTool';
+    import {FilterTool, PackageTool, TileTool} from '../../static/utils/TreeTool';
 
     export default {
         name: "selectSingleSearchTree",

@@ -36,6 +36,15 @@ class CountDay {
         return [year, month, day]
     }
 
+    // 改变日期
+    changeDay(date) {
+        const [year, month, day]=date.split('.');
+        this.Y=year;
+        this.M=month;
+        this.D=day;
+        return this.getDaysArray();
+    }
+
     /**
      * 计算天数组
      * @param M 月

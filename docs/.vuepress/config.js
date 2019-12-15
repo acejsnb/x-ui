@@ -45,9 +45,10 @@ module.exports = {
                     '/guide/tabs/',
                     '/guide/toggle/',
                     '/guide/tree/',
-                    '/guide/treeStage/',
+                    // '/guide/treeStage/',
                     '/guide/treeBi/',
                     '/guide/tag/',
+                    '/guide/transfer/',
                 ]
             },
         ]

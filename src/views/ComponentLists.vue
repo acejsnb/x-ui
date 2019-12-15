@@ -13,6 +13,7 @@
             return {
                 listData: [
                     {title: 'Button', more: '按钮', url: 'buttonView'},
+                    {title: 'SelectedButton', more: '已选择-按钮', url: 'selectedButtonView'},
                     {title: 'Modal', more: '弹窗', url: 'ModalView'},
                     {title: 'Drawer', more: '抽屉', url: 'drawerView'},
                     {title: 'Toggle', more: '开关', url: 'toggleView'},
@@ -34,17 +35,19 @@
                     {title: 'TreeStage', more: '树形结构-2种特殊情况', url: 'treeStageView'},
                     {title: 'TreeBi', more: '树形结构-BI', url: 'treeBiView'},
                     {title: 'Shake', more: '抖动', url: 'shakeView'},
-                    {title: 'Stick', more: '抖动', url: 'stickView'},
-                    {title: 'Tag', more: '抖动', url: 'tagView'},
-                    {title: 'TransferBi', more: '穿梭框-BI', url: 'transferBiView'},
+                    {title: 'Stick', more: '置顶条', url: 'stickView'},
+                    {title: 'Tag', more: '标签', url: 'tagView'},
+                    {title: 'Transfer', more: '穿梭框', url: 'transferView'},
 
                     {title: 'Headers', more: '头部title', url: 'headersView'},
 
                     {title: 'Message', more: '信息提示', url: 'messageView'},
 
                     // 未公开组件
-                    {title: 'Checkbox', more: 'Checkbox', url: 'checkboxView'},
-                    {title: 'Radio', more: 'Radio', url: 'radioView'}
+                    {title: 'Checkbox', more: '复选框', url: 'checkboxView'},
+                    {title: 'Radio', more: '单选框', url: 'radioView'},
+                    {title: 'Input', more: '输入框', url: 'inputView'},
+                    {title: 'Icon', more: '图标', url: 'iconView'}
                 ],
             }
         }

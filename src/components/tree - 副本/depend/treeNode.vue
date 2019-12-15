@@ -1,15 +1,16 @@
 <template>
     <div class="p-tree-node">
         <div
+                v-show="!treeItem.isHide"
                 :class="['p-tree-node-content', !multiple&&treeItem.checked==='checked'&&'p-tree-node-content-checked']"
                 :style="{paddingLeft: paddingLeft+'px'}"
         >
             <section
                     class="p-tree-svg"
                     @click="openChild"
-            ><ArrowTriangle :class="['p-tree-icon-svg', treeItem.open&&'p-tree-icon-rotate']" v-if="triangleShow" /></section>
+            ><ArrowTriangle :class="['p-tree-icon-svg', treeItem.open&&'p-tree-icon-rotate']" v-if="triangleShow&&triangleStatus" /></section>
             <div class="p-tree-node-check" @click="handleCheck(treeItem, index)">
-                <Checkbox :checked="treeItem.checked" v-if="multiple&&(!lastStage||!triangleShow)" />
+                <Checkbox :checked="treeItem.checked" v-if="multiple" />
                 <section class="p-tree-node-title">
                     <article
                             class="p-tree-node-name"
@@ -23,7 +24,6 @@
             <TreeNode
                     :multiple="multiple"
                     :linkage="linkage"
-                    :lastStage="lastStage"
                     v-for="(item, ind) in treeItem.children"
                     :key="item.id+'-'+ind"
                     :treeItem="item"
@@ -93,10 +93,29 @@
                 default: ''
             }
         },
+        data() {
+            return {
+                triangleStatus: true // 三角形是否显示
+            }
+        },
         computed: {
             // 左边内边距
             paddingLeft() {
                 return (this.index.split('-').length-1)*24+8;
+            }
+        },
+        watch: {
+            // 监听treeItem数据变化-设置当前项是否显示三角形按钮
+            treeItem: {
+                handler(n, o) {
+                    if (n === o) return;
+                    if (n.children && n.children.length) {
+                        let arrShow=[]; // 判断显示的数据
+                        this.filterData(n.children, arrShow);
+                        this.triangleStatus = arrShow.length === 0;
+                    }
+                },
+                deep: true
             }
         },
         methods: {
@@ -123,26 +142,28 @@
                         //  if (checked === 'uncheck' || checked === 'notNull')
                         status='checked';
                     }
+                    if (this.linkage && children && children.length) treeItem.children=this.setCheckedStatus(children, status);
 
-                    if (this.linkage) {
-                        // 上下级联动
-                        if (children && children.length) treeItem.children=this.setCheckedStatus(children, status);
-
-                        treeItem.checked=status;
-                        this.treeItem=treeItem;
-                        this.change(obj, index);
-                    } else {
-                        // 上下级不联动 this.lastStage为true-表示只能选择末级节点
-                        if (this.lastStage && children && children.length) return;
-                        this.treeItem=treeItem;
-                        treeItem.checked=status;
-
-                        this.change(obj, index);
-                    }
-                } else {
-                    // 执行父级的函数
-                    this.change(obj, index);
+                    treeItem.checked=status;
+                    this.treeItem=treeItem;
                 }
+
+                // 执行父级的函数
+                this.change(obj, index);
+            },
+            // 判断children是否是全部隐藏状态
+            filterData(arr, arrShow) {
+                return arr.map(d => {
+                    if (d.children && d.children.length) {
+                        const c=this.filterData(d.children, arrShow);
+                        d.children=c;
+                        d.isHide=c.every(d2 => d2.isHide===true);
+                    }
+                    setTimeout(() => {
+                        if (!d.isHide) arrShow.push(d);
+                    }, 0);
+                    return d;
+                })
             },
             // 设置checked状态
             setCheckedStatus(data, status) {
@@ -156,3 +177,6 @@
         }
     }
 </script>
+
+<style lang="stylus">
+</style>

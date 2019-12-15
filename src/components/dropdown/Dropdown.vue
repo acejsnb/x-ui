@@ -127,6 +127,7 @@
             min-width 120px
             max-width 240px
             max-height 138px
+            overflow-y auto
             z-index 11
             .p-drop-option-item
                 padding 5px 12px

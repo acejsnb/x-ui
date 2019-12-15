@@ -98,6 +98,7 @@
         width 100%
         height 24px
         overflow hidden
+        font-size 0
         .p-carousel-msg
             display flex
             align-items center

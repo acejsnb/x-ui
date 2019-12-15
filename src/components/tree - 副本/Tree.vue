@@ -1,6 +1,8 @@
 <template>
     <div class="p-tree">
         <TreeNode
+                :multiple="multiple"
+                :linkage="linkage"
                 :lastStage="lastStage"
                 v-for="(item, ind) in treeData"
                 :key="item.id+'-'+ind"
@@ -17,10 +19,23 @@
     import { ChangeStatus } from '../static/utils/TreeTool';
 
     export default {
-        name: "TreeStage",
-
+        name: 'Tree',
         components: { TreeNode },
         props: {
+            /**
+             * 是否开启多选
+             */
+            multiple: {
+                type: Boolean,
+                default: false
+            },
+            /**
+             * 是否联动选择
+             */
+            linkage: {
+                type: Boolean,
+                default: true
+            },
             /**
              * 只能选择末级
              */
@@ -53,48 +68,67 @@
              * @param index 索引串
              */
             change(obj, index) {
-                let treeData=this.treeData;
+                // return;
                 const { id }=obj;
-                let checkedIds=[], checkedObj=[];
-
-                if (!this.lastStage) {
+                if (this.multiple) {
                     let iArr=(index.split('-')); // 拿到索引值
                     iArr.pop(); // 这里不需要遍历最后一个索引的数据
-                    this.changeParentChecked(treeData, iArr);
+                    let data=this.treeData;
+                    if (this.linkage) this.changeParentChecked(data, iArr);
+                    const checkedObj=this.filterIds(data);
+                    const checkedIds=checkedObj.map(d => d.id);
+                    /**
+                     * 点击某项返回的数据
+                     * @param id
+                     * @param checkedIds 选择的id组，多选时才返回
+                     * @param obj 选择的当前对象，多选时才返回
+                     * @param checkedObj 选择的对象组，多选时才返回
+                     * @type Function
+                     */
+                    this.$emit('change', {id, checkedIds, obj, checkedObj});
+                } else {
+                    this.treeData=this.changeCheckedItem(this.treeData, id);
+                    /**
+                     * 点击某项返回的数据
+                     * @param id
+                     * @type Function
+                     */
+                    this.$emit('change', obj);
                 }
-                checkedObj=this.filterIds(treeData);
-                checkedIds=checkedObj.map(d => d.id);
-                /**
-                 * 点击某项返回的数据
-                 * @param id
-                 * @param checkedIds 选择的id组，多选时才返回
-                 * @param obj 选择的当前对象，多选时才返回
-                 * @param checkedObj 选择的对象组，多选时才返回
-                 * @type Function
-                 */
-                this.$emit('change', {id, checkedIds, obj, checkedObj});
             },
             /**
-             * 筛选出选中的项
-             * @param arr 接收选中的项
-             * @param treeData 树形结构数据
+             * 单选改变状态
+             * @param data
+             * @param id
+             * @return {*}
              */
-            getCheckedItem(arr, treeData) {
-                treeData.forEach(d => {
-                    if (d.checked==='checked') arr.push(d);
-                    if (d.children && d.children.length) this.getCheckedItem(arr, d.children);
-
-                    return arr;
+            changeCheckedItem(data, id) {
+                return data.map(d => {
+                    if (d.id === id) {
+                        d.checked='checked';
+                    } else {
+                        d.checked='uncheck';
+                    }
+                    if (d.children && d.children.length) d.children=this.changeCheckedItem(d.children, id);
+                    return d;
                 });
             },
-            // 设置当前点击项的子项状态
-            setChildStatus(data) {
-                return data.map(d => {
-                    // d.disabled = true;
-                    this.$set(d, 'disabled', true);
-                    if (d.children && d.children.length) d.children=this.setChildStatus(d.children);
-                    return d;
-                })
+            /**
+             * 多选修改状态
+             * @param data
+             * @return {string}
+             */
+            changeStatus(data) {
+                let checked='';
+                if (data.every(d => d.checked==='checked')) {
+                    checked = 'checked';
+                } else if (data.every(d => d.checked==='uncheck')) {
+                    checked = 'uncheck';
+                } else {
+                    checked = 'notNull';
+                }
+
+                return checked;
             },
             /**
              * 改变被筛选到的数据的状态
@@ -107,9 +141,7 @@
                 this.currentData(data, iArr, curr);
 
                 curr.forEach(d => {
-                    const status=ChangeStatus(d.children);
-                    d.checked=status;
-                    if (status === 'checked') this.setChildStatus(d.children);
+                    d.checked=ChangeStatus(d.children);
                 });
             },
             /**

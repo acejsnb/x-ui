@@ -1,7 +1,6 @@
 <template>
     <div class="p-tree-node">
         <div
-                v-show="!treeItem.isHide"
                 class="p-tree-node-content"
                 :style="{paddingLeft: paddingLeft+'px'}"
         >
@@ -78,10 +77,6 @@
                 default: ''
             }
         },
-        data() {
-            return {
-            }
-        },
         computed: {
             // 左边内边距
             paddingLeft() {
@@ -113,7 +108,7 @@
                 }
                 if (this.lastStage) {
                     // 只能选择末级
-                    if (treeItem.children && treeItem.children.length) return;
+                    if (children && children.length) return;
                     this.treeItem=treeItem;
                     treeItem.checked=status;
                     // 执行父级的函数
@@ -139,6 +134,3 @@
         }
     }
 </script>
-
-<style lang="stylus">
-</style>

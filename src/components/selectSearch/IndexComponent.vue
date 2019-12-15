@@ -241,26 +241,31 @@
         position absolute
         top 100%
         left 0
+        margin-top 8px
+        background-color #fff
+        border 1px solid $grey-300
+        border-radius 4px
+        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
         width 100%
-        max-height 184px
+        max-height 202px
+        overflow-y auto
         z-index 99
         .p-select-drop-down-not
-            margin-top 8px
+            //margin-top 8px
             padding 16px 12px
-            background-color #fff
-            border 1px solid $grey-300
-            border-radius 4px
-            box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
+            //background-color #fff
+            //border 1px solid $grey-300
+            //border-radius 4px
             color $grey-400
             font-size 14px
-        .p-select-drop-down-tree
-            margin-top 8px
-            background-color #fff
-            border 1px solid $grey-300
-            border-radius 4px
-            box-shadow 0 5px 10px rgba(31,35,41,.1)
-            max-height 184px
-            overflow-y auto
+        //.p-select-drop-down-tree
+            //margin-top 8px
+            //background-color #fff
+            //border 1px solid $grey-300
+            //border-radius 4px
+            //box-shadow 0 5px 10px rgba(31,35,41,.1)
+            //max-height 184px
+            //overflow-y auto
 
 
 </style>

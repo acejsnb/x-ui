@@ -14,6 +14,7 @@
 
 <script>
     import TreeNode from './depend/treeNodeBi';
+    import { ChangeStatus } from '../static/utils/TreeTool';
 
     export default {
         name: 'TreeBiView',
@@ -93,23 +94,6 @@
                 });
             },
             /**
-             * 多选修改状态
-             * @param data
-             * @return {string}
-             */
-            changeStatus(data) {
-                let checked='';
-                if (data.every(d => d.checked==='checked')) {
-                    checked = 'checked';
-                } else if (data.every(d => d.checked==='uncheck')) {
-                    checked = 'uncheck';
-                } else {
-                    checked = 'notNull';
-                }
-
-                return checked;
-            },
-            /**
              * 改变被筛选到的数据的状态
              * @param data
              * @param iArr
@@ -120,7 +104,7 @@
                 this.currentData(data, iArr, curr);
 
                 curr.forEach(d => {
-                    d.checked=this.changeStatus(d.children);
+                    d.checked=ChangeStatus(d.children);
                 });
             },
             /**

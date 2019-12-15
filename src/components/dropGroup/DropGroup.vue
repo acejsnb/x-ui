@@ -138,6 +138,9 @@
                 line-height @height
                 color $grey-500
                 font-size 14px
+                white-space nowrap
+                text-overflow ellipsis
+                overflow hidden
             .p-drop-group-option
                 padding 5px 12px 5px 20px
                 //width 100%

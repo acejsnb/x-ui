@@ -2,10 +2,11 @@
  * 所有组件打包
  */
 
-import Icon from './icon/Icon';
-import Button from './button/Button';
-import Modal from './modal/Modal';
-import Drawer from './drawer/Drawer';
+import Icon from './icon';
+import Button from './button';
+import SelectedButton from './selectedButton';
+import Modal from './modal';
+import Drawer from './drawer';
 import Toggle from './toggle';
 import Dropdown from './dropdown';
 import DropGroup from './dropGroup';
@@ -27,7 +28,7 @@ import TreeBi from './treeBi';
 import Shake from './shake';
 import Stick from './stick';
 import Tag from './tag';
-import TransferBi from './transferBi';
+import Transfer from './transfer';
 
 import Headers from './headers';
 
@@ -35,10 +36,12 @@ import Message from './message'; // 函数式组件
 
 import Checkbox from './checkbox';
 import Radio from './radio';
+import Input from './input';
 
 const Components = {
     Icon
     ,Button
+    ,SelectedButton
     ,Modal
     ,Drawer
     ,Toggle
@@ -62,7 +65,7 @@ const Components = {
     ,Shake
     ,Stick
     ,Tag
-    ,TransferBi
+    ,Transfer
 
     ,Headers
 
@@ -71,6 +74,7 @@ const Components = {
     // 未公开组件
     ,Checkbox
     ,Radio
+    ,Input
 };
 
 const install = Vue => Object.keys(Components).forEach(name => {

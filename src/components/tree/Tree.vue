@@ -3,6 +3,7 @@
         <TreeNode
                 :multiple="multiple"
                 :linkage="linkage"
+                :lastStage="lastStage"
                 v-for="(item, ind) in treeData"
                 :key="item.id+'-'+ind"
                 :treeItem="item"
@@ -15,6 +16,7 @@
 
 <script>
     import TreeNode from './depend/treeNode';
+    import { ChangeStatus } from '../static/utils/TreeTool';
 
     export default {
         name: 'Tree',
@@ -33,6 +35,13 @@
             linkage: {
                 type: Boolean,
                 default: true
+            },
+            /**
+             * 只能选择末级
+             */
+            lastStage: {
+                type: Boolean,
+                default: false
             },
             /**
              * 树形结构数据列表
@@ -59,7 +68,6 @@
              * @param index 索引串
              */
             change(obj, index) {
-                // return;
                 const { id }=obj;
                 if (this.multiple) {
                     let iArr=(index.split('-')); // 拿到索引值
@@ -105,23 +113,6 @@
                 });
             },
             /**
-             * 多选修改状态
-             * @param data
-             * @return {string}
-             */
-            changeStatus(data) {
-                let checked='';
-                if (data.every(d => d.checked==='checked')) {
-                    checked = 'checked';
-                } else if (data.every(d => d.checked==='uncheck')) {
-                    checked = 'uncheck';
-                } else {
-                    checked = 'notNull';
-                }
-
-                return checked;
-            },
-            /**
              * 改变被筛选到的数据的状态
              * @param data
              * @param iArr
@@ -132,7 +123,7 @@
                 this.currentData(data, iArr, curr);
 
                 curr.forEach(d => {
-                    d.checked=this.changeStatus(d.children);
+                    d.checked=ChangeStatus(d.children);
                 });
             },
             /**

@@ -3,6 +3,7 @@
  */
 const components={
     Button: './src/components/button',
+    SelectedButton: './src/components/selectedButton',
     Drawer: './src/components/drawer',
     Modal: './src/components/modal',
     Toggle: './src/components/toggle',
@@ -27,7 +28,7 @@ const components={
     Shake: './src/components/shake',
     Stick: './src/components/stick',
     Tag: './src/components/tag',
-    TransferBi: './src/components/transferBi',
+    Transfer: './src/components/transfer',
 
 
     Message: './src/components/message', // 函数式组件
@@ -35,6 +36,8 @@ const components={
     // 未公开组件
     Checkbox: './src/components/checkbox',
     // 未公开组件
-    Radio: './src/components/radio'
+    Radio: './src/components/radio',
+    Input: './src/components/input',
+    Icon: './src/components/icon'
 };
 module.exports=components;

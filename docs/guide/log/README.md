@@ -2,6 +2,17 @@
 ### 更新日志
 
 ::: tip
+版本：0.7.3<br>
+1.修改相关bug<br>
+:::
+
+::: tip
+版本：0.7.2<br>
+1.修改Dropdown组件上下滚动<br>
+2.修改DropGroup组件title文字超出隐藏<br>
+:::
+
+::: tip
 版本：0.7.1<br>
 1.更新TreeStage组件<br>
 :::

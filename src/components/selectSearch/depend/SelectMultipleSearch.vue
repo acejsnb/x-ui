@@ -57,7 +57,7 @@
 <script>
     import IconCloseSvg from '../../static/iconSvg/icon_close.svg';
     import TriangleSvg from '../../static/iconSvg/triangle.svg';
-    import SelectOptionMultiple from './selectOptionMultiple';
+    import SelectOptionMultiple from '../../selectOptionMultiple/SelectOptionMultiple';
 
     export default {
         name: "SelectSingleSearch",

@@ -5,6 +5,7 @@ Vue.use(Router);
 
 import ComponentLists from './views/ComponentLists';
 import ButtonView from './views/ButtonView';
+import SelectedButtonView from './views/SelectedButtonView';
 // import ButtonView from './docs/Button.md';
 import ModalView from './views/ModalView';
 import DrawerView from './views/DrawerView';
@@ -31,13 +32,15 @@ import TreeBiView from './views/TreeBiView';
 import ShakeView from './views/ShakeView';
 import StickView from './views/StickView';
 import TagView from './views/TagView';
-import TransferBiView from './views/TransferBiView';
+import TransferView from './views/TransferView';
 
 import MessageView from './views/MessageView';
 
 // 未公开组件
 import CheckboxView from './views/CheckboxView';
 import RadioView from './views/RadioView';
+import InputView from './views/InputView';
+import IconView from './views/IconView';
 
 export default new Router({
     // mode: 'history',
@@ -59,6 +62,14 @@ export default new Router({
             component: ButtonView,
             meta: {
                 title: 'ButtonView'
+            }
+        },
+        {
+            path: '/selectedButtonView',
+            name: 'SelectedButtonView',
+            component: SelectedButtonView,
+            meta: {
+                title: 'SelectedButtonView'
             }
         },
         {
@@ -256,11 +267,11 @@ export default new Router({
             }
         },
         {
-            path: '/transferBiView',
-            name: 'TransferBiView',
-            component: TransferBiView,
+            path: '/transferView',
+            name: 'TransferView',
+            component: TransferView,
             meta: {
-                title: 'TransferBiView'
+                title: 'TransferView'
             }
         },
 
@@ -291,6 +302,23 @@ export default new Router({
                 title: 'RadioView'
             }
         },
+        {
+            path: '/inputView',
+            name: 'InputView',
+            component: InputView,
+            meta: {
+                title: 'InputView'
+            }
+        },
+        {
+            path: '/iconView',
+            name: 'IconView',
+            component: IconView,
+            meta: {
+                title: 'IconView'
+            }
+        },
+
         {
             path: '/',
             redirect: '/componentLists'

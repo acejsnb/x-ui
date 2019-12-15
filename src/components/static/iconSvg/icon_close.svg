@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g transform="translate(-1270.000000, -81.000000)">
-            <g>
-                <g transform="translate(53.000000, 76.000000)">
-                    <g transform="translate(1212.000000, 0.000000)">
-                        <path d="M11.3849873,11.346892 L11.3849873,3.72784442 L12.9087968,3.72784442 L12.9087968,11.346892 L20.5278444,11.346892 L20.5278444,12.8707016 L12.9087968,12.8707016 L12.9087968,20.4897492 L11.3849873,20.4897492 L11.3849873,12.8707016 L3.76593965,12.8707016 L3.76593965,11.346892 L11.3849873,11.346892 Z" id="Combined-Shape" fill="#9CA2A9" transform="translate(12.146892, 12.108797) rotate(-315.000000) translate(-12.146892, -12.108797) "></path>
-                    </g>
-                </g>
-            </g>
-        </g>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g transform="translate(8.000000, -9.000000)">
+        <path transform="rotate(45.000000)" d="M11.3849873,11.346892 L11.3849873,3.72784442 L12.9087968,3.72784442 L12.9087968,11.346892 L20.5278444,11.346892 L20.5278444,12.8707016 L12.9087968,12.8707016 L12.9087968,20.4897492 L11.3849873,20.4897492 L11.3849873,12.8707016 L3.76593965,12.8707016 L3.76593965,11.346892 L11.3849873,11.346892 Z" fill="#9CA2A9"></path>
     </g>
 </svg>

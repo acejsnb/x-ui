@@ -120,6 +120,16 @@
                 daysArray: [] // 日列表
             }
         },
+        watch: {
+            // 监听日期改变
+            date(n, o) {
+                if (n === o) return;
+                if (this.countDay) {
+                    this.daysArray=this.countDay.changeDay(n);
+                }
+                this.setDate(n);
+            }
+        },
         created() {
             // 初始化日期对象
             this.init();

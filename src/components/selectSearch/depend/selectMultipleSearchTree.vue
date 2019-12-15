@@ -68,10 +68,10 @@
 <script>
     import IconCloseSvg from '../../static/iconSvg/icon_close.svg';
     import TriangleSvg from '../../static/iconSvg/triangle.svg';
-    import SelectOptionMultiple from './selectOptionMultiple';
+    import SelectOptionMultiple from '../../selectOptionMultiple/SelectOptionMultiple';
     import Tree from '../../tree';
 
-    import {FilterTool, PackageTool, TileTool, Unique} from '../../static/utils/TileTool';
+    import {FilterTool, PackageTool, TileTool, Unique, ChangeStatus} from '../../static/utils/TreeTool';
 
     export default {
         name: "selectMultipleSearchTree",
@@ -330,23 +330,6 @@
                 this.$emit('change', ids);
             },
             /**
-             * 多选修改状态
-             * @param data
-             * @return {string}
-             */
-            changeStatus(data) {
-                let checked='';
-                if (data.every(d => d.checked==='checked')) {
-                    checked = 'checked';
-                } else if (data.every(d => d.checked==='uncheck')) {
-                    checked = 'uncheck';
-                } else {
-                    checked = 'notNull';
-                }
-
-                return checked;
-            },
-            /**
              * 设置参数
              * @param str
              * @return {*}
@@ -386,7 +369,7 @@
                                 let arr=tileData.filter(d => d.parentId===seli[j]); // 得到选中项
                                 if (arr && arr.length) {
                                     tileData.forEach(d => {
-                                        if (d.id === arr[0].parentId) d.checked=this.changeStatus(arr);
+                                        if (d.id === arr[0].parentId) d.checked=ChangeStatus(arr);
                                     });
                                 }
                             }
