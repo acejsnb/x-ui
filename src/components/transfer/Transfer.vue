@@ -1,11 +1,11 @@
 <template>
     <div class="p-transfer">
-        <div class="p-transfer-main">
+        <div class="p-transfer-main" :style="{height: height+'px'}">
             <div class="p-transfer-main-child p-transfer-left">
                 <section class="p-transfer-left-input">
                     <Input iconType="search" placeholder="搜索" v-model="inputVal" />
                 </section>
-                <section class="p-transfer-left-content" v-show="!inputVal">
+                <section class="p-transfer-left-content" :style="{height: (height-88)+'px'}" v-show="!inputVal">
                     <!--树形结构数据-->
                     <Tree
                             v-if="flat==='mt'"
@@ -35,9 +35,9 @@
             <div class="p-transfer-main-child p-transfer-right">
                 <section :class="['p-transfer-right-title', shadowShow&&'p-transfer-right-title-border']">
                     <article class="p-transfer-right-title-text">已选择</article>
-                    <article class="p-transfer-right-clear">清空</article>
+                    <article class="p-transfer-right-clear" v-show="confirmData&&confirmData.length" @click="handleEmpty">清空</article>
                 </section>
-                <section class="p-transfer-selected">
+                <section class="p-transfer-selected" :style="{height: (height-127)+'px'}">
                     <article class="p-transfer-selected-item" v-for="(sd, i) in selectedData" :key="'sd-'+sd.id">
                         <span @mouseenter="itemEnter">{{sd.name}}</span>
                         <IconClear @click="removeItem(i, sd.id)" />
@@ -45,7 +45,7 @@
                 </section>
                 <section :class="['p-transfer-btn', shadowShow&&'p-transfer-btn-shadow']">
                     <Button type="default" size="small" @click="handleCancel">取消</Button>
-                    <Button :type="setConfirmBtnType" size="small" @click="handleConfirm">确定</Button>
+                    <Button :type="confirmBtnType" size="small" @click="handleConfirm">确定</Button>
                 </section>
             </div>
         </div>
@@ -58,7 +58,7 @@
     import Button from '../button';
     import IconClear from '../static/iconSvg/clear2.svg';
     import SelectOptionMultiple from '../selectOptionMultiple/SelectOptionMultiple';
-    import { TileTool, FilterTool, ChangeStatus, GetParentIdById } from '../static/utils/TreeTool';
+    import { TileTool, FilterTool, ChangeStatus, GetParentIdById, Unique } from '../static/utils/TreeTool';
 
     export default {
         name: "Transfer",
@@ -81,13 +81,21 @@
             lastStage: {
                 type: Boolean,
                 default: false
+            },
+            height: {
+                type: [String, Number],
+                default: 480
             }
         },
         data() {
             return {
+                modalShow: false, // 弹窗显示状态
                 inputVal: '', // 输入的值
                 selectedData: [], // 选中的数据
                 searchData: [], // 搜索出的数据
+                isEmpty: false, // 是否点击了清空按钮
+                confirmData: [], // 点击确定选择的数据
+                confirmBtnType: 'disabled' // 确定按钮状态
             }
         },
         computed: {
@@ -115,11 +123,10 @@
             },
             // 设置按钮区是否显示投影
             shadowShow() {
-                return this.selectedData.length > 8
-            },
-            // 确定按钮状态
-            setConfirmBtnType() {
-                return this.selectedData.length ? 'primary' : 'disabled'
+                const len=this.selectedData.length;
+                const h=this.height-127;
+                if (len) return h/len < 40;
+                return false;
             }
         },
         watch: {
@@ -131,9 +138,45 @@
                 } else {
                     this.searchData=[];
                 }
+            },
+            // 监听选中数据改变-确定按钮状态
+            selectedData(n) {
+                const cd=this.confirmData;
+                this.checkArrDiff(cd, n);
             }
         },
         methods: {
+            /**
+             * 检查两个数组是否一样
+             * @param cd - confirmData 数组1
+             * @param sd - selectedData 数组2
+             * @return {boolean} 返回值
+             */
+            checkArrDiff(cd, sd) {
+                if (cd.length) {
+                    if (sd.length) {
+                        const assign=Unique([...sd, ...cd]);
+                        if (assign.length!==cd.length || assign.length!==sd.length) {
+                            this.confirmBtnType='primary';
+                            return true;
+                        } else {
+                            this.confirmBtnType='disabled';
+                            return false;
+                        }
+                    } else {
+                        this.confirmBtnType='primary';
+                        return true;
+                    }
+                } else {
+                    if (sd.length) {
+                        this.confirmBtnType='primary';
+                        return true;
+                    } else {
+                        this.confirmBtnType='disabled';
+                        return false;
+                    }
+                }
+            },
             // 鼠标hover
             itemEnter(e) {
                 const target=e.target;
@@ -336,6 +379,65 @@
                 })
             },
             /**
+             * 设置一维结构根据条件选中
+             * @param data 一维结构数据
+             * @param ids 需要选中的ids
+             */
+            setMulDataSelectedByIds(data, ids) {
+                return data.map(d => {
+                    d.selected=ids.includes(d.id);
+                    return d;
+                })
+            },
+            /**
+             * 设置树形结构根据条件选中
+             * @param data 树形结构数据
+             * @param ids 需要选中的ids
+             */
+            setTreeCheckedByIds(data, ids) {
+                if (this.linkage) {
+                    /* 上下级联动 */
+                    return this.linkageSetStatusByIds(data, ids);
+                } else {
+                    // 上下级不联动
+                    return this.notLinkageSetStatusByIds(data, ids);
+                }
+            },
+            /**
+             * 联动-根据选中的ids设置树形结构状态
+             * @param data 树形结构数据
+             * @param ids 需要选中的ids
+             */
+            linkageSetStatusByIds(data, ids) {
+                return data.map(d => {
+                    if (ids.includes(d.id)) {
+                        d.checked='checked';
+                    } else {
+                        d.checked='uncheck';
+                    }
+                    if (d.children && d.children.length) {
+                        d.children=this.linkageSetStatusByIds(d.children, ids);
+                    }
+                    setTimeout(() => {
+                        if (!ids.includes(d.id) && d.children && d.children.length) d.checked=ChangeStatus(d.children);
+                    }, 0);
+                    return d;
+                })
+            },
+            /**
+             * 不联动-根据选中的ids设置树形结构状态
+             * @param data 树形结构数据
+             * @param ids 需要选中的ids
+             */
+            notLinkageSetStatusByIds(data, ids) {
+                return data.map(d => {
+                    if (ids.includes(d.id)) d.checked='checked';
+                    else d.checked='uncheck';
+                    if (d.children && d.children.length) d.children=this.notLinkageSetStatusByIds(d.children, ids);
+                    return d;
+                })
+            },
+            /**
              * 一维多选列表
              * @param selected 被选中的项
              * @param unselect 被取消的项
@@ -432,8 +534,8 @@
                     })
                 }
             },
-            // 点击取消
-            handleCancel() {
+            // 清除数据
+            clearObj() {
                 if (this.flat === 'mt') this.mulData=this.setMulDataUncheck(this.mulData);
                 else this.mulData=this.setMulDataUnSelected(this.mulData);
 
@@ -441,10 +543,42 @@
                 this.searchData=[];
                 this.inputVal='';
             },
+            // 点击清空
+            handleEmpty() {
+                // 如果已经有选择的数据，设置isEmpty状态
+                this.isEmpty=true;
+                this.confirmBtnType='primary'; // 设置确定按钮状态
+                this.clearObj();
+            },
+            // 点击取消
+            handleCancel() {
+                this.modalShow=false; // 关闭弹窗
+                const cd=this.confirmData;
+                if (cd && cd.length) {
+                    // 如果 confirmData与selectedData不一样才执行以下操作
+                    if (this.checkArrDiff(cd, this.selectedData)) {
+                        this.selectedData=JSON.parse(JSON.stringify(cd));
+                        const ids=cd.map(d => d.id);
+                        if (this.flat === 'mt') {
+                            this.mulData=this.setTreeCheckedByIds(this.mulData, ids);
+                        } else {
+                            this.mulData=this.setMulDataSelectedByIds(this.mulData, ids);
+                        }
+                    }
+                    this.searchData=[];
+                    this.inputVal='';
+                } else {
+                    this.clearObj();
+                }
+                this.$emit('cancel');
+            },
             // 点击确定
             handleConfirm() {
-                const ids=this.selectedData.map(d => d.id);
-                this.$emit('confirm', ids);
+                const sd=JSON.parse(JSON.stringify(this.selectedData));
+                const ids=sd.map(d => d.id);
+                this.confirmData=sd;
+                this.$emit('confirm', ids, sd);
+                this.confirmBtnType='disabled'; // 设置确定按钮状态
             }
         }
     }
@@ -472,7 +606,7 @@
                 width 100%
             .p-transfer-left-content
                 width 100%
-                height 392px
+                //height 392px
                 overflow-y auto
                 .p-transfer-left-content-none
                     padding-top 100px
@@ -504,7 +638,7 @@
             .p-transfer-selected
                 margin-top 8px
                 width 100%
-                height 353px
+                //height 353px
                 overflow-y auto
                 color $grey-500
                 font-size 14px
@@ -512,7 +646,6 @@
                     display inline-flex
                     justify-content space-between
                     align-items center
-                    //margin-top 8px
                     padding 5px 16px
                     width 100%
                     height 40px

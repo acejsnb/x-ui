@@ -1,7 +1,7 @@
 <template>
     <div class="transfer">
         <h3>1.一维结构</h3>
-        <Transfer :data="selectData" @confirm="treeConfirm" />
+        <Transfer :data="selectData" height="300" @confirm="treeConfirm" />
         <h3>2.树形结构-联动</h3>
         <Transfer :data="treeData" @confirm="treeConfirm" />
         <h3>3.树形结构-不联动</h3>
@@ -67,7 +67,7 @@
         }
     ];
     export default {
-        name: "TransferBiView",
+        name: "TransferView",
         data() {
             return {
                 selectData, // type: Array

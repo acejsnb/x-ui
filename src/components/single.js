@@ -29,6 +29,7 @@ const components={
     Stick: './src/components/stick',
     Tag: './src/components/tag',
     Transfer: './src/components/transfer',
+    TransferSelect: './src/components/transferSelect',
 
 
     Message: './src/components/message', // 函数式组件

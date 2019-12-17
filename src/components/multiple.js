@@ -29,6 +29,7 @@ import Shake from './shake';
 import Stick from './stick';
 import Tag from './tag';
 import Transfer from './transfer';
+import TransferSelect from './transferSelect';
 
 import Headers from './headers';
 
@@ -66,6 +67,7 @@ const Components = {
     ,Stick
     ,Tag
     ,Transfer
+    ,TransferSelect
 
     ,Headers
 

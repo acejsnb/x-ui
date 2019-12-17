@@ -171,6 +171,7 @@
             top 100%
             margin-top 8px
             //transform translateY(8px)
+            background-color #fff
             border 1px solid $grey-300
             border-radius 4px
             box-shadow 0 5px 10px rgba(31,35,41,.1)

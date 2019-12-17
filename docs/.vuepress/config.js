@@ -49,6 +49,7 @@ module.exports = {
                     '/guide/treeBi/',
                     '/guide/tag/',
                     '/guide/transfer/',
+                    '/guide/transferSelect/',
                 ]
             },
         ]

@@ -2,6 +2,12 @@
 ### 更新日志
 
 ::: tip
+版本：0.7.4<br>
+1.新增TransferSelect穿梭框组件<br>
+2.修改DropGroup组件bug<br>
+:::
+
+::: tip
 版本：0.7.3<br>
 1.修改相关bug<br>
 :::

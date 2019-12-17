@@ -33,6 +33,7 @@ import ShakeView from './views/ShakeView';
 import StickView from './views/StickView';
 import TagView from './views/TagView';
 import TransferView from './views/TransferView';
+import TransferSelectView from './views/TransferSelectView';
 
 import MessageView from './views/MessageView';
 
@@ -272,6 +273,14 @@ export default new Router({
             component: TransferView,
             meta: {
                 title: 'TransferView'
+            }
+        },
+        {
+            path: '/transferSelectView',
+            name: 'TransferSelectView',
+            component: TransferSelectView,
+            meta: {
+                title: 'TransferSelectView'
             }
         },
 

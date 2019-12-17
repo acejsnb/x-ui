@@ -38,6 +38,7 @@
                     {title: 'Stick', more: '置顶条', url: 'stickView'},
                     {title: 'Tag', more: '标签', url: 'tagView'},
                     {title: 'Transfer', more: '穿梭框', url: 'transferView'},
+                    {title: 'TransferSelect', more: '穿梭框', url: 'transferSelectView'},
 
                     {title: 'Headers', more: '头部title', url: 'headersView'},
 
