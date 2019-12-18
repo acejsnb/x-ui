@@ -2,7 +2,7 @@
     <section :class="`p-btn p-btn-${type} p-btn-${size}`" @click="handleClick">
         <!-- @slot html内容 -->
         <span><slot></slot></span>
-        <LoadingIcon class="loading" v-if="loading" />
+        <LoadingIcon class="p-btn-loading" v-if="loading" />
     </section>
 </template>
 
@@ -75,7 +75,7 @@
             z-index 1
             user-select none
         //font-size 14px
-        .loading
+        .p-btn-loading
             margin-left 4px
             vertical-align middle
         &::after

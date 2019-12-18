@@ -2,8 +2,14 @@
     <div :class="['p-input', focus&&'p-input-focus']">
         <span class="p-input-icon" v-if="iconType"><Icon :type="iconType" /></span>
         <label class="p-input-label">
-            <span class="p-input-normal p-placeholder" v-if="!inputVal && !value">{{placeholder}}</span>
-            <input class="p-input-normal p-input-text" type="text" @input="inputEnter" @focus="inputFocus" @blur="inputBlur">
+            <span class="p-input-normal p-placeholder" v-if="!inputVal">{{placeholder}}</span>
+            <input
+                    class="p-input-normal p-input-text"
+                    type="text"
+                    v-model="inputVal"
+                    @focus="inputFocus"
+                    @blur="inputBlur"
+            >
         </label>
     </div>
 </template>
@@ -33,16 +39,21 @@
                 inputVal: '' // 监听是否正在输入
             }
         },
-        methods: {
-            // 监听是否正在输入
-            inputEnter(e) {
-                const { data, target: { value } }=e;
-                this.inputVal=data || value;
-                if (this.timer) window.clearTimeout(this.timer);
-                this.timer=window.setTimeout(() => {
-                    this.$emit('input', value);
-                }, 300);
+        watch: {
+            value(n, o) {
+                if (n === o) return;
+                this.inputVal=n;
             },
+            inputVal(n, o) {
+                if (n === o) return;
+                this.$emit('input', n);
+            }
+        },
+        created() {
+            const v=this.value;
+            if (v) this.inputVal=v;
+        },
+        methods: {
             // 输入框获取焦点
             inputFocus() {
                 this.focus=true;

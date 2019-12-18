@@ -99,6 +99,9 @@
         height 24px
         overflow hidden
         font-size 0
+        > span
+            display inline-block
+            width 100%
         .p-carousel-msg
             display flex
             align-items center

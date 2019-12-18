@@ -2,6 +2,28 @@
 ### 更新日志
 
 ::: tip
+版本：0.7.8<br>
+1.修改TransferSelect组件示例<br>
+:::
+
+::: tip
+版本：0.7.7<br>
+1.修改TransferSelect组件示例<br>
+:::
+
+::: tip
+版本：0.7.6<br>
+1.修改Button组件loading类名<br>
+2.Drawer组件新增触底加载更多回调<br>
+3.TransferSelect组件修改搜索时清除搜索内容<br>
+:::
+
+::: tip
+版本：0.7.5<br>
+1.修复相关问题<br>
+:::
+
+::: tip
 版本：0.7.4<br>
 1.新增TransferSelect穿梭框组件<br>
 2.修改DropGroup组件bug<br>

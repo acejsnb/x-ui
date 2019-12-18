@@ -1,9 +1,10 @@
 <template>
     <div class="input">
         <h3>1.不带icon</h3>
-        <Input v-model="inoutVal" placeholder="请搜索" />
+        <Input v-model="inputVal" placeholder="请搜索" />
         <h3>2.带icon</h3>
-        <Input iconType="search" v-model="inoutVal2" />
+        <Input iconType="search" v-model="inputVal2" />
+        <Button type="primary" @click="ceshi">测试</Button>
     </div>
 </template>
 
@@ -12,14 +13,19 @@
         name: "RadioView",
         data() {
             return {
-                inoutVal: '',
-                inoutVal2: '',
+                inputVal: '',
+                inputVal2: '123',
             }
         },
         watch: {
             inoutVal(n, o) {
                 if (n === o) return;
                 console.log('输入的值：：：', n);
+            }
+        },
+        methods: {
+            ceshi() {
+                this.inputVal2='';
             }
         }
     }

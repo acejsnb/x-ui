@@ -1,28 +1,55 @@
 <template>
     <div class="transferSelect">
-        <h3>1.一维结构</h3>
-        <TransferSelect
-                title="已选设备"
-                unit="个"
-                placeholder="添加设备"
-                tipPlace="bottom"
-                :linkage="false"
-                :lastStage="true"
-                height="300"
-                :data="selectData"
-                @confirm="treeConfirm"
-        />
-        <h3>2.树形结构</h3>
-        <TransferSelect
-                title="已选设备"
-                unit="个"
-                placeholder="添加设备"
-                tipPlace="top"
-                :linkage="false"
-                :lastStage="true"
-                :data="treeData"
-                @confirm="treeConfirm"
-        />
+        <div class="transferSelectList">
+            <h3>1.一维结构</h3>
+            <TransferSelect
+                    title="已选设备"
+                    unit="个"
+                    placeholder="添加设备"
+                    tipPlace="bottom"
+                    :linkage="false"
+                    :lastStage="true"
+                    height="300"
+                    :data="selectData"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList">
+            <h3>2.树形结构</h3>
+            <TransferSelect
+                    title="已选设备"
+                    unit="个"
+                    placeholder="添加设备"
+                    tipPlace="top"
+                    :data="treeData"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList">
+            <h3>3.树形结构-上下级不联动</h3>
+            <TransferSelect
+                    title="已选设备"
+                    unit="个"
+                    placeholder="添加设备"
+                    tipPlace="right"
+                    :linkage="false"
+                    :data="treeData2"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList" style="padding-left: 300px; width: 600px">
+            <h3>4.树形结构-只能选择末级</h3>
+            <TransferSelect
+                    title="已选设备"
+                    unit="个"
+                    placeholder="添加设备"
+                    tipPlace="left"
+                    :linkage="false"
+                    :lastStage="true"
+                    :data="treeData3"
+                    @confirm="treeConfirm"
+            />
+        </div>
     </div>
 </template>
 
@@ -86,7 +113,9 @@
         data() {
             return {
                 selectData, // type: Array
-                treeData: dataArr // type: Array
+                treeData: dataArr, // type: Array
+                treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
+                treeData3: JSON.parse(JSON.stringify(dataArr)), // type: Array
             }
         },
         methods: {
@@ -100,7 +129,8 @@
 <style lang="stylus" scoped>
 .transferSelect
     padding 16px
-    width 200px
+    .transferSelectList
+        width 300px
     h3
         font-size 16px
         margin 12px

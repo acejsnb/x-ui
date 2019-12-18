@@ -13,9 +13,13 @@
                 <section class="p-title-text">{{title}}</section>
                 <Icon type="close" class="p-drawer-title-icon" @click="onClose" />
             </div>
-            <div :class="['p-drawer-content', bottom&&'p-drawer-content-bottom']">
+            <div :class="['p-drawer-content', bottom&&'p-drawer-content-bottom']" @scroll="contentScroll">
                 <!-- @slot html内容 -->
                 <slot></slot>
+                <section class="p-drawer-content-loading" v-if="loadingMore">
+                    <LoadingGrey />
+                    <span>加载中...</span>
+                </section>
             </div>
             <!--<div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">-->
             <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="bottom">
@@ -29,10 +33,11 @@
 <script>
     import Icon from '../icon';
     import Button from '../button';
+    import LoadingGrey from '../static/iconSvg/loading_grey.svg';
 
     export default {
         name: 'Drawer',
-        components: { Icon, Button },
+        components: { Icon, Button, LoadingGrey },
         props: {
             /**
              * 侧拉窗显示状态
@@ -70,11 +75,17 @@
             bottom: {
                 type: Boolean,
                 default: false
+            },
+            // 加载更多
+            loadingMore: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
             return {
-                autoClose: false // 是否拾取焦点就关闭
+                autoClose: false, // 是否拾取焦点就关闭
+                scrollTop: 0 // 滚动条的位置
             }
         },
         watch: {
@@ -88,6 +99,12 @@
                     this.$nextTick(() => {
                         this.$refs.drawerBox.focus();
                     })
+                }
+            },
+            // 监听滚动的距离
+            scrollTop(n, o) {
+                if (n === o && n>0) {
+                    console.log(n)
                 }
             }
         },
@@ -116,6 +133,19 @@
             onClose() {
                 if (this.loading) this.$emit('changeLoading', false);
                 this.$emit('changeStatus', false);
+            },
+            // 监听页面触底
+            contentScroll(e) {
+                if (this.loadingMore) return;
+                this.$nextTick(() => {
+                    const target=e.target;
+                    const {scrollTop, scrollHeight}=target;
+                    const h=target.getBoundingClientRect().height;
+                    if (scrollTop+h === scrollHeight) {
+                        // 触底了
+                        this.$emit('getMore')
+                    }
+                })
             },
             /**
              * 点击确定按钮执行的回调
@@ -162,12 +192,21 @@
             position absolute
             top 16px
             right 28px
-            overflow-y auto
+            //overflow-y auto
     .p-drawer-content
         padding 12px 32px
         width 100%
         height calc(100% - 56px)
         overflow auto
+        .p-drawer-content-loading
+            padding 16px
+            width 100%
+            text-align center
+            svg, span
+                vertical-align middle
+            span
+                color $grey-600
+                font-size 14px
     .p-drawer-content-bottom
         height calc(100% - 128px)
     .p-drawer-handle

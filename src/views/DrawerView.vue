@@ -21,15 +21,16 @@
                     :loading="iconLoading"
                     :focus="true"
                     @changeLoading="changeLoading"
-                    :bottom="true"
                     @changeStatus="changeStatus"
                     @confirm="drawerConfirm"
+                    :loadingMore="loadingMore"
+                    @getMore="getMore"
             >
                 <div style="width: 500px;font-size: 20px">
                     123
                     456
                     789
-                    <div style="font-size: 16px;">
+                    <div style="font-size: 16px;" :style="{height: height+'px'}">
                         <br><br><br><br><br><br><br><br>
                         <br><br><br><br><br><br><br><br>
                         <br><br><br><br><br><br><br><br>
@@ -61,7 +62,9 @@
         data() {
             return {
                 drawerStatus: false,
-                iconLoading: false
+                iconLoading: false,
+                loadingMore: false,
+                height: 1000
             }
         },
         methods: {
@@ -81,6 +84,16 @@
             drawerConfirm() {
                 console.log('alertConfirm')
             },
+            getMore() {
+                console.log('1::', this.loadingMore);
+                this.loadingMore=true;
+                console.log('2::', this.loadingMore);
+                setTimeout(() => {
+                    this.loadingMore=false;
+                    this.height=this.height+100;
+                }, 3000)
+                console.log('3::', this.loadingMore);
+            }
         }
     }
 </script>

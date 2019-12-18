@@ -126,5 +126,7 @@
 | @changeLoading    | 该表loading | Function | false | no     |
 | btnShow    | 底部按钮是否显示 | Boolean | false | no     |
 | bottom    | 底部按钮是否固定在底部 | Boolean | false | no     |
-| @changeStatus    | 控制侧拉窗显示关闭回调 | Function | false | no     |
-| @confirm    | 确定按钮点击回调 | Function | false | no     |
+| loadingMore    | 加载更多loading | Boolean | false | no     |
+| @getMore    | 触底-加载更多数据回调 | Function | -- | no     |
+| @changeStatus    | 控制侧拉窗显示关闭回调 | Function | -- | no     |
+| @confirm    | 确定按钮点击回调 | Function | -- | no     |

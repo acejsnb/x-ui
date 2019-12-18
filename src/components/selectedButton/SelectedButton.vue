@@ -204,7 +204,8 @@
     position relative
     display inline-block
     width 100%
-    max-width 192px
+    min-width 120px
+    //max-width 192px
     //height 32px
     .p-selected-button-content
         display flex
