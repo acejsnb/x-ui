@@ -30,6 +30,7 @@ const components={
     Tag: './src/components/tag',
     Transfer: './src/components/transfer',
     TransferSelect: './src/components/transferSelect',
+    TransferTree: './src/components/transferTree',
 
 
     Message: './src/components/message', // 函数式组件

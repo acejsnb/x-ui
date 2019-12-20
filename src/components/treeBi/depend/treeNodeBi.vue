@@ -1,5 +1,6 @@
 <template>
-    <div class="p-tree-node p-tree-node-bi">
+<!--    <div class="p-tree-node p-tree-node-bi" v-show="!(index==='0'&&total!==0)">-->
+    <div class="p-tree-node p-tree-node-bi" v-show="!(index==='0'&&total===0)">
         <div
                 v-show="!treeItem.isHide"
                 :class="['p-tree-node-content', !multiple&&treeItem.checked==='checked'&&'p-tree-node-content-checked']"
@@ -91,7 +92,9 @@
             },
             // 选中的数量
             total() {
-                return this.treeItem.children.filter(d => !d.isHide).length;
+                const len=this.treeItem.children.filter(d => !d.isHide).length;
+                this.treeItem.isHide = !len;
+                return len;
             },
             // 选中的数量
             quantity() {

@@ -36,7 +36,7 @@
     import SelectedButton from '../selectedButton';
     import Transfer from '../transfer';
     export default {
-        name: "TransferSelect",
+        name: "TransferTree",
         components: { SelectedButton, Transfer },
         props: {
             // 选择内容后的title
@@ -140,17 +140,17 @@
 </script>
 
 <style lang="stylus">
-@import "../static/stylus/animate/slideDownUpUi.styl"
-.p-transfer-select
-    position relative
-    display inline-block
-    outline none
-    width 100%
-    .p-transfer-select-box
-        position absolute
-        top 32px
-        left 0
-        margin-top 8px
-        z-index 101
+    @import "../static/stylus/animate/slideDownUpUi.styl"
+    .p-transfer-select
+        position relative
+        display inline-block
+        outline none
+        width 100%
+        .p-transfer-select-box
+            position absolute
+            top 32px
+            left 0
+            margin-top 8px
+            z-index 101
 
 </style>

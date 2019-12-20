@@ -7,7 +7,7 @@
             </article>
             <article :class="['p-drop-triangle', !optionStatus && 'p-drop-triangle-rotate']"><Triangle /></article>
         </section>
-        <transition name="slideDownUp">
+        <transition name="slideDownUpUi">
             <section :class="['p-drop-option', 'p-drop-option-'+position]" v-show="optionStatus">
                 <article
                         :class="['p-drop-option-item', value===item.id&&'option-selected', item.disabled&&'option-disable']"
@@ -91,7 +91,7 @@
 
 <style lang="stylus">
 
-    @import "../static/stylus/animate/slideDownUp.styl"
+    @import "../static/stylus/animate/slideDownUpUi.styl"
 
     .p-drop
         position relative

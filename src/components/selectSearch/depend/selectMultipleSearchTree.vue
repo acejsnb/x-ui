@@ -41,7 +41,7 @@
                 <TriangleSvg :class="[!dropDownShow&&'p-select-search-triangle-rotate']" />
             </span>
         </div>
-        <transition name="slideDownUp">
+        <transition name="slideDownUpUi">
             <div class="p-select-drop-down-box" v-show="dropDownShow">
                 <div class="p-select-drop-down-not" v-if="notFound">Not found</div>
                 <div class="p-select-drop-down-tree" v-show="!notFound">

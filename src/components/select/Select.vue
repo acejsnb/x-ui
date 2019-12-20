@@ -73,16 +73,16 @@
             this.titleFormat(this.value)
         },
         watch: {
-            multiple(n, o) {
+            value(n, o) {
                 if (n !== o) {
-                    this.titleFormat(this.value, n)
+                    this.titleFormat(n)
                 }
             }
         },
         methods: {
             // 设置title
             titleFormat(v) {
-                this.text=this.data.find(d => d.id === v).name;
+                if (v) this.text=this.data.find(d => d.id === v).name;
             },
             // 打开下拉选择盒子
             selectBoxHandle() {

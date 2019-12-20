@@ -182,12 +182,10 @@
                     const sd=this.data;
                     if (sd && sd.length) {
                         this.tipShow=true;
-                        if (!this.tipHeight) {
-                            this.$nextTick(() => {
-                                const height=this.$refs.selectedTipItem.scrollHeight;
-                                this.tipHeight=height+32;
-                            });
-                        }
+                        this.$nextTick(() => {
+                            const height=this.$refs.selectedTipItem.scrollHeight;
+                            this.tipHeight=height+32;
+                        });
                     }
                 }
             },

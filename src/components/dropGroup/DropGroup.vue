@@ -7,7 +7,7 @@
             </article>
             <article :class="['p-drop-group-triangle', !optionStatus && 'p-drop-group-triangle-rotate']"><Triangle /></article>
         </section>
-        <transition name="slideDownUp">
+        <transition name="slideDownUpUi">
             <div class="p-drop-group-item" v-show="optionStatus">
                 <div v-for="group in data" :key="group.id">
                     <section class="p-drop-item-title">{{group.name}}</section>
@@ -93,7 +93,7 @@
 
 <style lang="stylus">
 
-    @import "../static/stylus/animate/slideDownUp.styl"
+    @import "../static/stylus/animate/slideDownUpUi.styl"
 
     .p-drop-group
         position relative

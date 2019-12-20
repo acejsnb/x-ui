@@ -1,6 +1,6 @@
 <template>
     <div class="p-carousel" @mouseenter="stopTimer" @mouseleave="setTimer">
-        <transition-group name="slideUp">
+        <transition-group name="slideUpUi">
             <div class="p-carousel-msg"
                  v-show="num === i"
                  v-for="(item, i) in data"
@@ -89,7 +89,7 @@
 
 <style lang="stylus">
 
-    @import "../static/stylus/animate/slideUp.styl"
+    @import "../static/stylus/animate/slideUpUi.styl"
 
     .p-carousel
         display flex

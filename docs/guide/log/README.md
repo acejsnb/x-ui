@@ -2,6 +2,23 @@
 ### 更新日志
 
 ::: tip
+版本：0.8.0<br>
+1.修改TreeBi组件-当子组件全部隐藏时父组件也隐藏<br>
+:::
+
+::: tip
+版本：0.8.0<br>
+1.修改SelectSearch组件单选bug<br>
+2.修改TransferSelect组件tip显示bug<br>
+3.keyframes函数名<br>
+:::
+
+::: tip
+版本：0.7.9<br>
+1.修改Select组件id监听<br>
+:::
+
+::: tip
 版本：0.7.8<br>
 1.修改TransferSelect组件示例<br>
 :::

@@ -30,6 +30,7 @@ import Stick from './stick';
 import Tag from './tag';
 import Transfer from './transfer';
 import TransferSelect from './transferSelect';
+import TransferTree from './transferTree';
 
 import Headers from './headers';
 
@@ -68,6 +69,7 @@ const Components = {
     ,Tag
     ,Transfer
     ,TransferSelect
+    ,TransferTree
 
     ,Headers
 

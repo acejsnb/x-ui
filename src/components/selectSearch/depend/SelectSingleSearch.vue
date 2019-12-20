@@ -1,5 +1,10 @@
 <template>
-    <div class="p-select-search" :style="{width: width+'px'}">
+    <div
+            class="p-select-search"
+            :style="{width: width+'px'}"
+            @mouseenter="selectOptionEnter"
+            @mouseleave="selectOptionLeave"
+    >
         <div :class="['p-select-search-box', boxFocus&&'p-select-search-box-focus', disabled&&'p-select-search-box-disabled']" @click="searchBoxClick">
             <section
                     v-show="fieldStatus"
@@ -25,7 +30,7 @@
                 <TriangleSvg :class="[!dropDownShow&&'p-select-search-triangle-rotate']" />
             </span>
         </div>
-        <transition name="slideDownUp">
+        <transition name="slideDownUpUi">
             <div class="p-select-drop-down-box" v-show="dropDownShow">
                 <div class="p-select-drop-down-not" v-if="notFound">Not found</div>
                 <SelectOption
@@ -80,6 +85,8 @@
                 dropDownShow: false,
                 // 搜索的数据
                 searchData: [],
+                // 激活关闭
+                closeDrop: false
             }
         },
         computed: {
@@ -148,12 +155,22 @@
             },
             // 关闭选择框
             inputBlur() {
-                this.boxFocus=false;
+                if (!this.closeDrop) return;
                 setTimeout(() => {
                     if (!this.dropDownShow) return;
+                    this.boxFocus=false;
                     this.dropDownShow=false;
                     this.searchPlaceHolder=true;
                 }, 0);
+            },
+            // 子项鼠标移入
+            selectOptionEnter() {
+                this.closeDrop=false;
+            },
+            // 子项鼠标移出
+            selectOptionLeave() {
+                this.closeDrop=true;
+                if (!this.disabled && this.dropDownShow) this.$refs.inputField.focus();
             },
             // 设置选中的数据
             setDataNow(id) {

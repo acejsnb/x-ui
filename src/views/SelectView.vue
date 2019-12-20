@@ -46,7 +46,8 @@
         name: 'SelectView',
         data() {
             return {
-                selVal: 'totalEnergy',
+                // selVal: 'totalEnergy',
+                selVal: '',
                 selText: '总量',
                 dataSelect: data,
                 selVal2: 'totalEnergy',
@@ -59,7 +60,10 @@
                 this.selText=this.dataSelect.find(d => d.id === n).name
             }
         },
-        methods: {
+        mounted() {
+            setTimeout(() => {
+                this.selVal='totalEnergy'
+            }, 3000)
         }
     }
 </script>

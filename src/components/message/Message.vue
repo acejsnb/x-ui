@@ -1,5 +1,5 @@
 <template>
-    <transition name="fadeDownUp">
+    <transition name="fadeDownUpUi">
         <div v-show="visible" :class="`p-message p-message-${type}`">
             <section class="p-message-hint">
                 <HintInfo v-if="type==='info'" />
@@ -45,7 +45,7 @@
 </script>
 
 <style lang="stylus">
-    @import "../static/stylus/animate/fadeDownUp.styl"
+    @import "../static/stylus/animate/fadeDownUpUi.styl"
 
     .p-message
         display inline-block

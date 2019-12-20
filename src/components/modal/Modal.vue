@@ -1,9 +1,9 @@
 <template>
     <div class="p-modal">
-        <transition name="opacityInOut">
+        <transition name="opacityInUiOut">
             <div class="p-modal-bg" @click="$emit('close')" v-if="show"></div>
         </transition>
-        <transition-group name="bounceInOut">
+        <transition-group name="bounceInUiOut">
             <!-- 默认弹窗样式 -->
             <Default
                     key="default"
@@ -129,8 +129,8 @@
 </script>
 
 <style lang="stylus">
-    @import "../static/stylus/animate/opacityInOut.styl"
-    @import "../static/stylus/animate/bounceInOut.styl"
+    @import "../static/stylus/animate/opacityInUiOut.styl"
+    @import "../static/stylus/animate/bounceInUiOut.styl"
 
     .p-modal-bg
         position fixed
