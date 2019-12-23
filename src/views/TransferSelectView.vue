@@ -21,6 +21,7 @@
                     unit="个"
                     placeholder="添加设备"
                     tipPlace="top"
+                    height="300"
                     :data="treeData"
                     @confirm="treeConfirm"
             />
@@ -33,6 +34,7 @@
                     placeholder="添加设备"
                     tipPlace="right"
                     :linkage="false"
+                    height="300"
                     :data="treeData2"
                     @confirm="treeConfirm"
             />
@@ -46,6 +48,7 @@
                     tipPlace="left"
                     :linkage="false"
                     :lastStage="true"
+                    height="300"
                     :data="treeData3"
                     @confirm="treeConfirm"
             />

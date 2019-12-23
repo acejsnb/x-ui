@@ -216,7 +216,7 @@
                     }
                 });
                 // 得到筛选后的数据 一维数据列表
-                const tData=FilterTool([], tileData, fData);
+                const tData=FilterTool(tileData, fData);
                 this.searchData=tData;
                 this.notFound=tData.length===0;
             },

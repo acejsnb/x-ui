@@ -13,7 +13,8 @@
             return {
                 listData: [
                     {title: 'Button', more: '按钮', url: 'buttonView'},
-                    {title: 'SelectedButton', more: '已选择-按钮', url: 'selectedButtonView'},
+                    {title: 'SelectButton', more: '已选择-按钮', url: 'selectButtonView'},
+                    {title: 'SelectInput', more: '已选择-搜索框', url: 'selectInputView'},
                     {title: 'Modal', more: '弹窗', url: 'ModalView'},
                     {title: 'Drawer', more: '抽屉', url: 'drawerView'},
                     {title: 'Toggle', more: '开关', url: 'toggleView'},
@@ -38,8 +39,9 @@
                     {title: 'Stick', more: '置顶条', url: 'stickView'},
                     {title: 'Tag', more: '标签', url: 'tagView'},
                     {title: 'Transfer', more: '穿梭框', url: 'transferView'},
-                    {title: 'TransferSelect', more: '穿梭框-Select', url: 'transferSelectView'},
-                    {title: 'TransferTree', more: '穿梭框-tree', url: 'transferTreeView'},
+                    {title: 'TransferSelect', more: '穿梭框-select', url: 'transferSelectView'},
+                    {title: 'TransferSelectModal', more: '穿梭框-selectModal', url: 'transferSelectModalView'},
+                    {title: 'TransferMini', more: '穿梭框-TransferMini', url: 'transferMiniView'},
 
                     {title: 'Headers', more: '头部title', url: 'headersView'},
 

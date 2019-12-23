@@ -50,6 +50,7 @@ module.exports = {
                     '/guide/tag/',
                     '/guide/transfer/',
                     '/guide/transferSelect/',
+                    '/guide/transferSelectModal/',
                 ]
             },
         ]

@@ -5,8 +5,8 @@ Vue.use(Router);
 
 import ComponentLists from './views/ComponentLists';
 import ButtonView from './views/ButtonView';
-import SelectedButtonView from './views/SelectedButtonView';
-// import ButtonView from './docs/Button.md';
+import SelectButtonView from './views/SelectButtonView';
+import SelectInputView from './views/SelectInputView';
 import ModalView from './views/ModalView';
 import DrawerView from './views/DrawerView';
 import ToggleView from './views/ToggleView';
@@ -34,7 +34,8 @@ import StickView from './views/StickView';
 import TagView from './views/TagView';
 import TransferView from './views/TransferView';
 import TransferSelectView from './views/TransferSelectView';
-import TransferTreeView from './views/TransferTreeView';
+import TransferSelectModalView from './views/TransferSelectModalView';
+import TransferMiniView from './views/TransferMiniView';
 
 import MessageView from './views/MessageView';
 
@@ -67,11 +68,19 @@ export default new Router({
             }
         },
         {
-            path: '/selectedButtonView',
-            name: 'SelectedButtonView',
-            component: SelectedButtonView,
+            path: '/selectButtonView',
+            name: 'SelectButtonView',
+            component: SelectButtonView,
             meta: {
-                title: 'SelectedButtonView'
+                title: 'SelectButtonView'
+            }
+        },
+        {
+            path: '/selectInputView',
+            name: 'SelectInputView',
+            component: SelectInputView,
+            meta: {
+                title: 'SelectInputView'
             }
         },
         {
@@ -285,11 +294,19 @@ export default new Router({
             }
         },
         {
-            path: '/transferTreeView',
-            name: 'TransferTreeView',
-            component: TransferTreeView,
+            path: '/transferSelectModalView',
+            name: 'TransferSelectModalView',
+            component: TransferSelectModalView,
             meta: {
-                title: 'TransferTreeView'
+                title: 'TransferSelectModalView'
+            }
+        },
+        {
+            path: '/transferMiniView',
+            name: 'TransferMiniView',
+            component: TransferMiniView,
+            meta: {
+                title: 'TransferMiniView'
             }
         },
 

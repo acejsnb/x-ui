@@ -34,7 +34,7 @@ const PackageTool = (tile) => {
     });
     let map = ToMapObj(tile);
     tile.forEach(item => {
-        let parent = map[item.parentId];
+        let parent = map.get(item.parentId);
         if(parent) {
             (parent.children || (parent.children = [])).push(item);
         } else {
@@ -46,25 +46,25 @@ const PackageTool = (tile) => {
 
 /**
  * 将数据转成map对象
- * @param arr
+ * @param tile
  * @constructor
  */
-const ToMapObj = (arr) => {
-    const tupleObj={}; // 平铺的map对象
-    arr.forEach(d => {
-        tupleObj[d.id]=d;
+const ToMapObj = (tile) => {
+    let map=new Map(); // map对象
+    tile.forEach(d => {
+        if (!map.has(d.id)) map.set(d.id, d)
     });
-    return tupleObj;
+    return map;
 };
 
 /**
  * 得到筛选后的数据 一维数据列表
- * @param data 接收结果
  * @param tile 平铺原始数据
  * @param fData 筛选后的数据
  * @constructor
  */
-const FilterTool = (data, tile, fData) => {
+const FilterTool = (tile, fData) => {
+    let data=[]; // 接收结果
     const tupleObj=ToMapObj(tile); // 平铺的map对象
     ByExample(data, fData, tupleObj);
 
@@ -72,16 +72,36 @@ const FilterTool = (data, tile, fData) => {
 };
 
 /**
+ * 得到筛选后的数据 树形结构
+ * @param tile 平铺原始数据
+ * @param fData 筛选后的数据
+ * @constructor
+ */
+const FilterTreeTool = (tile, fData) => {
+    let data=[]; // 接收结果
+    const tupleObj=ToMapObj(tile); // 平铺的map对象
+    ByExampleTree(data, fData, tupleObj);
+    return PackageTool(Unique(data.flat()));
+};
+
+/**
  * 遍历传入的筛选后的数据
  * @param data 接收结果
  * @param tile 平铺的数据
- * @param tupleObj
+ * @param tupleObj 平铺的map对象
  */
 const ByExample = (data, tile, tupleObj) => {
     tile.forEach(d => {
         const dArr=[d];
         GetObjByParentId(dArr, d, tupleObj);
         data.push(FormatArr(dArr))
+    });
+};
+const ByExampleTree = (data, tile, tupleObj) => {
+    tile.forEach(d => {
+        const dArr=[d];
+        GetObjByParentId(dArr, d, tupleObj);
+        data.push(dArr)
     });
 };
 
@@ -92,7 +112,7 @@ const ByExample = (data, tile, tupleObj) => {
  * @param tupleObj
  */
 const GetObjByParentId = (dArr, d, tupleObj) => {
-    const obj=tupleObj[d.parentId];
+    const obj=tupleObj.get(d.parentId);
     if (obj) {
         dArr.push(obj);
         GetObjByParentId(dArr, obj, tupleObj)
@@ -191,6 +211,7 @@ export {
     TileTool,
     FilterTool,
     PackageTool,
+    FilterTreeTool,
     Unique,
     ChangeStatus,
     GetIdByParentId,

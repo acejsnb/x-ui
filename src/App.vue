@@ -22,8 +22,7 @@
     created() {
       const {path, name} = this.$route;
       this.routeName=name;
-      if (path === '/componentLists') this.backShow = false;
-      else this.backShow = true;
+      this.backShow = path !== '/componentLists';
     },
     mounted() {
     },
@@ -31,8 +30,7 @@
       $route(to){
         // （监听路由变化）控制tab显示
         this.routeName=to.name;
-        if (to.path === '/componentLists') this.backShow = false;
-        else this.backShow = true;
+        this.backShow = to.path !== '/componentLists';
       }
     },
     methods: {

@@ -2,6 +2,17 @@
 ### 更新日志
 
 ::: tip
+版本：0.8.2<br>
+1.修改TransferSelect组件<br>
+2.新增TransferSelectModal组件<br>
+:::
+
+::: tip
+版本：0.8.1<br>
+1.修改bug<br>
+:::
+
+::: tip
 版本：0.8.0<br>
 1.修改TreeBi组件-当子组件全部隐藏时父组件也隐藏<br>
 :::

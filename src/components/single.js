@@ -3,7 +3,8 @@
  */
 const components={
     Button: './src/components/button',
-    SelectedButton: './src/components/selectedButton',
+    SelectButton: './src/components/selectButton',
+    SelectInput: './src/components/selectInput',
     Drawer: './src/components/drawer',
     Modal: './src/components/modal',
     Toggle: './src/components/toggle',
@@ -30,7 +31,8 @@ const components={
     Tag: './src/components/tag',
     Transfer: './src/components/transfer',
     TransferSelect: './src/components/transferSelect',
-    TransferTree: './src/components/transferTree',
+    TransferSelectModal: './src/components/transferSelectModal',
+    TransferMini: './src/components/transferMini',
 
 
     Message: './src/components/message', // 函数式组件

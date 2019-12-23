@@ -1,11 +1,11 @@
 <template>
     <div class="p-transfer">
-        <div class="p-transfer-main" :style="{height: height+'px'}">
+        <div class="p-transfer-main">
             <div class="p-transfer-main-child p-transfer-left">
                 <section class="p-transfer-left-input">
-                    <Input iconType="search" placeholder="搜索" v-model="inputVal" />
+                    <Input iconType="search" :placeholder="placeholder" v-model="inputVal" />
                 </section>
-                <section class="p-transfer-left-content" :style="{height: (height-88)+'px'}" v-show="!inputVal">
+                <section class="p-transfer-left-content" v-show="!inputVal">
                     <!--树形结构数据-->
                     <Tree
                             v-if="flat==='mt'"
@@ -23,21 +23,22 @@
                     />
                 </section>
                 <section class="p-transfer-left-content" v-show="inputVal">
-                    <!--搜索数据列表-->
+                    <!--搜索数据列表 -s-->
                     <SelectOptionMultiple
                             v-if="notFound"
                             :data="searchData"
                             @change="optionSearchChange"
                     />
+                    <!--搜索数据列表 -e-->
                     <div class="p-transfer-left-content-none" v-else>Not found</div>
                 </section>
             </div>
             <div class="p-transfer-main-child p-transfer-right">
                 <section :class="['p-transfer-right-title', shadowShow&&'p-transfer-right-title-border']">
                     <article class="p-transfer-right-title-text">已选择</article>
-                    <article class="p-transfer-right-clear" v-show="confirmData&&confirmData.length" @click="handleEmpty">清空</article>
+                    <article :class="['p-transfer-right-clear', (selectedData&&selectedData.length)&&'p-transfer-right-clear-active']" @click="handleEmpty">清空</article>
                 </section>
-                <section class="p-transfer-selected" :style="{height: (height-127)+'px'}">
+                <section class="p-transfer-selected">
                     <article class="p-transfer-selected-item" v-for="(sd, i) in selectedData" :key="'sd-'+sd.id">
                         <span @mouseenter="itemEnter">{{sd.name}}</span>
                         <IconClear @click="removeItem(i, sd.id)" />
@@ -82,9 +83,10 @@
                 type: Boolean,
                 default: false
             },
-            height: {
-                type: [String, Number],
-                default: 480
+            // 占位符
+            placeholder: {
+                type: String,
+                default: '请选择'
             }
         },
         data() {
@@ -124,7 +126,7 @@
             // 设置按钮区是否显示投影
             shadowShow() {
                 const len=this.selectedData.length;
-                const h=this.height-127;
+                const h=480-127;
                 if (len) return h/len < 40;
                 return false;
             }
@@ -511,7 +513,7 @@
                             }
                         });
                         // 得到筛选后的数据 一维数据列表
-                        this.searchData=FilterTool([], tileData, fData);
+                        this.searchData=FilterTool(tileData, fData);
 
                     } else {
                         /* 上下级联动/上下级不联动 */
@@ -523,7 +525,7 @@
                             }
                         });
                         // 得到筛选后的数据 一维数据列表
-                        this.searchData=FilterTool([], tileData, fData);
+                        this.searchData=FilterTool(tileData, fData);
                     }
                 } else {
                     this.searchData=md.filter(d => {
@@ -579,6 +581,11 @@
                 this.confirmData=sd;
                 this.$emit('confirm', ids, sd);
                 this.confirmBtnType='disabled'; // 设置确定按钮状态
+
+                setTimeout(() => {
+                    this.searchData=[];
+                    this.inputVal='';
+                }, 200);
             }
         }
     }
@@ -586,111 +593,14 @@
 
 <style lang="stylus">
 
+@import "../static/stylus/transfer/transfer.styl"
+
 .p-transfer
     display inline-block
-    .p-transfer-main
-        display inline-flex
-        background-color #fff
-        border-radius 4px
-        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
-        width 600px
-        height 480px
-        .p-transfer-main-child
-            padding 24px 16px
-            width 50%
-            height 100%
-        .p-transfer-left
-            border-right 1px solid $grey-200
-            .p-transfer-left-input
-                margin-bottom 8px
-                width 100%
-            .p-transfer-left-content
-                width 100%
-                //height 392px
-                overflow-y auto
-                .p-transfer-left-content-none
-                    padding-top 100px
-                    width 100%
-                    text-align center
-                    color #c3c7cb
-                    font-size 14px
-                    user-select none
-        .p-transfer-right
-            .p-transfer-right-title
-                display flex
-                justify-content space-between
-                align-items center
-                padding-bottom 4px
-                border-bottom 1px solid transparent
-                line-height 22px
-                &.p-transfer-right-title-border
-                    border-bottom-color $grey-200
-                > article
-                    font-size 14px
-                .p-transfer-right-title-text
-                    color $grey-500
-                .p-transfer-right-clear
-                    color $blue-500
-                    cursor pointer
-                    transition color .3s
-                    &:active
-                        color $blue-600
-            .p-transfer-selected
-                margin-top 8px
-                width 100%
-                //height 353px
-                overflow-y auto
-                color $grey-500
-                font-size 14px
-                .p-transfer-selected-item
-                    display inline-flex
-                    justify-content space-between
-                    align-items center
-                    padding 5px 16px
-                    width 100%
-                    height 40px
-                    &:hover
-                        background-color $grey-200
-                    > span
-                        display inline-block
-                        width calc(100% - 16px)
-                        color $grey-900
-                        line-height 22px
-                        white-space nowrap
-                        overflow hidden
-                        text-overflow ellipsis
-                    > svg
-                        cursor pointer
-                        path
-                            transition fill .3s
-                        &:hover
-                            path
-                                fill $blue-500
-            .p-transfer-btn
-                position relative
-                padding-top 20px
-                padding-bottom 20px
-                width 100%
-                text-align right
-                &.p-transfer-btn-shadow
-                    box-shadow 0 -2px 10px 0 rgba(31,35,41,.15)
-                &::before
-                    position absolute
-                    top 0
-                    left -16px
-                    display block
-                    background-color #fff
-                    width 16px
-                    height 100%
-                    content ''
-                &::after
-                    position absolute
-                    top 0
-                    right -16px
-                    display block
-                    background-color #fff
-                    width 16px
-                    height 100%
-                    content ''
+    width 600px
+    .p-transfer-left-content
+        height calc(100% - 40px)
+    .p-transfer-selected
+        height calc(100% - 95px)
 
 </style>

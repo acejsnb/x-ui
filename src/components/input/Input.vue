@@ -2,12 +2,13 @@
     <div :class="['p-input', focus&&'p-input-focus']">
         <span class="p-input-icon" v-if="iconType"><Icon :type="iconType" /></span>
         <label class="p-input-label">
-            <span class="p-input-normal p-placeholder" v-if="!inputVal">{{placeholder}}</span>
+            <span class="p-input-normal p-placeholder" v-if="!inputVal&&fieldStatus">{{placeholder}}</span>
             <input
                     class="p-input-normal p-input-text"
                     type="text"
                     v-model="inputVal"
                     @focus="inputFocus"
+                    @input="searchInput"
                     @blur="inputBlur"
             >
         </label>
@@ -36,7 +37,8 @@
         data() {
             return {
                 focus: false, // 输入框获取焦点
-                inputVal: '' // 监听是否正在输入
+                inputVal: '', // 监听是否正在输入
+                fieldStatus: true // 控制占位符是否显示
             }
         },
         watch: {
@@ -61,7 +63,12 @@
             // 输入框失去焦点
             inputBlur() {
                 this.focus=false;
-            }
+            },
+            // 输入框有值关闭占位符
+            searchInput(e) {
+                const v=e.data;
+                this.fieldStatus = !v;
+            },
         }
     }
 </script>

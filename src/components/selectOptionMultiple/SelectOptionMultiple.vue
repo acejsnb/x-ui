@@ -7,6 +7,7 @@
                 ]"
                 v-for="item in selectData"
                 :key="item.id"
+                v-show="!item.isHide"
                 @click="optionClick(item.id)"
                 @mouseenter="optionEnter"
                 v-html="item.name"

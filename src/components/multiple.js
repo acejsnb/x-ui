@@ -4,7 +4,8 @@
 
 import Icon from './icon';
 import Button from './button';
-import SelectedButton from './selectedButton';
+import SelectButton from './selectButton';
+import SelectInput from './selectInput';
 import Modal from './modal';
 import Drawer from './drawer';
 import Toggle from './toggle';
@@ -30,7 +31,8 @@ import Stick from './stick';
 import Tag from './tag';
 import Transfer from './transfer';
 import TransferSelect from './transferSelect';
-import TransferTree from './transferTree';
+import TransferSelectModal from './transferSelectModal';
+import TransferMini from './transferMini';
 
 import Headers from './headers';
 
@@ -43,7 +45,8 @@ import Input from './input';
 const Components = {
     Icon
     ,Button
-    ,SelectedButton
+    ,SelectButton
+    ,SelectInput
     ,Modal
     ,Drawer
     ,Toggle
@@ -69,7 +72,8 @@ const Components = {
     ,Tag
     ,Transfer
     ,TransferSelect
-    ,TransferTree
+    ,TransferSelectModal
+    ,TransferMini
 
     ,Headers
 

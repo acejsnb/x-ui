@@ -1,16 +1,16 @@
 <template>
-    <div class="p-transfer-select"
-         tabindex="-1"
-         @blur="transferBlur"
-         ref="transferSelect"
-    >
-        <SelectedButton
+    <div class="p-transfer-select">
+        <SelectInput
                 :title="title"
                 :unit="unit"
                 :placeholder="placeholder"
                 :triangle="triangle"
                 :data="selectedData"
                 :tipPlace="tipPlace"
+                :boxShow="transferShow"
+                :activeClose="activeClose"
+                v-model="searchValue"
+                @changeValue="changeValue"
                 @changeTriangle="changeTriangle"
         />
         <transition name="slideDownUpUi">
@@ -19,11 +19,13 @@
                  @mouseenter="boxEnter"
                  @mouseleave="boxLeave"
             >
-                <Transfer
+                <TransferMini
                         :data="data"
                         :linkage="linkage"
                         :lastStage="lastStage"
                         :height="height"
+                        :searchValue="searchValue"
+                        @changeValue="changeValue"
                         @cancel="transferCancel"
                         @confirm="transferConfirm"
                 />
@@ -33,11 +35,11 @@
 </template>
 
 <script>
-    import SelectedButton from '../selectedButton';
-    import Transfer from '../transfer';
+    import SelectInput from '../selectInput';
+    import TransferMini from '../transferMini';
     export default {
         name: "TransferSelect",
-        components: { SelectedButton, Transfer },
+        components: { SelectInput, TransferMini },
         props: {
             // 选择内容后的title
             title: {
@@ -83,6 +85,7 @@
         data() {
             return {
                 triangle: false, // 三角形
+                searchValue: '', // 输入的值
                 transferShow: false, // 穿梭框显示
                 tipModal: true, // 选择框是否可显示提示
                 // 选中的数据
@@ -98,9 +101,9 @@
                 this.transferShow=status;
                 this.activeClose=status;
             },
-            // 失去焦点
-            transferBlur() {
-                if (this.activeClose) this.closeBox();
+            // 输入的值改变
+            changeValue(v) {
+                this.searchValue=v;
             },
             // 关闭弹窗
             closeBox() {
@@ -111,8 +114,7 @@
                 this.activeClose=false;
             },
             boxLeave() {
-                this.activeClose=true;
-                this.$refs.transferSelect.focus();
+                setTimeout(() => this.activeClose=this.transferShow, 0)
             },
             /**
              * 穿梭框取消回调
@@ -120,7 +122,6 @@
              * @param sd 选中的数据
              */
             transferCancel(ids, sd) {
-                this.activeClose=true;
                 this.closeBox();
             },
             /**
@@ -129,8 +130,7 @@
              * @param sd 选中的数据
              */
             transferConfirm(ids, sd) {
-                this.activeClose=true;
-                this.closeBox();
+                this.transferCancel();
 
                 this.selectedData=sd;
                 this.$emit('confirm', ids);
