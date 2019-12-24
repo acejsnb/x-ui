@@ -1,24 +1,23 @@
 <template>
     <div class="p-select-input">
         <div
-                :class="['p-select-input-content', boxShow&&'p-select-input-content-active']"
-                @click="handleClick"
+                :class="['p-select-input-content', triangle&&'p-select-input-content-active']"
                 @mouseenter="setTipStatus"
                 @mouseleave="setTipStatus"
         >
             <section class="p-select-input-section">
-                <span v-show="fieldStatus" :class="['p-select-input-place', (!boxShow&&data.length)&&'p-select-input-place-selected']">{{titleText}}</span>
+                <span v-show="fieldStatus" :class="['p-select-input-place', (!triangle&&data.length)&&'p-select-input-place-selected']" v-html="titleText"></span>
                 <input
                         ref="inputField"
                         class="p-select-input-input"
                         type="text"
                         v-model="inputValue"
                         @input="searchInput"
+                        @focus="inputFocus"
                         @blur="inputBlur"
-                        :style="{width: inputWidth+'px'}"
                 >
+                <TriangleSvg :class="['p-select-input-svg', !triangle&&'p-select-input-rotate']" />
             </section>
-            <TriangleSvg :class="[!triangle&&'p-select-input-rotate']" />
         </div>
         <transition :name="'slide'+tipPlace">
             <div
@@ -68,11 +67,6 @@
                 type: Boolean,
                 default: false
             },
-            // 下拉弹窗是否显示
-            boxShow: {
-                type: Boolean,
-                default: false
-            },
             // 是否可关闭弹窗
             activeClose: {
                 type: Boolean,
@@ -90,7 +84,6 @@
                 selectedTipStyle: { bottom: 0, left: 0 },
                 tipShow: false, // 提示信息显示
                 inputValue: '', // 输入框输入的值
-                inputWidth: 10, // 输入框的宽度
                 fieldStatus: true // 控制占位符是否显示
             }
         },
@@ -102,8 +95,12 @@
             // 设置按钮显示占位内容
             titleText() {
                 const sd=this.data;
-                if (sd && sd.length) return this.title+sd.length+this.unit;
-                else return this.placeholder;
+                if (sd && sd.length) {
+                    const num=this.triangle?`<span style="padding-left:4px;padding-right:4px;">${sd.length}</span>`:`<span style="padding-left:4px;padding-right:4px;color: #0091ff;">${sd.length}</span>`;
+                    return this.title+num+this.unit;
+                } else {
+                    return this.placeholder;
+                }
             },
             // 提示框数据
             tipText() {
@@ -203,29 +200,23 @@
             // 监听文字输入
             inputValue(n, o) {
                 if (n === o) return;
-                if (n) {
-                    this.setInputWidth(n, this.$refs.inputField);
-                } else {
-                    this.inputWidth=10;
-                }
                 this.$emit('changeValue', n);
             },
             // 监听弹窗是否关闭
-            boxShow(n, o) {
+            triangle(n, o) {
                 if (n === o) return;
                 if (n) this.tipShow=false;
-                else this.$refs.inputField.blur();
             },
             // 监听是否可关闭弹窗
             activeClose(n, o) {
                 if (n === o) return;
-                if (n) this.$refs.inputField.focus();
+                if (n && this.triangle) this.$refs.inputField.focus();
             }
         },
         methods: {
             // 设置tip显示状态
             setTipStatus() {
-                if (this.boxShow) return;
+                if (this.triangle) return;
                 if (this.tipShow) {
                     this.tipShow=false;
                 } else {
@@ -239,31 +230,20 @@
                     }
                 }
             },
-            // 点击
-            handleClick() {
+            // 输入框获取焦点-弹窗显示
+            inputFocus() {
+                if (this.triangle) return;
                 this.$emit('changeTriangle', true);
-                this.$refs.inputField.focus();
-            },
-            setInputWidth(v, obj) {
-                if (v) {
-                    this.fieldStatus=false;
-                    const { scrollWidth }=obj;
-                    if (scrollWidth > 10) this.inputWidth=scrollWidth;
-                    else this.inputWidth=10;
-                } else {
-                    this.fieldStatus=true;
-                }
             },
             // 输入框有值关闭占位符
             searchInput(e) {
-                const v=e.data;
+                const v=e.data || e.target.value;
                 this.fieldStatus = !v;
-                if (v) this.setInputWidth(v, e.target);
             },
             // 关闭选择框
             inputBlur() {
-                if (!this.activeClose) return;
                 setTimeout(() => {
+                    if (!this.activeClose) return;
                     this.$emit('changeTriangle', false);
                 }, 0);
             }
@@ -281,8 +261,6 @@
         display flex
         align-items center
         justify-content space-between
-        padding-left 12px
-        padding-right 8px
         background-color #fff
         border 1px solid $grey-400
         border-radius 4px
@@ -297,8 +275,6 @@
             border-color $blue-600
         svg
             transition transform .3s
-        .p-select-input-rotate
-            transform rotate(180deg)
         &.p-select-input-content-active
             border-color $blue-500
             box-shadow 0 0 0 2px rgba(0,145,255,.2)
@@ -308,6 +284,8 @@
         height 100%
         overflow hidden
         .p-select-input-place
+            padding-left 12px
+            padding-right 8px
             line-height 30px
             color $grey-400
             &.p-select-input-place-selected
@@ -319,10 +297,21 @@
             border 0
             outline none
             background none
-            width .75em
+            padding-left 12px
+            padding-right 24px
+            width 100%
             height 100%
             font-size 14px
             color $grey-900
+            cursor pointer
+            z-index 11
+        .p-select-input-svg
+            position absolute
+            right 8px
+            top 7px
+            z-index 10
+        .p-select-input-rotate
+            transform rotate(180deg)
     .p-select-input-tip
         position absolute
         padding 16px 20px

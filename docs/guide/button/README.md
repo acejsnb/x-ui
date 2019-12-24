@@ -1,4 +1,4 @@
-### Button
+### Button 按钮
 
 <template>
     <div class="Button">
@@ -119,25 +119,12 @@
         </div>
     </template>
     
-    <script>
-    
+    <script>    
         export default {
             name: "ButtonView"
         }
     </script>
     
-    <style lang="stylus" scoped>
-    .btn
-      margin-bottom 16px
-      p
-        font-size 16px
-        margin-bottom 8px
-      .list
-        margin-bottom 8px
-        .p-btn
-            margin-bottom 8px
-    
-    </style>
 ```
 
 ### Attributes

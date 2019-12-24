@@ -1,4 +1,4 @@
-### Stick
+### Stick-置顶条
 
 <template>
     <div class="toggleView">
@@ -135,12 +135,6 @@
         }
     }
 </script>
-
-<style lang="stylus" scoped>
-.p-stick
-    margin-bottom 12px
-
-</style>
 
 ```
 

@@ -1,4 +1,4 @@
-### Badge
+### Badge 微标
 
 <div class="toggleView">
     <div class="component component-padding">
@@ -156,16 +156,6 @@
     }
 </script>
 
-<style lang="stylus" scoped>
-
-    .avatar
-        display inline-block
-        vertical-align middle
-        img
-            width 28px
-            height @width
-
-</style>
 ```
 
 ### Attributes

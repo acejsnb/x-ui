@@ -1,4 +1,4 @@
-### TransferSelect
+### TransferSelect 下拉穿梭框选择器
 
 <template>
     <div class="transferSelect">

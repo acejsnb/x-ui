@@ -1,4 +1,4 @@
-### TreeBi - BI项目
+### TreeBi 针对BI项目的树形结构
 
 <template>
     <div class="component component-padding">

@@ -1,4 +1,4 @@
-### Headers
+### Headers 头部组合
 
 ::: tip
 Headers组件分为左中右三块内容，使用具名插槽;

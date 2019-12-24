@@ -1,4 +1,4 @@
-### SelectSearch
+### SelectSearch 下拉搜索选择器
 
 <template>
     <div class="selectSearchBox">
@@ -496,14 +496,6 @@
         }
     }
 </script>
-
-<style lang="stylus" scoped>
-.selectSearchBox
-    display flex
-    justify-content space-around
-    padding 16px
-
-</style>
 
 ```
 ::: tip

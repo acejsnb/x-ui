@@ -4,10 +4,9 @@
                 :title="title"
                 :unit="unit"
                 :placeholder="placeholder"
-                :triangle="triangle"
+                :triangle="transferShow"
                 :data="selectedData"
                 :tipPlace="tipPlace"
-                :boxShow="transferShow"
                 :activeClose="activeClose"
                 v-model="searchValue"
                 @changeValue="changeValue"
@@ -84,45 +83,34 @@
         },
         data() {
             return {
-                triangle: false, // 三角形
                 searchValue: '', // 输入的值
                 transferShow: false, // 穿梭框显示
                 tipModal: true, // 选择框是否可显示提示
-                // 选中的数据
-                selectedData: [],
+                selectedData: [], // 选中的数据
                 activeClose: false // 是否可关闭弹窗
             }
         },
         methods: {
-            // 点击改变三角形方向
-            changeTriangle() {
-                const status=!this.triangle;
-                this.triangle=status;
-                this.transferShow=status;
-                this.activeClose=status;
+            // 点击改变 三角形方向/弹窗显示状态
+            changeTriangle(v) {
+                this.transferShow=v;
+                this.activeClose=v;
             },
             // 输入的值改变
             changeValue(v) {
                 this.searchValue=v;
             },
-            // 关闭弹窗
-            closeBox() {
-                this.triangle=false;
-                this.transferShow=false;
-            },
             boxEnter() {
                 this.activeClose=false;
             },
             boxLeave() {
-                setTimeout(() => this.activeClose=this.transferShow, 0)
+                this.activeClose=true;
             },
             /**
-             * 穿梭框取消回调
-             * @param ids 选中的id
-             * @param sd 选中的数据
+             * 穿梭框取消回调-关闭弹窗
              */
-            transferCancel(ids, sd) {
-                this.closeBox();
+            transferCancel() {
+                this.transferShow=false;
             },
             /**
              * 穿梭框确定函数

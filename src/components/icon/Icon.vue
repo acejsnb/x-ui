@@ -42,8 +42,11 @@
     line-height @width
     text-align center
     cursor pointer
+    font-size 0
     svg
         vertical-align middle
+        path
+            transition fill .3s
         &:hover
             path
                 fill $blue-500

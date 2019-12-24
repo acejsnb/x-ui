@@ -1,4 +1,4 @@
-### Message
+### Message 全局提示
 
 <template>
     <div class="Button">

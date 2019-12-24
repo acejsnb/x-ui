@@ -2,10 +2,7 @@
  * 所有组件打包
  */
 
-import Icon from './icon';
 import Button from './button';
-import SelectButton from './selectButton';
-import SelectInput from './selectInput';
 import Modal from './modal';
 import Drawer from './drawer';
 import Toggle from './toggle';
@@ -15,7 +12,6 @@ import Select from './select';
 import SelectSearch from './selectSearch';
 import Badge from './badge';
 import Divider from './divider';
-import CarouselText from './carouselText';
 import Tabs from './tabs';
 import Breadcrumb from './breadcrumb';
 import PickerTime from './pickerTime';
@@ -24,29 +20,33 @@ import PickerWeek from './pickerWeek';
 import PickerYear from './pickerYear';
 import PickerMonth from './pickerMonth';
 import Tree from './tree';
-import TreeStage from './treeStage';
 import TreeBi from './treeBi';
-import Shake from './shake';
 import Stick from './stick';
 import Tag from './tag';
 import Transfer from './transfer';
 import TransferSelect from './transferSelect';
 import TransferSelectModal from './transferSelectModal';
-import TransferMini from './transferMini';
 
+// 组合组件
 import Headers from './headers';
 
-import Message from './message'; // 函数式组件
+// 函数式组件
+import Message from './message';
 
+// 未公开组件
+import TransferMini from './transferMini';
+import Shake from './shake';
+import TreeStage from './treeStage';
+import CarouselText from './carouselText';
+import SelectButton from './selectButton';
+import SelectInput from './selectInput';
 import Checkbox from './checkbox';
 import Radio from './radio';
 import Input from './input';
+import Icon from './icon';
 
 const Components = {
-    Icon
-    ,Button
-    ,SelectButton
-    ,SelectInput
+    Button
     ,Modal
     ,Drawer
     ,Toggle
@@ -56,7 +56,6 @@ const Components = {
     ,SelectSearch
     ,Badge
     ,Divider
-    ,CarouselText
     ,Tabs
     ,Breadcrumb
     ,PickerTime
@@ -65,24 +64,30 @@ const Components = {
     ,PickerMonth
     ,PickerYear
     ,Tree
-    ,TreeStage
     ,TreeBi
-    ,Shake
     ,Stick
     ,Tag
     ,Transfer
     ,TransferSelect
     ,TransferSelectModal
-    ,TransferMini
 
+    // 组合组件
     ,Headers
 
+    // 函数式组件
     ,Message
 
     // 未公开组件
+    ,TransferMini
+    ,Shake
+    ,TreeStage
+    ,CarouselText
+    ,SelectButton
+    ,SelectInput
     ,Checkbox
     ,Radio
     ,Input
+    ,Icon
 };
 
 const install = Vue => Object.keys(Components).forEach(name => {

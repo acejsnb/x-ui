@@ -3,7 +3,7 @@
         <div class="p-transfer-main">
             <div class="p-transfer-main-child p-transfer-left">
                 <section class="p-transfer-left-input">
-                    <Input iconType="search" :placeholder="placeholder" v-model="inputVal" />
+                    <Input iconType="search" :iconClose="iconClose" :placeholder="placeholder" v-model="inputVal" @close="iconCloseHandle" />
                 </section>
                 <section class="p-transfer-left-content" v-show="!inputVal">
                     <!--树形结构数据-->
@@ -129,6 +129,10 @@
                 const h=480-127;
                 if (len) return h/len < 40;
                 return false;
+            },
+            // 清除按钮显示
+            iconClose() {
+                return !!this.inputVal
             }
         },
         watch: {
@@ -148,6 +152,10 @@
             }
         },
         methods: {
+            // 清除按钮
+            iconCloseHandle() {
+                this.inputVal='';
+            },
             /**
              * 检查两个数组是否一样
              * @param cd - confirmData 数组1

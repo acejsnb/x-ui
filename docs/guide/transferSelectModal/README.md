@@ -1,4 +1,4 @@
-### TransferSelectModal
+### TransferSelectModal 弹窗穿梭框选择器
 
 <template>
     <div class="transferSelect">

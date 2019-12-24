@@ -1,4 +1,4 @@
-### Tag
+### Tag-标签
 
 <template>
     <div class="toggleView">
@@ -150,14 +150,6 @@
     }
 </script>
 
-<style lang="stylus" scoped>
-
-    .component
-        h3
-            padding 8px
-            font-size 16px
-
-</style>
 ```
 
 

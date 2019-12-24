@@ -1,4 +1,4 @@
-### Divider
+### Divider 分割线
 
 <template>
     <div class="toggleView">
