@@ -80,7 +80,9 @@
         },
         data() {
             return {
+                tipWidth: 0, // 文字(宽度)是否超出
                 tipHeight: 0, // 文字(高度)是否超出
+                tipStyle: '0-0', // 文字(宽-高度)是否超出
                 selectedTipStyle: { bottom: 0, left: 0 },
                 tipShow: false, // 提示信息显示
                 inputValue: '', // 输入框输入的值
@@ -123,73 +125,41 @@
                 if (n === o) return;
                 this.inputValue=n;
             },
-            tipHeight(n, o) {
-                if (n >= 98) {
-                    switch (this.tipPlace) {
-                        case 'top':
-                            this.selectedTipStyle={
-                                top: '-108px',
-                                left: 0
-                            };
-                            break;
-                        case 'bottom':
-                            this.selectedTipStyle={
-                                bottom: '-108px',
-                                left: 0
-                            };
-                            break;
-                        case 'left':
-                            this.selectedTipStyle={
-                                top: '-36px',
-                                left: '-288px'
-                            };
-                            break;
-                        case 'right':
-                            this.selectedTipStyle={
-                                top: '-36px',
-                                right: '-288px'
-                            };
-                            break;
-                        default:
-                            this.selectedTipStyle={
-                                bottom: '-36px',
-                                left: 0
-                            };
-                            break;
-                    }
-                } else {
-                    switch (this.tipPlace) {
-                        case 'top':
-                            this.selectedTipStyle={
-                                top: -(n+8)+'px',
-                                left: 0
-                            };
-                            break;
-                        case 'bottom':
-                            this.selectedTipStyle={
-                                bottom: -(n+8)+'px',
-                                left: 0
-                            };
-                            break;
-                        case 'left':
-                            this.selectedTipStyle={
-                                top: -(n/2-12)+'px',
-                                left: '-288px'
-                            };
-                            break;
-                        case 'right':
-                            this.selectedTipStyle={
-                                top: -(n/2-12)+'px',
-                                right: '-288px'
-                            };
-                            break;
-                        default:
-                            this.selectedTipStyle={
-                                bottom: '-36px',
-                                left: 0
-                            };
-                            break;
-                    }
+            tipStyle(n, o) {
+                const [ws, hs]=n.split('-');
+                const w=Number(ws);
+                const h=Number(hs);
+                switch (this.tipPlace) {
+                    case 'top':
+                        this.selectedTipStyle={
+                            top: -(h+40)+'px',
+                            left: 0
+                        };
+                        break;
+                    case 'bottom':
+                        this.selectedTipStyle={
+                            bottom: -(h+40)+'px',
+                            left: 0
+                        };
+                        break;
+                    case 'left':
+                        this.selectedTipStyle={
+                            top: -((h >= 66)?36:(h/2+4))+'px',
+                            left: -(w+48)+'px'
+                        };
+                        break;
+                    case 'right':
+                        this.selectedTipStyle={
+                            top: -((h >= 66)?36:(h/2+4))+'px',
+                            right: -(w+48)+'px'
+                        };
+                        break;
+                    default:
+                        this.selectedTipStyle={
+                            bottom: '-36px',
+                            left: 0
+                        };
+                        break;
                 }
             },
             // 监听提示框可显示状态改变
@@ -224,8 +194,8 @@
                     if (sd && sd.length) {
                         this.tipShow=true;
                         this.$nextTick(() => {
-                            const height=this.$refs.selectedTipItem.scrollHeight;
-                            this.tipHeight=height+32;
+                            const { scrollWidth, scrollHeight }=this.$refs.selectedTipItem;
+                            this.tipStyle=scrollWidth+'-'+scrollHeight;
                         });
                     }
                 }
@@ -318,7 +288,7 @@
         background-color #fff
         border-radius 4px
         pointer-events none
-        width 280px
+        max-width 280px
         max-height 104px
         z-index 100
         &:after

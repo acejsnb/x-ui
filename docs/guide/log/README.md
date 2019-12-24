@@ -1,6 +1,11 @@
 ### 更新日志
 
 ::: tip
+版本：0.8.3<br>
+1.修改TransferSelect组件bug<br>
+:::
+
+::: tip
 版本：0.8.2<br>
 1.修改TransferSelect组件<br>
 2.新增TransferSelectModal组件<br>
