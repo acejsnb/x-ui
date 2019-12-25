@@ -285,7 +285,7 @@
 | placeholder    | 占位符 | String | 请选择 | Yes     |
 | tipPlace    | 当鼠标hover时，显示tip的位置 | String | bottom | Yes     |
 | data    | 数据列表 | Array | [] | Yes     |
-| height    | 穿梭框弹窗高度 | String/Number | 480 | No     |
+| height    | 穿梭框弹窗高度 | String/Number | 244 | No     |
 | linkage    | 树形结构上下级是否联动 | Boolean | true | No     |
 | lastStage    | 树形结构是否只能选择最后一级 | Boolean | false | No     |
 | @confirm    | 确定回调，返回选中的id组 | Function | -- | Yes     |

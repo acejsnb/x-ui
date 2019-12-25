@@ -609,6 +609,6 @@
     .p-transfer-left-content
         height calc(100% - 40px)
     .p-transfer-selected
-        height calc(100% - 95px)
+        height calc(100% - 80px)
 
 </style>

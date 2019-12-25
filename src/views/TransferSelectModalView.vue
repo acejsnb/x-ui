@@ -62,7 +62,7 @@
         {id: '1000', name: '慕容复10', selected: false},
         {id: '1100', name: '慕容复11', selected: false},
         {id: '1200', name: '慕容复12', selected: false},
-        {id: '1300', name: '慕容复13', selected: false},
+        {id: '1300', name: '慕容复13', selected: false}
     ];
     const dataArr=[
         {
