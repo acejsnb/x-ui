@@ -1,6 +1,7 @@
 <template>
     <div class="selectedButton">
         <SelectButton
+                ref="selectButton"
                 title="已选设备"
                 unit="个"
                 placeholder="添加设备"
@@ -30,6 +31,8 @@
                 selectedData: selectedData,
                 triangle: false
             }
+        },
+        mounted() {
         },
         methods: {
             changeTriangle(v) {

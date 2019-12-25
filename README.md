@@ -2,7 +2,7 @@
 - 基于vue的ui库，github地址 `ssh://git@101.254.183.198:5522/bi-web/persagy-ui-kit.git`
 
 ## config
-- 开发模式下使用 `webpack.config.js`
+- 开发预览 `webpack.config.js`
 - 开发预览文档 `webpack.dev.config.js`
 - 文档打包 `webpack.prod.config.js`
 - 所有组件打包 `webpack.components.config.js`
@@ -15,6 +15,7 @@
 ## 全局引入
 ```
     import Pui from 'persagy-ui';
+    import 'persagy-ui/dist/index.css'；
     
     Vue.use(Pui);
 ```
@@ -29,7 +30,7 @@
             "libraryName": "persagy-ui",
             "camel2Dash": false,
             "libDir": "dist",
-            "style": true
+            "styleLibrary": { "name": "theme", "base": true, "path": "[module]/style.css", "mixin": true }
           }
     ]
 ```

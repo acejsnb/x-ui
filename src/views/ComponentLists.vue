@@ -9,9 +9,9 @@
     export default {
         name: 'ComponentLists',
         components: { List },
-        data() {
-            return {
-                listData: [
+        computed: {
+            listData() {
+                return [
                     {title: 'Button', more: '按钮', url: 'buttonView'},
                     {title: 'SelectButton', more: '已选择-按钮', url: 'selectButtonView'},
                     {title: 'SelectInput', more: '已选择-搜索框', url: 'selectInputView'},
@@ -52,9 +52,9 @@
                     {title: 'Radio', more: '单选框', url: 'radioView'},
                     {title: 'Input', more: '输入框', url: 'inputView'},
                     {title: 'Icon', more: '图标', url: 'iconView'}
-                ],
+                ]
             }
-        }
+        },
     }
 </script>
 

@@ -149,12 +149,11 @@ const config={
                     limit:8192,
                     name:'fonts/[name].[ext]?[hash:8]'
                 }
-            },
-            { test: /\.md$/, use: 'text-loader' }
+            }
         ]
     },
     resolve: { // 配置路径别名
-        extensions: ['.js', '.vue', '.styl', '.md'], // import引入文件的时候不用加后缀
+        extensions: ['.js', '.vue', '.styl'], // import引入文件的时候不用加后缀
         modules: [
             'node_modules'
             ,path.resolve(__dirname, 'src/assets')
