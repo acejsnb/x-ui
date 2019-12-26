@@ -58,6 +58,16 @@
                         @change="selectChange"
                 />
                 <div style="margin-bottom: 200px"></div>
+                <h3 style="font-size: 16px;margin-bottom: 8px">3.1.多选-tree-联动-返回半选的数据</h3>
+                <SelectSearch
+                        :multiple="true"
+                        :notNull="true"
+                        width="240"
+                        :selectedIds="selectedIds"
+                        :data="dataTreeMultiple"
+                        @change="selectChange"
+                />
+                <div style="margin-bottom: 200px"></div>
                 <h3 style="font-size: 16px;margin-bottom: 8px">4.多选-tree-联动-不收纳</h3>
                 <SelectSearch
                         :multiple="true"

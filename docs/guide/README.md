@@ -2,7 +2,7 @@
 ### 使用说明
 
 ::: tip
-当前版本：0.8.3<br>
+当前版本：0.8.4<br>
 :::
 
 ::: warning
@@ -12,11 +12,12 @@
 :::
 
 ::: danger
-该文档不支持IE11及以下浏览器，请使用现代浏览器（如：Chrome）浏览该文档
+为了使打包后的代码量更小，<br>
+所以该文档不支持IE11及以下浏览器，请使用现代浏览器（如：Chrome）浏览该文档
 :::
 
 # persagy-ui：
-- 基于vue的ui库，github地址 `ssh://git@101.254.183.198:5522/bi-web/persagy-ui-kit.git`
+- 基于vue的ui库，gitlab地址 `ssh://git@101.254.183.198:5522/bi-web/persagy-ui-kit.git`
 
 ## 一、安装
 - `npm install -S persagy-ui`

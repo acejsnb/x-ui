@@ -44,6 +44,13 @@
                 default: false
             },
             /**
+             * 是否返回半选状态的id
+             */
+            notNull: {
+                type: Boolean,
+                default: false
+            },
+            /**
              * 树形结构数据列表
              */
             data: {
@@ -64,7 +71,7 @@
         methods: {
             /**
              * 点击某项
-             * @param obj
+             * @param obj 返回当前点击对象
              * @param index 索引串
              */
             change(obj, index) {
@@ -157,7 +164,11 @@
              */
             recursionIds(data, arr) {
                 data.forEach(d => {
-                    if (d.checked === 'checked') arr.push(d);
+                    if (this.notNull) {
+                        if (d.checked === 'checked' || d.checked === 'notNull') arr.push(d);
+                    } else {
+                        if (d.checked === 'checked') arr.push(d);
+                    }
                     if (d.children && d.children.length) this.recursionIds(d.children, arr);
                 });
             }

@@ -6,6 +6,8 @@
         <Transfer :data="selectData" height="300" @confirm="treeConfirm" />
         <h3>2.树形结构-联动</h3>
         <Transfer :data="treeData" @confirm="treeConfirm" />
+        <h3>2.1.树形结构-联动-返回半选状态的数据</h3>
+        <Transfer :data="treeData1" :notNull="true" @confirm="treeConfirm1" />
         <h3>3.树形结构-不联动</h3>
         <Transfer :data="treeData2" :linkage="false" @confirm="treeConfirm2" />
         <h3>4.树形结构-只能选择末级</h3>
@@ -74,12 +76,16 @@
             return {
                 selectData, // type: Array
                 treeData: dataArr, // type: Array
+                treeData1: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
         },
         methods: {
             treeConfirm(ids) {
+                console.log('确定：：：', ids);
+            },
+            treeConfirm1(ids) {
                 console.log('确定：：：', ids);
             },
             treeConfirm2(ids) {
@@ -108,6 +114,8 @@
         <Transfer :data="selectData" height="300" @confirm="treeConfirm" />
         <h3>2.树形结构-联动</h3>
         <Transfer :data="treeData" @confirm="treeConfirm" />
+        <h3>2.1.树形结构-联动-返回半选状态的数据</h3>
+        <Transfer :data="treeData1" :notNull="true" @confirm="treeConfirm1" />
         <h3>3.树形结构-不联动</h3>
         <Transfer :data="treeData2" :linkage="false" @confirm="treeConfirm2" />
         <h3>4.树形结构-只能选择末级</h3>
@@ -176,12 +184,16 @@
             return {
                 selectData, // type: Array
                 treeData: dataArr, // type: Array
+                treeData1: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
         },
         methods: {
             treeConfirm(ids) {
+                console.log('确定：：：', ids);
+            },
+            treeConfirm1(ids) {
                 console.log('确定：：：', ids);
             },
             treeConfirm2(ids) {
@@ -204,5 +216,6 @@
 | height    | 穿梭框弹窗高度 | String/Number | 480 | No     |
 | linkage    | 树形结构上下级是否联动 | Boolean | true | No     |
 | lastStage    | 树形结构是否只能选择最后一级 | Boolean | false | No     |
+| notNull  | 是否返回半选状态的数据（在多选条件下才生效） | Boolean | false | no     |
 | @cancel   | 取消回调 | Function | -- | No     |
 | @confirm    | 确定回调，返回选中的id组 | Function | -- | Yes     |

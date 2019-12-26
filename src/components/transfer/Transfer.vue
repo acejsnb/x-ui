@@ -12,6 +12,7 @@
                             :multiple="true"
                             :linkage="linkage"
                             :lastStage="lastStage"
+                            :notNull="notNull"
                             :data="mulData"
                             @change="treeChange"
                     />
@@ -80,6 +81,13 @@
             },
             // 只能选择末级
             lastStage: {
+                type: Boolean,
+                default: false
+            },
+            /**
+             * 是否返回半选状态的id
+             */
+            notNull: {
                 type: Boolean,
                 default: false
             },
@@ -219,8 +227,10 @@
              */
             setSelectedData(data, tree) {
                 tree.forEach(d => {
-                    if (d.checked==='checked') {
-                        data.push({id: d.id, name: d.name});
+                    if (this.notNull) {
+                        if (d.checked==='checked' || d.checked==='notNull') data.push({id: d.id, name: d.name});
+                    } else {
+                        if (d.checked==='checked') data.push({id: d.id, name: d.name});
                     }
                     if (d.children && d.children.length) this.setSelectedData(data, d.children);
                 });

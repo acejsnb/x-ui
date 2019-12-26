@@ -4,6 +4,8 @@
         <TransferMini :data="selectData" height="300" @confirm="treeConfirm" />
         <h3>2.树形结构-联动</h3>
         <TransferMini :data="treeData" @confirm="treeConfirm" />
+        <h3>2.1.树形结构-联动-返回半选状态的数据</h3>
+        <TransferMini :data="treeData1" :notNull="true" @confirm="treeConfirm1" />
         <h3>3.树形结构-不联动</h3>
         <TransferMini :data="treeData2" :linkage="false" @confirm="treeConfirm2" />
         <h3>4.树形结构-只能选择末级</h3>
@@ -73,6 +75,7 @@
                 selectData, // type: Array
                 treeData: dataArr, // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
+                treeData1: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
         },
@@ -81,6 +84,9 @@
                 console.log('确定：：：', ids);
             },
             treeConfirm2(ids) {
+                console.log('确定：：：', ids);
+            },
+            treeConfirm1(ids) {
                 console.log('确定：：：', ids);
             },
             treeConfirm3(ids) {

@@ -22,6 +22,7 @@
                         :data="data"
                         :linkage="linkage"
                         :lastStage="lastStage"
+                        :notNull="notNull"
                         :height="height"
                         :searchValue="searchValue"
                         @changeValue="changeValue"
@@ -72,6 +73,13 @@
             },
             // 只能选择末级
             lastStage: {
+                type: Boolean,
+                default: false
+            },
+            /**
+             * 是否返回半选状态的id
+             */
+            notNull: {
                 type: Boolean,
                 default: false
             },

@@ -1,8 +1,8 @@
 <template>
-    <section :class="`p-btn p-btn-${type} p-btn-${size}`" @click="handleClick">
+    <section :class="`p-button p-button-${type} p-button-${size}`" @click="handleClick">
         <!-- @slot html内容 -->
         <span><slot></slot></span>
-        <LoadingIcon class="p-btn-loading" v-if="loading" />
+        <LoadingIcon class="p-button-loading" v-if="loading" />
     </section>
 </template>
 
@@ -52,7 +52,7 @@
 
 <style lang="stylus">
 
-    .p-btn
+    .p-button
         position relative
         display inline-flex
         align-items center
@@ -66,7 +66,7 @@
         transition all .36s
         overflow hidden
         text-align center
-        &+.p-btn
+        &+.p-button
             margin-left 12px
         span
             position relative
@@ -75,7 +75,7 @@
             z-index 1
             user-select none
         //font-size 14px
-        .p-btn-loading
+        .p-button-loading
             margin-left 4px
             vertical-align middle
         &::after
@@ -99,28 +99,28 @@
             opacity 1
             //设置初始状
             transition 0s
-    .p-btn-large
+    .p-button-large
         //max-width 120px
         min-width 80px
         height 40px
         line-height @height
         span
             font-size 16px
-    .p-btn-medium
+    .p-button-medium
         //max-width 120px
         min-width 80px
         height 32px
         line-height @height
         span
             font-size 14px
-    .p-btn-small
+    .p-button-small
         //max-width 100px
         //min-width 68px
         height 28px
         line-height @height
         span
             font-size 14px
-    .p-btn-default
+    .p-button-default
         background-color #fff
         border-color $grey-400
         color $grey-900
@@ -136,7 +136,7 @@
         .loading
             path
                 stroke $grey-400
-    .p-btn-primary
+    .p-button-primary
         background-color $blue-500
         border-color $blue-500
         color #fff
@@ -149,7 +149,7 @@
             border-color $blue-600
         &::after
             background radial-gradient(circle, $blue-300 10%, transparent 10%)
-    .p-btn-success
+    .p-button-success
         background-color $green-500
         border-color $green-500
         color #fff
@@ -162,7 +162,7 @@
             border-color $green-600
         &::after
             background radial-gradient(circle, $green-300 10%, transparent 10%)
-    .p-btn-warning
+    .p-button-warning
         background-color $orange-500
         border-color $orange-500
         color #fff
@@ -175,7 +175,7 @@
             border-color $orange-600
         &::after
             background radial-gradient(circle, $orange-300 10%, transparent 10%)
-    .p-btn-error
+    .p-button-error
         background-color $red-500
         border-color $red-500
         color #fff
@@ -188,11 +188,11 @@
             border-color $red-600
         &::after
             background radial-gradient(circle, $red-300 10%, transparent 10%)
-    .p-btn-disabled
+    .p-button-disabled
         background-color $red-200
         color $grey-400
         cursor not-allowed
-    .p-btn-link
+    .p-button-link
         border-style none
         color $blue-500
         cursor pointer

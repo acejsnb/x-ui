@@ -29,6 +29,19 @@
             />
         </div>
         <div class="transferSelectList">
+            <h3>2.1.树形结构-返回半选状态的数据</h3>
+            <TransferSelect
+                    title="已选设备"
+                    unit="个"
+                    placeholder="添加设备"
+                    tipPlace="top"
+                    height="300"
+                    :notNull="true"
+                    :data="treeData"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList">
             <h3>3.树形结构-上下级不联动</h3>
             <TransferSelect
                     title="已选设备"
@@ -172,6 +185,19 @@
             />
         </div>
         <div class="transferSelectList">
+            <h3>2.1.树形结构-返回半选状态的数据</h3>
+            <TransferSelect
+                    title="已选设备"
+                    unit="个"
+                    placeholder="添加设备"
+                    tipPlace="top"
+                    height="300"
+                    :notNull="true"
+                    :data="treeData"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList">
             <h3>3.树形结构-上下级不联动</h3>
             <TransferSelect
                     title="已选设备"
@@ -288,6 +314,7 @@
 | height    | 穿梭框弹窗高度 | String/Number | 244 | No     |
 | linkage    | 树形结构上下级是否联动 | Boolean | true | No     |
 | lastStage    | 树形结构是否只能选择最后一级 | Boolean | false | No     |
+| notNull  | 是否返回半选状态的数据（在多选条件下才生效） | Boolean | false | no     |
 | @confirm    | 确定回调，返回选中的id组 | Function | -- | Yes     |
 
 ### tipPlace - 参数说明

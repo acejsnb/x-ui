@@ -20,6 +20,15 @@
                 />
             </div>
             <div>
+                <h3>2.1.多选-联动-返回半选状态数据</h3>
+                <Tree
+                        :multiple="true"
+                        :notNull="true"
+                        :data="treeData21"
+                        @change="change21"
+                />
+            </div>
+            <div>
                 <h3>3.多选-不联动</h3>
                 <Tree
                         :multiple="true"
@@ -103,6 +112,7 @@
             return {
                 treeData: dataArr, // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
+                treeData21: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData4: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
@@ -114,6 +124,10 @@
             },
             // 选择的项
             change2({id, checkedIds}) {
+                console.log('选择的项::::', id, checkedIds);
+            },
+            // 选择的项
+            change21({id, checkedIds}) {
                 console.log('选择的项::::', id, checkedIds);
             },
             // 选择的项
@@ -132,7 +146,6 @@
 
 .component-padding
     padding-bottom 200px !important
-    //width 240px
     .treeCom
         display flex
         justify-content space-between
@@ -143,7 +156,6 @@
             overflow-y auto
 
 </style>
-
 
 ```vue
 <template>
@@ -166,6 +178,15 @@
                 />
             </div>
             <div>
+                <h3>2.1.多选-联动-返回半选状态数据</h3>
+                <Tree
+                        :multiple="true"
+                        :notNull="true"
+                        :data="treeData21"
+                        @change="change21"
+                />
+            </div>
+            <div>
                 <h3>3.多选-不联动</h3>
                 <Tree
                         :multiple="true"
@@ -249,6 +270,7 @@
             return {
                 treeData: dataArr, // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
+                treeData21: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData4: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
@@ -260,6 +282,10 @@
             },
             // 选择的项
             change2({id, checkedIds}) {
+                console.log('选择的项::::', id, checkedIds);
+            },
+            // 选择的项
+            change21({id, checkedIds}) {
                 console.log('选择的项::::', id, checkedIds);
             },
             // 选择的项
@@ -284,6 +310,7 @@
 | @change   | 点击回调 | Function | -- | Yes     |
 | multiple  | 是否可多选 | Boolean | false | no     |
 | linkage  | 是否上下级联动选择（在多选条件下才生效） | Boolean | true | no     |
+| notNull  | 是否返回半选状态的数据（在多选条件下才生效） | Boolean | false | no     |
 | lastStage  | 只能选择最后一级 | Boolean | false | no     |
 
 ### data参数说明
@@ -307,5 +334,5 @@ notNull-半选状态
 :::
 
 ::: tip
-在多选情况下返回选中的id也就是checked的id，半选状态notNull不会返回
+在多选情况下返回选中的id也就是checked的id，如需半选状态请设置notNull为true
 :::

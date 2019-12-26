@@ -23,6 +23,17 @@
             />
         </div>
         <div class="transferSelectList">
+            <Button type="primary" @click="handleModalShow21">2.1.树形结构-返回半选状态的数据</Button>
+            <TransferSelectModal
+                    :modalShow="modalShow21"
+                    placeholder="添加设备"
+                    :data="treeData21"
+                    :notNull="true"
+                    @cancel="treeCancel"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList">
             <Button type="primary" @click="handleModalShow3">3.树形结构-上下级不联动</Button>
             <TransferSelectModal
                     :modalShow="modalShow3"
@@ -108,11 +119,13 @@
         data() {
             return {
                 modalShow: false,
+                modalShow21: false,
                 modalShow2: false,
                 modalShow3: false,
                 modalShow4: false,
                 selectData, // type: Array
                 treeData: dataArr, // type: Array
+                treeData21: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)), // type: Array
             }
@@ -123,12 +136,16 @@
             },
             treeCancel() {
                 this.modalShow=false;
+                this.modalShow21=false;
                 this.modalShow2=false;
                 this.modalShow3=false;
                 this.modalShow4=false;
             },
             handleModalShow() {
                 this.modalShow=true;
+            },
+            handleModalShow21() {
+                this.modalShow21=true;
             },
             handleModalShow2() {
                 this.modalShow2=true;

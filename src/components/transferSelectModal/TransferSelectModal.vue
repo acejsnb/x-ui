@@ -10,6 +10,7 @@
                         :placeholder="placeholder"
                         :linkage="linkage"
                         :lastStage="lastStage"
+                        :notNull="notNull"
                         @cancel="transferCancel"
                         @confirm="transferConfirm"
                 />
@@ -53,6 +54,13 @@
             linkage: {
                 type: Boolean,
                 default: true
+            },
+            /**
+             * 是否返回半选状态的id
+             */
+            notNull: {
+                type: Boolean,
+                default: false
             },
             // 只能选择末级
             lastStage: {

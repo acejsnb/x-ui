@@ -27,6 +27,19 @@
             />
         </div>
         <div class="transferSelectList">
+            <h3>2.1.树形结构-返回半选状态的数据</h3>
+            <TransferSelect
+                    title="已选设备"
+                    unit="个"
+                    placeholder="添加设备"
+                    tipPlace="top"
+                    height="300"
+                    :notNull="true"
+                    :data="treeData"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList">
             <h3>3.树形结构-上下级不联动</h3>
             <TransferSelect
                     title="已选设备"

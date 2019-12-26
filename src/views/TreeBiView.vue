@@ -5,6 +5,14 @@
             <div>
                 <TreeBi
                         :multiple="true"
+                        :data="treeData"
+                        @change="change"
+                />
+            </div>
+            <div>
+                <TreeBi
+                        :multiple="true"
+                        :notNull="true"
                         :data="treeData2"
                         @change="change2"
                 />
@@ -29,7 +37,7 @@
      *
      * @isHide 是否隐藏 Boolean
      */
-    const dataArr2=[
+    const dataArr=[
         {
             id: '0', name: '顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级', open: true, checked: 'uncheck',
             children: [
@@ -72,14 +80,19 @@
         name: "TreeView",
         data() {
             return {
-                treeData2: dataArr2 // type: Array
+                treeData: dataArr, // type: Array
+                treeData2: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
         },
         methods: {
             // 选择的项
-            change2({id, checkedIds}) {
+            change({id, checkedIds}) {
                 console.log('选择的项::::', id, checkedIds);
             },
+            // 选择的项
+            change2({id, checkedIds}) {
+                console.log('选择的项::::', id, checkedIds);
+            }
         }
     }
 </script>

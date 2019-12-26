@@ -6,7 +6,9 @@
                 @mouseleave="setTipStatus"
         >
             <section class="p-select-input-section">
-                <span v-show="fieldStatus" :class="['p-select-input-place', (!triangle&&data.length)&&'p-select-input-place-selected']" v-html="titleText"></span>
+                <span v-show="fieldStatus"
+                      :class="['p-select-input-place', (!triangle&&data.length)&&'p-select-input-place-selected']"
+                      v-html="titleText"/>
                 <input
                         ref="inputField"
                         class="p-select-input-input"

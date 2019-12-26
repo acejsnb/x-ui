@@ -6,12 +6,9 @@
             <Button type="primary" @click="handleModalShow">1.一维结构</Button>
             <TransferSelectModal
                     :modalShow="modalShow"
-                    title="已选设备"
-                    unit="个"
                     placeholder="添加设备"
                     :linkage="false"
                     :lastStage="true"
-                    height="300"
                     :data="selectData"
                     @cancel="treeCancel"
                     @confirm="treeConfirm"
@@ -21,10 +18,19 @@
             <Button type="primary" @click="handleModalShow2">2.树形结构</Button>
             <TransferSelectModal
                     :modalShow="modalShow2"
-                    title="已选设备"
-                    unit="个"
                     placeholder="添加设备"
                     :data="treeData"
+                    @cancel="treeCancel"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList">
+            <Button type="primary" @click="handleModalShow21">2.1.树形结构-返回半选状态的数据</Button>
+            <TransferSelectModal
+                    :modalShow="modalShow21"
+                    placeholder="添加设备"
+                    :data="treeData21"
+                    :notNull="true"
                     @cancel="treeCancel"
                     @confirm="treeConfirm"
             />
@@ -33,8 +39,6 @@
             <Button type="primary" @click="handleModalShow3">3.树形结构-上下级不联动</Button>
             <TransferSelectModal
                     :modalShow="modalShow3"
-                    title="已选设备"
-                    unit="个"
                     placeholder="添加设备"
                     :linkage="false"
                     :data="treeData2"
@@ -46,8 +50,6 @@
             <Button type="primary" @click="handleModalShow4">4.树形结构-只能选择末级</Button>
             <TransferSelectModal
                     :modalShow="modalShow4"
-                    title="已选设备"
-                    unit="个"
                     placeholder="添加设备"
                     :linkage="false"
                     :lastStage="true"
@@ -73,7 +75,7 @@
         {id: '1000', name: '慕容复10', selected: false},
         {id: '1100', name: '慕容复11', selected: false},
         {id: '1200', name: '慕容复12', selected: false},
-        {id: '1300', name: '慕容复13', selected: false},
+        {id: '1300', name: '慕容复13', selected: false}
     ];
     const dataArr=[
         {
@@ -119,11 +121,13 @@
         data() {
             return {
                 modalShow: false,
+                modalShow21: false,
                 modalShow2: false,
                 modalShow3: false,
                 modalShow4: false,
                 selectData, // type: Array
                 treeData: dataArr, // type: Array
+                treeData21: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)), // type: Array
             }
@@ -134,12 +138,16 @@
             },
             treeCancel() {
                 this.modalShow=false;
+                this.modalShow21=false;
                 this.modalShow2=false;
                 this.modalShow3=false;
                 this.modalShow4=false;
             },
             handleModalShow() {
                 this.modalShow=true;
+            },
+            handleModalShow21() {
+                this.modalShow21=true;
             },
             handleModalShow2() {
                 this.modalShow2=true;
@@ -173,12 +181,9 @@
             <Button type="primary" @click="handleModalShow">1.一维结构</Button>
             <TransferSelectModal
                     :modalShow="modalShow"
-                    title="已选设备"
-                    unit="个"
                     placeholder="添加设备"
                     :linkage="false"
                     :lastStage="true"
-                    height="300"
                     :data="selectData"
                     @cancel="treeCancel"
                     @confirm="treeConfirm"
@@ -188,10 +193,19 @@
             <Button type="primary" @click="handleModalShow2">2.树形结构</Button>
             <TransferSelectModal
                     :modalShow="modalShow2"
-                    title="已选设备"
-                    unit="个"
                     placeholder="添加设备"
                     :data="treeData"
+                    @cancel="treeCancel"
+                    @confirm="treeConfirm"
+            />
+        </div>
+        <div class="transferSelectList">
+            <Button type="primary" @click="handleModalShow21">2.1.树形结构-返回半选状态的数据</Button>
+            <TransferSelectModal
+                    :modalShow="modalShow21"
+                    placeholder="添加设备"
+                    :data="treeData21"
+                    :notNull="true"
                     @cancel="treeCancel"
                     @confirm="treeConfirm"
             />
@@ -200,8 +214,6 @@
             <Button type="primary" @click="handleModalShow3">3.树形结构-上下级不联动</Button>
             <TransferSelectModal
                     :modalShow="modalShow3"
-                    title="已选设备"
-                    unit="个"
                     placeholder="添加设备"
                     :linkage="false"
                     :data="treeData2"
@@ -213,8 +225,6 @@
             <Button type="primary" @click="handleModalShow4">4.树形结构-只能选择末级</Button>
             <TransferSelectModal
                     :modalShow="modalShow4"
-                    title="已选设备"
-                    unit="个"
                     placeholder="添加设备"
                     :linkage="false"
                     :lastStage="true"
@@ -240,7 +250,7 @@
         {id: '1000', name: '慕容复10', selected: false},
         {id: '1100', name: '慕容复11', selected: false},
         {id: '1200', name: '慕容复12', selected: false},
-        {id: '1300', name: '慕容复13', selected: false},
+        {id: '1300', name: '慕容复13', selected: false}
     ];
     const dataArr=[
         {
@@ -286,11 +296,13 @@
         data() {
             return {
                 modalShow: false,
+                modalShow21: false,
                 modalShow2: false,
                 modalShow3: false,
                 modalShow4: false,
                 selectData, // type: Array
                 treeData: dataArr, // type: Array
+                treeData21: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)), // type: Array
             }
@@ -301,12 +313,16 @@
             },
             treeCancel() {
                 this.modalShow=false;
+                this.modalShow21=false;
                 this.modalShow2=false;
                 this.modalShow3=false;
                 this.modalShow4=false;
             },
             handleModalShow() {
                 this.modalShow=true;
+            },
+            handleModalShow21() {
+                this.modalShow21=true;
             },
             handleModalShow2() {
                 this.modalShow2=true;
@@ -333,6 +349,7 @@
 | data    | 数据列表 | Array | [] | Yes     |
 | linkage    | 树形结构上下级是否联动 | Boolean | true | No     |
 | lastStage    | 树形结构是否只能选择最后一级 | Boolean | false | No     |
+| notNull  | 是否返回半选状态的数据（在多选条件下才生效） | Boolean | false | no     |
 | @confirm    | 确定回调，返回选中的id组 | Function | -- | Yes     |
 
 ### tipPlace - 参数说明

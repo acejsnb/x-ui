@@ -7,6 +7,14 @@
             <div>
                 <TreeBi
                         :multiple="true"
+                        :data="treeData"
+                        @change="change"
+                />
+            </div>
+            <div>
+                <TreeBi
+                        :multiple="true"
+                        :notNull="true"
                         :data="treeData2"
                         @change="change2"
                 />
@@ -31,7 +39,7 @@
      *
      * @isHide 是否隐藏 Boolean
      */
-    const dataArr2=[
+    const dataArr=[
         {
             id: '0', name: '顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级', open: true, checked: 'uncheck',
             children: [
@@ -74,14 +82,19 @@
         name: "TreeView",
         data() {
             return {
-                treeData2: dataArr2 // type: Array
+                treeData: dataArr, // type: Array
+                treeData2: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
         },
         methods: {
             // 选择的项
-            change2({id, checkedIds}) {
+            change({id, checkedIds}) {
                 console.log('选择的项::::', id, checkedIds);
             },
+            // 选择的项
+            change2({id, checkedIds}) {
+                console.log('选择的项::::', id, checkedIds);
+            }
         }
     }
 </script>
@@ -110,6 +123,14 @@
             <div>
                 <TreeBi
                         :multiple="true"
+                        :data="treeData"
+                        @change="change"
+                />
+            </div>
+            <div>
+                <TreeBi
+                        :multiple="true"
+                        :notNull="true"
                         :data="treeData2"
                         @change="change2"
                 />
@@ -134,7 +155,7 @@
      *
      * @isHide 是否隐藏 Boolean
      */
-    const dataArr2=[
+    const dataArr=[
         {
             id: '0', name: '顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级顶级', open: true, checked: 'uncheck',
             children: [
@@ -177,18 +198,22 @@
         name: "TreeView",
         data() {
             return {
-                treeData2: dataArr2 // type: Array
+                treeData: dataArr, // type: Array
+                treeData2: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
         },
         methods: {
             // 选择的项
-            change2({id, checkedIds}) {
+            change({id, checkedIds}) {
                 console.log('选择的项::::', id, checkedIds);
             },
+            // 选择的项
+            change2({id, checkedIds}) {
+                console.log('选择的项::::', id, checkedIds);
+            }
         }
     }
 </script>
-
 
 ```
 
@@ -199,6 +224,7 @@
 | data    | 数据列表 | Array | [] | Yes     |
 | @change   | 点击回调 | Function | -- | Yes     |
 | multiple  | 是否可多选 | Boolean | false | no     |
+| notNull  | 是否返回半选状态的数据（在多选条件下才生效） | Boolean | false | no     |
 
 ### data参数说明
 
@@ -221,5 +247,5 @@ notNull-半选状态
 :::
 
 ::: tip
-在多选情况下返回选中的id也就是checked的id，半选状态notNull不会返回
+在多选情况下返回选中的id也就是checked的id，如需半选状态请设置notNull为true
 :::

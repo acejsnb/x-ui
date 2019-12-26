@@ -60,6 +60,16 @@
                         @change="selectChange"
                 />
                 <div style="margin-bottom: 200px"></div>
+                <h3 style="font-size: 16px;margin-bottom: 8px">3.1.多选-tree-联动-返回半选的数据</h3>
+                <SelectSearch
+                        :multiple="true"
+                        :notNull="true"
+                        width="240"
+                        :selectedIds="selectedIds"
+                        :data="dataTreeMultiple"
+                        @change="selectChange"
+                />
+                <div style="margin-bottom: 200px"></div>
                 <h3 style="font-size: 16px;margin-bottom: 8px">4.多选-tree-联动-不收纳</h3>
                 <SelectSearch
                         :multiple="true"
@@ -98,46 +108,15 @@
 
 <script>
     const selectData=[
-        {id: '100', name: '乔峰'},
-        {id: '200', name: '阿三2'},
-        {id: '300', name: '段誉3'},
-        {id: '400', name: '阿紫4'},
-        {id: '500', name: '洪七公5'},
-        {id: '600', name: '慕容复6'},
+        {id: '100', name: '乔峰', selected: false},
+        {id: '200', name: '阿三2', selected: false},
+        {id: '300', name: '段誉3', selected: false},
+        {id: '400', name: '阿紫4', selected: false},
+        {id: '500', name: '洪七公5', selected: false},
+        {id: '600', name: '慕容复6', selected: false}
     ];
 
-    const dataTreeSingle=[
-        {
-            id: '1', name: '顶级', open: true, checked: 'uncheck',
-            children: [
-                {id: '21', name: '二级1', checked: 'uncheck'},
-                {
-                    id: '22', name: '二级2', open: true, checked: 'uncheck',
-                    children: [
-                        {id: '221', name: '三级1', checked: 'uncheck'},
-                        {
-                            id: '222', name: '三级2', open: true, checked: 'uncheck',
-                            children: [
-                                {id: '2221', name: '四级1', checked: 'uncheck'},
-                                {
-                                    id: '2222', name: '四级2', checked: 'uncheck'
-                                },
-                                {id: '2223', name: '四级3', checked: 'uncheck'},
-                                {id: '2224', name: '四级4', checked: 'uncheck'},
-                                {id: '2225', name: '四级5', checked: 'uncheck'},
-                            ]
-                        },
-                        {id: '223', name: '三级3', checked: 'uncheck'},
-                        {id: '224', name: '三级4', checked: 'uncheck'},
-                        {id: '225', name: '三级5', checked: 'uncheck'},
-                    ]
-                },
-                {id: '23', name: '二级3', checked: 'uncheck'},
-            ]
-        }
-    ];
-
-    const dataTreeMultiple=[
+    const dataTree=[
         {
             id: '0', name: '顶级顶级', open: true, checked: 'uncheck',
             children: [
@@ -177,45 +156,6 @@
         }
     ];
 
-    const dataTreeMultiple2=[
-        {
-            id: '0', name: '顶级顶级', open: true, checked: 'uncheck',
-            children: [
-                {
-                    id: '1',  name: '一级1', open: false, checked: 'uncheck',
-                    children: [
-                        {id: '12', name: '二级2', checked: 'uncheck'},
-                        {id: '121', name: '二级3', checked: 'uncheck'},
-                        {id: '122', name: '二级4', checked: 'uncheck'},
-                        {
-                            id: '1321', name: '二级1', open: true, checked: 'uncheck',
-                            children: [
-                                {id: '1333', name: '三级2', checked: 'uncheck'},
-                                {id: '1313', name: '三级3', checked: 'uncheck'},
-                                {id: '1323', name: '三级4', checked: 'uncheck'},
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: '2', name: '一级2', open: false, checked: 'uncheck',
-                    children: [
-                        {id: '222', name: '二级20', checked: 'uncheck'},
-                        {id: '2221', name: '二级21', checked: 'uncheck'},
-                        {id: '2222', name: '二级22',checked: 'uncheck'}
-                    ]
-                },
-                {
-                    id: '3', name: '一级3', open: false, checked: 'uncheck',
-                    children: [
-                        {id: '322', name: '二级30', checked: 'uncheck'},
-                        {id: '3220', name: '二级31', checked: 'uncheck'},
-                        {id: '3221', name: '二级32', checked: 'uncheck'}
-                    ]
-                }
-            ]
-        }
-    ];
     export default {
         name: "SelectSearchView",
         data() {
@@ -224,9 +164,9 @@
                 selectData,
                 // 多选选中的id
                 selectedIds: [],
-                dataTreeSingle,
-                dataTreeMultiple,
-                dataTreeMultiple2,
+                dataTreeSingle: dataTree,
+                dataTreeMultiple: JSON.parse(JSON.stringify(dataTree)),
+                dataTreeMultiple2: JSON.parse(JSON.stringify(dataTree)),
             }
         },
         watch: {
@@ -313,6 +253,16 @@
                         @change="selectChange"
                 />
                 <div style="margin-bottom: 200px"></div>
+                <h3 style="font-size: 16px;margin-bottom: 8px">3.1.多选-tree-联动-返回半选的数据</h3>
+                <SelectSearch
+                        :multiple="true"
+                        :notNull="true"
+                        width="240"
+                        :selectedIds="selectedIds"
+                        :data="dataTreeMultiple"
+                        @change="selectChange"
+                />
+                <div style="margin-bottom: 200px"></div>
                 <h3 style="font-size: 16px;margin-bottom: 8px">4.多选-tree-联动-不收纳</h3>
                 <SelectSearch
                         :multiple="true"
@@ -351,46 +301,15 @@
 
 <script>
     const selectData=[
-        {id: '100', name: '乔峰'},
-        {id: '200', name: '阿三2'},
-        {id: '300', name: '段誉3'},
-        {id: '400', name: '阿紫4'},
-        {id: '500', name: '洪七公5'},
-        {id: '600', name: '慕容复6'},
+        {id: '100', name: '乔峰', selected: false},
+        {id: '200', name: '阿三2', selected: false},
+        {id: '300', name: '段誉3', selected: false},
+        {id: '400', name: '阿紫4', selected: false},
+        {id: '500', name: '洪七公5', selected: false},
+        {id: '600', name: '慕容复6', selected: false}
     ];
 
-    const dataTreeSingle=[
-        {
-            id: '1', name: '顶级', open: true, checked: 'uncheck',
-            children: [
-                {id: '21', name: '二级1', checked: 'uncheck'},
-                {
-                    id: '22', name: '二级2', open: true, checked: 'uncheck',
-                    children: [
-                        {id: '221', name: '三级1', checked: 'uncheck'},
-                        {
-                            id: '222', name: '三级2', open: true, checked: 'uncheck',
-                            children: [
-                                {id: '2221', name: '四级1', checked: 'uncheck'},
-                                {
-                                    id: '2222', name: '四级2', checked: 'uncheck'
-                                },
-                                {id: '2223', name: '四级3', checked: 'uncheck'},
-                                {id: '2224', name: '四级4', checked: 'uncheck'},
-                                {id: '2225', name: '四级5', checked: 'uncheck'},
-                            ]
-                        },
-                        {id: '223', name: '三级3', checked: 'uncheck'},
-                        {id: '224', name: '三级4', checked: 'uncheck'},
-                        {id: '225', name: '三级5', checked: 'uncheck'},
-                    ]
-                },
-                {id: '23', name: '二级3', checked: 'uncheck'},
-            ]
-        }
-    ];
-
-    const dataTreeMultiple=[
+    const dataTree=[
         {
             id: '0', name: '顶级顶级', open: true, checked: 'uncheck',
             children: [
@@ -430,45 +349,6 @@
         }
     ];
 
-    const dataTreeMultiple2=[
-        {
-            id: '0', name: '顶级顶级', open: true, checked: 'uncheck',
-            children: [
-                {
-                    id: '1',  name: '一级1', open: false, checked: 'uncheck',
-                    children: [
-                        {id: '12', name: '二级2', checked: 'uncheck'},
-                        {id: '121', name: '二级3', checked: 'uncheck'},
-                        {id: '122', name: '二级4', checked: 'uncheck'},
-                        {
-                            id: '1321', name: '二级1', open: true, checked: 'uncheck',
-                            children: [
-                                {id: '1333', name: '三级2', checked: 'uncheck'},
-                                {id: '1313', name: '三级3', checked: 'uncheck'},
-                                {id: '1323', name: '三级4', checked: 'uncheck'},
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: '2', name: '一级2', open: false, checked: 'uncheck',
-                    children: [
-                        {id: '222', name: '二级20', checked: 'uncheck'},
-                        {id: '2221', name: '二级21', checked: 'uncheck'},
-                        {id: '2222', name: '二级22',checked: 'uncheck'}
-                    ]
-                },
-                {
-                    id: '3', name: '一级3', open: false, checked: 'uncheck',
-                    children: [
-                        {id: '322', name: '二级30', checked: 'uncheck'},
-                        {id: '3220', name: '二级31', checked: 'uncheck'},
-                        {id: '3221', name: '二级32', checked: 'uncheck'}
-                    ]
-                }
-            ]
-        }
-    ];
     export default {
         name: "SelectSearchView",
         data() {
@@ -477,9 +357,9 @@
                 selectData,
                 // 多选选中的id
                 selectedIds: [],
-                dataTreeSingle,
-                dataTreeMultiple,
-                dataTreeMultiple2,
+                dataTreeSingle: dataTree,
+                dataTreeMultiple: JSON.parse(JSON.stringify(dataTree)),
+                dataTreeMultiple2: JSON.parse(JSON.stringify(dataTree)),
             }
         },
         watch: {
@@ -524,6 +404,7 @@
 | ------- | ---- | ------ | ------- | ------ |
 | multiple    | 开启多选 | Boolean | false | no |
 | linkage    | 是否联动（树形结构有效） | Boolean | true | no |
+| notNull  | 是否返回半选状态的数据（在多选条件下才生效） | Boolean | false | no     |
 | accept    | 是否收纳 | Boolean | true | no |
 | selectedIds    | 选中的id组 | Array | [] | Yes |
 | @change    | 点击的回调 | Function | -- | Yes |

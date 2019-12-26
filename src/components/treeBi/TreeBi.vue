@@ -28,6 +28,13 @@
                 default: false
             },
             /**
+             * 是否返回半选状态的id
+             */
+            notNull: {
+                type: Boolean,
+                default: false
+            },
+            /**
              * 树形结构数据列表
              */
             data: {
@@ -52,13 +59,13 @@
              * @param index 索引串
              */
             change(id, index) {
-                // return;
                 if (this.multiple) {
                     let iArr=(index.split('-')); // 拿到索引值
                     iArr.pop(); // 这里不需要遍历最后一个索引的数据
                     let data=this.treeData;
                     this.changeParentChecked(data, iArr);
-                    const checkedIds=this.filterIds(this.treeData);
+                    const checkedObj=this.filterIds(data);
+                    const checkedIds=checkedObj.map(d => d.id);
                     /**
                      * 点击某项返回的数据
                      * @param id
@@ -138,7 +145,11 @@
              */
             recursionIds(data, arr) {
                 data.forEach(d => {
-                    if (d.checked === 'checked') arr.push(d.id);
+                    if (this.notNull) {
+                        if (d.checked === 'checked' || d.checked === 'notNull') arr.push(d);
+                    } else {
+                        if (d.checked === 'checked') arr.push(d);
+                    }
                     if (d.children && d.children.length) this.recursionIds(d.children, arr);
                 });
             }

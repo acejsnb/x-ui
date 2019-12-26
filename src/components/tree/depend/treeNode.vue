@@ -15,7 +15,7 @@
                             class="p-tree-node-name"
                             @mouseenter="treeItemEnter"
                             v-html="treeItem.name"
-                    ></article>
+                    />
                 </section>
             </div>
         </div>
@@ -30,7 +30,7 @@
                     :triangleShow="!!(item.children&&item.children.length)"
                     :index="`${index}-${ind}`"
                     :change="change"
-            ></TreeNode>
+            />
         </div>
     </div>
 </template>

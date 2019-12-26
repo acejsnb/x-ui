@@ -12,6 +12,7 @@
                 :accept="accept"
                 :selectedIds="selectedIds"
                 :disabled="disabled"
+                :notNull="notNull"
                 :width="width"
                 :data="data"
                 @change="optionClickMultiple"
@@ -85,6 +86,13 @@
             linkage: {
                 type: Boolean,
                 default: true
+            },
+            /**
+             * 是否返回半选状态的id
+             */
+            notNull: {
+                type: Boolean,
+                default: false
             },
             // 收纳
             accept: {

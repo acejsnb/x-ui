@@ -56,6 +56,7 @@
                             v-show="!inputValue"
                             :multiple="true"
                             :linkage="linkage"
+                            :notNull="notNull"
                             :data="treeData"
                             @change="optionClickTree"
                     />
@@ -81,6 +82,13 @@
             linkage: {
                 type: Boolean,
                 default: true
+            },
+            /**
+             * 是否返回半选状态的id
+             */
+            notNull: {
+                type: Boolean,
+                default: false
             },
             // 收纳
             accept: {

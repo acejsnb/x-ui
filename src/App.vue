@@ -9,8 +9,6 @@
 
 <script>
 
-  // import 'highlight.js/styles/github-gist.css';
-
   export default {
     name: 'App',
     data() {

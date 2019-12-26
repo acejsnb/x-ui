@@ -18,6 +18,15 @@
                 />
             </div>
             <div>
+                <h3>2.1.多选-联动-返回半选状态数据</h3>
+                <Tree
+                        :multiple="true"
+                        :notNull="true"
+                        :data="treeData21"
+                        @change="change21"
+                />
+            </div>
+            <div>
                 <h3>3.多选-不联动</h3>
                 <Tree
                         :multiple="true"
@@ -101,6 +110,7 @@
             return {
                 treeData: dataArr, // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
+                treeData21: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData4: JSON.parse(JSON.stringify(dataArr)) // type: Array
             }
@@ -112,6 +122,10 @@
             },
             // 选择的项
             change2({id, checkedIds}) {
+                console.log('选择的项::::', id, checkedIds);
+            },
+            // 选择的项
+            change21({id, checkedIds}) {
                 console.log('选择的项::::', id, checkedIds);
             },
             // 选择的项
@@ -130,7 +144,6 @@
 
 .component-padding
     padding-bottom 200px !important
-    //width 240px
     .treeCom
         display flex
         justify-content space-between
