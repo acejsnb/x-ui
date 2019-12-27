@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import Button from '../../button';
+    import Button from '../../Button';
 
     export default {
         name: 'Handle',

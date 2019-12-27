@@ -55,7 +55,7 @@
     import CountYear from '../../static/utils/datePicker/CountYear';
 
     import YearSelect from './year';
-    import Button from '../../button';
+    import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {

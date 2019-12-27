@@ -16,7 +16,7 @@
                         @click="optionClick(item.id, item.disabled)"
                         @mouseenter="optionEnter"
                 >
-                    <i class="p-drop-option-svg" v-if="item.icon" v-html="item.icon"></i>
+                    <i class="p-drop-option-svg" v-if="item.icon" v-html="item.icon"/>
                     <span>{{item.name}}</span>
                 </article>
             </section>

@@ -11,7 +11,7 @@
                 @click="optionClick(item.id)"
                 @mouseenter="optionEnter"
                 v-html="item.name"
-        ></article>
+        />
     </section>
 </template>
 

@@ -21,25 +21,25 @@
 
 <script>
     import Triangle from '../static/iconSvg/triangle.svg';
-    import SelectOption from '../selectOption/SelectOption';
+    import SelectOption from '../SelectOption';
 
     export default {
         name: "Select",
         components: { Triangle, SelectOption },
         props: {
             /**
-             * 下拉列表数据
-             */
-            data: {
-                type: Array,
-                default: []
-            },
-            /**
              * 绑定的v-model值
              */
             value: {
                 type: String,
                 default: ''
+            },
+            /**
+             * 下拉列表数据
+             */
+            data: {
+                type: Array,
+                default: []
             },
             /**
              * 下拉列表宽度

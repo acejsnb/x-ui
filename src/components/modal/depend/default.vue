@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import Icon from '../../icon';
+    import Icon from '../../Icon';
 
     export default {
         name: 'Default',

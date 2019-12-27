@@ -98,7 +98,7 @@
     import CountPrevMonth from '../../static/utils/datePicker/CountPrevMonth';
 
     import DaySelect from './day';
-    import Button from '../../button';
+    import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {

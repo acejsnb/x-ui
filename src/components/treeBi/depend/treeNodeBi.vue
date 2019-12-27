@@ -18,7 +18,7 @@
                             :style="{width: (treeItem.children&&treeItem.children.length&&index!=='0')?'calc(100% - 32px)':'100%'}"
                             @mouseenter="treeItemEnter"
                             v-html="treeItem.name"
-                    ></article>
+                    />
                     <article class="p-tree-checked-num" v-if="index.length>2&&checkedNumShow">{{quantity}}/{{total}}</article>
                 </section>
             </div>
@@ -32,14 +32,14 @@
                     :triangleShow="!!(item.children&&item.children.length)"
                     :index="`${index}-${ind}`"
                     :change="change"
-            ></TreeNodeBi>
+            />
         </div>
     </div>
 </template>
 
 <script>
     import ArrowTriangle from '../../static/iconSvg/arrow_triangle.svg';
-    import Checkbox from '../../checkbox';
+    import Checkbox from '../../Checkbox';
 
     export default {
         name: 'TreeNodeBi',

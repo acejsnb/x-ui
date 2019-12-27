@@ -69,8 +69,8 @@
 <script>
     import IconCloseSvg from '../../static/iconSvg/icon_close.svg';
     import TriangleSvg from '../../static/iconSvg/triangle.svg';
-    import SelectOptionMultiple from '../../selectOptionMultiple/SelectOptionMultiple';
-    import Tree from '../../tree';
+    import SelectOptionMultiple from '../../SelectOptionMultiple/SelectOptionMultiple';
+    import Tree from '../../Tree';
 
     import {FilterTool, PackageTool, TileTool, Unique, ChangeStatus} from '../../static/utils/TreeTool';
 

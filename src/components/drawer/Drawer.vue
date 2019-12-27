@@ -31,8 +31,8 @@
 </template>
 
 <script>
-    import Icon from '../icon';
-    import Button from '../button';
+    import Icon from '../Icon';
+    import Button from '../Button';
     import LoadingGrey from '../static/iconSvg/loading_grey.svg';
 
     export default {

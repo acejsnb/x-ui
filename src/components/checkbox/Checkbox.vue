@@ -1,6 +1,6 @@
 <template>
     <div :class="['p-checkbox', disabled&&'p-checkbox-disabled',]" @click="handleChange">
-        <i :class="['p-checkbox-box', 'p-checkbox-'+checked]"></i>
+        <i :class="['p-checkbox-box', 'p-checkbox-'+checked]"/>
         <span class="p-checkbox-text" v-if="Object.keys($slots).length"><slot></slot></span>
     </div>
 </template>

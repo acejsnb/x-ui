@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import Transfer from '../transfer';
+    import Transfer from '../Transfer';
     export default {
         name: "TransferSelectModal",
         components: { Transfer },

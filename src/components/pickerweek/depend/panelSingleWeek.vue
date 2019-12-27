@@ -58,7 +58,7 @@
     import CountWeek from '../../static/utils/datePicker/CountWeek';
 
     import WeekSelect from './week';
-    import Button from '../../button';
+    import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {

@@ -51,13 +51,22 @@
 
 
 ::: tip
-当全局引入时，请使用 `this.$message.xxx('msg')`
+当全局引入时，请使用 `this.$message.xxx('msg')`<br>
+或者：<br>
+this.$message({
+    type: 'error',
+    message: '提示内容'
+});
 :::
 
 ::: tip
-import { Message } from 'persagy-ui';
-<br>
-Message.xxx('string');
+import { Message } from 'persagy-ui';<br>
+Message.xxx('string');<br>
+或者：<br>
+Message({
+    type: 'error',
+    message: '提示内容'
+});
 :::
 
 ```vue

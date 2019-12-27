@@ -2,15 +2,6 @@
     <div class="Button">
         <div class="component component-padding">
             <h1>Select组件</h1>
-            <!--
-                组件说明:
-                    参数   说明           默认值   类型   是否必须   可选值
-                    v-model  当前绑定的值 --   String false
-                    data 下拉菜单数据列表  [] Array true
-                    title 标题  '' String false
-                    width 宽  'left' String false
-                    radius 圆角 false Boolean
-            -->
             <div>
                 <Select v-model="selVal" :data="dataSelect" width="120" />
             </div>
@@ -18,15 +9,14 @@
                 <br><br><br><br><br><br><br><br>
             </div>
             <div>
-                <Select v-model="selVal" :radius="true" :data="dataSelect" width="120" />
+                <Select v-model="selVal1" :radius="true" :data="dataSelect1" width="120" />
             </div>
             <div style="font-size: 16px;">
                 <br><br><br><br><br><br><br><br>
             </div>
             <div>
-                <Select v-model="selVal" title="项目：" :data="dataSelect" width="160" />
+                <Select v-model="selVal2" title="项目：" :data="dataSelect2" width="160" />
             </div>
-
         </div>
     </div>
 </template>
@@ -46,18 +36,12 @@
         name: 'SelectView',
         data() {
             return {
-                // selVal: 'totalEnergy',
                 selVal: '',
-                selText: '总量',
                 dataSelect: data,
-                selVal2: 'totalEnergy',
+                selVal1: 'totalEnergy',
+                dataSelect1: JSON.parse(JSON.stringify(data)),
+                selVal2: 'singleParty',
                 dataSelect2: data2
-            }
-        },
-        watch: {
-            selVal(n, o) {
-                if (n === o) return;
-                this.selText=this.dataSelect.find(d => d.id === n).name
             }
         },
         mounted() {

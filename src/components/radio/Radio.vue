@@ -1,6 +1,6 @@
 <template>
     <div :class="['p-radio', disabled&&'p-radio-disabled',]" @click="handleChange">
-        <i :class="['p-radio-box', 'p-radio-'+checked]"></i>
+        <i :class="['p-radio-box', 'p-radio-'+checked]"/>
         <span class="p-radio-text" v-if="Object.keys($slots).length"><slot></slot></span>
     </div>
 </template>

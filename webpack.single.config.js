@@ -13,7 +13,7 @@ const HappyPack = require('happypack'); // 分块打包
 const os=require('os');
 const happyThreadPool=HappyPack.ThreadPool({ size: os.cpus().length });
 
-const EntryObj=require('./src/components/single.js');
+const EntryObj=require('./src/entry/single.js');
 
 // 获取时间
 const TimeFn=require('./get_time');
@@ -164,10 +164,9 @@ const config={
                 }
             }
         }),
-        //new CleanWebpackPlugin([path.join(__dirname, 'lib')]),
         new MiniCssExtractPlugin({ // 分离css
-            // filename: 'theme/[name].css'
-            filename: '[name]/style.css'
+            filename: 'theme/[name].css'
+            // filename: '[name]/style.css'
         }),
         new HappyPack({
             id: 'js_vue', // id值，与loader配置项对应
@@ -178,11 +177,8 @@ const config={
             verbose: true //允许 HappyPack 输出日志
         }),
         new CopyWebpackPlugin([{
-            from:'./src/assets/base', // 需要拷贝的静态资源目录地址，这里只做打包单个组件的公共样式拷贝
-            to: path.resolve(__dirname, 'dist/theme') // 打包到dist下面的theme
-        },{
-            from:'./src/components', // 需要拷贝的静态资源目录地址，这里只做打包单个组件的公共样式拷贝
-            to: path.resolve(__dirname, 'lib') // 打包到dist下面的theme
+            from:'./src/components', // 需要拷贝的组件资源目录地址，这里只做打包单个组件的公共样式拷贝
+            to: path.resolve(__dirname, 'lib')
         }]),
         new WebpackBar()
     ],

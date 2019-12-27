@@ -73,7 +73,7 @@
     import CountNowDate from '../static/utils/datePicker/CountNowDate';
 
     import TimeSelect from './depend/time';
-    import Button from '../button';
+    import Button from '../Button';
 
     import ClearSvg from '../static/iconSvg/clear2.svg';
 

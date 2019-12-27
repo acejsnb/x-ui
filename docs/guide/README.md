@@ -2,7 +2,7 @@
 ### 使用说明
 
 ::: tip
-当前版本：0.8.4<br>
+当前版本：0.8.5<br>
 :::
 
 ::: warning
@@ -24,7 +24,7 @@
 
 ## 二、全局引入
 
-```clike
+```
     import Pui from 'persagy-ui';
     import 'persagy-ui/dist/index.css'
     Vue.use(Pui);
@@ -59,7 +59,7 @@
         "libraryName": "persagy-ui",
         "camel2Dash": false,
         "libDir": "dist",
-        "styleLibrary": { "name": "theme", "base": true, "path": "[module]/style.css", "mixin": true }
+        "styleLibrary": { "name": "theme", "base": true }
       }
     ]
 ```
@@ -216,7 +216,7 @@ $grey-50=#f8f9fa
 
  - 安装style-resources-loader `npm i -D style-resources-loader`
 
-```clike
+```
     {
         test: /\.styl(us)?$/,
         use: [
@@ -235,7 +235,7 @@ $grey-50=#f8f9fa
 
 4.配置svg解析
 - 安装svg解析器 `npm i -D vue-svg-loader`
-```clike
+```
      {
          test: /\.svg$/,
          loader: ['babel-loader', 'vue-svg-loader']
@@ -282,7 +282,7 @@ module.exports = {
 
 -.在main.js中添加
 
-```clike
+```
 import Pui from "persagy-ui";
 import "persagy-ui/dist/index.css";
 Vue.use(Pui);
@@ -302,7 +302,7 @@ module.exports = {
         "libraryName": "persagy-ui",
         "camel2Dash": false,
         "libDir": "dist",
-        "styleLibrary": { "name": "theme", "base": true, "path": "[module]/style.css", "mixin": true }
+        "styleLibrary": { "name": "theme", "base": true }
       }
     ]
   ]
@@ -311,7 +311,8 @@ module.exports = {
 
 - 在组建中引用
 
-```clike
+```
 import { Button, Toggle } from 'persagy-ui';
 components: { Button, Toggle }
+
 ```

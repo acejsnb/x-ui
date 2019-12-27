@@ -8,7 +8,7 @@
         >
             <span>{{tab.name}}</span>
         </section>
-        <section class="p-tabs-line" :style="{left: left+'px', width: lineWidth+'px'}"></section>
+        <section class="p-tabs-line" :style="{left: left+'px', width: lineWidth+'px'}"/>
     </div>
 </template>
 

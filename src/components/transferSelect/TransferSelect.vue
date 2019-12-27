@@ -35,8 +35,8 @@
 </template>
 
 <script>
-    import SelectInput from '../selectInput';
-    import TransferMini from '../transferMini';
+    import SelectInput from '../SelectInput';
+    import TransferMini from '../TransferMini';
     export default {
         name: "TransferSelect",
         components: { SelectInput, TransferMini },

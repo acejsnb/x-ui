@@ -55,11 +55,11 @@
 </template>
 
 <script>
-    import Input from '../input';
-    import Tree from '../tree';
-    import Button from '../button';
+    import Input from '../Input';
+    import Tree from '../Tree';
+    import Button from '../Button';
     import IconClear from '../static/iconSvg/clear2.svg';
-    import SelectOptionMultiple from '../selectOptionMultiple/SelectOptionMultiple';
+    import SelectOptionMultiple from '../SelectOptionMultiple/SelectOptionMultiple';
     import { TileTool, FilterTool, ChangeStatus, GetParentIdById, Unique } from '../static/utils/TreeTool';
 
     export default {
