@@ -13,7 +13,7 @@
             <Headers>
                 <template v-slot:left>
                     <div style="margin-right: 12px"><Select v-model="selectId" :data="selectData" :radius="true" width="120" /></div>
-                    <Breadcrumb :data="breadData" v-model="breadId" />
+                    <Breadcrumb :data="breadData1" />
                 </template>
                 <template v-slot:middle>
                     <Tabs :data="tabData" v-model="tabId" />
@@ -86,6 +86,10 @@
                 selectId: 'totalEnergy', // 下拉列表绑定的值
                 selectData: data, // 下拉列表数据
                 breadId: 'average', // 面包屑id
+                breadData1: [
+                    { id: 'totalEnergy', name: '总量' },
+                    { id: 'singleParty', name: '单平米' }
+                ], // 面包屑数据
                 breadData: data // 面包屑数据
             }
         },
