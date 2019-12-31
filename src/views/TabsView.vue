@@ -17,7 +17,8 @@
         name: "TabsView",
         data() {
             return {
-                tabId: '1'
+                tabId: '1',
+                tabId2: '1'
             }
         },
         computed: {

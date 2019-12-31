@@ -4,7 +4,7 @@
                 :class="['p-tab-item', value===tab.id&&'p-tab-active']"
                 v-for="tab in data"
                 :key="tab.id"
-                @click="tabClick(tab.id)"
+                @click="tabClick($event, tab.id)"
         >
             <span>{{tab.name}}</span>
         </section>
@@ -38,29 +38,38 @@
             }
         },
         mounted() {
-            this.countWidth()
+            this.$nextTick(() => {
+                this.countWidth(0)
+            })
         },
         methods: {
-            tabClick(id) {
+            tabClick(e, id) {
                 const ind=this.data.findIndex(d => d.id===id);
-                this.left=ind*(this.lineWidth+16);
+                this.lineWidth=e.currentTarget.scrollWidth;
+                this.countWidth(ind);
                 /**
                  * 提交绑定的值
                  */
                 this.$emit('input', id);
             },
-            countWidth() {
-                const { width }=this.$refs.pTabs.getBoundingClientRect();
-                const dLen=this.data.length;
-                this.lineWidth=(width-(dLen-1)*16)/dLen;
+            countWidth(ind) {
+                if (ind) {
+                    const items=this.$refs.pTabs.getElementsByClassName('p-tab-item');
+                    let w=0;
+                    for (let i=0; i< ind; i++) {
+                        w+=items[i].scrollWidth;
+                    }
+                    this.left=w+(ind*16);
+                } else {
+                    this.lineWidth=this.$refs.pTabs.firstElementChild.scrollWidth;
+                    this.left=0;
+                }
             }
         }
     }
 </script>
 
 <style lang="stylus">
-
-
     .p-tabs
         position relative
         display inline-block
@@ -69,7 +78,7 @@
             display inline-block
             padding 12px 16px
             height 48px
-            line-height @height/2
+            line-height 24px
             font-size 16px
             color $grey-900
             cursor pointer
