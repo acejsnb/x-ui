@@ -32,10 +32,10 @@
                     title="已选设备"
                     unit="个"
                     placeholder="添加设备"
-                    tipPlace="top"
+                    tipPlace="bottom"
                     height="300"
                     :notNull="true"
-                    :data="treeData"
+                    :data="treeData1"
                     @confirm="treeConfirm"
             />
         </div>
@@ -130,6 +130,7 @@
             return {
                 selectData, // type: Array
                 treeData: dataArr, // type: Array
+                treeData1: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData2: JSON.parse(JSON.stringify(dataArr)), // type: Array
                 treeData3: JSON.parse(JSON.stringify(dataArr)), // type: Array
             }

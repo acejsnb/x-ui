@@ -37,6 +37,13 @@
                 left: 0 // 线条距离左边位置
             }
         },
+        watch: {
+            value(n, o) {
+                if (n === o) return;
+                const ind=this.data.findIndex(d => d.id===n);
+                this.countWidth(ind);
+            }
+        },
         mounted() {
             this.$nextTick(() => {
                 this.countWidth(0)
@@ -45,7 +52,6 @@
         methods: {
             tabClick(e, id) {
                 const ind=this.data.findIndex(d => d.id===id);
-                this.lineWidth=e.currentTarget.scrollWidth;
                 this.countWidth(ind);
                 /**
                  * 提交绑定的值
@@ -55,9 +61,10 @@
             countWidth(ind) {
                 if (ind) {
                     const items=this.$refs.pTabs.getElementsByClassName('p-tab-item');
-                    let w=0;
-                    for (let i=0; i< ind; i++) {
-                        w+=items[i].scrollWidth;
+                    let w=0, len=items.length;
+                    for (let i=0; i< len; i++) {
+                        if (i < ind) w+=items[i].scrollWidth;
+                        if (i === ind) this.lineWidth=items[i].scrollWidth;
                     }
                     this.left=w+(ind*16);
                 } else {

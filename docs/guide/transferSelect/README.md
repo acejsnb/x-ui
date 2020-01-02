@@ -190,7 +190,7 @@
                     title="已选设备"
                     unit="个"
                     placeholder="添加设备"
-                    tipPlace="top"
+                    tipPlace="bottom"
                     height="300"
                     :notNull="true"
                     :data="treeData"
@@ -309,7 +309,7 @@
 | title    | 选中之后的title | String | '' | Yes     |
 | unit    | 选中之后的单位 | String | '' | Yes     |
 | placeholder    | 占位符 | String | 请选择 | Yes     |
-| tipPlace    | 当鼠标hover时，显示tip的位置 | String | bottom | Yes     |
+| tipPlace    | 当鼠标hover时，显示tip的位置 | String | '' | false     |
 | data    | 数据列表 | Array | [] | Yes     |
 | height    | 穿梭框弹窗高度 | String/Number | 244 | No     |
 | linkage    | 树形结构上下级是否联动 | Boolean | true | No     |
@@ -321,6 +321,7 @@
 
 | 参数     | 说明  | 类型    | 必须    |
 | ------- | ---- | ------ | ------ |
+| ''    | 空或者不传时不显示hover | String | Yes     |
 | top    | 显示在顶部 | String | Yes     |
 | bottom    | 显示在底部 | String | Yes     |
 | left    | 显示在左边 | String | Yes     |

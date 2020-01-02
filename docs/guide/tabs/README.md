@@ -27,6 +27,11 @@
                     { id: '5', name: '第5模块' },
                 ]
             }
+        },
+        watch: {
+            tabId(n, o) {
+                console.log('tabId:::', n);
+            }
         }
     }
 </script>
@@ -58,6 +63,11 @@
                     { id: '4', name: '第4模块' },
                     { id: '5', name: '第5模块' },
                 ]
+            }
+        },
+        watch: {
+            tabId(n, o) {
+                console.log('tabId:::', n);
             }
         }
     }

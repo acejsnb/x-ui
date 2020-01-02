@@ -1,10 +1,15 @@
 ### 更新日志
 
 ::: tip
+版本：0.8.7<br>
+1.修改TransferSelect组件bug<br>
+2.修改Tabs组件动态监听id改变<br>
+:::
+
+::: tip
 版本：0.8.6<br>
 1.修改Tabs组件bug<br>
 :::
-
 
 ::: tip
 版本：0.8.5<br>

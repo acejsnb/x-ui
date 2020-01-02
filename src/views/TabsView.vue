@@ -7,7 +7,7 @@
              v-model绑定的id
              change：点击事件
              -->
-            <Tabs :data="tabData" v-model="tabId" @change="tabChange" />
+            <Tabs :data="tabData" v-model="tabId" />
         </div>
     </div>
 </template>
@@ -17,8 +17,7 @@
         name: "TabsView",
         data() {
             return {
-                tabId: '1',
-                tabId2: '1'
+                tabId: '1'
             }
         },
         computed: {
@@ -32,10 +31,15 @@
                 ]
             }
         },
-        methods: {
-            tabChange(id) {
-                console.log('********tabChange:::', id);
+        watch: {
+            tabId(n, o) {
+                console.log('tabId:::', n);
             }
+        },
+        mounted() {
+            setTimeout(() => {
+                this.tabId='2'
+            }, 5000)
         }
     }
 </script>
