@@ -9,7 +9,7 @@ module.exports = {
         }]
     ],
     port: 9000,
-    dest: './docs/build',
+    dest: './docs/dist',
     evergreen: true,
     themeConfig: {
         logo: '/logo_persagy.png',
