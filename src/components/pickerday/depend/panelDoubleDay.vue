@@ -9,7 +9,7 @@
             <section
                     :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
             >{{selectedDate?selectedDate:'请选择日期'}}</section>
-            <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
+            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
         </div>
         <transition name="opacityTop">
             <!--
@@ -27,12 +27,12 @@
                     <div class="p-picker-main-item-input-box">
                         <section class="p-picker-input p-picker-input-values-default">
                             <article
-                                    :class="[(yearStartSelected&&monthStartSelected&&dayStartSelected)&&'p-picker-input-values']"
-                            >{{(yearStartSelected&&monthStartSelected&&dayStartSelected)?`${yearStartSelected}.${monthStartSelected}.${dayStartSelected}`:'开始日期'}}</article>
+                                    :class="[(yearSelectedStart&&monthSelectedStart&&daySelectedStart)&&'p-picker-input-values']"
+                            >{{(yearSelectedStart&&monthSelectedStart&&daySelectedStart)?`${yearSelectedStart}.${monthSelectedStart}.${daySelectedStart}`:'开始日期'}}</article>
                             <article class="p-picker-input-solstice">至</article>
                             <article
-                                    :class="[(yearEndSelected&&monthEndSelected&&dayEndSelected)&&'p-picker-input-values']"
-                            >{{(yearEndSelected&&monthEndSelected&&dayEndSelected)?`${yearEndSelected}.${monthEndSelected}.${dayEndSelected}`:'结束日期'}}</article>
+                                    :class="[(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)&&'p-picker-input-values']"
+                            >{{(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)?`${yearSelectedEnd}.${monthSelectedEnd}.${daySelectedEnd}`:'结束日期'}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">
@@ -43,9 +43,9 @@
                                 :yearActive="yearActiveStart"
                                 :monthActive="monthActiveStart"
                                 :dayActive="dayActiveStart"
-                                :yearSelected="yearStartSelected"
-                                :monthSelected="monthStartSelected"
-                                :daySelected="dayStartSelected"
+                                :yearSelected="yearSelectedStart"
+                                :monthSelected="monthSelectedStart"
+                                :daySelected="daySelectedStart"
                                 :daysArray="daysArrayStart"
                                 @prevYear="prevYearStart"
                                 @nextYear="nextYearStart"
@@ -64,9 +64,9 @@
                                 :yearActive="yearActiveEnd"
                                 :monthActive="monthActiveEnd"
                                 :dayActive="dayActiveEnd"
-                                :yearSelected="yearEndSelected"
-                                :monthSelected="monthEndSelected"
-                                :daySelected="dayEndSelected"
+                                :yearSelected="yearSelectedEnd"
+                                :monthSelected="monthSelectedEnd"
+                                :daySelected="daySelectedEnd"
                                 :daysArray="daysArrayEnd"
                                 @prevYear="prevYearEnd"
                                 @nextYear="nextYearEnd"
@@ -142,12 +142,12 @@
                 dayActiveEnd: '',
 
                 // 选择的年月日
-                yearStartSelected: '',
-                monthStartSelected: '',
-                dayStartSelected: '',
-                yearEndSelected: '',
-                monthEndSelected: '',
-                dayEndSelected: '',
+                yearSelectedStart: '',
+                monthSelectedStart: '',
+                daySelectedStart: '',
+                yearSelectedEnd: '',
+                monthSelectedEnd: '',
+                daySelectedEnd: '',
 
                 daysArrayStart: [], // 日列表-开始
                 daysArrayEnd: [], // 日列表-结束
@@ -315,9 +315,9 @@
                 this.yearActiveEnd=yearActive;
                 this.monthActiveEnd=monthActive;
                 this.dayActiveEnd=dayActive;
-                this.yearEndSelected=year;
-                this.monthEndSelected=month;
-                this.dayEndSelected=day;
+                this.yearSelectedEnd=year;
+                this.monthSelectedEnd=month;
+                this.daySelectedEnd=day;
                 this.changeDaysArrayEnd({year, month, day});
             },
             /**
@@ -344,9 +344,9 @@
                 // this.yearActiveStart=yearActive;
                 // this.monthActiveStart=monthActive;
                 // this.dayActiveStart=dayActive;
-                this.yearStartSelected=year;
-                this.monthStartSelected=month;
-                this.dayStartSelected=day;
+                this.yearSelectedStart=year;
+                this.monthSelectedStart=month;
+                this.daySelectedStart=day;
                 this.changeDaysArrayStart({year, month, day});
             },
             /**
@@ -398,12 +398,12 @@
              */
             clearTime() {
                 this.selectedDate='';
-                this.yearStartSelected='';
-                this.monthStartSelected='';
-                this.dayStartSelected='';
-                this.yearEndSelected='';
-                this.monthEndSelected='';
-                this.dayEndSelected='';
+                this.yearSelectedStart='';
+                this.monthSelectedStart='';
+                this.daySelectedStart='';
+                this.yearSelectedEnd='';
+                this.monthSelectedEnd='';
+                this.daySelectedEnd='';
                 this.$emit('change', '');
                 this.pickerClearHide();
                 this.changeDaysArrayStart({year: '', month: '', day: ''}, true);
@@ -448,8 +448,8 @@
 
                 this.disableArrow();
 
-                const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
-                const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
+                const dateS=this.yearSelectedStart+this.monthSelectedStart+this.daySelectedStart;
+                const dateE=this.yearSelectedEnd+this.monthSelectedEnd+this.daySelectedEnd;
                 if (dateS > dateE) {
                     this.daysArrayStart=this.daysArrayStart.map(d => {
                         const dateC=d.year+d.month+d.day;
@@ -480,8 +480,8 @@
 
                 this.disableArrow();
 
-                const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
-                const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
+                const dateS=this.yearSelectedStart+this.monthSelectedStart+this.daySelectedStart;
+                const dateE=this.yearSelectedEnd+this.monthSelectedEnd+this.daySelectedEnd;
 
                 if (dateS > dateE) {
                     this.daysArrayEnd=this.daysArrayEnd.map(d => {
@@ -561,28 +561,28 @@
              */
             changeDateStart({year, month, day}) {
                 let clearOther=false;
-                if (this.yearStartSelected && this.yearEndSelected) {
-                    this.yearStartSelected=year;
-                    this.monthStartSelected=month;
-                    this.dayStartSelected=day;
+                if (this.yearSelectedStart && this.yearSelectedEnd) {
+                    this.yearSelectedStart=year;
+                    this.monthSelectedStart=month;
+                    this.daySelectedStart=day;
 
-                    this.yearEndSelected='';
-                    this.monthEndSelected='';
-                    this.dayEndSelected='';
+                    this.yearSelectedEnd='';
+                    this.monthSelectedEnd='';
+                    this.daySelectedEnd='';
                     clearOther=true;
 
                     this.changeDaysArrayEnd({year: '', month: '', day: ''}, clearOther);
-                } else if (this.yearStartSelected && !this.yearEndSelected) {
-                    this.yearEndSelected=year;
-                    this.monthEndSelected=month;
-                    this.dayEndSelected=day;
+                } else if (this.yearSelectedStart && !this.yearSelectedEnd) {
+                    this.yearSelectedEnd=year;
+                    this.monthSelectedEnd=month;
+                    this.daySelectedEnd=day;
                 } else {
-                    this.yearStartSelected=year;
-                    this.monthStartSelected=month;
-                    this.dayStartSelected=day;
+                    this.yearSelectedStart=year;
+                    this.monthSelectedStart=month;
+                    this.daySelectedStart=day;
                 }
 
-                if (this.yearStartSelected && this.yearEndSelected) this.btnType='primary';
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.btnType='primary';
                 else this.btnType='disabled';
 
                 this.changeDaysArrayStart({year, month, day}, clearOther);
@@ -593,28 +593,28 @@
              */
             changeDateEnd({year, month, day}) {
                 let clearOther=false;
-                if (this.yearStartSelected && this.yearEndSelected) {
-                    this.yearEndSelected=year;
-                    this.monthEndSelected=month;
-                    this.dayEndSelected=day;
+                if (this.yearSelectedStart && this.yearSelectedEnd) {
+                    this.yearSelectedEnd=year;
+                    this.monthSelectedEnd=month;
+                    this.daySelectedEnd=day;
 
-                    this.yearStartSelected='';
-                    this.monthStartSelected='';
-                    this.dayStartSelected='';
+                    this.yearSelectedStart='';
+                    this.monthSelectedStart='';
+                    this.daySelectedStart='';
                     clearOther=true;
 
                     this.changeDaysArrayStart({year: '', month: '', day: ''}, clearOther);
-                } else if (!this.yearStartSelected && this.yearEndSelected) {
-                    this.yearStartSelected=year;
-                    this.monthStartSelected=month;
-                    this.dayStartSelected=day;
+                } else if (!this.yearSelectedStart && this.yearSelectedEnd) {
+                    this.yearSelectedStart=year;
+                    this.monthSelectedStart=month;
+                    this.daySelectedStart=day;
                 } else {
-                    this.yearEndSelected=year;
-                    this.monthEndSelected=month;
-                    this.dayEndSelected=day;
+                    this.yearSelectedEnd=year;
+                    this.monthSelectedEnd=month;
+                    this.daySelectedEnd=day;
                 }
 
-                if (this.yearStartSelected && this.yearEndSelected) this.btnType='primary';
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.btnType='primary';
                 else this.btnType='disabled';
 
                 this.changeDaysArrayEnd({year, month, day}, clearOther);
@@ -624,16 +624,16 @@
              * @param obj {year, month, day}
              */
             dayEnterStart({year, month, day}) {
-                if ((!this.yearStartSelected && !this.yearEndSelected) || (this.yearStartSelected && this.yearEndSelected)) return;
+                if ((!this.yearSelectedStart && !this.yearSelectedEnd) || (this.yearSelectedStart && this.yearSelectedEnd)) return;
                 const daysArray=this.daysArrayStart;
-                const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
-                const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
+                const dateS=this.yearSelectedStart+this.monthSelectedStart+this.daySelectedStart;
+                const dateE=this.yearSelectedEnd+this.monthSelectedEnd+this.daySelectedEnd;
                 const dateN=year+month+day;
 
                 // 当前传入时间的索引
                 const nInd=daysArray.findIndex(d => d.flag === 'n' && d.year===year&&d.month===month&&d.day===day);
                 // 已选择的时间的索引
-                const sInd=daysArray.findIndex(d => d.flag === 'n' && d.year===this.yearStartSelected&&d.month===this.monthStartSelected&&d.day===this.dayStartSelected);
+                const sInd=daysArray.findIndex(d => d.flag === 'n' && d.year===this.yearSelectedStart&&d.month===this.monthSelectedStart&&d.day===this.daySelectedStart);
 
                 /* 修改开始右侧结束时间面板multiple -s */
                 if (dateE) {
@@ -707,16 +707,16 @@
              * @param obj {year, month, day}
              */
             dayEnterEnd({year, month, day}) {
-                if ((!this.yearStartSelected && !this.yearEndSelected) || (this.yearStartSelected && this.yearEndSelected)) return;
+                if ((!this.yearSelectedStart && !this.yearSelectedEnd) || (this.yearSelectedStart && this.yearSelectedEnd)) return;
                 const daysArray=this.daysArrayEnd;
-                const dateS=this.yearStartSelected+this.monthStartSelected+this.dayStartSelected;
-                const dateE=this.yearEndSelected+this.monthEndSelected+this.dayEndSelected;
+                const dateS=this.yearSelectedStart+this.monthSelectedStart+this.daySelectedStart;
+                const dateE=this.yearSelectedEnd+this.monthSelectedEnd+this.daySelectedEnd;
                 const dateN=year+month+day;
 
                 // 当前传入时间的索引
                 const nInd=daysArray.findIndex(d => d.year===year&&d.month===month&&d.day===day);
                 // 以选择的时间的索引
-                const sInd=daysArray.findIndex(d => d.year===this.yearEndSelected&&d.month===this.monthEndSelected&&d.day===this.dayEndSelected);
+                const sInd=daysArray.findIndex(d => d.year===this.yearSelectedEnd&&d.month===this.monthSelectedEnd&&d.day===this.daySelectedEnd);
 
                 /* 修改开始左侧开始时间面板multiple -s */
                 if (dateS) {
@@ -781,8 +781,8 @@
              * 确定
              */
             pickerConfirm() {
-                const dateS=this.yearStartSelected+'.'+this.monthStartSelected+'.'+this.dayStartSelected;
-                const dateE=this.yearEndSelected+'.'+this.monthEndSelected+'.'+this.dayEndSelected;
+                const dateS=this.yearSelectedStart+'.'+this.monthSelectedStart+'.'+this.daySelectedStart;
+                const dateE=this.yearSelectedEnd+'.'+this.monthSelectedEnd+'.'+this.daySelectedEnd;
                 const selectedDate=dateS>dateE?(dateE+'-'+dateS):(dateS+'-'+dateE);
                 this.selectedDate=selectedDate;
                 /**

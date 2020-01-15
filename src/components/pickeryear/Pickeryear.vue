@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-picker">
         <PanelDoubleYear
                 v-if="range"
                 :date="date"

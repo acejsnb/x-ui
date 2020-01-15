@@ -115,7 +115,7 @@
             font-size 14px
     .p-button-small
         //max-width 100px
-        //min-width 68px
+        min-width 68px
         height 28px
         line-height @height
         span

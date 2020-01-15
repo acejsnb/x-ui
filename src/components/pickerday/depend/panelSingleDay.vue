@@ -10,7 +10,7 @@
                     :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
             >{{selectedDate?selectedDate:'请选择日期'}}</section>
             <CalendarSvg v-if="calendar && !clearStatus" />
-            <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
+            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
         </div>
         <transition name="opacityTop">
             <!--
@@ -278,6 +278,7 @@
              */
             prevMonth() {
                 const date=CountPrevMonth([this.yearActive, this.monthActive, this.dayActive]);
+                console.log(date);
                 this.switchDate(date);
             },
             /**
@@ -315,7 +316,3 @@
         }
     }
 </script>
-
-<style lang="stylus">
-
-</style>

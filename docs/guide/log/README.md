@@ -1,6 +1,13 @@
 ### 更新日志
 
 ::: tip
+版本：0.8.9<br>
+1.修改TransferSelect、TransferSelectModal组件新增以选择数据<br>
+2.Button组件修改size=small最小宽度<br>
+3.新增时间选择组件开发板<br>
+:::
+
+::: tip
 版本：0.8.7<br>
 1.修改TransferSelect组件bug<br>
 2.修改Tabs组件动态监听id改变<br>

@@ -303,7 +303,7 @@
             border-width 4px
             width 0
             height 0
-            transform rotate(-45deg);
+            transform rotate(-45deg)
             z-index 0
             content ''
         .p-select-input-tip-item

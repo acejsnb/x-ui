@@ -9,7 +9,7 @@
             <section
                     :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
             >{{selectedDate?selectedDate:'请选择日期'}}</section>
-            <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
+            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
         </div>
         <transition name="opacityTop">
             <!--

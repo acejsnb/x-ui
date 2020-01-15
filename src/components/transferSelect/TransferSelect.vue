@@ -19,6 +19,7 @@
                  @mouseleave="boxLeave"
             >
                 <TransferMini
+                        ref="transferMini"
                         :data="data"
                         :linkage="linkage"
                         :lastStage="lastStage"
@@ -100,9 +101,10 @@
         },
         methods: {
             // 点击改变 三角形方向/弹窗显示状态
-            changeTriangle(v) {
-                this.transferShow=v;
-                this.activeClose=v;
+            changeTriangle(status) {
+                this.transferShow=status;
+                this.activeClose=status;
+                if (!status) this.$refs.transferMini.handleCancel();
             },
             // 输入的值改变
             changeValue(v) {

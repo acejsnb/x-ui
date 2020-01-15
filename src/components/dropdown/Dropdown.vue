@@ -97,6 +97,7 @@
         position relative
         display inline-block
         vertical-align middle
+        font-size 0
         .p-drop-title
             position relative
             padding-right 16px
@@ -130,9 +131,10 @@
             overflow-y auto
             z-index 11
             .p-drop-option-item
-                padding 5px 12px
-                //width 100%
-                //height 32px
+                padding-left 12px
+                padding-right 12px
+                width 100%
+                height 32px
                 font-size 14px
                 color $grey-900
                 cursor pointer
@@ -145,7 +147,7 @@
                         vertical-align middle
                 span
                     vertical-align middle
-                    line-height 22px
+                    line-height 32px
                 &:hover
                     background-color $grey-200
                 &.option-selected

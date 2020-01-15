@@ -32,8 +32,8 @@
                 </section>
             </div>
             <div class="p-transfer-main-child p-transfer-right">
-                <section :class="['p-transfer-right-title', shadowShow&&'p-transfer-right-title-border']">
-                    <article class="p-transfer-right-title-text">已选择</article>
+                <section :class="['p-transfer-right-title', 'p-transfer-right-title-border']">
+                    <article class="p-transfer-right-title-text">已选择<span class="p-transfer-right-title-text-num" v-show="selectedData&&selectedData.length">{{selectedData.length}}</span></article>
                     <article :class="['p-transfer-right-clear', (selectedData&&selectedData.length)&&'p-transfer-right-clear-active']" @click="handleEmpty">清空</article>
                 </section>
                 <section class="p-transfer-selected" :style="{height: (height-127)+'px'}">
@@ -100,7 +100,6 @@
         },
         data() {
             return {
-                modalShow: false, // 弹窗显示状态
                 selectedData: [], // 选中的数据
                 searchData: [], // 搜索出的数据
                 isEmpty: false, // 是否点击了清空按钮
@@ -564,7 +563,6 @@
             },
             // 点击取消
             handleCancel() {
-                this.modalShow=false; // 关闭弹窗
                 const cd=this.confirmData;
                 if (cd && cd.length) {
                     // 如果 confirmData与selectedData不一样才执行以下操作

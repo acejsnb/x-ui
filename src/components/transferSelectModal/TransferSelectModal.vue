@@ -1,11 +1,12 @@
 <template>
     <div class="transfer-select-modal">
         <transition name="opacityInUiOut">
-            <div class="transfer-select-modal-shade" v-show="modalShow" @click="transferCancel"></div>
+            <div class="transfer-select-modal-shade" v-show="modalShow" @click="transferClose"></div>
         </transition>
         <transition name="bounceInUiOut">
             <div class="transfer-select-modal-content" v-show="modalShow">
                 <Transfer
+                        ref="transferNode"
                         :data="data"
                         :placeholder="placeholder"
                         :linkage="linkage"
@@ -69,6 +70,10 @@
             }
         },
         methods: {
+            // 点击弹窗遮罩，关闭弹窗
+            transferClose() {
+                this.$refs.transferNode.handleCancel();
+            },
             /**
              * 穿梭框取消回调
              */
@@ -81,8 +86,8 @@
              * @param sd 选中的数据
              */
             transferConfirm(ids, sd) {
-                this.transferCancel();
                 this.$emit('confirm', ids);
+                this.$emit('cancel');
             }
         }
     }

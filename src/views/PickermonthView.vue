@@ -17,7 +17,8 @@
                 // dateSingle: '2020.03',
                 dateSingle: '',
                 // dateDouble: ''
-                dateDouble: '2007.05-2017.10'
+                // dateDouble: '2007.05-2017.10'
+                dateDouble: '2020.02-2020.10'
             }
         },
         methods: {
