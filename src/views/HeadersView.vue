@@ -31,7 +31,7 @@
                     <Breadcrumb :data="breadData" v-model="breadId" />
                 </template>
                 <template v-slot:middle>
-                    <h3 style="font-size: 18px;">这是标题</h3>
+                    <div style="font-size: 18px;">这是标题</div>
                 </template>
                 <template v-slot:right>
                     <Button type="default">默认</Button>
@@ -46,7 +46,7 @@
                     <Breadcrumb :data="breadData" v-model="breadId" />
                 </template>
                 <template v-slot:middle>
-                    <h3 style="font-size: 18px;">这是标题</h3>
+                    <div style="font-size: 18px;">这是标题</div>
                 </template>
             </Headers>
             <div style="margin: 20px"></div>
@@ -56,14 +56,14 @@
                     <span style="font-size: 16px">Home</span>
                 </template>
                 <template v-slot:middle>
-                    <h3 style="font-size: 18px;">这是标题</h3>
+                    <div style="font-size: 18px;">这是标题</div>
                 </template>
             </Headers>
             <div style="margin: 20px"></div>
             <h3 style="font-size: 14px">5.标题</h3>
             <Headers>
                 <template v-slot:middle>
-                    <h3 style="font-size: 18px;">这是标题</h3>
+                    <div style="font-size: 18px;">这是标题</div>
                 </template>
             </Headers>
         </div>
