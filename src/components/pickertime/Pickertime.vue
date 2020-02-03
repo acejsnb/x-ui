@@ -140,7 +140,7 @@
             pickerMainBlur() {
                 this.$nextTick(() => {
                     this.blurStatus=false;
-                    this.$refs.pickerMain.blur()
+                    if (this.$refs.pickerMain) this.$refs.pickerMain.blur()
                 })
             },
             pickerMainFocus() {

@@ -14,19 +14,25 @@
             <div
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
                     ref="hoursDom"
+                    @scroll="hourScroll"
+                    @mousedown="hourDown"
+                    @mouseup="hourUp"
             >
                 <ul>
                     <li
                             :class="['p-picker-time-text', hour===hh&&'p-picker-time-text-selected']"
                             v-for="(hh, hi) in hours"
                             :key="'hour'+hi+hh"
-                            @click="hourClick(hh)"
+                            @click.stop="hourClick(hh)"
                     ><span>{{hh}}</span></li>
                 </ul>
             </div>
             <div
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
                     ref="minutesDom"
+                    @scroll="minuteScroll"
+                    @mousedown="minuteDown"
+                    @mouseup="minuteUp"
             >
                 <ul>
                     <li
@@ -40,6 +46,9 @@
             <div
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
                     ref="secondsDom"
+                    @scroll="secondScroll"
+                    @mousedown="secondDown"
+                    @mouseup="secondUp"
                     v-if="format==='hms'"
             >
                 <ul>
@@ -129,6 +138,7 @@
              * @param hour
              */
             hourClick(hour) {
+                this.hourMouse=true;
                 this.scrollTopTimer(hour*32, 'hoursDom');
                 this.$emit('hourChange', hour);
             },
@@ -137,6 +147,7 @@
              * @param minute
              */
             minuteClick(minute) {
+                this.minuteMouse=true;
                 this.scrollTopTimer(minute*32, 'minutesDom');
                 this.$emit('minuteChange', minute);
             },
@@ -145,6 +156,7 @@
              * @param second
              */
             secondClick(second) {
+                this.secondMouse=true;
                 this.scrollTopTimer(second*32, 'secondsDom');
                 this.$emit('secondChange', second);
             },
@@ -154,11 +166,13 @@
              * @param obj 当前ref对象
              */
             scrollTopTimer(st, obj) {
+                if (!obj) return;
                 let top = this.$refs[obj].scrollTop;
                 let differ=st-top; // 差值
                 let remain=differ; // 剩余差值
                 this.timer=setInterval(() => {
-                    let speed = window.Math.ceil(remain / 3);
+                    let speed = window.Math.round(remain / 3);
+                    if (speed <= 0) window.clearInterval(this.timer);
                     remain=remain-speed;
                     if (differ) {
                         this.$refs[obj].scrollTop+=speed;
@@ -170,6 +184,54 @@
                         this.$refs[obj].scrollTop=st;
                     }
                 }, 30)
+            },
+            // 小时相关scroll
+            hourDown() {
+                this.hourMouse=true;
+            },
+            hourUp(e) {
+                this.hourMouse=false;
+                this.hourScroll(this.$refs.hoursDom)
+            },
+            hourScroll(e) {
+                if (this.hourTimer) clearTimeout(this.hourTimer);
+                const target=e.target || e;
+                const st=window.Math.round(target.scrollTop/32);
+                this.hourTimer=setTimeout(() => {
+                    if (!this.hourMouse) target.scrollTop=st*32;
+                }, 30);
+            },
+            // 分钟相关scroll
+            minuteDown() {
+                this.minuteMouse=true;
+            },
+            minuteUp() {
+                this.minuteMouse=false;
+                this.hourScroll(this.$refs.minutesDom)
+            },
+            minuteScroll(e) {
+                if (this.minuteTimer) clearTimeout(this.minuteTimer);
+                const target=e.target || e;
+                const st=window.Math.round(target.scrollTop/32);
+                this.minuteTimer=setTimeout(() => {
+                    if (!this.minuteMouse) target.scrollTop=st*32;
+                }, 30);
+            },
+            // 秒钟相关scroll
+            secondDown() {
+                this.secondMouse=true;
+            },
+            secondUp() {
+                this.secondMouse=false;
+                this.hourScroll(this.$refs.secondsDom)
+            },
+            secondScroll(e) {
+                if (this.secondTimer) clearTimeout(this.secondTimer);
+                const target=e.target || e;
+                const st=window.Math.floor(target.scrollTop/32);
+                this.secondTimer=setTimeout(() => {
+                    if (!this.secondMouse) target.scrollTop=st*32;
+                }, 30);
             }
         }
     }
