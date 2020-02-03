@@ -18,7 +18,6 @@
     import 'persagy-ui/dist/index.css'；
     
     Vue.use(Pui);
-
 ```
 - 安装依赖包   `npm i -D babel-plugin-component`
 - 在 .babelrc中的plugins里添加

@@ -22,10 +22,11 @@
                 // dateSingleMonth: '2020.05.18-2020.05.24',
                 dateSingleMonth: '',
 
-                // dateDoubleYear: '2020.01.06-2020.02.02',
+                dateDoubleYear: '2020.01.06-2020.02.02',
                 // dateDoubleYear: '2020.01.06-2020.02.23',
-                dateDoubleYear: '',
-                dateDoubleMonth: ''
+                // dateDoubleYear: '',
+                // dateDoubleMonth: ''
+                dateDoubleMonth: '2020.02.03-2020.03.01'
             }
         },
         methods: {

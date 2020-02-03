@@ -17,7 +17,7 @@ class CountMonth {
      */
     countNowMonth() {
         const date=new Date();
-        let m=date.getDate()+1;
+        let m=date.getMonth()+1;
         let y=date.getFullYear();
         const month=m<10?'0'+m:''+m;
         const year=y.toString();

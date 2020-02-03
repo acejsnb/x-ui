@@ -190,8 +190,10 @@
              * 初始化日期对象
              */
             initStart(date) {
-                const dateStart=date?date:(this.monthsArrayEnd[0].year-1).toString();
-                const countMonthStart=new CountMonth(dateStart); // 当前计算年的对象
+                const dateS=date.replace(/\./, '');
+                const dateE=this.dateEnd.replace(/\./, '');
+                const dateStart=(date && (dateE - dateS > 12))?date:(this.monthsArrayEnd[0].year-1).toString();
+                const countMonthStart=new CountMonth(dateStart+'.01.01'); // 当前计算年的对象
                 this.monthsArrayStart=countMonthStart.getMonthsArray();
 
                 this.setDateStart(this.dateStart);
@@ -245,8 +247,6 @@
                     const [year, month]=date.split('.');
                     this.yearSelectedStart=year;
                     this.monthSelectedStart=month;
-                    this.yearActiveStart=year;
-                    this.monthActiveStart=month;
 
                     if (dateE-dateS>12) {
                         // 设置默认选中状态
@@ -257,6 +257,9 @@
                             else if (dateC>dateS) d.multiple='multiple';
                             return d;
                         })
+                    } else {
+                        this.yearActiveStart=year-1+'';
+                        this.monthActiveStart=month;
                     }
                 } else {
                     this.yearActiveStart=this.monthsArrayStart[0].year;
