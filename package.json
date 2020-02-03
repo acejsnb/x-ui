@@ -1,6 +1,10 @@
 {
   "name": "persagy-ui",
+<<<<<<< HEAD
   "version": "0.8.9",
+=======
+  "version": "0.8.8",
+>>>>>>> a3b2f2f0a12b75d4e26629f0147a29cb762ffd47
   "description": "基于vue框架的ui库",
   "private": false,
   "author": "xiongshuang <xsmails@163.com>",
