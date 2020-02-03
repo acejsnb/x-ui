@@ -99,6 +99,7 @@
         position relative
         display inline-block
         vertical-align middle
+        font-size 0
         .p-drop-group-title
             position relative
             padding-right 16px
@@ -142,10 +143,11 @@
                 text-overflow ellipsis
                 overflow hidden
             .p-drop-group-option
-                padding 5px 12px 5px 20px
-                //width 100%
-                //height 32px
-                line-height 22px
+                padding-left 20px
+                padding-right 12px
+                width 100%
+                height 32px
+                line-height 32px
                 font-size 14px
                 color $grey-900
                 cursor pointer

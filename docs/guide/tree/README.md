@@ -311,7 +311,7 @@
 | multiple  | 是否可多选 | Boolean | false | no     |
 | linkage  | 是否上下级联动选择（在多选条件下才生效） | Boolean | true | no     |
 | notNull  | 是否返回半选状态的数据（在多选条件下才生效） | Boolean | false | no     |
-| lastStage  | 只能选择最后一级 | Boolean | false | no     |
+| lastStage  | 只能选择最后一级（在多选条件下才生效） | Boolean | false | no     |
 
 ### data参数说明
 

@@ -13,7 +13,7 @@
             <Headers>
                 <template v-slot:left>
                     <div style="margin-right: 12px"><Select v-model="selectId" :data="selectData" :radius="true" width="120" /></div>
-                    <Breadcrumb :data="breadData" v-model="breadId" />
+                    <Breadcrumb :data="breadData1" />
                 </template>
                 <template v-slot:middle>
                     <Tabs :data="tabData" v-model="tabId" />
@@ -31,7 +31,7 @@
                     <Breadcrumb :data="breadData" v-model="breadId" />
                 </template>
                 <template v-slot:middle>
-                    <h3 style="font-size: 18px;">这是标题</h3>
+                    <div style="font-size: 18px;">这是标题</div>
                 </template>
                 <template v-slot:right>
                     <Button type="default">默认</Button>
@@ -46,7 +46,7 @@
                     <Breadcrumb :data="breadData" v-model="breadId" />
                 </template>
                 <template v-slot:middle>
-                    <h3 style="font-size: 18px;">这是标题</h3>
+                    <div style="font-size: 18px;">这是标题</div>
                 </template>
             </Headers>
             <div style="margin: 20px"></div>
@@ -56,14 +56,14 @@
                     <span style="font-size: 16px">Home</span>
                 </template>
                 <template v-slot:middle>
-                    <h3 style="font-size: 18px;">这是标题</h3>
+                    <div style="font-size: 18px;">这是标题</div>
                 </template>
             </Headers>
             <div style="margin: 20px"></div>
             <h3 style="font-size: 14px">5.标题</h3>
             <Headers>
                 <template v-slot:middle>
-                    <h3 style="font-size: 18px;">这是标题</h3>
+                    <div style="font-size: 18px;">这是标题</div>
                 </template>
             </Headers>
         </div>
@@ -86,6 +86,10 @@
                 selectId: 'totalEnergy', // 下拉列表绑定的值
                 selectData: data, // 下拉列表数据
                 breadId: 'average', // 面包屑id
+                breadData1: [
+                    { id: 'totalEnergy', name: '总量' },
+                    { id: 'singleParty', name: '单平米' }
+                ], // 面包屑数据
                 breadData: data // 面包屑数据
             }
         },

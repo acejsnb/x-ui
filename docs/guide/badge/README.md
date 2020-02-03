@@ -1,4 +1,4 @@
-### Badge 微标
+### Badge 徽标
 
 <div class="toggleView">
     <div class="component component-padding">

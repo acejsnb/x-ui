@@ -21,13 +21,13 @@
                 <TriangleSvg :class="['p-select-input-svg', !triangle&&'p-select-input-rotate']" />
             </section>
         </div>
-        <transition :name="'slide'+tipPlace">
+        <transition v-if="tipPlace" :name="'slide'+tipPlace">
             <div
                     v-show="tipShow"
                     :class="['p-select-input-tip', 'p-select-input-tip-'+tipPlace]"
                     :style="selectedTipStyle"
             >
-                <section ref="selectedTipItem" :class="['p-select-input-tip-item', (tipHeight>98)&&'p-select-input-tip-overflow']">{{tipText}}</section>
+                <section ref="selectedTipItem" :class="['p-select-input-tip-item', (tipHeight>66)&&'p-select-input-tip-overflow']">{{tipText}}</section>
             </div>
         </transition>
     </div>
@@ -77,7 +77,7 @@
             // 提示框位置
             tipPlace: {
                 type: String,
-                default: 'bottom'
+                default: ''
             }
         },
         data() {
@@ -134,26 +134,27 @@
                 switch (this.tipPlace) {
                     case 'top':
                         this.selectedTipStyle={
-                            top: -(h+40)+'px',
+                            top: -((h>=66?108:(h+42)))+'px',
+                            // top: -(h+(h>=66?20:42))+'px',
                             left: 0
                         };
                         break;
                     case 'bottom':
                         this.selectedTipStyle={
-                            bottom: -(h+40)+'px',
+                            bottom: -((h>=66?108:(h+42)))+'px',
                             left: 0
                         };
                         break;
                     case 'left':
                         this.selectedTipStyle={
                             top: -((h >= 66)?36:(h/2+4))+'px',
-                            left: -(w+48)+'px'
+                            left: -(w+50)+'px'
                         };
                         break;
                     case 'right':
                         this.selectedTipStyle={
                             top: -((h >= 66)?36:(h/2+4))+'px',
-                            right: -(w+48)+'px'
+                            right: -(w+50)+'px'
                         };
                         break;
                     default:
@@ -192,11 +193,13 @@
                 if (this.tipShow) {
                     this.tipShow=false;
                 } else {
+                    if (!this.tipPlace) return;
                     const sd=this.data;
                     if (sd && sd.length) {
                         this.tipShow=true;
                         this.$nextTick(() => {
                             const { scrollWidth, scrollHeight }=this.$refs.selectedTipItem;
+                            this.tipHeight=scrollHeight;
                             this.tipStyle=scrollWidth+'-'+scrollHeight;
                         });
                     }
@@ -300,7 +303,7 @@
             border-width 4px
             width 0
             height 0
-            transform rotate(-45deg);
+            transform rotate(-45deg)
             z-index 0
             content ''
         .p-select-input-tip-item

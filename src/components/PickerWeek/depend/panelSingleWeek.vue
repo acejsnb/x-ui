@@ -7,28 +7,28 @@
                 @mouseleave="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
-            >{{selectedDate?selectedDate:'请选择日期'}}</section>
-            <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
+                    :class="['p-picker-input-tip', thTextSelected&&'p-picker-input-values']"
+            >{{thTextSelected?thTextSelected:'请选择日期'}}</section>
+            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
         </div>
         <transition name="opacityTop">
             <!--
-                    v-show="pickerBoxStatus"
-                    @mouseenter="pickerMainBlur"
-                    @mouseleave="pickerMainFocus"
-                    @blur="pickerBoxHide"
             -->
             <div
                     class="p-picker-main"
                     ref="pickerMain"
                     tabindex="-1"
+                    v-show="pickerBoxStatus"
+                    @mouseenter="pickerMainBlur"
+                    @mouseleave="pickerMainFocus"
+                    @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
                     <div class="p-picker-main-item-input-box">
                         <section class="p-picker-input p-picker-input-values-default">
                             <article
-                                    :class="[yearSelected&&'p-picker-input-values']"
-                            >{{yearSelected?(yearSelected+'.'+monthSelected):'请选择日期'}}</article>
+                                    :class="[thTextSelected&&'p-picker-input-values']"
+                            >{{thTextSelected?thTextSelected:'请选择日期'}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">
@@ -40,6 +40,8 @@
                                 :weeksArray="weeksArray"
                                 @prevYear="prevYear"
                                 @nextYear="nextYear"
+                                @prevMonth="prevMonth"
+                                @nextMonth="nextMonth"
                                 @change="changeDate"
                         />
                     </div>
@@ -54,13 +56,16 @@
 </template>
 
 <script>
-    import CountMonth from '../../static/utils/datePicker/CountMonth';
     import CountWeek from '../../static/utils/datePicker/CountWeek';
 
     import WeekSelect from './week';
     import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
+    import CountPrevMonth from "../../static/utils/datePicker/CountPrevMonth";
+    import CountNextMonth from "../../static/utils/datePicker/CountNextMonth";
+    import CountPrevYear from "../../static/utils/datePicker/CountPrevYear";
+    import CountNextYear from "../../static/utils/datePicker/CountNextYear";
     export default {
         name: "panelSingleMonth",
         components: {
@@ -83,7 +88,7 @@
             sort: {
                 type: String,
                 default: 'year'
-            },
+            }
         },
         data() {
             return {
@@ -100,15 +105,19 @@
                 yearActive: '',
                 monthActive: '',
 
+                weeksSelected: [], // 选择的周列表
                 yearSelected: '', // 选择的年
-                monthSelected: '', // 选择的年
+                monthSelected: '', // 选择的月
+                thTextSelected: '', // 选择的第几周 String
 
                 weeksArray: [] // 周列表
             }
         },
         created() {
-            // 初始化日期对象
-            this.init();
+            if (this.date) {
+                // 初始化日期对象
+                this.init();
+            }
         },
         methods: {
             /**
@@ -122,14 +131,15 @@
              * 初始化日期对象
              */
             init() {
-                const countWeek=new CountWeek(this.date);
+                const date=this.date;
+                const countWeek=new CountWeek({date, sort: this.sort});
                 this.weeksArray=countWeek.getWeeksArray();
-                console.log(this.weeksArray);
                 const [year, month]=countWeek.countNowDate();
+                this.countWeek=countWeek;
                 this.yearNow=year;
                 this.monthNow=month;
 
-                // this.setDate(this.date);
+                this.setDate(date);
             },
             /**
              * 设置选择的年月日
@@ -139,27 +149,40 @@
                 this.selectedDate=date;
                 this.changeBtnType(date);
                 if (date) {
-                    const [year, m]=date.split('.');
-                    const month=m?m:'';
+                    const [sd, ed]=date.split('-');
+                    if (ed - sd < 6) {
+                        // 一周时间必须等于七天
+                        console.error('Date error, there must be seven days in a week.');
+                        return;
+                    }
+                    const [year, month]=sd.split('.');
+                    const wa=this.weeksArray;
+
                     this.yearSelected=year;
                     this.monthSelected=month;
                     this.yearActive=year;
                     this.monthActive=month;
-                    this.changeMonthsArray({year, month});
+
+                    const {weeks, thText}=wa.find(d => {
+                        const dw=d.weeks;
+                        const dStr=dw[0].year+'.'+dw[0].month+'.'+dw[0].day+'-'+dw[6].year+'.'+dw[6].month+'.'+dw[6].day;
+                        return (dStr === date);
+                    });
+                    this.weeksSelected=weeks;
+                    this.thTextSelected=thText;
+                    this.changeWeeksArray(thText);
                 } else {
                     this.yearActive=this.yearNow;
                     this.monthActive=this.monthNow;
-                    this.changeMonthsArray({year: '', month: ''});
                 }
             },
             /**
              * 改变选中状态
-             * @param year
-             * @param month
+             * @param thText
              */
-            changeMonthsArray({year, month}) {
-                this.monthsArray=this.monthsArray.map(d => {
-                    if (d.year===year && d.month===month) d.selected='selected';
+            changeWeeksArray(thText) {
+                this.weeksArray=this.weeksArray.map(d => {
+                    if (d.thText===thText) d.selected='selected';
                     else d.selected='';
                     return d;
                 })
@@ -181,18 +204,21 @@
              */
             clearTime() {
                 this.selectedDate='';
+                this.weeksSelected=[];
                 this.yearSelected='';
                 this.monthSelected='';
-                this.$emit('change', '');
+                this.thTextSelected='';
+                this.$emit('change', {thTextSelected: '', selectedDate: ''});
                 this.pickerClearHide();
             },
-
+            // 失去焦点
             pickerMainBlur() {
                 this.$nextTick(() => {
                     this.blurStatus=false;
                     this.$refs.pickerMain.blur()
                 })
             },
+            // 获取焦点
             pickerMainFocus() {
                 this.$nextTick(() => {
                     this.blurStatus=true;
@@ -204,6 +230,7 @@
              */
             pickerBoxShow() {
                 this.pickerBoxStatus=true;
+                // 初始化日期对象
                 this.init();
             },
             /**
@@ -214,59 +241,83 @@
             },
             /**
              * 切换日期
-             * @param date String '2019.03'
+             * @param Y
+             * @param M
              */
-            switchDate(date) {
-                this.yearActive=date;
-                const countMonth=new CountMonth(date);
-                this.monthsArray=countMonth.getMonthsArray().map(d => {
-                    if (d.year===this.yearSelected && d.month===this.monthSelected) d.selected='selected';
-                    return d;
-                });
+            switchDate(Y, M) {
+                this.yearActive=Y;
+                this.monthActive=M;
+                this.countWeek.setYearMonth(Y, M);
+                this.weeksArray=this.countWeek.getWeeksArray();
+                if (Y === this.yearSelected && M === this.monthSelected) {
+                    this.changeWeeksArray(this.thTextSelected);
+                }
             },
             /**
-             * 上一组年
+             * 上一年
              */
             prevYear() {
-                const date=(this.yearActive-1).toString();
-                this.switchDate(date);
+                const date=CountPrevYear([this.yearActive, this.monthActive, '01']);
+                const [Y, M]=date.split('.');
+                this.switchDate(Y, M);
             },
             /**
-             * 下一组年
+             * 下一年
              */
             nextYear() {
-                const date=(parseInt(this.yearActive)+1).toString();
-                this.switchDate(date);
+                const date=CountNextYear([this.yearActive, this.monthActive, '01']);
+                const [Y, M]=date.split('.');
+                this.switchDate(Y, M);
+            },
+            /**
+             * 上一月
+             */
+            prevMonth() {
+                const date=CountPrevMonth([this.yearActive, this.monthActive, '01']);
+                const [Y, M]=date.split('.');
+                this.switchDate(Y, M);
+            },
+            /**
+             * 下一月
+             */
+            nextMonth() {
+                const date=CountNextMonth([this.yearActive, this.monthActive, '01']);
+                const [Y, M]=date.split('.');
+                this.switchDate(Y, M);
             },
             /**
              * 点击日期
+             * @param weeks
              * @param year
              * @param month
+             * @param thText
              */
-            changeDate({year, month}) {
+            changeDate({weeks, year, month, thText}) {
+                this.weeksSelected=weeks;
                 this.yearSelected=year;
                 this.monthSelected=month;
+                this.thTextSelected=thText;
                 this.btnType='primary';
-                this.changeMonthsArray({year, month});
+                this.changeWeeksArray(thText);
             },
             /**
              * 确定
              */
             pickerConfirm() {
-                const selectedDate=this.yearSelected+'.'+this.monthSelected;
+                const ws=this.weeksSelected, thTextSelected=this.thTextSelected;
+                const s=ws[0], e=ws[6];
+                const start=s.year+'.'+s.month+'.'+s.day;
+                const end=e.year+'.'+e.month+'.'+e.day;
+                const selectedDate=start+'-'+end;
                 this.selectedDate=selectedDate;
                 this.blurStatus=false;
                 this.pickerBoxStatus=false;
                 /**
-                 * 返回选择的时分秒
+                 * 返回选择的日期
                  * @type Function
                  */
-                this.$emit('change', selectedDate);
+                this.$emit('change', {thTextSelected, selectedDate});
             }
         }
     }
 </script>
-
-<style lang="stylus">
-
-</style>

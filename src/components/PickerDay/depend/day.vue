@@ -260,6 +260,8 @@
             font-size 14px
             text-align center
             user-select none
+            &:nth-of-type(7n)
+                margin-right 0
     .p-picker-day-content
         padding 8px 0 8px 16px
         width 100%
@@ -279,13 +281,13 @@
                 border-radius 4px
                 width 24px
                 height 24px
-                line-height @height
                 text-align center
                 transition background-color .3s
                 &:nth-of-type(7n)
                     margin-right 0
                 span
                     position relative
+                    line-height 24px
                     color $grey-900
                     font-size 14px
                     text-align center

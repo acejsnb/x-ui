@@ -6,15 +6,30 @@
 import CountNowDate from './CountNowDate';
 
 class CountWeek {
-    constructor({date, sort}) {
+    constructor({date='', sort='year'}) {
+        // console.log('计算周:::', date);
         if (date) {
-            const [YY, MM]=date.split('.');
-            this.Y=YY;
-            this.M=MM;
+            if (date.includes('-')) {
+                const reg=/[.]/g;
+                const [sd, ed]=date.split('-');
+                if (ed.replace(reg, '') - sd.replace(reg, '') < 6) {
+                    // 一周时间必须等于七天
+                    console.error('Date error, there must be seven days in a week.');
+                    return;
+                }
+                const [year, month]=sd.split('.');
+                this.Y=year;
+                this.M=month;
+            } else {
+                const [year, month]=date.split('.');
+                this.Y=year;
+                this.M=month;
+            }
         } else {
             this.countNowDate();
         }
-        this.sort=sort || 'year';
+        this.date=date;
+        this.sort=sort;
 
         this.weeksArray=[];
     }
@@ -46,21 +61,23 @@ class CountWeek {
      */
     static legacyLastMonthDay(Y, M) {
         // 本月第一天是周一，上月余下1天，以次类推 (0:0 - 表示周几比剩余天数, 0:6-表示周日:6天)
-        const prevMLeft={  0:6, 1:0, 2:1, 3:2, 4:3, 5:4, 6:5 };
+        const prevMLeft={ 0:6, 1:0, 2:1, 3:2, 4:3, 5:4, 6:5 };
 
         // 真实月为8，则计算机中月为7，所以月需要减1
         const firstDW = new Date(Y, M-1,1).getDay(); // 本月第一天是星期几，返回0-6，对应周日-周六
+        // console.log('本月第一天是星期::', firstDW);
         return prevMLeft[firstDW]; // 上个月遗留的天数
     }
 
     /**
      * 计算一年一共有几周
      * @param Y
+     * @param M
      * @return {number}
      */
-    static weekNumForYear(Y) {
+    static weekTotalByYear(Y, M) {
         const days=CountWeek.leapYear(Y) ? 366 : 365;
-        const lDays=CountWeek.legacyLastMonthDay(Y, 1); // 上一年剩余的天数
+        const lDays=CountWeek.legacyLastMonthDay(Y, M); // 上一月剩余的天数
 
         return Math.ceil((days-lDays) / 7);
     }
@@ -69,35 +86,45 @@ class CountWeek {
      * 计算一个月一共有几周
      * @param Y
      * @param M
+     * @param D
      * @return {number}
      */
-    static weekNumForMonth(Y, M) {
-        const date = new Date(Y, M-1, 1);
-        let w = date.getDay(); // 该月第一天是周几
-        if (w === 0) w = 7;
-        // 该月天数
-        date.setFullYear(Y, M, 0);
-        const dayNum = date.getDate(); // 当前月共有多少天
-        let d1; // 该月第一个周一是几号
-        if (w !== 1) d1 = 7 - w + 2;
-        else d1 = 1;
-
-        return Math.ceil((dayNum - d1 + 1) / 7);
+    static weekNumByMonth(Y, M, D) {
+        const nowDate = new Date(Y, Number(M)-1, D); // 当前日期
+        const firstDay = new Date(Y, Number(M)-1, 1); // 当月第一天
+        const dayOfWeek = firstDay.getDay(); // 当月第一天是星期几
+        let spendDay; // 第一周第一天是几号
+        if (dayOfWeek > 1) spendDay=7-dayOfWeek+1+1;
+        else if (dayOfWeek === 1) spendDay = 1;
+        else spendDay=2;
+        const startDay = new Date(Y,Number(M)-1, spendDay);
+        const d = Math.ceil((nowDate.valueOf() - startDay.valueOf()) / 86400000);
+        const result = Math.ceil(d/7);
+        return result+1;
     }
 
     /**
-     * 获取当前是第几周
+     * 获取当前是第几周-周一为每周的第一天
      * @param Y
      * @param M
      * @param D
      * @returns {number}
      */
-    static getWeekOfYear(Y, M, D) {
-        let date1 = new Date(Y, parseInt(M) - 1, D), // 当前日期
-            date2 = new Date(Y, 0, 1), // 当年第一天
-            d = Math.round((date1.valueOf() - date2.valueOf()) / 86400000); // 当前日期是今年第多少天
-
-        return Math.ceil((d + ((date2.getDay() + 1) - 1)) / 7);
+    static getWeekByYear(Y, M, D) {
+        const nowDate = new Date(Y, Number(M)-1, D); // 当前日期
+        const firstDay = new Date(Y, 0, 1); // 当年第一天
+        const dayOfWeek = firstDay.getDay(); // 当前年第一天是星期几
+        let spendDay; // 第一周第一天是几号
+        if (dayOfWeek) {
+            if (dayOfWeek > 1) spendDay=7-dayOfWeek+1+1;
+            else spendDay= 1
+        } else {
+            spendDay=2;
+        }
+        const startDay = new Date(Y,0, spendDay);
+        const d =Math.ceil((nowDate.valueOf() - startDay.valueOf()) / 86400000);
+        const result = Math.ceil(d/7);
+        return result+1;
     }
 
     /**
@@ -107,31 +134,36 @@ class CountWeek {
     sliceArrayForYear(ls) {
         const len=7, Y=this.Y, M=this.M; // 长度
         const result = [];
-        const legacyDay=CountWeek.legacyLastMonthDay(Y, M); // 上一年遗留的天数
-        for(let i=0; i<ls.length; i+=len) {
+        for(let i=0, lsLen=ls.length; i<lsLen; i+=len) {
             const weeks=ls.slice(i, i+len);
             const { year, month, day, flag }=weeks[0];
-            const ind=CountWeek.getWeekOfYear(year, month, day);
+            const ind=CountWeek.getWeekByYear(year, month, day);
             let th=null;
 
-            if (legacyDay === 0) {
+            if (Y === year) {
                 th=ind;
             } else {
-                if (i === 0) th=CountWeek.weekNumForYear(Y); // 上一年最后一周
-                else th=ind-1;
+                if (Y > year) {
+                    th=CountWeek.weekTotalByYear(Y, M); // 上一年最后一周
+                } else {
+                    th=1
+                }
             }
 
+            // const dStr=weeks[0].year+'.'+weeks[0].month+'.'+weeks[0].day+'-'+weeks[6].year+'.'+weeks[6].month+'.'+weeks[6].day;
             result.push({
                 weeks,
+                // selected: this.date===dStr?'selected':'',
                 selected: '',
                 multiple: '',
                 year,
                 month,
                 th,
-                thText: `${year}-${th<10?'0'+th:th}周`,
+                thText: `${year}第${th<10?'0'+th:th}周`,
                 flag // 是否是其他月的周 p-其他月的周，n-当前月的周
             });
         }
+
         return result;
     }
 
@@ -140,31 +172,23 @@ class CountWeek {
      * @param ls 周数据列表-按照月排序
      */
     sliceArrayForMonth(ls) {
-        const len=7, Y=this.Y, M=this.M; // 长度
+        const len=7; // 长度
         const result = [];
-        const legacyDay=CountWeek.legacyLastMonthDay(Y, M); // 上个月遗留的天数
-        for(let i=0; i<ls.length; i+=len) {
+        for(let i=0, lsLen=ls.length; i<lsLen; i+=len) {
             const weeks=ls.slice(i, i+len);
-            const { year, month, flag }=weeks[0];
-            let th=null;
-            if (legacyDay === 0) {
-                th=(i+1)/7;
-            } else {
-                if (i === 0) {
-                    th=CountWeek.weekNumForMonth(Y, M); // 上一个月最后一周
-                } else {
-                    if (Y+M === year+month) th=i/7;
-                    else th=1;
-                }
-            }
+            const { year, month, day, flag }=weeks[0];
+            let th=CountWeek.weekNumByMonth(year, month, day);
+
+            // const dStr=weeks[0].year+'.'+weeks[0].month+'.'+weeks[0].day+'-'+weeks[6].year+'.'+weeks[6].month+'.'+weeks[6].day;
             result.push({
                 weeks,
+                // selected: this.date===dStr?'selected':'',
                 selected: '',
                 multiple: '',
                 year,
                 month,
                 th,
-                thText: `${year}-${th<10?'0'+th:th}周`,
+                thText: `${year}.${month}第${th<10?'0'+th:th}周`,
                 flag // 是否是其他月的周 p-其他月的周，n-当前月的周
             });
         }
@@ -231,6 +255,18 @@ class CountWeek {
 
         this.weeksArray=arr;
         return arr;
+    }
+
+    /**
+     * 设置年月
+     * @param Y
+     * @param M
+     * @param sd // 当前选中的周 String
+     */
+    setYearMonth(Y, M, sd) {
+        this.Y=Y;
+        this.M=M;
+        // this.date=sd;
     }
 }
 

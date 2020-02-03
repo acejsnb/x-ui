@@ -9,7 +9,7 @@
             <section
                     :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
             >{{selectedDate?selectedDate:'请选择日期'}}</section>
-            <ClearSvg v-show="clearStatus" class="clearSvg" @click.stop="clearTime" />
+            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
         </div>
         <transition name="opacityTop">
             <!--
@@ -27,19 +27,19 @@
                     <div class="p-picker-main-item-input-box">
                         <section class="p-picker-input p-picker-input-values-default">
                             <article
-                                    :class="[yearStartSelected&&'p-picker-input-values']"
-                            >{{yearStartSelected?yearStartSelected:'开始日期'}}</article>
+                                    :class="[yearSelectedStart&&'p-picker-input-values']"
+                            >{{yearSelectedStart?yearSelectedStart:'开始日期'}}</article>
                             <article class="p-picker-input-solstice">至</article>
                             <article
-                                    :class="[yearEndSelected&&'p-picker-input-values']"
-                            >{{yearEndSelected?yearEndSelected:'结束日期'}}</article>
+                                    :class="[yearSelectedEnd&&'p-picker-input-values']"
+                            >{{yearSelectedEnd?yearSelectedEnd:'结束日期'}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">
                         <DaySelect
                                 :yearNow="yearNow"
                                 :yearActive="yearActiveStart"
-                                :yearsArray="yearsArrayStart"
+                                :yearsArray="yearsStartArray"
                                 @prevYear="prevYearStart"
                                 @nextYear="nextYearStart"
                                 @change="changeDateStart"
@@ -50,7 +50,7 @@
                         <DaySelect
                                 :yearNow="yearNow"
                                 :yearActive="yearActiveEnd"
-                                :yearsArray="yearsArrayEnd"
+                                :yearsArray="yearsEndArray"
                                 @prevYear="prevYearEnd"
                                 @nextYear="nextYearEnd"
                                 @change="changeDateEnd"
@@ -111,11 +111,11 @@
                 yearActiveEnd: '',
 
                 // 选择的年月日
-                yearStartSelected: '',
-                yearEndSelected: '',
+                yearSelectedStart: '',
+                yearSelectedEnd: '',
 
-                yearsArrayStart: [], // 日列表-开始
-                yearsArrayEnd: [], // 日列表-结束
+                yearsStartArray: [], // 日列表-开始
+                yearsEndArray: [], // 日列表-结束
 
                 disableYearRight: false, // 禁用开始时间右箭头-年
                 disableYearLeft: false  // 禁用结束时间左箭头-年
@@ -156,8 +156,8 @@
                 const activeStart=this.yearActiveStart.replace(reg, '').split('-')[1];
                 const activeEnd=this.yearActiveEnd.replace(reg, '').split('-')[0];
 
-                const nextYear=(parseInt(this.yearsArrayStart[this.yearsArrayStart.length-1].year)+1).toString();
-                const prevYear=(parseInt(this.yearsArrayEnd[0].year)-1).toString();
+                const nextYear=(parseInt(this.yearsStartArray[this.yearsStartArray.length-1].year)+1).toString();
+                const prevYear=(parseInt(this.yearsEndArray[0].year)-1).toString();
 
                 this.disableYearRight = nextYear >= activeEnd;
                 this.disableYearLeft = prevYear <= activeStart;
@@ -168,19 +168,19 @@
              */
             initEnd() {
                 this.countYearEnd=new CountYear(this.dateEnd); // 当前计算年的对象
-                this.yearsArrayEnd=this.countYearEnd.getYearsArray();
+                this.yearsEndArray=this.countYearEnd.getYearsArray();
                 this.yearNow=this.countYearEnd.countNowYear(); // 获取当前年
                 this.setDateEnd(this.dateEnd);
 
                 // 初始化开始时间对象
-                this.initStart((this.yearsArrayEnd[0].year-1).toString());
+                this.initStart((this.yearsEndArray[0].year-1).toString());
             },
             /**
              * 初始化日期对象
              */
             initStart(date) {
                 this.countYearStart=new CountYear(date); // 当前计算年的对象
-                this.yearsArrayStart=this.countYearStart.getYearsArray();
+                this.yearsStartArray=this.countYearStart.getYearsArray();
                 this.setDateStart(this.dateStart);
 
                 this.disableArrow();
@@ -190,26 +190,26 @@
              * @param date String 2019
              */
             setDateEnd(date) {
-                this.setYearActiveEnd(this.yearsArrayEnd);
-                this.yearEndSelected=date;
+                this.setYearActiveEnd(this.yearsEndArray);
+                this.yearSelectedEnd=date;
                 if (this.date) {
                     // 设置默认选中状态
-                    const yearsArray=this.yearsArrayEnd;
+                    const yearsArray=this.yearsEndArray;
                     if (this.dateEnd-this.dateStart<=12) {
-                        this.yearsArrayEnd=yearsArray.map(d => {
+                        this.yearsEndArray=yearsArray.map(d => {
                             if (d.year===this.dateStart || d.year===this.dateEnd) d.selected='selected';
                             else if (d.year>this.dateStart && d.year<this.dateEnd) d.multiple='multiple';
                             return d;
                         })
                     } else {
-                        this.yearsArrayEnd=yearsArray.map(d => {
+                        this.yearsEndArray=yearsArray.map(d => {
                             if (d.year===this.dateEnd) d.selected='selected';
                             else if (d.year<this.dateEnd) d.multiple='multiple';
                             return d;
                         })
                     }
                 } else {
-                    this.changeYearsArrayEnd(date);
+                    this.changeyearsEndArray(date);
                 }
             },
             /**
@@ -217,12 +217,12 @@
              * @param date String 2019
              */
             setDateStart(date) {
-                this.setYearActiveStart(this.yearsArrayStart);
-                this.yearStartSelected=date;
+                this.setYearActiveStart(this.yearsStartArray);
+                this.yearSelectedStart=date;
                 if (this.date && this.dateEnd-this.dateStart>12) {
                     // 设置默认选中状态
-                    const yearsArray=this.yearsArrayStart;
-                    this.yearsArrayStart=yearsArray.map(d => {
+                    const yearsArray=this.yearsStartArray;
+                    this.yearsStartArray=yearsArray.map(d => {
                         if (d.year===this.dateStart) {
                             d.selected='selected';
                         } else if (d.year>this.dateStart) {
@@ -231,7 +231,7 @@
                         return d;
                     })
                 } else {
-                    this.changeYearsArrayStart(date);
+                    this.changeyearsStartArray(date);
                 }
             },
             /**
@@ -239,8 +239,8 @@
              * @param year
              * @param clearOther Boolean 清空其他
              */
-            changeYearsArrayEnd(year, clearOther) {
-                this.yearsArrayEnd=this.yearsArrayEnd.map(d => {
+            changeyearsEndArray(year, clearOther) {
+                this.yearsEndArray=this.yearsEndArray.map(d => {
                     if (d.year===year) {
                         d.selected='selected';
                     } else if (clearOther) {
@@ -255,8 +255,8 @@
              * @param year
              * @param clearOther Boolean 清空其他
              */
-            changeYearsArrayStart(year, clearOther) {
-                this.yearsArrayStart=this.yearsArrayStart.map(d => {
+            changeyearsStartArray(year, clearOther) {
+                this.yearsStartArray=this.yearsStartArray.map(d => {
                     if (d.year===year) {
                         d.selected='selected';
                     } else if (clearOther) {
@@ -283,12 +283,12 @@
              */
             clearTime() {
                 this.selectedDate='';
-                this.yearStartSelected='';
-                this.yearEndSelected='';
+                this.yearSelectedStart='';
+                this.yearSelectedEnd='';
                 this.$emit('change', '');
                 this.pickerClearHide();
-                this.changeYearsArrayStart('', true);
-                this.changeYearsArrayEnd('', true);
+                this.changeyearsStartArray('', true);
+                this.changeyearsEndArray('', true);
             },
 
             pickerMainBlur() {
@@ -335,22 +335,22 @@
              */
             switchDateStart(date) {
                 this.countYearStart=new CountYear(date); // 当前计算天的对象
-                this.yearsArrayStart=this.countYearStart.getYearsArray();
-                this.setYearActiveStart(this.yearsArrayStart);
+                this.yearsStartArray=this.countYearStart.getYearsArray();
+                this.setYearActiveStart(this.yearsStartArray);
 
                 this.disableArrow();
 
-                const dateS=this.yearStartSelected;
-                const dateE=this.yearEndSelected;
+                const dateS=this.yearSelectedStart;
+                const dateE=this.yearSelectedEnd;
 
                 if (dateS > dateE) {
-                    this.yearsArrayStart=this.yearsArrayStart.map(d => {
+                    this.yearsStartArray=this.yearsStartArray.map(d => {
                         if (d.year > dateE && d.year < dateS) d.multiple='multiple';
                         if (d.year === dateS || d.year === dateE) d.selected='selected';
                         return d;
                     })
                 } else {
-                    this.yearsArrayStart=this.yearsArrayStart.map(d => {
+                    this.yearsStartArray=this.yearsStartArray.map(d => {
                         if (d.year > dateS && d.year < dateE) d.multiple='multiple';
                         if (d.year === dateS || d.year === dateE) d.selected='selected';
                         return d;
@@ -363,21 +363,21 @@
              */
             switchDateEnd(date) {
                 this.countYearEnd=new CountYear(date); // 当前计算天的对象
-                this.yearsArrayEnd=this.countYearEnd.getYearsArray();
-                this.setYearActiveEnd(this.yearsArrayEnd);
+                this.yearsEndArray=this.countYearEnd.getYearsArray();
+                this.setYearActiveEnd(this.yearsEndArray);
 
                 this.disableArrow();
 
-                const dateS=this.yearStartSelected;
-                const dateE=this.yearEndSelected;
+                const dateS=this.yearSelectedStart;
+                const dateE=this.yearSelectedEnd;
                 if (dateS > dateE) {
-                    this.yearsArrayEnd=this.yearsArrayEnd.map(d => {
+                    this.yearsEndArray=this.yearsEndArray.map(d => {
                         if (d.year > dateE && d.year < dateS) d.multiple='multiple';
                         if (d.year === dateS || d.year === dateE) d.selected='selected';
                         return d;
                     })
                 } else {
-                    this.yearsArrayEnd=this.yearsArrayEnd.map(d => {
+                    this.yearsEndArray=this.yearsEndArray.map(d => {
                         if (d.year > dateS && d.year < dateE) d.multiple='multiple';
                         if (d.year === dateS || d.year === dateE) d.selected='selected';
                         return d;
@@ -388,28 +388,28 @@
              * 上一组年
              */
             prevYearStart() {
-                const date=(this.yearsArrayStart.shift().year-1).toString();
+                const date=(this.yearsStartArray.shift().year-1).toString();
                 this.switchDateStart(date);
             },
             /**
              * 上一组年
              */
             prevYearEnd() {
-                const date=(this.yearsArrayEnd.shift().year-1).toString();
+                const date=(this.yearsEndArray.shift().year-1).toString();
                 this.switchDateEnd(date);
             },
             /**
              * 下一组年
              */
             nextYearStart() {
-                const date=(parseInt(this.yearsArrayStart.pop().year)+12).toString();
+                const date=(parseInt(this.yearsStartArray.pop().year)+12).toString();
                 this.switchDateStart(date);
             },
             /**
              * 下一组年
              */
             nextYearEnd() {
-                const date=(parseInt(this.yearsArrayEnd.pop().year)+12).toString();
+                const date=(parseInt(this.yearsEndArray.pop().year)+12).toString();
                 this.switchDateEnd(date);
             },
             /**
@@ -418,23 +418,23 @@
              */
             changeDateStart(year) {
                 let clearOther=false;
-                if (this.yearStartSelected && this.yearEndSelected) {
-                    this.yearStartSelected=year;
+                if (this.yearSelectedStart && this.yearSelectedEnd) {
+                    this.yearSelectedStart=year;
 
-                    this.yearEndSelected='';
+                    this.yearSelectedEnd='';
                     clearOther=true;
 
-                    this.changeYearsArrayEnd('', clearOther);
-                } else if (this.yearStartSelected && !this.yearEndSelected) {
-                    this.yearEndSelected=year;
+                    this.changeyearsEndArray('', clearOther);
+                } else if (this.yearSelectedStart && !this.yearSelectedEnd) {
+                    this.yearSelectedEnd=year;
                 } else {
-                    this.yearStartSelected=year;
+                    this.yearSelectedStart=year;
                 }
 
-                if (this.yearStartSelected && this.yearEndSelected) this.btnType='primary';
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.btnType='primary';
                 else this.btnType='disabled';
 
-                this.changeYearsArrayStart(year, clearOther);
+                this.changeyearsStartArray(year, clearOther);
             },
             /**
              * 点击日期-结束日期
@@ -442,58 +442,58 @@
              */
             changeDateEnd(year) {
                 let clearOther=false;
-                if (this.yearStartSelected && this.yearEndSelected) {
-                    this.yearEndSelected=year;
+                if (this.yearSelectedStart && this.yearSelectedEnd) {
+                    this.yearSelectedEnd=year;
 
-                    this.yearStartSelected='';
+                    this.yearSelectedStart='';
                     clearOther=true;
 
-                    this.changeYearsArrayStart('', clearOther);
-                } else if (!this.yearStartSelected && this.yearEndSelected) {
-                    this.yearStartSelected=year;
+                    this.changeyearsStartArray('', clearOther);
+                } else if (!this.yearSelectedStart && this.yearSelectedEnd) {
+                    this.yearSelectedStart=year;
                 } else {
-                    this.yearEndSelected=year;
+                    this.yearSelectedEnd=year;
                 }
 
-                if (this.yearStartSelected && this.yearEndSelected) this.btnType='primary';
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.btnType='primary';
                 else this.btnType='disabled';
 
-                this.changeYearsArrayEnd(year, clearOther);
+                this.changeyearsEndArray(year, clearOther);
             },
             /**
              * 鼠标进入-开始日期
              * @param year
              */
             yearEnterStart(year) {
-                if ((!this.yearStartSelected && !this.yearEndSelected) || (this.yearStartSelected && this.yearEndSelected)) return;
-                const yearsArray=this.yearsArrayStart;
-                const dateS=this.yearStartSelected;
-                const dateE=this.yearEndSelected;
+                if ((!this.yearSelectedStart && !this.yearSelectedEnd) || (this.yearSelectedStart && this.yearSelectedEnd)) return;
+                const yearsArray=this.yearsStartArray;
+                const dateS=this.yearSelectedStart;
+                const dateE=this.yearSelectedEnd;
                 const dateN=year;
 
                 // 当前传入时间的索引
                 const nInd=yearsArray.findIndex(d => d.year===year);
                 // 以选择的时间的索引
-                const sInd=yearsArray.findIndex(d => d.year===this.yearStartSelected);
+                const sInd=yearsArray.findIndex(d => d.year===this.yearSelectedStart);
 
                 /* 修改开始右侧结束时间面板multiple -s */
                 if (dateE) {
-                    const yearsArrayEnd=this.yearsArrayEnd;
+                    const yearsEndArray=this.yearsEndArray;
                     if (dateN > dateE) { // 选中的左侧面板开始时间大于当前鼠标hover的时间
-                        this.yearsArrayEnd=yearsArrayEnd.map(d => {
+                        this.yearsEndArray=yearsEndArray.map(d => {
                             if (d.year < dateN && d.year > dateE) d.multiple='multiple';
                             else d.multiple='';
                             return d;
                         })
                     } else {
-                        this.yearsArrayEnd=yearsArrayEnd.map(d => {
+                        this.yearsEndArray=yearsEndArray.map(d => {
                             if (d.year > dateN && d.year < dateE) d.multiple='multiple';
                             else d.multiple='';
                             return d;
                         })
                     }
                 } else {
-                    this.yearsArrayEnd=this.yearsArrayEnd.map(d => {
+                    this.yearsEndArray=this.yearsEndArray.map(d => {
                         d.multiple='';
                         return d;
                     })
@@ -504,13 +504,13 @@
                 if (dateS) { // 已选择开始时间
                     if (sInd === -1) { // 不在当前面板
                         if (dateN < dateS) {
-                            this.yearsArrayStart=yearsArray.map(d => {
+                            this.yearsStartArray=yearsArray.map(d => {
                                 if (d.year >= dateN) d.multiple='multiple';
                                 else d.multiple='';
                                 return d;
                             })
                         } else {
-                            this.yearsArrayStart=yearsArray.map(d => {
+                            this.yearsStartArray=yearsArray.map(d => {
                                 if (d.year <= dateN) d.multiple='multiple';
                                 else d.multiple='';
                                 return d;
@@ -518,13 +518,13 @@
                         }
                     } else { // 在当前面板
                         if (nInd > sInd) {
-                            this.yearsArrayStart=yearsArray.map(d => {
+                            this.yearsStartArray=yearsArray.map(d => {
                                 if (d.year <= dateN && d.year > dateS) d.multiple='multiple';
                                 else d.multiple='';
                                 return d;
                             })
                         } else {
-                            this.yearsArrayStart=yearsArray.map(d => {
+                            this.yearsStartArray=yearsArray.map(d => {
                                 if (d.year >= dateN && d.year < dateS) d.multiple='multiple';
                                 else d.multiple='';
                                 return d;
@@ -532,7 +532,7 @@
                         }
                     }
                 } else { // 未选择开始时间
-                    this.yearsArrayStart=yearsArray.map(d => {
+                    this.yearsStartArray=yearsArray.map(d => {
                         if (d.year >= dateN) d.multiple='multiple';
                         else d.multiple='';
                         return d;
@@ -544,35 +544,35 @@
              * @param year
              */
             yearEnterEnd(year) {
-                if ((!this.yearStartSelected && !this.yearEndSelected) || (this.yearStartSelected && this.yearEndSelected)) return;
-                const yearsArray=this.yearsArrayEnd;
-                const dateS=this.yearStartSelected;
-                const dateE=this.yearEndSelected;
+                if ((!this.yearSelectedStart && !this.yearSelectedEnd) || (this.yearSelectedStart && this.yearSelectedEnd)) return;
+                const yearsArray=this.yearsEndArray;
+                const dateS=this.yearSelectedStart;
+                const dateE=this.yearSelectedEnd;
                 const dateN=year;
 
                 // 当前传入时间的索引
                 const nInd=yearsArray.findIndex(d => d.year===year);
                 // 以选择的时间的索引
-                const sInd=yearsArray.findIndex(d => d.year===this.yearEndSelected);
+                const sInd=yearsArray.findIndex(d => d.year===this.yearSelectedEnd);
 
                 /* 修改左侧开始时间面板multiple -s */
                 if (dateS) {
-                    const yearsArrayStart=this.yearsArrayStart;
+                    const yearsStartArray=this.yearsStartArray;
                     if (dateN > dateS) { // 选中的左侧面板开始时间大于当前鼠标hover的时间
-                        this.yearsArrayStart=yearsArrayStart.map(d => {
+                        this.yearsStartArray=yearsStartArray.map(d => {
                             if (d.year < dateN && d.year > dateS) d.multiple='multiple';
                             else d.multiple='';
                             return d;
                         })
                     } else {
-                        this.yearsArrayStart=yearsArrayStart.map(d => {
+                        this.yearsStartArray=yearsStartArray.map(d => {
                             if (d.year > dateN && d.year < dateS) d.multiple='multiple';
                             else d.multiple='';
                             return d;
                         })
                     }
                 } else {
-                    this.yearsArrayStart=this.yearsArrayStart.map(d => {
+                    this.yearsStartArray=this.yearsStartArray.map(d => {
                         d.multiple='';
                         return d;
                     })
@@ -582,13 +582,13 @@
                 // 修改当前鼠标hover状态
                 if (sInd === -1) { // 不在当前面板
                     if (dateN < dateE) {
-                        this.yearsArrayEnd=yearsArray.map(d => {
+                        this.yearsEndArray=yearsArray.map(d => {
                             if (d.year >= dateN) d.multiple='multiple';
                             else d.multiple='';
                             return d;
                         })
                     } else {
-                        this.yearsArrayEnd=yearsArray.map(d => {
+                        this.yearsEndArray=yearsArray.map(d => {
                             if (d.year <= dateN) d.multiple='multiple';
                             else d.multiple='';
                             return d;
@@ -596,13 +596,13 @@
                     }
                 } else { // 在当前面板
                     if (nInd > sInd) {
-                        this.yearsArrayEnd=yearsArray.map(d => {
+                        this.yearsEndArray=yearsArray.map(d => {
                             if (d.year <= dateN && d.year > dateE) d.multiple='multiple';
                             else d.multiple='';
                             return d;
                         })
                     } else {
-                        this.yearsArrayEnd=yearsArray.map(d => {
+                        this.yearsEndArray=yearsArray.map(d => {
                             if (d.year >= dateN && d.year < dateE) d.multiple='multiple';
                             else d.multiple='';
                             return d;
@@ -614,8 +614,8 @@
              * 确定
              */
             pickerConfirm() {
-                const dateS=this.yearStartSelected;
-                const dateE=this.yearEndSelected;
+                const dateS=this.yearSelectedStart;
+                const dateE=this.yearSelectedEnd;
                 const selectedDate=dateS>dateE?(dateE+'-'+dateS):(dateS+'-'+dateE);
                 this.selectedDate=selectedDate;
                 /**

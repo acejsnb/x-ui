@@ -1,7 +1,8 @@
 .p-picker-input
+  position relative
   display flex
   align-items center
-  justify-content space-between
+  justify-content space-around
   padding-left 12px
   padding-right 12px
   border-width 1px
@@ -22,19 +23,21 @@
     color $grey-400
     font-size 14px
     line-height 32px
-  .clearSvg
+  .p-picker-clear-svg
+    position absolute
+    top 8px
+    right 12px
     path
       transition fill .3s
     &:hover
       path
         fill #646A73
   .p-picker-input-values
+    width 100%
     color $grey-900
 .p-picker-input-values-default
   margin-top 12px
   margin-bottom @margin-top
-  padding-left 40px
-  padding-right 40px
   border-color $blue-500
   width 294px
   color $grey-900
@@ -45,4 +48,5 @@
     user-select none
   .p-picker-input-solstice
     display ruby
+    width 20%
     color $grey-500
