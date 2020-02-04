@@ -316,3 +316,9 @@ import { Button, Toggle } from 'persagy-ui';
 components: { Button, Toggle }
 
 ```
+
+## 六、UI蓝湖链接地址
+
+- [UI规范](https://lanhuapp.com/web/#/item/project/board?pid=88b110df-5ae3-412d-88ea-cbf1c9c3b5b4)
+
+- `https://lanhuapp.com/web/#/item/project/board?pid=88b110df-5ae3-412d-88ea-cbf1c9c3b5b4`

@@ -324,9 +324,5 @@
                         color #fff
                     &::before
                         display none
-    //&+.p-picker-day-text-multiple
-    //    &::before
-    //        left -18px
-    //        width 48px
 
 </style>

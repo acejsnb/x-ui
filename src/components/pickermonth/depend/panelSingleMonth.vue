@@ -32,7 +32,18 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
+                        <!-- 年切换面板 -->
+                        <YearSelect
+                                v-if="yearChangePanelStatus"
+                                :yearNow="yearNow"
+                                :yearActive="yearActivePanel"
+                                :yearsArray="yearsArray"
+                                @prevYear="prevYearPanel"
+                                @nextYear="nextYearPanel"
+                                @change="changeDatePanel"
+                        />
                         <MonthSelect
+                                v-else
                                 :yearNow="yearNow"
                                 :yearActive="yearActive"
                                 :monthNow="monthNow"
@@ -41,6 +52,8 @@
                                 @prevYear="prevYear"
                                 @nextYear="nextYear"
                                 @change="changeDate"
+                                @yearChangePanel="yearChangePanel"
+                                @changeYear="changeYearPanel"
                         />
                     </div>
                 </div>
@@ -54,8 +67,10 @@
 </template>
 
 <script>
+    import CountYear from '../../static/utils/datePicker/CountYear';
     import CountMonth from '../../static/utils/datePicker/CountMonth';
 
+    import YearSelect from '../../PickerYear/depend/year';
     import MonthSelect from './month';
     import Button from '../../Button';
 
@@ -63,6 +78,7 @@
     export default {
         name: "panelSingleMonth",
         components: {
+            YearSelect,
             MonthSelect,
             Button,
             ClearSvg
@@ -94,7 +110,11 @@
                 yearSelected: '', // 选择的年
                 monthSelected: '', // 选择的年
 
-                monthsArray: [] // 日列表
+                monthsArray: [], // 月列表
+
+                yearChangePanelStatus: false, // 是否显示年切换面板
+                yearsArray: [], // 年列表
+                yearActivePanel: '', // 年范围
             }
         },
         created() {
@@ -120,6 +140,9 @@
                 this.monthNow=month;
 
                 this.setDate(this.date);
+
+                // 初始化年
+                this.initYear(this.date);
             },
             /**
              * 设置选择的年月日
@@ -238,6 +261,64 @@
                 this.monthSelected=month;
                 this.btnType='primary';
                 this.changeMonthsArray({year, month});
+            },
+            // 初始化年
+            initYear(date) {
+                const [year]=date.split('.');
+                this.countYear=new CountYear(year); // 当前计算年的对象
+                this.yearsArray=this.countYear.getYearsArray();
+
+                this.setYearActivePanel(this.yearsArray);
+                this.changeYearsArray(year);
+            },
+            // 设置yearActive
+            setYearActivePanel(arr) {
+                const ly=arr[0].year, ry=arr[arr.length-1].year;
+                this.yearActivePanel=ly+'年'+' - '+ry+'年';
+            },
+            // 改变选中状态
+            changeYearsArray(year) {
+                this.yearsArray=this.yearsArray.map(d => {
+                    if (d.year===year) d.selected='selected';
+                    else d.selected='';
+                    return d;
+                })
+            },
+            // 年面板显示
+            yearChangePanel(status) {
+                this.yearChangePanelStatus=status;
+            },
+            // 切换年
+            changeYearPanel(year) {
+                this.yearActive=year;
+            },
+            // 上一组年
+            prevYearPanel() {
+                const date=(this.yearsArray.shift().year-1).toString();
+                this.switchDatePanel(date);
+            },
+            // 下一组年
+            nextYearPanel() {
+                const date=(parseInt(this.yearsArray.pop().year)+12).toString();
+                this.switchDatePanel(date);
+            },
+            // 切换日期
+            switchDatePanel(date) {
+                this.countYear=new CountYear(date); // 当前计算天的对象
+                this.yearsArray=this.countYear.getYearsArray().map(d => {
+                    if (d.year===this.yearSelected) d.selected='selected';
+                    return d;
+                });
+                this.setYearActivePanel(this.yearsArray);
+            },
+            // 点击年
+            changeDatePanel(year) {
+                this.yearActive=year;
+                this.monthsArray=this.monthsArray.map(d => {
+                    d.year=year;
+                    return d;
+                });
+                this.yearChangePanelStatus=false;
             },
             /**
              * 确定
