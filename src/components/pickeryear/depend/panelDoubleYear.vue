@@ -36,7 +36,7 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
-                        <DaySelect
+                        <DoubleYear
                                 :yearNow="yearNow"
                                 :yearActive="yearActiveStart"
                                 :yearsArray="yearsStartArray"
@@ -45,9 +45,9 @@
                                 @change="changeDateStart"
                                 :disableYearRight="disableYearRight"
                                 @yearEnter="yearEnterStart"
-                                :multiple="true"
                         />
-                        <DaySelect
+                        <DoubleYear
+                                borderLeft="border-left"
                                 :yearNow="yearNow"
                                 :yearActive="yearActiveEnd"
                                 :yearsArray="yearsEndArray"
@@ -56,7 +56,6 @@
                                 @change="changeDateEnd"
                                 :disableYearLeft="disableYearLeft"
                                 @yearEnter="yearEnterEnd"
-                                :multiple="true"
                         />
                     </div>
                 </div>
@@ -72,14 +71,14 @@
 <script>
     import CountYear from '../../static/utils/datePicker/CountYear';
 
-    import DaySelect from './year';
+    import DoubleYear from './DoubleYear';
     import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {
         name: "panelDoubleYear",
         components: {
-            DaySelect,
+            DoubleYear,
             Button,
             ClearSvg
         },
@@ -103,14 +102,14 @@
                 dateStart: '',
                 dateEnd: '',
 
-                // 当前年月日
+                // 当前年
                 yearNow: '',
 
-                // 活动的年月日
+                // 活动的年
                 yearActiveStart: '',
                 yearActiveEnd: '',
 
-                // 选择的年月日
+                // 选择的年
                 yearSelectedStart: '',
                 yearSelectedEnd: '',
 
@@ -131,7 +130,7 @@
              * 改变按钮状态
              */
             changeBtnType(str) {
-                if (str && str.replace(/\.|-/g, '')) this.btnType='primary';
+                if (str && str.replace(/[.\-]/g, '')) this.btnType='primary';
                 else this.btnType='disabled';
             },
             /**
@@ -209,7 +208,7 @@
                         })
                     }
                 } else {
-                    this.changeyearsEndArray(date);
+                    this.changeYearsEndArray(date);
                 }
             },
             /**
@@ -231,7 +230,7 @@
                         return d;
                     })
                 } else {
-                    this.changeyearsStartArray(date);
+                    this.changeYearsStartArray(date);
                 }
             },
             /**
@@ -239,7 +238,7 @@
              * @param year
              * @param clearOther Boolean 清空其他
              */
-            changeyearsEndArray(year, clearOther) {
+            changeYearsEndArray(year, clearOther) {
                 this.yearsEndArray=this.yearsEndArray.map(d => {
                     if (d.year===year) {
                         d.selected='selected';
@@ -255,7 +254,7 @@
              * @param year
              * @param clearOther Boolean 清空其他
              */
-            changeyearsStartArray(year, clearOther) {
+            changeYearsStartArray(year, clearOther) {
                 this.yearsStartArray=this.yearsStartArray.map(d => {
                     if (d.year===year) {
                         d.selected='selected';
@@ -287,8 +286,8 @@
                 this.yearSelectedEnd='';
                 this.$emit('change', '');
                 this.pickerClearHide();
-                this.changeyearsStartArray('', true);
-                this.changeyearsEndArray('', true);
+                this.changeYearsStartArray('', true);
+                this.changeYearsEndArray('', true);
             },
 
             pickerMainBlur() {
@@ -424,7 +423,7 @@
                     this.yearSelectedEnd='';
                     clearOther=true;
 
-                    this.changeyearsEndArray('', clearOther);
+                    this.changeYearsEndArray('', clearOther);
                 } else if (this.yearSelectedStart && !this.yearSelectedEnd) {
                     this.yearSelectedEnd=year;
                 } else {
@@ -434,7 +433,7 @@
                 if (this.yearSelectedStart && this.yearSelectedEnd) this.btnType='primary';
                 else this.btnType='disabled';
 
-                this.changeyearsStartArray(year, clearOther);
+                this.changeYearsStartArray(year, clearOther);
             },
             /**
              * 点击日期-结束日期
@@ -448,7 +447,7 @@
                     this.yearSelectedStart='';
                     clearOther=true;
 
-                    this.changeyearsStartArray('', clearOther);
+                    this.changeYearsStartArray('', clearOther);
                 } else if (!this.yearSelectedStart && this.yearSelectedEnd) {
                     this.yearSelectedStart=year;
                 } else {
@@ -458,7 +457,7 @@
                 if (this.yearSelectedStart && this.yearSelectedEnd) this.btnType='primary';
                 else this.btnType='disabled';
 
-                this.changeyearsEndArray(year, clearOther);
+                this.changeYearsEndArray(year, clearOther);
             },
             /**
              * 鼠标进入-开始日期
@@ -629,7 +628,3 @@
         }
     }
 </script>
-
-<style lang="stylus">
-
-</style>

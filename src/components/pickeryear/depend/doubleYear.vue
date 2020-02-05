@@ -1,5 +1,5 @@
 <template>
-    <div class="p-picker-child-select-box">
+    <div :class="['p-picker-child-select-box', 'p-picker-child-select-box-'+borderLeft]">
         <div class="p-picker-child-select-box-title">
             <section class="p-picker-child-select-box-icon">
                 <article
@@ -11,7 +11,7 @@
                 </article>
             </section>
             <section class="p-picker-child-select-box-title-text">
-                <article class="p-picker-active-title" @click="yearActiveClick">{{yearActive}}年</article>
+                <article>{{yearActive}}</article>
             </section>
             <section class="p-picker-child-select-box-icon">
                 <article
@@ -29,16 +29,16 @@
                     <li
                             :class="[
                                 'p-picker-panel-text',
-                                (yearNow===ma.year&&monthNow===ma.month)&&'p-picker-panel-text-current',
-                                'p-picker-panel-text-'+ma.multiple,
-                                'p-picker-panel-text-'+ma.selected
+                                yearNow===ya.year&&'p-picker-panel-text-current',
+                                'p-picker-panel-text-'+ya.multiple,
+                                'p-picker-panel-text-'+ya.selected
                              ]"
-                            v-for="(ma, mai) in monthsArray"
-                            :key="'month-'+ma.month+mai"
-                            @click="monthClick(ma)"
-                            @mouseenter="monthEnter(ma)"
+                            v-for="(ya, yai) in yearsArray"
+                            :key="'year-'+ya.year+yai"
+                            @click="yearClick(ya)"
+                            @mouseenter="yearEnter(ya)"
                     >
-                        <span>{{ma.monthText}}</span>
+                        <span>{{ya.year}}</span>
                     </li>
                 </ul>
             </div>
@@ -50,9 +50,15 @@
     import ArrowRightDoubleSvg from '../../static/iconSvg/arrow_right_double.svg';
 
     export default {
-        name: "YearSelect",
+        name: "DoubleYear",
         components: { ArrowRightDoubleSvg },
         props: {
+            // 左边框
+            borderLeft: {
+                type: String,
+                default: ''
+            },
+
             /**
              * 日期
              */
@@ -64,17 +70,13 @@
                 type: String,
                 default: ''
             },
-            monthNow: {
-                type: String,
-                default: ''
-            },
-            monthActive: {
-                type: String,
-                default: ''
-            },
-            monthsArray: {
+
+            /**
+             * 年列表
+             */
+            yearsArray: {
                 type: Array,
-                default: []
+                default: () => []
             },
 
             /**
@@ -91,13 +93,6 @@
                 type: Boolean,
                 default: false
             },
-            /**
-             * 开启多选
-             */
-            multiple: {
-                type: Boolean,
-                default: false
-            }
         },
         methods: {
             /**
@@ -116,20 +111,15 @@
              * 点击日
              * @param obj
              */
-            monthClick(obj) {
-                this.$emit('change', obj);
+            yearClick({year}) {
+                this.$emit('change', year);
             },
             /**
              * 鼠标在day面板上移动
-             * @param obj
+             * @param obj {year}
              */
-            monthEnter(obj) {
-                if (!this.multiple) return;
-                this.$emit('monthEnter', obj);
-            },
-            // 点击active的年，去选择active的年
-            yearActiveClick() {
-                this.$emit('yearChangePanel', true);
+            yearEnter({year}) {
+                this.$emit('yearEnter', year);
             }
         }
     }

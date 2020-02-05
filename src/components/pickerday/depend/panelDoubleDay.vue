@@ -58,6 +58,7 @@
                                 :multiple="true"
                         />
                         <DaySelect
+                                borderLeft="border-left"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
                                 :dayNow="dayNow"

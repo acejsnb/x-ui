@@ -1,5 +1,5 @@
 <template>
-    <div class="p-picker-child-select-box">
+    <div :class="['p-picker-child-select-box', 'p-picker-child-select-box-'+borderLeft]">
         <div class="p-picker-child-select-box-title">
             <section class="p-picker-child-select-box-icon">
                 <article
@@ -50,9 +50,15 @@
     import ArrowRightDoubleSvg from '../../static/iconSvg/arrow_right_double.svg';
 
     export default {
-        name: "YearSelect",
+        name: "DoubleMonth",
         components: { ArrowRightDoubleSvg },
         props: {
+            // 左边框
+            borderLeft: {
+                type: String,
+                default: ''
+            },
+
             /**
              * 日期
              */
@@ -90,13 +96,6 @@
             disableYearRight: {
                 type: Boolean,
                 default: false
-            },
-            /**
-             * 开启多选
-             */
-            multiple: {
-                type: Boolean,
-                default: false
             }
         },
         methods: {
@@ -124,12 +123,11 @@
              * @param obj
              */
             monthEnter(obj) {
-                if (!this.multiple) return;
                 this.$emit('monthEnter', obj);
             },
             // 点击active的年，去选择active的年
             yearActiveClick() {
-                this.$emit('yearChangePanel', true);
+                this.$emit('panelYearHandle', true);
             }
         }
     }

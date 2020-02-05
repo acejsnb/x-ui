@@ -53,6 +53,7 @@
                                 @change="changeDateStart"
                         />
                         <WeekSelect
+                                borderLeft="border-left"
                                 :multiple="true"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"

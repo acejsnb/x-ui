@@ -32,12 +32,8 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
-                        <YearSelect
-                                :yearNow="yearNow"
-                                :yearActive="yearActive"
-                                :yearsArray="yearsArray"
-                                @prevYear="prevYear"
-                                @nextYear="nextYear"
+                        <SingleYear
+                                :date="date"
                                 @change="changeDate"
                         />
                     </div>
@@ -52,16 +48,15 @@
 </template>
 
 <script>
-    import CountYear from '../../static/utils/datePicker/CountYear';
 
-    import YearSelect from './year';
+    import SingleYear from './singleYear';
     import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {
         name: "panelSingleYear",
         components: {
-            YearSelect,
+            SingleYear,
             Button,
             ClearSvg
         },
@@ -82,59 +77,30 @@
                 clearStatus: false, // 关闭按钮
                 selectedDate: '', // 选中的时间
 
-                yearNow: '', // 当前年
-
-                // 活动的年月日
-                yearActive: '',
-
-                yearSelected: '', // 选择的年
-
-                yearsArray: [] // 日列表
+                yearSelected: '' // 选择的年
+            }
+        },
+        watch: {
+            date(n, o) {
+                if (n === o) return;
+                this.dateFormat(n);
             }
         },
         created() {
-            // 初始化日期对象
-            this.init();
+            this.dateFormat(this.date);
         },
         methods: {
+            dateFormat(date) {
+                this.selectedDate=date;
+                this.yearSelected=date;
+                this.changeBtnType(date);
+            },
             /**
              * 改变按钮状态
              */
             changeBtnType(str) {
                 if (str) this.btnType='primary';
                 else this.btnType='disabled';
-            },
-            /**
-             * 初始化日期对象
-             */
-            init() {
-                this.countYear=new CountYear(this.date); // 当前计算年的对象
-                this.yearsArray=this.countYear.getYearsArray();
-                this.yearNow=this.countYear.countNowYear(); // 获取当前年
-
-                this.setDate(this.date);
-            },
-            /**
-             * 设置选择的年月日
-             * @param date String 2019.10.31
-             */
-            setDate(date) {
-                this.changeBtnType(date);
-                this.setYearActive(this.yearsArray);
-                this.selectedDate=date;
-                this.yearSelected=date;
-                this.changeYearsArray(date);
-            },
-            /**
-             * 改变选中状态
-             * @param year
-             */
-            changeYearsArray(year) {
-                this.yearsArray=this.yearsArray.map(d => {
-                    if (d.year===year) d.selected='selected';
-                    else d.selected='';
-                    return d;
-                })
             },
             /**
              * 显示清除按钮
@@ -175,7 +141,7 @@
              */
             pickerBoxShow() {
                 this.pickerBoxStatus=true;
-                this.init();
+                // this.init();
             },
             /**
              * 关闭时间选择盒子
@@ -184,46 +150,12 @@
                 if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
             },
             /**
-             * 设置yearActive
-             */
-            setYearActive(arr) {
-                const ly=arr[0].year, ry=arr[arr.length-1].year;
-                this.yearActive=ly+'年'+' - '+ry+'年';
-            },
-            /**
-             * 切换日期
-             * @param date String '2019'
-             */
-            switchDate(date) {
-                this.countYear=new CountYear(date); // 当前计算天的对象
-                this.yearsArray=this.countYear.getYearsArray().map(d => {
-                    if (d.year===this.yearSelected) d.selected='selected';
-                    return d;
-                });
-                this.setYearActive(this.yearsArray);
-            },
-            /**
-             * 上一组年
-             */
-            prevYear() {
-                const date=(this.yearsArray.shift().year-1).toString();
-                this.switchDate(date);
-            },
-            /**
-             * 下一组年
-             */
-            nextYear() {
-                const date=(parseInt(this.yearsArray.pop().year)+12).toString();
-                this.switchDate(date);
-            },
-            /**
              * 点击日期
              * @param year
              */
             changeDate(year) {
                 this.yearSelected=year;
                 this.btnType='primary';
-                this.changeYearsArray(year);
             },
             /**
              * 确定

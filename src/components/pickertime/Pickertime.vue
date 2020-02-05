@@ -47,6 +47,7 @@
                                 @secondChange="secondChangeStart"
                         />
                         <TimeSelect
+                                borderLeft="border-left"
                                 v-if="range"
                                 title="结束时间"
                                 :range="range"

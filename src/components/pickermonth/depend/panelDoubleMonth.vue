@@ -36,7 +36,16 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
-                        <MonthSelect
+                        <SingleYear
+                                ref="singleYearStart"
+                                v-show="panelYearStart"
+                                date=""
+                                :panelYearDate="true"
+                                @change="panelYearChangeDateStart"
+                                @panelYearHandle="panelYearHandleStart"
+                        />
+                        <DoubleMonth
+                                v-show="!panelYearStart"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
                                 :yearActive="yearActiveStart"
@@ -47,9 +56,19 @@
                                 @change="changeDateStart"
                                 :disableYearRight="disableYearRight"
                                 @monthEnter="monthEnterStart"
-                                :multiple="true"
+                                @panelYearHandle="panelYearHandleStart"
                         />
-                        <MonthSelect
+                        <SingleYear
+                                ref="singleYearEnd"
+                                borderLeft="border-left"
+                                v-show="panelYearEnd"
+                                date=""
+                                @change="panelYearChangeDateEnd"
+                                @panelYearHandle="panelYearHandleEnd"
+                        />
+                        <DoubleMonth
+                                v-show="!panelYearEnd"
+                                borderLeft="border-left"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
                                 :yearActive="yearActiveEnd"
@@ -60,7 +79,7 @@
                                 @change="changeDateEnd"
                                 :disableYearLeft="disableYearLeft"
                                 @monthEnter="monthEnterEnd"
-                                :multiple="true"
+                                @panelYearHandle="panelYearHandleEnd"
                         />
                     </div>
                 </div>
@@ -74,16 +93,18 @@
 </template>
 
 <script>
+    import SingleYear from '../../PickerYear/depend/singleYear';
     import CountMonth from '../../static/utils/datePicker/CountMonth';
 
-    import MonthSelect from './month';
+    import DoubleMonth from './doubleMonth';
     import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     export default {
         name: "panelDoubleMonth",
         components: {
-            MonthSelect,
+            SingleYear,
+            DoubleMonth,
             Button,
             ClearSvg
         },
@@ -127,7 +148,10 @@
                 monthsArrayEnd: [], // 日列表-结束
 
                 disableYearRight: false, // 禁用开始时间右箭头-年
-                disableYearLeft: false  // 禁用结束时间左箭头-年
+                disableYearLeft: false,  // 禁用结束时间左箭头-年
+
+                panelYearStart: false, // 显示年面板
+                panelYearEnd: false // 显示年面板
             }
         },
         created() {
@@ -326,6 +350,8 @@
                 this.pickerClearHide();
                 this.changeMonthsArrayStart({year: '', month: ''}, true);
                 this.changeMonthsArrayEnd({year: '', month: ''}, true);
+                this.changeYearsArrayHandleStart('');
+                this.changeYearsArrayHandleEnd('');
             },
 
             pickerMainBlur() {
@@ -351,6 +377,8 @@
              */
             pickerBoxHide() {
                 if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
+                this.panelYearStart=false;
+                this.panelYearEnd=false;
             },
             /**
              * 切换日期
@@ -415,6 +443,7 @@
             prevYearStart() {
                 const date=(this.yearActiveStart-1).toString();
                 this.yearActiveStart=date;
+                this.changeYearsArrayHandleStart(date);
                 this.switchDateStart(date+'.'+this.monthActiveStart);
             },
             /**
@@ -423,6 +452,7 @@
             prevYearEnd() {
                 const date=(this.yearActiveEnd-1).toString();
                 this.yearActiveEnd=date;
+                this.changeYearsArrayHandleEnd(date);
                 this.switchDateEnd(date+'.'+this.monthActiveEnd);
             },
             /**
@@ -675,6 +705,45 @@
                 this.$emit('change', selectedDate);
                 this.blurStatus=false;
                 this.pickerBoxStatus=false;
+            },
+
+            // 年面板显示切换-start
+            panelYearHandleStart(status) {
+                this.panelYearStart=status;
+                const sys=this.$refs.singleYearStart;
+                const yas=sys.yearsArray;
+                const yae=this.$refs.singleYearEnd.yearsArray;
+                const ys=yas[11].year, ye=yae[0].year;
+                sys.disableYearRight = ye - ys < 12;
+            },
+            // 年面板显示切换-end
+            panelYearHandleEnd(status) {
+                this.panelYearEnd=status;
+                const sye=this.$refs.singleYearEnd;
+                const yas=this.$refs.singleYearStart.yearsArray;
+                const yae=sye.yearsArray;
+                const ys=yas[11].year, ye=yae[0].year;
+                sye.disableYearLeft = ye - ys < 12;
+            },
+            // 点击年-start
+            panelYearChangeDateStart(year) {
+                this.panelYearHandleStart(false);
+                this.yearActiveStart=year;
+                this.switchDateStart(year+'.'+this.monthActiveStart)
+            },
+            // 点击年-end
+            panelYearChangeDateEnd(year) {
+                this.panelYearHandleEnd(false);
+                this.yearActiveEnd=year;
+                this.switchDateEnd(year+'.'+this.monthActiveEnd)
+            },
+            // 月面板的yearActive改变，改变年面板的year选中项-start
+            changeYearsArrayHandleStart(year) {
+                this.$refs.singleYearStart.changeYearsArray(year)
+            },
+            // 月面板的yearActive改变，改变年面板的year选中项-end
+            changeYearsArrayHandleEnd(year) {
+                this.$refs.singleYearEnd.changeYearsArray(year)
             }
         }
     }

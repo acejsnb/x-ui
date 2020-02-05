@@ -1,5 +1,5 @@
 <template>
-    <div class="p-picker-child-select-box">
+    <div :class="['p-picker-child-select-box', 'p-picker-child-select-box-'+borderLeft]">
         <div class="p-picker-child-select-box-title" v-if="range">
             <section class="p-picker-child-select-box-title-text">
                 <article>{{title}}</article>
@@ -70,6 +70,11 @@
     export default {
         name: "TimeSelect",
         props: {
+            // 左边框
+            borderLeft: {
+                type: String,
+                default: ''
+            },
             /**
              * 时间title
              */
