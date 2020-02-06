@@ -19,8 +19,8 @@
             return {
                 // dateSingleYear: '2020.05.18-2020.05.24',
                 dateSingleYear: '',
-                // dateSingleMonth: '2020.05.18-2020.05.24',
-                dateSingleMonth: '',
+                dateSingleMonth: '2020.05.18-2020.05.24',
+                // dateSingleMonth: '',
 
                 dateDoubleYear: '2020.01.06-2020.02.02',
                 // dateDoubleYear: '2020.01.06-2020.02.23',

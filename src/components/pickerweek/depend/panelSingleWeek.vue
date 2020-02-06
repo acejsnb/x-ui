@@ -32,7 +32,14 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
+                        <SingleYear
+                                ref="singleYear"
+                                v-show="panelYear"
+                                date=""
+                                @change="panelYearChangeDate"
+                        />
                         <WeekSelect
+                                v-show="!panelYear&&!panelMonth"
                                 :yearNow="yearNow"
                                 :yearActive="yearActive"
                                 :monthNow="monthNow"
@@ -43,6 +50,8 @@
                                 @prevMonth="prevMonth"
                                 @nextMonth="nextMonth"
                                 @change="changeDate"
+                                @panelYearHandle="panelYearHandle"
+                                @panelMonthHandle="panelMonthHandle"
                         />
                     </div>
                 </div>
@@ -58,6 +67,7 @@
 <script>
     import CountWeek from '../../static/utils/datePicker/CountWeek';
 
+    import SingleYear from '../../PickerYear/depend/singleYear';
     import WeekSelect from './week';
     import Button from '../../Button';
 
@@ -69,6 +79,7 @@
     export default {
         name: "panelSingleMonth",
         components: {
+            SingleYear,
             WeekSelect,
             Button,
             ClearSvg
@@ -110,14 +121,20 @@
                 monthSelected: '', // 选择的月
                 thTextSelected: '', // 选择的第几周 String
 
-                weeksArray: [] // 周列表
+                weeksArray: [], // 周列表
+                panelYear: false, // 显示年面板
+                panelMonth: false // 显示月面板
+            }
+        },
+        watch: {
+            date(n, o) {
+                if (n === o) return;
+                this.init(n);
             }
         },
         created() {
-            if (this.date) {
-                // 初始化日期对象
-                this.init();
-            }
+            // 初始化日期对象
+            this.init(this.date);
         },
         methods: {
             /**
@@ -130,12 +147,11 @@
             /**
              * 初始化日期对象
              */
-            init() {
-                const date=this.date;
+            init(date) {
                 const countWeek=new CountWeek({date, sort: this.sort});
                 this.weeksArray=countWeek.getWeeksArray();
-                const [year, month]=countWeek.countNowDate();
                 this.countWeek=countWeek;
+                const [year, month]=countWeek.countNowDate();
                 this.yearNow=year;
                 this.monthNow=month;
 
@@ -150,6 +166,7 @@
                 this.changeBtnType(date);
                 if (date) {
                     const [sd, ed]=date.split('-');
+                    console.log(sd, ed);
                     if (ed - sd < 6) {
                         // 一周时间必须等于七天
                         console.error('Date error, there must be seven days in a week.');
@@ -157,11 +174,13 @@
                     }
                     const [year, month]=sd.split('.');
                     const wa=this.weeksArray;
+                    console.log(year, month);
 
                     this.yearSelected=year;
                     this.monthSelected=month;
                     this.yearActive=year;
                     this.monthActive=month;
+                    console.log(this.monthActive);
 
                     const {weeks, thText}=wa.find(d => {
                         const dw=d.weeks;
@@ -231,13 +250,15 @@
             pickerBoxShow() {
                 this.pickerBoxStatus=true;
                 // 初始化日期对象
-                this.init();
+                // this.init(this.date);
             },
             /**
              * 关闭时间选择盒子
              */
             pickerBoxHide() {
                 if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
+                this.panelYearHandle(false);
+                this.panelMonthHandle(false);
             },
             /**
              * 切换日期
@@ -300,6 +321,54 @@
                 this.btnType='primary';
                 this.changeWeeksArray(thText);
             },
+            // 年面板显示切换
+            panelYearHandle(status) {
+                this.panelYear=status
+            },
+            // 月面板显示切换
+            panelMonthHandle(status) {
+                this.panelMonth=status
+            },
+            // 点击年
+            panelYearChangeDate(year) {
+                this.panelYearHandle(false);
+                this.yearActive=year;
+
+                const weeksArray=this.countWeek.yearChangeCountWeek(year, this.monthActive, this.sort);
+
+                this.weeksArray=weeksArray;
+                return;
+                if (this.date) {
+                    // this.yearSelected=year;
+                    if (this.sort === 'year') {
+                        const th=Number(this.thTextSelected.substr(5,2));
+                        this.weeksArray=weeksArray.map(d => {
+                            if (d.th === th) {
+                                d.selected='selected';
+                                // this.weeksSelected=d.weeks;
+                            }
+                            return d;
+                        });
+                        // this.thTextSelected=year+'第'+(th<10?'0'+th:th)+'周';
+                    } else {
+                        const tht=this.thTextSelected;
+                        const m=tht.substr(5,2);
+                        const th=Number(tht.substr(8, 2));
+                        this.weeksArray=weeksArray.map(d => {
+                            if (d.month === m && d.th === th) {
+                                d.selected='selected';
+                                // this.weeksSelected=d.weeks;
+                            }
+                            return d;
+                        });
+                        // this.thTextSelected=year+'.'+m+'第'+(th<10?'0'+th:th)+'周';
+                    }
+                } else {
+                    this.weeksArray=weeksArray;
+                }
+            },
+            // 点击月
+            panelMonthChangeDate() {},
             /**
              * 确定
              */

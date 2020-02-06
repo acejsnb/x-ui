@@ -261,12 +261,22 @@ class CountWeek {
      * 设置年月
      * @param Y
      * @param M
-     * @param sd // 当前选中的周 String
      */
-    setYearMonth(Y, M, sd) {
+    setYearMonth(Y, M) {
         this.Y=Y;
         this.M=M;
-        // this.date=sd;
+    }
+
+    /**
+     * 年改变计算周
+     * @param Y
+     * @param M
+     */
+    yearChangeCountWeek(Y, M, sort) {
+        this.Y=Y;
+        this.M=M;
+        this.sort=sort;
+        return this.getWeeksArray();
     }
 }
 

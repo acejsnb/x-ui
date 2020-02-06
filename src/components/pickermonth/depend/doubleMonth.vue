@@ -127,7 +127,7 @@
             },
             // 点击active的年，去选择active的年
             yearActiveClick() {
-                this.$emit('panelYearHandle', true);
+                this.$emit('panelYearHandle', true, true);
             }
         }
     }

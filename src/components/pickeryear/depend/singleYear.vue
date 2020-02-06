@@ -65,11 +65,6 @@
             date: {
                 type: String,
                 default: ''
-            },
-            // 向左推移时间
-            panelYearDate: {
-                type: Boolean,
-                default: false
             }
         },
         data() {
@@ -99,12 +94,7 @@
             init(date) {
                 this.countYear=new CountYear(date); // 当前计算年的对象
                 this.yearNow=this.countYear.countNowYear(); // 获取当前年
-                if (this.panelYearDate) {
-                    this.countYear=new CountYear((this.yearNow-12).toString());
-                    this.yearsArray=this.countYear.getYearsArray();
-                } else {
-                    this.yearsArray=this.countYear.getYearsArray();
-                }
+                this.yearsArray=this.countYear.getYearsArray();
 
                 this.setDate(date);
             },
@@ -148,7 +138,7 @@
                 });
                 this.setYearActive(this.yearsArray);
 
-                this.$emit('panelYearHandle', true)
+                this.$emit('panelYearDisableArrow');
             },
             /**
              * 上一组年

@@ -40,9 +40,8 @@
                                 ref="singleYearStart"
                                 v-show="panelYearStart"
                                 date=""
-                                :panelYearDate="true"
                                 @change="panelYearChangeDateStart"
-                                @panelYearHandle="panelYearHandleStart"
+                                @panelYearDisableArrow="panelYearDisableArrowStart"
                         />
                         <DoubleMonth
                                 v-show="!panelYearStart"
@@ -64,7 +63,7 @@
                                 v-show="panelYearEnd"
                                 date=""
                                 @change="panelYearChangeDateEnd"
-                                @panelYearHandle="panelYearHandleEnd"
+                                @panelYearDisableArrow="panelYearDisableArrowEnd"
                         />
                         <DoubleMonth
                                 v-show="!panelYearEnd"
@@ -152,6 +151,13 @@
 
                 panelYearStart: false, // 显示年面板
                 panelYearEnd: false // 显示年面板
+            }
+        },
+        watch: {
+            pickerBoxStatus(n) {
+                if (n) return;
+                this.panelYearHandleStart(false);
+                this.panelYearHandleEnd(false);
             }
         },
         created() {
@@ -377,8 +383,6 @@
              */
             pickerBoxHide() {
                 if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
-                this.panelYearStart=false;
-                this.panelYearEnd=false;
             },
             /**
              * 切换日期
@@ -707,23 +711,49 @@
                 this.pickerBoxStatus=false;
             },
 
-            // 年面板显示切换-start
-            panelYearHandleStart(status) {
+            // 年面板显示切换-start，如果flag为true则执行禁用箭头函数
+            panelYearHandleStart(status, flag) {
                 this.panelYearStart=status;
-                const sys=this.$refs.singleYearStart;
-                const yas=sys.yearsArray;
-                const yae=this.$refs.singleYearEnd.yearsArray;
-                const ys=yas[11].year, ye=yae[0].year;
-                sys.disableYearRight = ye - ys < 12;
+                // 重新计算年列表
+                const yae=(this.yearActiveEnd-1).toString();
+                this.$refs.singleYearStart.init(yae);
+                if (flag) this.panelYearDisableArrowStart();
             },
             // 年面板显示切换-end
-            panelYearHandleEnd(status) {
+            panelYearHandleEnd(status, flag) {
                 this.panelYearEnd=status;
-                const sye=this.$refs.singleYearEnd;
-                const yas=this.$refs.singleYearStart.yearsArray;
+                // 重新计算年列表
+                const yas=(Number(this.yearActiveStart)+12).toString();
+                this.$refs.singleYearEnd.init(yas);
+                if (flag) this.panelYearDisableArrowEnd();
+            },
+            // 禁用箭头-start，如果flag为true则执行禁用箭头函数
+            panelYearDisableArrowStart() {
+                const sys=this.$refs.singleYearStart, sye=this.$refs.singleYearEnd;
+                const yas=sys.yearsArray;
                 const yae=sye.yearsArray;
                 const ys=yas[11].year, ye=yae[0].year;
-                sye.disableYearLeft = ye - ys < 12;
+                if (ye - ys < 12) {
+                    sys.disableYearRight = true;
+                    sye.disableYearLeft = true;
+                } else {
+                    sys.disableYearRight = false;
+                    sye.disableYearLeft = false;
+                }
+            },
+            // 禁用箭头-end
+            panelYearDisableArrowEnd() {
+                const sys=this.$refs.singleYearStart, sye=this.$refs.singleYearEnd;
+                const yas=sys.yearsArray;
+                const yae=sye.yearsArray;
+                const ys=yas[11].year, ye=yae[0].year;
+                if (ye - ys < 12) {
+                    sye.disableYearLeft = true;
+                    sys.disableYearRight = true;
+                } else {
+                    sye.disableYearLeft = false;
+                    sys.disableYearRight = false;
+                }
             },
             // 点击年-start
             panelYearChangeDateStart(year) {
