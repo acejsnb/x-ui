@@ -96,14 +96,14 @@
             /**
              * 初始化日期对象
              */
-            init() {
-                const countMonth=new CountMonth(this.date);
+            init(date) {
+                const countMonth=new CountMonth(date);
                 this.monthsArray=countMonth.getMonthsArray();
                 const [year, month]=countMonth.countNowMonth();
                 this.yearNow=year;
                 this.monthNow=month;
 
-                this.setDate(this.date);
+                this.setDate(date);
             },
             /**
              * 设置选择的年月日

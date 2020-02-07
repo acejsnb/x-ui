@@ -33,7 +33,20 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
+                        <SingleYear
+                                ref="singleYear"
+                                v-show="panelYear"
+                                date=""
+                                @change="panelYearChangeDate"
+                        />
+                        <SingleMonth
+                                ref="singleMonth"
+                                v-show="panelMonth"
+                                date=""
+                                @change="panelMonthChangeDate"
+                        />
                         <DaySelect
+                                v-show="!panelYear&&!panelMonth"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
                                 :dayNow="dayNow"
@@ -49,6 +62,8 @@
                                 @prevMonth="prevMonth"
                                 @nextMonth="nextMonth"
                                 @change="changeDate"
+                                @panelYearHandle="panelYearHandle"
+                                @panelMonthHandle="panelMonthHandle"
                         />
                     </div>
                 </div>
@@ -69,6 +84,8 @@
     import CountNextMonth from '../../static/utils/datePicker/CountNextMonth';
     import CountPrevMonth from '../../static/utils/datePicker/CountPrevMonth';
 
+    import SingleYear from '../../PickerYear/depend/singleYear';
+    import SingleMonth from '../../PickerMonth/depend/singleMonth';
     import DaySelect from './day';
     import Button from '../../Button';
 
@@ -77,6 +94,8 @@
     export default {
         name: "panelSingleDay",
         components: {
+            SingleYear,
+            SingleMonth,
             DaySelect,
             Button,
             ClearSvg,
@@ -117,7 +136,9 @@
                 monthSelected: '', // 选择的月
                 daySelected: '', // 选择的日
 
-                daysArray: [] // 日列表
+                daysArray: [], // 日列表
+                panelYear: false, // 显示年面板
+                panelMonth: false // 显示月面板
             }
         },
         watch: {
@@ -298,6 +319,30 @@
                 this.daySelected=day;
                 this.btnType='primary';
                 this.changeDaysArray({year, month, day});
+            },
+            // 年面板显示切换
+            panelYearHandle(status) {
+                this.panelYear=status;
+            },
+            // 月面板显示切换
+            panelMonthHandle(status) {
+                // 计算月
+                const sm=this.$refs.singleMonth;
+                if (sm.yearActive !== this.yearActive || sm.monthActive !== this.monthActive) sm.init(this.yearActive+'.'+this.monthActive);
+                this.panelMonth=status;
+            },
+            // 点击年
+            panelYearChangeDate(year) {
+                this.panelYearHandle(false);
+                this.yearActive=year;
+
+                this.daysArray=this.countDay.yearChangeCountDay(year, this.monthActive);
+            },
+            // 点击月
+            panelMonthChangeDate({year, month}) {
+                this.panelMonthHandle(false);
+                this.monthActive=month;
+                this.daysArray=this.countDay.yearChangeCountDay(year, month);
             },
             /**
              * 确定

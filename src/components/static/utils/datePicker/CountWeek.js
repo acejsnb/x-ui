@@ -271,6 +271,7 @@ class CountWeek {
      * 年改变计算周
      * @param Y
      * @param M
+     * @param sort 排序方式
      */
     yearChangeCountWeek(Y, M, sort) {
         this.Y=Y;

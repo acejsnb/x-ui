@@ -18,8 +18,8 @@
                 </article>
             </section>
             <section class="p-picker-child-select-box-title-text">
-                <article>{{yearActive}}年</article>
-                <article>{{monthActive}}月</article>
+                <article class="p-picker-active-title" @click="yearActiveClick">{{yearActive}}年</article>
+                <article class="p-picker-active-title" @click="monthActiveClick">{{monthActive}}月</article>
             </section>
             <section class="p-picker-child-select-box-icon">
                 <article
@@ -208,6 +208,14 @@
             dayEnter(obj) {
                 if (!this.multiple || obj.flag !== 'n') return;
                 this.$emit('dayEnter', obj);
+            },
+            // 点击active的年，去选择active的年
+            yearActiveClick() {
+                this.$emit('panelYearHandle', true);
+            },
+            // 点击active的月，去选择active的月
+            monthActiveClick() {
+                this.$emit('panelMonthHandle', true);
             }
         }
     }

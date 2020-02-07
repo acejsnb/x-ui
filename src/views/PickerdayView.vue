@@ -22,10 +22,10 @@
             }
         },
         mounted() {
-            setTimeout(() => {
-                this.dateSingle='2020.02.29';
-                console.log(this.dateSingle);
-            }, 3000)
+            // setTimeout(() => {
+            //     this.dateSingle='2020.02.29';
+            //     console.log(this.dateSingle);
+            // }, 3000)
         },
         methods: {
             dateChangeSingle(date) {

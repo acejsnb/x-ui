@@ -168,6 +168,7 @@
              */
             pickerBoxHide() {
                 if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
+                this.panelYearHandle(false);
             },
             /**
              * 点击月

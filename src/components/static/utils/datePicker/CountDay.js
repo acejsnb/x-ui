@@ -105,6 +105,17 @@ class CountDay {
         this.daysArray=arr;
         return arr;
     }
+
+    /**
+     * 年改变计算日
+     * @param Y
+     * @param M
+     */
+    yearChangeCountDay(Y, M) {
+        this.Y=Y;
+        this.M=M;
+        return this.getDaysArray();
+    }
 }
 
 export default CountDay;

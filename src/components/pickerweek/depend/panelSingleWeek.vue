@@ -38,6 +38,12 @@
                                 date=""
                                 @change="panelYearChangeDate"
                         />
+                        <SingleMonth
+                                ref="singleMonth"
+                                v-show="panelMonth"
+                                date=""
+                                @change="panelMonthChangeDate"
+                        />
                         <WeekSelect
                                 v-show="!panelYear&&!panelMonth"
                                 :yearNow="yearNow"
@@ -68,6 +74,7 @@
     import CountWeek from '../../static/utils/datePicker/CountWeek';
 
     import SingleYear from '../../PickerYear/depend/singleYear';
+    import SingleMonth from '../../PickerMonth/depend/singleMonth';
     import WeekSelect from './week';
     import Button from '../../Button';
 
@@ -80,6 +87,7 @@
         name: "panelSingleMonth",
         components: {
             SingleYear,
+            SingleMonth,
             WeekSelect,
             Button,
             ClearSvg
@@ -166,7 +174,6 @@
                 this.changeBtnType(date);
                 if (date) {
                     const [sd, ed]=date.split('-');
-                    console.log(sd, ed);
                     if (ed - sd < 6) {
                         // 一周时间必须等于七天
                         console.error('Date error, there must be seven days in a week.');
@@ -174,13 +181,11 @@
                     }
                     const [year, month]=sd.split('.');
                     const wa=this.weeksArray;
-                    console.log(year, month);
 
                     this.yearSelected=year;
                     this.monthSelected=month;
                     this.yearActive=year;
                     this.monthActive=month;
-                    console.log(this.monthActive);
 
                     const {weeks, thText}=wa.find(d => {
                         const dw=d.weeks;
@@ -323,21 +328,25 @@
             },
             // 年面板显示切换
             panelYearHandle(status) {
-                this.panelYear=status
+                this.panelYear=status;
             },
             // 月面板显示切换
             panelMonthHandle(status) {
-                this.panelMonth=status
+                // 计算月
+                const sm=this.$refs.singleMonth;
+                if (sm.yearActive !== this.yearActive || sm.monthActive !== this.monthActive) sm.init(this.yearActive+'.'+this.monthActive);
+                this.panelMonth=status;
             },
             // 点击年
             panelYearChangeDate(year) {
                 this.panelYearHandle(false);
                 this.yearActive=year;
 
-                const weeksArray=this.countWeek.yearChangeCountWeek(year, this.monthActive, this.sort);
+                this.weeksArray=this.countWeek.yearChangeCountWeek(year, this.monthActive, this.sort);
 
-                this.weeksArray=weeksArray;
-                return;
+                // this.weeksArray=weeksArray;
+                /*
+                修改选中的时间
                 if (this.date) {
                     // this.yearSelected=year;
                     if (this.sort === 'year') {
@@ -366,9 +375,14 @@
                 } else {
                     this.weeksArray=weeksArray;
                 }
+                */
             },
             // 点击月
-            panelMonthChangeDate() {},
+            panelMonthChangeDate({year, month}) {
+                this.panelMonthHandle(false);
+                this.monthActive=month;
+                this.weeksArray=this.countWeek.yearChangeCountWeek(year, month, this.sort);
+            },
             /**
              * 确定
              */
