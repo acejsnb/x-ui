@@ -44,6 +44,7 @@
                                 v-show="panelMonth"
                                 date=""
                                 @change="panelMonthChangeDate"
+                                @panelYearHandle="panelYearHandle"
                         />
                         <DaySelect
                                 v-show="!panelYear&&!panelMonth"
@@ -149,6 +150,11 @@
                     this.daysArray=this.countDay.changeDay(n);
                 }
                 this.setDate(n);
+            },
+            pickerBoxStatus(n) {
+                if (n) return;
+                this.panelYearHandle(false);
+                this.panelMonthHandle(false);
             }
         },
         created() {
@@ -320,9 +326,11 @@
                 this.btnType='primary';
                 this.changeDaysArray({year, month, day});
             },
+
             // 年面板显示切换
             panelYearHandle(status) {
                 this.panelYear=status;
+                this.panelMonth=false;
             },
             // 月面板显示切换
             panelMonthHandle(status) {
@@ -330,6 +338,7 @@
                 const sm=this.$refs.singleMonth;
                 if (sm.yearActive !== this.yearActive || sm.monthActive !== this.monthActive) sm.init(this.yearActive+'.'+this.monthActive);
                 this.panelMonth=status;
+                this.panelYear=false;
             },
             // 点击年
             panelYearChangeDate(year) {
@@ -337,12 +346,14 @@
                 this.yearActive=year;
 
                 this.daysArray=this.countDay.yearChangeCountDay(year, this.monthActive);
+                this.btnType='disabled';
             },
             // 点击月
             panelMonthChangeDate({year, month}) {
                 this.panelMonthHandle(false);
                 this.monthActive=month;
                 this.daysArray=this.countDay.yearChangeCountDay(year, month);
+                this.btnType='disabled';
             },
             /**
              * 确定

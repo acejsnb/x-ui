@@ -6,16 +6,23 @@
                 <Select v-model="selVal" :data="dataSelect" width="120" />
             </div>
             <div style="font-size: 16px;">
-                <br><br><br><br><br><br><br><br>
+                <br><br>
             </div>
             <div>
                 <Select v-model="selVal1" :radius="true" :data="dataSelect1" width="120" />
             </div>
             <div style="font-size: 16px;">
-                <br><br><br><br><br><br><br><br>
+                <br><br>
             </div>
             <div>
                 <Select v-model="selVal2" title="项目：" :data="dataSelect2" width="160" />
+            </div>
+            <div style="font-size: 16px;">
+                <br><br>
+            </div>
+            size=small
+            <div>
+                <Select size="small" v-model="selVal" :data="dataSelect" width="120" />
             </div>
         </div>
     </div>

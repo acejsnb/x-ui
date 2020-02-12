@@ -1,6 +1,11 @@
 ### 更新日志
 
 ::: tip
+版本：0.9.0<br>
+1.Select组件新增尺寸
+:::
+
+::: tip
 版本：0.8.9<br>
 1.修改TransferSelect、TransferSelectModal组件新增以选择数据<br>
 2.Button组件修改size=small最小宽度<br>

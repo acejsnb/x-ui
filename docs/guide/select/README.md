@@ -11,13 +11,20 @@
                 <br><br>
             </div>
             <div>
-                <Select v-model="selVal" :radius="true" :data="dataSelect" width="120" />
+                <Select v-model="selVal1" :radius="true" :data="dataSelect1" width="120" />
             </div>
             <div style="font-size: 16px;">
                 <br><br>
             </div>
             <div>
-                <Select v-model="selVal" title="项目：" :data="dataSelect" width="160" />
+                <Select v-model="selVal2" title="项目：" :data="dataSelect2" width="160" />
+            </div>
+            <div style="font-size: 16px;">
+                <br><br>
+            </div>
+            size=small
+            <div>
+                <Select size="small" v-model="selVal" :data="dataSelect" width="120" />
             </div>
         </div>
     </div>
@@ -65,11 +72,24 @@
             <div>
                 <Select v-model="selVal" :data="dataSelect" width="120" />
             </div>
-            <div>
-                <Select v-model="selVal" :radius="true" :data="dataSelect" width="120" />
+            <div style="font-size: 16px;">
+                <br><br>
             </div>
             <div>
-                <Select v-model="selVal" title="项目：" :data="dataSelect" width="160" />
+                <Select v-model="selVal1" :radius="true" :data="dataSelect1" width="120" />
+            </div>
+            <div style="font-size: 16px;">
+                <br><br>
+            </div>
+            <div>
+                <Select v-model="selVal2" title="项目：" :data="dataSelect2" width="160" />
+            </div>
+            <div style="font-size: 16px;">
+                <br><br>
+            </div>
+            size=small
+            <div>
+                <Select size="small" v-model="selVal" :data="dataSelect" width="120" />
             </div>
         </div>
     </div>
@@ -115,6 +135,7 @@
 | 参数     | 说明  | 类型    | 默认值  | 必须    |
 | ------- | ---- | ------ | ------- | ------ |
 | data    | 类型（可选值：v/h） | Array | [] | Yes     |
+| size    | 类型（可选值：large/small） | String | large | No     |
 | v-model    | 绑定的id | String | '' | Yes     |
 | width   | 宽度 | String | '88' | no     |
 | title   | 标题 | String | '' | no     |

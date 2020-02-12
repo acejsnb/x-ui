@@ -1,5 +1,5 @@
 <template>
-    <div class="p-picker-child-select-box">
+    <div :class="['p-picker-child-select-box', 'p-picker-child-select-box-'+borderLeft]">
         <div class="p-picker-child-select-box-title">
             <section class="p-picker-child-select-box-icon">
                 <article
@@ -77,6 +77,11 @@
         name: "DaySelect",
         components: { ArrowRightSvg, ArrowRightDoubleSvg },
         props: {
+            // 左边框
+            borderLeft: {
+                type: String,
+                default: ''
+            },
             /**
              * 日期
              */
@@ -211,11 +216,11 @@
             },
             // 点击active的年，去选择active的年
             yearActiveClick() {
-                this.$emit('panelYearHandle', true);
+                this.$emit('panelYearHandle', true, true);
             },
             // 点击active的月，去选择active的月
             monthActiveClick() {
-                this.$emit('panelMonthHandle', true);
+                this.$emit('panelMonthHandle', true, true);
             }
         }
     }

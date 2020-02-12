@@ -29,7 +29,7 @@ class CountMonth {
     getMonthsArray() {
         const arr=[];
         for (let i=1; i<13; i++) {
-            arr.push({year: this.Y, month: i<10?'0'+i:''+i, monthText: i+'月', selected: '', multiple: ''})
+            arr.push({year: this.Y, month: i<10?'0'+i:''+i, monthText: i+'月', selected: '', multiple: '', disabled: ''})
         }
         this.monthsArray=arr;
         return arr;

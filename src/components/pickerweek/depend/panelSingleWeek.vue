@@ -43,6 +43,7 @@
                                 v-show="panelMonth"
                                 date=""
                                 @change="panelMonthChangeDate"
+                                @panelYearHandle="panelYearHandle"
                         />
                         <WeekSelect
                                 v-show="!panelYear&&!panelMonth"
@@ -138,6 +139,11 @@
             date(n, o) {
                 if (n === o) return;
                 this.init(n);
+            },
+            pickerBoxStatus(n) {
+                if (n) return;
+                this.panelYearHandle(false);
+                this.panelMonthHandle(false);
             }
         },
         created() {
@@ -262,8 +268,6 @@
              */
             pickerBoxHide() {
                 if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
-                this.panelYearHandle(false);
-                this.panelMonthHandle(false);
             },
             /**
              * 切换日期
@@ -329,6 +333,7 @@
             // 年面板显示切换
             panelYearHandle(status) {
                 this.panelYear=status;
+                this.panelMonth=false;
             },
             // 月面板显示切换
             panelMonthHandle(status) {
@@ -336,6 +341,7 @@
                 const sm=this.$refs.singleMonth;
                 if (sm.yearActive !== this.yearActive || sm.monthActive !== this.monthActive) sm.init(this.yearActive+'.'+this.monthActive);
                 this.panelMonth=status;
+                this.panelYear=false;
             },
             // 点击年
             panelYearChangeDate(year) {
@@ -343,6 +349,7 @@
                 this.yearActive=year;
 
                 this.weeksArray=this.countWeek.yearChangeCountWeek(year, this.monthActive, this.sort);
+                this.btnType='disabled';
 
                 // this.weeksArray=weeksArray;
                 /*
@@ -382,6 +389,7 @@
                 this.panelMonthHandle(false);
                 this.monthActive=month;
                 this.weeksArray=this.countWeek.yearChangeCountWeek(year, month, this.sort);
+                this.btnType='disabled';
             },
             /**
              * 确定

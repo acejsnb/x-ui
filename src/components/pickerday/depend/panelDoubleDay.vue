@@ -36,7 +36,22 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
+                        <SingleYear
+                                ref="singleYearStart"
+                                v-show="panelYearStart"
+                                date=""
+                                @change="panelYearChangeDateStart"
+                                @panelYearDisableArrow="panelYearDisableArrowStart"
+                        />
+                        <SingleMonth
+                                ref="singleMonthStart"
+                                v-show="panelMonthStart"
+                                date=""
+                                @change="panelMonthChangeDateStart"
+                                @panelYearHandle="panelYearHandleStart"
+                        />
                         <DaySelect
+                                v-show="!panelYearStart&&!panelMonthStart"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
                                 :dayNow="dayNow"
@@ -56,8 +71,27 @@
                                 :disableMonthRight="disableMonthRight"
                                 @dayEnter="dayEnterStart"
                                 :multiple="true"
+                                @panelYearHandle="panelYearHandleStart"
+                                @panelMonthHandle="panelMonthHandleStart"
+                        />
+                        <SingleYear
+                                ref="singleYearEnd"
+                                borderLeft="border-left"
+                                v-show="panelYearEnd"
+                                date=""
+                                @change="panelYearChangeDateEnd"
+                                @panelYearDisableArrow="panelYearDisableArrowEnd"
+                        />
+                        <SingleMonth
+                                ref="singleMonthEnd"
+                                v-show="panelMonthEnd"
+                                borderLeft="border-left"
+                                date=""
+                                @change="panelMonthChangeDateEnd"
+                                @panelYearHandle="panelYearHandleEnd"
                         />
                         <DaySelect
+                                v-show="!panelYearEnd&&!panelMonthEnd"
                                 borderLeft="border-left"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
@@ -78,6 +112,8 @@
                                 :disableMonthLeft="disableMonthLeft"
                                 @dayEnter="dayEnterEnd"
                                 :multiple="true"
+                                @panelYearHandle="panelYearHandleEnd"
+                                @panelMonthHandle="panelMonthHandleEnd"
                         />
                     </div>
                 </div>
@@ -91,6 +127,8 @@
 </template>
 
 <script>
+    import SingleYear from '../../PickerYear/depend/singleYear';
+    import SingleMonth from '../../PickerMonth/depend/singleMonth';
     import CountDay from '../../static/utils/datePicker/CountDay';
 
     import CountNextYear from '../../static/utils/datePicker/CountNextYear';
@@ -105,6 +143,8 @@
     export default {
         name: "panelDoubleDay",
         components: {
+            SingleYear,
+            SingleMonth,
             DaySelect,
             Button,
             ClearSvg
@@ -157,6 +197,20 @@
                 disableMonthRight: false, // 禁用开始时间右箭头-月
                 disableYearLeft: false,  // 禁用结束时间左箭头-年
                 disableMonthLeft: false,  // 禁用结束时间左箭头-月
+
+                panelYearStart: false, // 显示年面板
+                panelMonthStart: false, // 显示月面板
+                panelYearEnd: false, // 显示年面板
+                panelMonthEnd: false // 显示月面板
+            }
+        },
+        watch: {
+            pickerBoxStatus(n) {
+                if (n) return;
+                this.panelYearHandleStart(false);
+                this.panelMonthHandleStart(false);
+                this.panelYearHandleEnd(false);
+                this.panelMonthHandleEnd(false);
             }
         },
         created() {
@@ -777,6 +831,129 @@
                         })
                     }
                 }
+            },
+
+            // 清空开始日选中
+            clearDaysArrayStart() {
+                this.daysArrayStart=this.daysArrayStart.map(d => {
+                    d.selected='';
+                    d.multiple='';
+                    return d;
+                });
+                this.btnType='disabled';
+            },
+            // 清空结束日选中
+            clearDaysArrayEnd() {
+                this.daysArrayEnd=this.daysArrayEnd.map(d => {
+                    d.selected='';
+                    d.multiple='';
+                    return d;
+                });
+                this.btnType='disabled';
+            },
+            // 年面板显示切换-start，如果flag为true则执行禁用箭头函数
+            panelYearHandleStart(status, flag) {
+                this.panelYearStart=status;
+                this.panelMonthStart=false;
+                const y=this.$refs.singleYearEnd.yearsArray[0].year;
+                // 重新计算年列表
+                const yae=(y-1).toString();
+                this.$refs.singleYearStart.init(yae);
+                this.$refs.singleYearStart.changeYearsArray(this.yearActiveStart);
+                if (flag) this.panelYearDisableArrowStart();
+            },
+            // 年面板显示切换-end
+            panelYearHandleEnd(status, flag) {
+                this.panelYearEnd=status;
+                this.panelMonthEnd=false;
+                const y=this.$refs.singleYearStart.yearsArray[11].year;
+                // 重新计算年列表
+                const yas=(Number(y)+12).toString();
+                this.$refs.singleYearEnd.init(yas);
+                this.$refs.singleYearEnd.changeYearsArray(this.yearActiveEnd);
+                if (flag) this.panelYearDisableArrowEnd();
+            },
+            // 禁用箭头-start
+            panelYearDisableArrowStart() {
+                const sys=this.$refs.singleYearStart, sye=this.$refs.singleYearEnd;
+                const yas=sys.yearsArray;
+                const yae=sye.yearsArray;
+                const ys=yas[11].year, ye=yae[0].year;
+                if (ye - ys < 12) {
+                    sys.disableYearRight = true;
+                    sye.disableYearLeft = true;
+                } else {
+                    sys.disableYearRight = false;
+                    sye.disableYearLeft = false;
+                }
+            },
+            // 禁用箭头-end
+            panelYearDisableArrowEnd() {
+                const sys=this.$refs.singleYearStart, sye=this.$refs.singleYearEnd;
+                const yas=sys.yearsArray;
+                const yae=sye.yearsArray;
+                const ys=yas[11].year, ye=yae[0].year;
+                if (ye - ys < 12) {
+                    sye.disableYearLeft = true;
+                    sys.disableYearRight = true;
+                } else {
+                    sye.disableYearLeft = false;
+                    sys.disableYearRight = false;
+                }
+            },
+            // 点击年-start
+            panelYearChangeDateStart(year) {
+                this.panelYearHandleStart(false);
+                this.yearActiveStart=year;
+                this.daysArrayStart=this.countDayStart.yearChangeCountDay(year, this.monthActiveStart, this.sort);
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.clearDaysArrayEnd();
+            },
+            // 点击年-end
+            panelYearChangeDateEnd(year) {
+                this.panelYearHandleEnd(false);
+                this.yearActiveEnd=year;
+                this.daysArrayEnd=this.countDayEnd.yearChangeCountDay(year, this.monthActiveEnd, this.sort);
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.clearDaysArrayStart();
+            },
+            // 月面板的yearActive改变，改变年面板的year选中项-start
+            changeYearsArrayHandleStart(year) {
+                this.$refs.singleYearStart.changeYearsArray(year)
+            },
+            // 月面板的yearActive改变，改变年面板的year选中项-end
+            changeYearsArrayHandleEnd(year) {
+                this.$refs.singleYearEnd.changeYearsArray(year)
+            },
+            // 月面板显示切换-start
+            panelMonthHandleStart(status) {
+                // 计算月
+                const sms=this.$refs.singleMonthStart;
+                if (sms.yearActive !== this.yearActiveStart || sms.monthActive !== this.monthActiveStart) sms.init(this.yearActiveStart+'.'+this.monthActiveStart);
+                this.panelMonthStart=status;
+
+                if (this.yearActiveStart === this.yearActiveEnd) sms.setMonthsArrayRightDisable(this.monthActiveEnd);
+            },
+            // 月面板显示切换-end
+            panelMonthHandleEnd(status) {
+                // 计算月
+                const sme=this.$refs.singleMonthEnd;
+                if (sme.yearActive !== this.yearActiveEnd || sme.monthActive !== this.monthActiveEnd) sme.init(this.yearActiveEnd+'.'+this.monthActiveEnd);
+                this.panelMonthEnd=status;
+
+                if (this.yearActiveStart === this.yearActiveEnd) sme.setMonthsArrayLeftDisable(this.monthActiveStart);
+            },
+            // 点击月-start
+            panelMonthChangeDateStart({year, month}) {
+                this.panelMonthHandleStart(false);
+                this.monthActiveStart=month;
+                this.daysArrayStart=this.countDayStart.yearChangeCountDay(year, month, this.sort);
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.clearDaysArrayEnd();
+            },
+            // 点击月-end
+            panelMonthChangeDateEnd({year, month}) {
+                this.panelMonthHandleEnd(false);
+                this.monthActiveEnd=month;
+                this.daysArrayEnd=this.countDayEnd.yearChangeCountDay(year, month, this.sort);
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.clearDaysArrayStart();
             },
             /**
              * 确定

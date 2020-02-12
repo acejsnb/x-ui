@@ -98,6 +98,10 @@
             date(n, o) {
                 if (n === o) return;
                 this.dateFormat(n);
+            },
+            pickerBoxStatus(n) {
+                if (n) return;
+                this.panelYearHandle(false);
             }
         },
         created() {
@@ -168,7 +172,6 @@
              */
             pickerBoxHide() {
                 if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
-                this.panelYearHandle(false);
             },
             /**
              * 点击月

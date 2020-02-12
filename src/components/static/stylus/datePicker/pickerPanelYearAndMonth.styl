@@ -2,10 +2,12 @@
 .p-picker-panel-content
   padding 0 0 12px 15px
   width 100%
-  height 236px
+  height 252px
   .p-picker-panel-select
-    height 224px
+    height 240px
     ul
+      padding-top 8px
+      padding-bottom 8px
       display flex
       flex-wrap wrap
       width 100%
@@ -54,5 +56,12 @@
         background-color $blue-500 !important
         span
           color #fff
+        &::before
+          display none
+      &.p-picker-panel-text-disabled
+        background-color $grey-200 !important
+        cursor not-allowed
+        span
+          color $grey-400
         &::before
           display none

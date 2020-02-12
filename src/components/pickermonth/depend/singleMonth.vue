@@ -1,5 +1,5 @@
 <template>
-    <div class="p-picker-child-select-box">
+    <div :class="['p-picker-child-select-box', 'p-picker-child-select-box-'+borderLeft]">
         <div class="p-picker-child-select-box-title">
             <section class="p-picker-child-select-box-icon">
                 <article
@@ -31,7 +31,8 @@
                                 'p-picker-panel-text',
                                 (yearNow===ma.year&&monthNow===ma.month)&&'p-picker-panel-text-current',
                                 'p-picker-panel-text-'+ma.multiple,
-                                'p-picker-panel-text-'+ma.selected
+                                'p-picker-panel-text-'+ma.selected,
+                                'p-picker-panel-text-'+ma.disabled
                              ]"
                             v-for="(ma, mai) in monthsArray"
                             :key="'month-'+ma.month+mai"
@@ -53,6 +54,11 @@
         name: "SingleMonth",
         components: { ArrowRightDoubleSvg },
         props: {
+            // 左边框
+            borderLeft: {
+                type: String,
+                default: ''
+            },
             /**
              * 日期
              */
@@ -140,6 +146,24 @@
                 })
             },
             /**
+             * 设置禁用
+             * @param month
+             */
+            setMonthsArrayRightDisable(month) {
+                this.monthsArray=this.monthsArray.map(d => {
+                    if (month && d.month >= month) d.disabled='disabled';
+                    else d.disabled='';
+                    return d;
+                })
+            },
+            setMonthsArrayLeftDisable(month) {
+                this.monthsArray=this.monthsArray.map(d => {
+                    if (month && d.month <= month) d.disabled='disabled';
+                    else d.disabled='';
+                    return d;
+                })
+            },
+            /**
              * 切换日期
              * @param year String '2019'
              */
@@ -173,10 +197,11 @@
                 this.switchDate(date);
             },
             /**
-             * 点击日
+             * 点击月
              * @param obj
              */
             monthClick(obj) {
+                if (obj.disabled) return;
                 this.changeMonthsArray(obj);
                 this.$emit('change', obj);
             },

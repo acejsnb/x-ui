@@ -36,7 +36,22 @@
                         </section>
                     </div>
                     <div class="p-picker-main-item">
+                        <SingleYear
+                                ref="singleYearStart"
+                                v-show="panelYearStart"
+                                date=""
+                                @change="panelYearChangeDateStart"
+                                @panelYearDisableArrow="panelYearDisableArrowStart"
+                        />
+                        <SingleMonth
+                                ref="singleMonthStart"
+                                v-show="panelMonthStart"
+                                date=""
+                                @change="panelMonthChangeDateStart"
+                                @panelYearHandle="panelYearHandleStart"
+                        />
                         <WeekSelect
+                                v-show="!panelYearStart&&!panelMonthStart"
                                 :multiple="true"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
@@ -51,8 +66,27 @@
                                 @nextMonth="nextMonthStart"
                                 @weekEnter="weekEnterStart"
                                 @change="changeDateStart"
+                                @panelYearHandle="panelYearHandleStart"
+                                @panelMonthHandle="panelMonthHandleStart"
+                        />
+                        <SingleYear
+                                ref="singleYearEnd"
+                                borderLeft="border-left"
+                                v-show="panelYearEnd"
+                                date=""
+                                @change="panelYearChangeDateEnd"
+                                @panelYearDisableArrow="panelYearDisableArrowEnd"
+                        />
+                        <SingleMonth
+                                ref="singleMonthEnd"
+                                v-show="panelMonthEnd"
+                                borderLeft="border-left"
+                                date=""
+                                @change="panelMonthChangeDateEnd"
+                                @panelYearHandle="panelYearHandleEnd"
                         />
                         <WeekSelect
+                                v-show="!panelYearEnd&&!panelMonthEnd"
                                 borderLeft="border-left"
                                 :multiple="true"
                                 :yearNow="yearNow"
@@ -68,6 +102,8 @@
                                 @nextMonth="nextMonthEnd"
                                 @weekEnter="weekEnterEnd"
                                 @change="changeDateEnd"
+                                @panelYearHandle="panelYearHandleEnd"
+                                @panelMonthHandle="panelMonthHandleEnd"
                         />
                     </div>
                 </div>
@@ -81,6 +117,8 @@
 </template>
 
 <script>
+    import SingleYear from '../../PickerYear/depend/singleYear';
+    import SingleMonth from '../../PickerMonth/depend/singleMonth';
     import CountWeek from '../../static/utils/datePicker/CountWeek';
 
     import WeekSelect from './week';
@@ -95,6 +133,8 @@
     export default {
         name: "panelDoubleMonth",
         components: {
+            SingleYear,
+            SingleMonth,
             WeekSelect,
             Button,
             ClearSvg
@@ -156,11 +196,25 @@
                 disableMonthRight: false, // 禁用开始时间右箭头-月
                 disableMonthLeft: false,  // 禁用结束时间左箭头-月
 
-                sameMonth: false // 开始结束时间在同一月
+                sameMonth: false, // 开始结束时间在同一月
+
+                panelYearStart: false, // 显示年面板
+                panelMonthStart: false, // 显示月面板
+                panelYearEnd: false, // 显示年面板
+                panelMonthEnd: false // 显示月面板
+            }
+        },
+        watch: {
+            pickerBoxStatus(n) {
+                if (n) return;
+                this.panelYearHandleStart(false);
+                this.panelMonthHandleStart(false);
+                this.panelYearHandleEnd(false);
+                this.panelMonthHandleEnd(false);
             }
         },
         created() {
-            if (this.date) this.dateFormat(this.date);
+            this.dateFormat(this.date);
         },
         methods: {
             /**
@@ -175,30 +229,32 @@
              * @param date String '2020.01.06-2020.01.19'
              */
             dateFormat(date) {
-                const [ds, de]=date.split('-'); // 得到开始、结束时间
-                const yms=ds.substr(0, 7); // 得到开始时间年月
+                if (date) {
+                    const [ds, de]=date.split('-'); // 得到开始、结束时间
+                    const yms=ds.substr(0, 7); // 得到开始时间年月
 
-                const endLeftDate=CountStartOrEndDate(de, -6); // 计算结束周的开始年月日
-                const yme=endLeftDate.substr(0, 7); // 得到结束时间年月
+                    const endLeftDate=CountStartOrEndDate(de, -6); // 计算结束周的开始年月日
+                    const yme=endLeftDate.substr(0, 7); // 得到结束时间年月
 
-                // 设置结束时间
-                const [yearE, monthE]=endLeftDate.split('.');
-                this.yearSelectedEnd=yearE;
-                this.monthSelectedEnd=monthE;
-                this.yearActiveEnd=yearE;
-                this.monthActiveEnd=monthE;
-                this.selectedDateEnd=endLeftDate+'-'+de;
+                    // 设置结束时间
+                    const [yearE, monthE]=endLeftDate.split('.');
+                    this.yearSelectedEnd=yearE;
+                    this.monthSelectedEnd=monthE;
+                    this.yearActiveEnd=yearE;
+                    this.monthActiveEnd=monthE;
+                    this.selectedDateEnd=endLeftDate+'-'+de;
 
-                // 设置开始时间
-                const [yearS, monthS]=ds.split('.');
-                this.yearSelectedStart=yearS;
-                this.monthSelectedStart=monthS;
-                this.yearActiveStart=yearS;
-                this.monthActiveStart=monthS;
-                this.selectedDateStart=ds+'-'+CountStartOrEndDate(ds, 6);
+                    // 设置开始时间
+                    const [yearS, monthS]=ds.split('.');
+                    this.yearSelectedStart=yearS;
+                    this.monthSelectedStart=monthS;
+                    this.yearActiveStart=yearS;
+                    this.monthActiveStart=monthS;
+                    this.selectedDateStart=ds+'-'+CountStartOrEndDate(ds, 6);
 
-                // 如果开始结束年月相等，表示在同一月
-                this.sameMonth=(yms === yme);
+                    // 如果开始结束年月相等，表示在同一月
+                    this.sameMonth=(yms === yme);
+                }
 
                 this.initEnd();
             },
@@ -869,6 +925,130 @@
                 [this.thTextSelectedStart, this.thTextSelectedEnd]=[this.thTextSelectedEnd, this.thTextSelectedStart];
             },
             */
+
+            // 清空开始周选中
+            clearWeeksArrayStart() {
+                this.weeksArrayStart=this.weeksArrayStart.map(d => {
+                    d.selected='';
+                    d.multiple='';
+                    return d;
+                });
+                this.btnType='disabled';
+            },
+            // 清空结束周选中
+            clearWeeksArrayEnd() {
+                this.weeksArrayEnd=this.weeksArrayEnd.map(d => {
+                    d.selected='';
+                    d.multiple='';
+                    return d;
+                });
+                this.btnType='disabled';
+            },
+
+            // 年面板显示切换-start，如果flag为true则执行禁用箭头函数
+            panelYearHandleStart(status, flag) {
+                this.panelYearStart=status;
+                this.panelMonthStart=false;
+                const y=this.$refs.singleYearEnd.yearsArray[0].year;
+                // 重新计算年列表
+                const yae=(y-1).toString();
+                this.$refs.singleYearStart.init(yae);
+                this.$refs.singleYearStart.changeYearsArray(this.yearActiveStart);
+                if (flag) this.panelYearDisableArrowStart();
+            },
+            // 年面板显示切换-end
+            panelYearHandleEnd(status, flag) {
+                this.panelYearEnd=status;
+                this.panelMonthEnd=false;
+                const y=this.$refs.singleYearStart.yearsArray[11].year;
+                // 重新计算年列表
+                const yas=(Number(y)+12).toString();
+                this.$refs.singleYearEnd.init(yas);
+                this.$refs.singleYearEnd.changeYearsArray(this.yearActiveEnd);
+                if (flag) this.panelYearDisableArrowEnd();
+            },
+            // 禁用箭头-start
+            panelYearDisableArrowStart() {
+                const sys=this.$refs.singleYearStart, sye=this.$refs.singleYearEnd;
+                const yas=sys.yearsArray;
+                const yae=sye.yearsArray;
+                const ys=yas[11].year, ye=yae[0].year;
+                if (ye - ys < 12) {
+                    sys.disableYearRight = true;
+                    sye.disableYearLeft = true;
+                } else {
+                    sys.disableYearRight = false;
+                    sye.disableYearLeft = false;
+                }
+            },
+            // 禁用箭头-end
+            panelYearDisableArrowEnd() {
+                const sys=this.$refs.singleYearStart, sye=this.$refs.singleYearEnd;
+                const yas=sys.yearsArray;
+                const yae=sye.yearsArray;
+                const ys=yas[11].year, ye=yae[0].year;
+                if (ye - ys < 12) {
+                    sye.disableYearLeft = true;
+                    sys.disableYearRight = true;
+                } else {
+                    sye.disableYearLeft = false;
+                    sys.disableYearRight = false;
+                }
+            },
+            // 点击年-start
+            panelYearChangeDateStart(year) {
+                this.panelYearHandleStart(false);
+                this.yearActiveStart=year;
+                this.weeksArrayStart=this.countWeekStart.yearChangeCountWeek(year, this.monthActiveStart, this.sort);
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.clearWeeksArrayEnd();
+            },
+            // 点击年-end
+            panelYearChangeDateEnd(year) {
+                this.panelYearHandleEnd(false);
+                this.yearActiveEnd=year;
+                this.weeksArrayEnd=this.countWeekEnd.yearChangeCountWeek(year, this.monthActiveEnd, this.sort);
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.clearWeeksArrayStart();
+            },
+            // 月面板的yearActive改变，改变年面板的year选中项-start
+            changeYearsArrayHandleStart(year) {
+                this.$refs.singleYearStart.changeYearsArray(year)
+            },
+            // 月面板的yearActive改变，改变年面板的year选中项-end
+            changeYearsArrayHandleEnd(year) {
+                this.$refs.singleYearEnd.changeYearsArray(year)
+            },
+            // 月面板显示切换-start
+            panelMonthHandleStart(status) {
+                // 计算月
+                const sms=this.$refs.singleMonthStart;
+                if (sms.yearActive !== this.yearActiveStart || sms.monthActive !== this.monthActiveStart) sms.init(this.yearActiveStart+'.'+this.monthActiveStart);
+                this.panelMonthStart=status;
+
+                if (this.yearActiveStart === this.yearActiveEnd) sms.setMonthsArrayRightDisable(this.monthActiveEnd);
+            },
+            // 月面板显示切换-end
+            panelMonthHandleEnd(status) {
+                // 计算月
+                const sme=this.$refs.singleMonthEnd;
+                if (sme.yearActive !== this.yearActiveEnd || sme.monthActive !== this.monthActiveEnd) sme.init(this.yearActiveEnd+'.'+this.monthActiveEnd);
+                this.panelMonthEnd=status;
+
+                if (this.yearActiveStart === this.yearActiveEnd) sme.setMonthsArrayLeftDisable(this.monthActiveStart);
+            },
+            // 点击月-start
+            panelMonthChangeDateStart({year, month}) {
+                this.panelMonthHandleStart(false);
+                this.monthActiveStart=month;
+                this.weeksArrayStart=this.countWeekStart.yearChangeCountWeek(year, month, this.sort);
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.clearWeeksArrayEnd();
+            },
+            // 点击月-end
+            panelMonthChangeDateEnd({year, month}) {
+                this.panelMonthHandleEnd(false);
+                this.monthActiveEnd=month;
+                this.weeksArrayEnd=this.countWeekEnd.yearChangeCountWeek(year, month, this.sort);
+                if (this.yearSelectedStart && this.yearSelectedEnd) this.clearWeeksArrayStart();
+            },
             /**
              * 确定
              */

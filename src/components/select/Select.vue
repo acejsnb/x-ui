@@ -1,5 +1,5 @@
 <template>
-    <div class="p-select" :style="{width: width+'px'}" tabindex="-1" @blur="selectBlur">
+    <div :class="['p-select', 'p-select-'+size]" :style="{width: width+'px'}" tabindex="-1" @blur="selectBlur">
         <section
                 :class="['p-select-title', radius&&'p-select-title-radius']"
                 @click="selectBoxHandle"
@@ -61,6 +61,13 @@
             radius: {
                 type: Boolean,
                 default: false
+            },
+            /**
+             * 输入框尺寸
+             */
+            size: {
+                type: String,
+                default: 'large' // 可选值 large small
             }
         },
         data() {
@@ -132,14 +139,10 @@
             border 1px solid $grey-400
             border-radius 4px
             width 100%
-            height 32px
-            line-height @height
             text-align left
             cursor pointer
             z-index 10
             .p-select-title-text
-                padding-top 5px
-                padding-bottom 5px
                 width 100%
                 color $grey-900
                 span
@@ -157,8 +160,6 @@
                 display flex
                 align-items center
                 justify-content center
-                width 32px
-                height @width
                 text-align center
                 transition transform .3s
             .p-select-triangle-rotate
@@ -179,5 +180,25 @@
             max-height 184px
             overflow-y auto
             z-index 11
+    .p-select-large
+        .p-select-title
+            height 32px
+            line-height @height
+            .p-select-triangle
+                width 32px
+                height @width
+            .p-select-title-text
+                padding-top 5px
+                padding-bottom 5px
+    .p-select-small
+        .p-select-title
+            height 28px
+            line-height @height
+            .p-select-triangle
+                width 28px
+                height @width
+            .p-select-title-text
+                padding-top 3px
+                padding-bottom 3px
 
 </style>

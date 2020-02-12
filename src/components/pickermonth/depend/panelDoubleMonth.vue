@@ -714,20 +714,24 @@
             // 年面板显示切换-start，如果flag为true则执行禁用箭头函数
             panelYearHandleStart(status, flag) {
                 this.panelYearStart=status;
+                const y=this.$refs.singleYearEnd.yearsArray[0].year;
                 // 重新计算年列表
-                const yae=(this.yearActiveEnd-1).toString();
+                const yae=(y-1).toString();
                 this.$refs.singleYearStart.init(yae);
+                this.$refs.singleYearStart.changeYearsArray(this.yearActiveStart);
                 if (flag) this.panelYearDisableArrowStart();
             },
             // 年面板显示切换-end
             panelYearHandleEnd(status, flag) {
                 this.panelYearEnd=status;
+                const y=this.$refs.singleYearStart.yearsArray[11].year;
                 // 重新计算年列表
-                const yas=(Number(this.yearActiveStart)+12).toString();
+                const yas=(Number(y)+12).toString();
                 this.$refs.singleYearEnd.init(yas);
+                this.$refs.singleYearEnd.changeYearsArray(this.yearActiveEnd);
                 if (flag) this.panelYearDisableArrowEnd();
             },
-            // 禁用箭头-start，如果flag为true则执行禁用箭头函数
+            // 禁用箭头-start
             panelYearDisableArrowStart() {
                 const sys=this.$refs.singleYearStart, sye=this.$refs.singleYearEnd;
                 const yas=sys.yearsArray;
