@@ -1,15 +1,22 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input"
+                :class="['p-picker-input', format?'p-picker-input-double-time':'p-picker-input-double']"
                 @click="pickerBoxShow"
                 @mouseover="pickerClearShow"
                 @mouseout="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
-            >{{selectedDate?selectedDate:'请选择日期'}}</section>
-            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
+                    :class="['p-picker-input-tip-double', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+            >
+                <article class="p-picker-input-tip-double-values">{{dateStart?(`${dateStart}${format?(' '+timeStart):''}`):'开始日期'}}</article>
+                <article class="p-picker-input-tip-to">至</article>
+                <article class="p-picker-input-tip-double-values">{{dateEnd?(`${dateEnd}${format?(' '+timeEnd):''}`):'结束日期'}}</article>
+            </section>
+            <section class="p-picker-svg-box">
+                <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
+                <CalendarSvg v-else />
+            </section>
         </div>
         <transition name="opacityTop">
             <!--
@@ -24,15 +31,15 @@
                     @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
-                    <div class="p-picker-main-item-input-box">
-                        <section class="p-picker-input p-picker-input-values-default">
+                    <div :class="['p-picker-main-input', format?'p-picker-main-double-time':'p-picker-main-double']">
+                        <section class="p-picker-main-tip-double">
                             <article
-                                    :class="[(yearSelectedStart&&monthSelectedStart&&daySelectedStart)&&'p-picker-input-values']"
-                            >{{(yearSelectedStart&&monthSelectedStart&&daySelectedStart)?`${yearSelectedStart}.${monthSelectedStart}.${daySelectedStart}`:'开始日期'}}</article>
-                            <article class="p-picker-input-solstice">至</article>
+                                    :class="['p-picker-main-values', (yearSelectedStart&&monthSelectedStart&&daySelectedStart)&&'p-picker-main-values-selected']"
+                            >{{(yearSelectedStart&&monthSelectedStart&&daySelectedStart)?`${yearSelectedStart}.${monthSelectedStart}.${daySelectedStart}${format?(' '+timeStart):''}`:'开始日期'}}</article>
+                            <article class="p-picker-input-tip-to">至</article>
                             <article
-                                    :class="[(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)&&'p-picker-input-values']"
-                            >{{(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)?`${yearSelectedEnd}.${monthSelectedEnd}.${daySelectedEnd}`:'结束日期'}}</article>
+                                    :class="['p-picker-main-values', (yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)&&'p-picker-main-values-selected']"
+                            >{{(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)?`${yearSelectedEnd}.${monthSelectedEnd}.${daySelectedEnd}${format?(' '+timeEnd):''}`:'结束日期'}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">
@@ -140,6 +147,7 @@
     import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
+    import CalendarSvg from '../../static/iconSvg/calendar.svg';
     export default {
         name: "panelDoubleDay",
         components: {
@@ -147,13 +155,19 @@
             SingleMonth,
             DaySelect,
             Button,
-            ClearSvg
+            ClearSvg,
+            CalendarSvg
         },
         props: {
             /**
              * 传入的时间段
              */
             date: {
+                type: String,
+                default: ''
+            },
+            // 是否显示时分秒 可选值[hms, hm]
+            format: {
                 type: String,
                 default: ''
             }
@@ -165,6 +179,9 @@
                 blurStatus: false, // 是否可执行blur
                 clearStatus: false, // 关闭按钮
                 selectedDate: '', // 选中的时间
+
+                timeStart: '', // 时分|时分秒
+                timeEnd: '', // 时分|时分秒
 
                 dateStart: '',
                 dateEnd: '',
@@ -214,8 +231,6 @@
             }
         },
         created() {
-            this.dateFormat(this.date);
-
             this.initEnd();
         },
         methods: {
@@ -227,8 +242,25 @@
                 else this.btnType='disabled';
             },
             /**
+             * 格式化传入的时间
+             * @param date String '2020.02.14 08:09:10'
+             */
+            setSelectedDate(date) {
+                let sDate='', time='';
+                if (date) {
+                    if (this.format && date.includes(':')) {
+                        const [d, t]=date.split(' ');
+                        sDate=d;
+                        time=t;
+                    } else {
+                        sDate=date;
+                    }
+                }
+                return [sDate, time]
+            },
+            /**
              * 日期
-             * @param date String '2019.09.30-2019.10.31'
+             * @param date String '2019.09.30 08:09:10-2019.10.31 08:09:10'
              */
             dateFormat(date) {
                 this.selectedDate=date;
@@ -241,6 +273,7 @@
                 }
                 this.dateStart=dateStart;
                 this.dateEnd=dateEnd;
+                return [dateStart, dateEnd]
             },
             // 禁用箭头
             disableArrow() {
@@ -263,16 +296,23 @@
              * 初始化日期对象
              */
             initEnd() {
-                this.countDayEnd=new CountDay(this.dateEnd); // 当前计算天的对象
+                const [dateStart, dateEnd]=this.dateFormat(this.date);
+                const [dateS, timeS]=this.setSelectedDate(dateStart);
+                const [dateE, timeE]=this.setSelectedDate(dateEnd);
+                this.dateStart=dateS;
+                this.timeStart=timeS;
+                this.dateEnd=dateE;
+                this.timeEnd=timeE;
+                this.countDayEnd=new CountDay(dateE); // 当前计算天的对象
                 this.daysArrayEnd=this.countDayEnd.getDaysArray();
                 const [year, month, day]=this.countDayEnd.countNowDate(); // 获取当前时间、日期
                 this.yearNow=year;
                 this.monthNow=month;
                 this.dayNow=day;
                 this.setDateEnd(this.dateEnd);
-                if (this.date) {
-                    const sd=this.dateStart.replace(/\./, '').substr(0, 6);
-                    const ed=this.dateEnd.replace(/\./, '').substr(0, 6);
+                if (dateStart && dateEnd) {
+                    const sd=dateS.replace(/\./, '').substr(0, 6);
+                    const ed=dateE.replace(/\./, '').substr(0, 6);
                     if (ed - sd === 0) {
                         // 初始化开始时间对象
                         const [year, month, day]=this.dateEnd.split('.'); // 获取当前时间、日期
@@ -293,7 +333,7 @@
                         })
                     } else {
                         // 初始化开始时间对象
-                        this.initStart(this.dateStart);
+                        this.initStart(dateS);
                         const daysArray=this.daysArrayEnd;
                         const eInd=daysArray.findIndex(d => d.flag==='n'&&(d.year+'.'+d.month+'.'+d.day)===this.dateEnd);
                         this.daysArrayEnd=daysArray.map((d, i) => {
@@ -453,6 +493,10 @@
              */
             clearTime() {
                 this.selectedDate='';
+                this.dateStart='';
+                this.dateEnd='';
+                this.timeStart='';
+                this.timeEnd='';
                 this.yearSelectedStart='';
                 this.monthSelectedStart='';
                 this.daySelectedStart='';
@@ -974,7 +1018,3 @@
         }
     }
 </script>
-
-<style lang="stylus">
-
-</style>

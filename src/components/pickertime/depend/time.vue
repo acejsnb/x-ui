@@ -1,14 +1,9 @@
 <template>
     <div :class="['p-picker-child-select-box', 'p-picker-child-select-box-'+borderLeft]">
-        <div class="p-picker-child-select-box-title" v-if="range">
-            <section class="p-picker-child-select-box-title-text">
-                <article>{{title}}</article>
-            </section>
-        </div>
         <div class="p-picker-child-title">
-            <section :class="['p-picker-time-title-item', 'p-picker-time-title-item-'+format]">时</section>
-            <section :class="['p-picker-time-title-item', 'p-picker-time-title-item-'+format]">分</section>
-            <section :class="['p-picker-time-title-item', 'p-picker-time-title-item-'+format]" v-if="format==='hms'">秒</section>
+            <section class="p-picker-time-title-item">时</section>
+            <section class="p-picker-time-title-item">分</section>
+            <section class="p-picker-time-title-item" v-if="format==='hms'">秒</section>
         </div>
         <div class="p-picker-time-content">
             <div
@@ -74,20 +69,6 @@
             borderLeft: {
                 type: String,
                 default: ''
-            },
-            /**
-             * 时间title
-             */
-            title: {
-                type: String,
-                default: ''
-            },
-            /**
-             * 继承父级range
-             */
-            range: {
-                type: Boolean,
-                default: false
             },
             /**
              * 选择的小时
@@ -255,7 +236,7 @@
         margin-bottom 8px
         padding-left 16px
         padding-right 16px
-        .p-picker-child-title-item
+        .p-picker-time-title-item
             height 24px
             line-height @height
             color $grey-500
@@ -278,46 +259,45 @@
             height 24px
             z-index 9
             content ''
-        .p-picker-time-select-hms
-            width 98px
-            ul
-                li
-                    padding-left 36px
-        .p-picker-time-select-hm
-            width 147px
-            ul
-                li
-                    padding-left 60px
-        .p-picker-time-select
-            position relative
-            z-index 10
-            height 192px
-            overflow hidden
+    .p-picker-time-select-hms
+        width 98px
+        ul
+            li
+                padding-left 36px
+    .p-picker-time-select-hm
+        width 147px
+        ul
+            li
+                padding-left 60px
+    .p-picker-time-select
+        position relative
+        z-index 10
+        height 192px
+        overflow hidden
+        &:hover
+            overflow-y auto
+        ul
+            padding-bottom 160px
+            width 100%
+        .p-picker-time-text
+            margin-bottom 8px
+            width 100%
+            height 24px
+            line-height @height
             &:hover
-                overflow-y auto
-            ul
-                padding-bottom 160px
-                width 100%
-            .p-picker-time-text
-                margin-bottom 8px
-                width 100%
-                height 24px
-                line-height @height
+                background-color $grey-200
+                border-radius 4px
+            span
+                color $grey-900
+                font-size 14px
+                text-align center
+                cursor pointer
+                transition color .3s
+                user-select none
                 &:hover
                     background-color $grey-200
-                    border-radius 4px
+            &.p-picker-time-text-selected
                 span
-                    color $grey-900
-                    font-size 14px
-                    text-align center
-                    cursor pointer
-                    transition color .3s
-                    user-select none
-                    &:hover
-                        background-color $grey-200
-                &.p-picker-time-text-selected
-                    span
-                        color $blue-500
-
+                    color $blue-500
 
 </style>

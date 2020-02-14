@@ -1,15 +1,18 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input"
+                class="p-picker-input p-picker-input-trigger p-picker-input-single"
                 @click="pickerBoxShow"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
-            >{{selectedDate?selectedDate:'请选择日期'}}</section>
-            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
+                    :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+            >{{selectedDate?selectedDate:'选择日期'}}</section>
+            <section class="p-picker-svg-box">
+                <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
+                <CalendarSvg v-else />
+            </section>
         </div>
         <transition name="opacityTop">
             <!--
@@ -25,10 +28,10 @@
             >
                 <div class="p-picker-main-item-box">
                     <div class="p-picker-main-item-input-box">
-                        <section class="p-picker-input p-picker-input-values-default">
+                        <section class="p-picker-input-alert">
                             <article
-                                    :class="[yearSelected&&'p-picker-input-values']"
-                            >{{yearSelected?yearSelected:'请选择日期'}}</article>
+                                    :class="[yearSelected?'p-picker-input-values':'p-picker-input-tip']"
+                            >{{yearSelected?yearSelected:'选择日期'}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">
@@ -53,12 +56,14 @@
     import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
+    import CalendarSvg from '../../static/iconSvg/calendar.svg';
     export default {
         name: "panelSingleYear",
         components: {
             SingleYear,
             Button,
-            ClearSvg
+            ClearSvg,
+            CalendarSvg
         },
         props: {
             /**

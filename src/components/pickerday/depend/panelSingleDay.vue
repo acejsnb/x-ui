@@ -1,16 +1,18 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input"
+                class="p-picker-input p-picker-input-trigger p-picker-input-single"
                 @click="pickerBoxShow"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
-            >{{selectedDate?selectedDate:'请选择日期'}}</section>
-            <CalendarSvg v-if="calendar && !clearStatus" />
-            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
+                    :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+            >{{selectedDate?selectedDate:'选择日期'}}</section>
+            <section class="p-picker-svg-box">
+                <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
+                <CalendarSvg v-else />
+            </section>
         </div>
         <transition name="opacityTop">
             <!--
@@ -26,10 +28,10 @@
             >
                 <div class="p-picker-main-item-box">
                     <div class="p-picker-main-item-input-box">
-                        <section class="p-picker-input p-picker-input-values-default">
+                        <section class="p-picker-input-alert">
                             <article
-                                    :class="[(yearSelected&&monthSelected&&daySelected)&&'p-picker-input-values']"
-                            >{{(yearSelected&&monthSelected&&daySelected)?`${yearSelected}.${monthSelected}.${daySelected}`:'请选择日期'}}</article>
+                                    :class="[(yearSelected&&monthSelected&&daySelected)?'p-picker-input-values':'p-picker-input-tip']"
+                            >{{(yearSelected&&monthSelected&&daySelected)?`${yearSelected}.${monthSelected}.${daySelected}${format?(' '+time):''}`:'请选择日期'}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">
@@ -110,10 +112,10 @@
                 type: String,
                 default: ''
             },
-            // 是否显示日历图标
-            calendar: {
-                type: Boolean,
-                default: false
+            // 是否显示时分秒 可选值[hms, hm]
+            format: {
+                type: String,
+                default: ''
             }
         },
         data() {
@@ -123,6 +125,7 @@
                 blurStatus: false, // 是否可执行blur
                 clearStatus: false, // 关闭按钮
                 selectedDate: '', // 选中的时间
+                time: '', // 时分|时分秒
 
                 yearNow: '', // 当前年
                 monthNow: '', // 当前月
@@ -149,7 +152,8 @@
                 if (this.countDay) {
                     this.daysArray=this.countDay.changeDay(n);
                 }
-                this.setDate(n);
+                const [date, time]=this.setSelectedDate(n);
+                this.setDate(date, time);
             },
             pickerBoxStatus(n) {
                 if (n) return;
@@ -170,24 +174,44 @@
                 else this.btnType='disabled';
             },
             /**
+             * 格式化传入的时间
+             * @param date String '2020.02.14 08:09:10'
+             */
+            setSelectedDate(date) {
+                this.selectedDate=date;
+                this.changeBtnType(date);
+                let sDate='', time='';
+                if (date) {
+                    if (this.format && date.includes(':')) {
+                        const [d, t]=date.split(' ');
+                        sDate=d;
+                        time=t;
+                    } else {
+                        sDate=date;
+                    }
+                }
+                this.time=time;
+                return [sDate, time]
+            },
+            /**
              * 初始化日期对象
              */
             init() {
-                this.countDay=new CountDay(this.date); // 当前计算天的对象
+                const [date, time]=this.setSelectedDate(this.date);
+                this.countDay=new CountDay(date); // 当前计算天的对象
                 this.daysArray=this.countDay.getDaysArray();
                 const [year, month, day]=this.countDay.countNowDate(); // 获取当前时间、日期
                 this.yearNow=year;
                 this.monthNow=month;
                 this.dayNow=day;
-                this.setDate(this.date);
+                this.setDate(date, time);
             },
             /**
              * 设置选择的年月日
              * @param date String 2019.10.31
+             * @param time String 09:10:31
              */
-            setDate(date) {
-                this.selectedDate=date;
-                this.changeBtnType(date);
+            setDate(date, time) {
                 let year='', month='', day='',
                     yearActive='', monthActive='', dayActive='';
                 if (date) {
@@ -240,6 +264,7 @@
              */
             clearTime() {
                 this.selectedDate='';
+                this.time='';
                 // this.yearNow='';
                 // this.monthNow='';
                 // this.dayNow='';

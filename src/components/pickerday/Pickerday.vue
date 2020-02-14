@@ -3,12 +3,13 @@
         <PanelDoubleDay
                 v-if="range"
                 :date="date"
+                :format="format"
                 @change="changeDouble"
         />
         <PanelSingleDay
                 v-else
                 :date="date"
-                :calendar="calendar"
+                :format="format"
                 @change="changeSingle"
         />
     </div>
@@ -41,10 +42,10 @@
                 type: Boolean,
                 default: false
             },
-            // 是否显示日历图标
-            calendar: {
-                type: Boolean,
-                default: false
+            // 是否显示时分秒 可选值[hms, hm]
+            format: {
+                type: String,
+                default: ''
             }
         },
         methods: {

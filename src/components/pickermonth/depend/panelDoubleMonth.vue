@@ -1,15 +1,22 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input"
+                class="p-picker-input p-picker-input-double"
                 @click="pickerBoxShow"
                 @mouseover="pickerClearShow"
                 @mouseout="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip', selectedDate&&'p-picker-input-values']"
-            >{{selectedDate?selectedDate:'请选择日期'}}</section>
-            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
+                    :class="['p-picker-input-tip-double', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+            >
+                <article class="p-picker-input-tip-double-values">{{dateStart?dateStart:'开始日期'}}</article>
+                <article class="p-picker-input-tip-to">至</article>
+                <article class="p-picker-input-tip-double-values">{{dateEnd?dateEnd:'结束日期'}}</article>
+            </section>
+            <section class="p-picker-svg-box">
+                <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
+                <CalendarSvg v-else />
+            </section>
         </div>
         <transition name="opacityTop">
             <!--
@@ -24,14 +31,14 @@
                     @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
-                    <div class="p-picker-main-item-input-box">
-                        <section class="p-picker-input p-picker-input-values-default">
+                    <div class="p-picker-main-input p-picker-main-double-week">
+                        <section class="p-picker-main-tip-double">
                             <article
-                                    :class="[yearSelectedStart&&'p-picker-input-values']"
+                                    :class="['p-picker-main-values', yearSelectedStart&&'p-picker-main-values-selected']"
                             >{{(yearSelectedStart&&monthSelectedStart)?(yearSelectedStart+'.'+monthSelectedStart):'开始日期'}}</article>
-                            <article class="p-picker-input-solstice">至</article>
+                            <article class="p-picker-input-tip-to">至</article>
                             <article
-                                    :class="[yearSelectedEnd&&'p-picker-input-values']"
+                                    :class="['p-picker-main-values', yearSelectedEnd&&'p-picker-main-values-selected']"
                             >{{(yearSelectedEnd&&monthSelectedEnd)?(yearSelectedEnd+'.'+monthSelectedEnd):'结束日期'}}</article>
                         </section>
                     </div>
@@ -99,13 +106,15 @@
     import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
+    import CalendarSvg from '../../static/iconSvg/calendar.svg';
     export default {
         name: "panelDoubleMonth",
         components: {
             SingleYear,
             DoubleMonth,
             Button,
-            ClearSvg
+            ClearSvg,
+            CalendarSvg
         },
         props: {
             /**

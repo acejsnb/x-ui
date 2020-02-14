@@ -1,15 +1,23 @@
 <template>
     <div class="p-picker-child">
+<!--        :class="['p-picker-input', format?'p-picker-input-double-time':'p-picker-input-double']"-->
         <div
-                class="p-picker-input"
+                :class="['p-picker-input', 'p-picker-input-double-week']"
                 @click="pickerBoxShow"
                 @mouseover="pickerClearShow"
                 @mouseout="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip', thTextSelected&&'p-picker-input-values']"
-            >{{thTextSelected?thTextSelected:'请选择日期'}}</section>
-            <ClearSvg v-show="clearStatus" class="p-picker-clear-svg" @click.stop="clearTime" />
+                    :class="['p-picker-input-tip-double', thTextSelected?'p-picker-input-values':'p-picker-input-tip']"
+            >
+                <article class="p-picker-input-tip-double-values">{{thTextSelectedStart?thTextSelectedStart:'开始日期'}}</article>
+                <article class="p-picker-input-tip-to">至</article>
+                <article class="p-picker-input-tip-double-values">{{thTextSelectedEnd?thTextSelectedEnd:'结束日期'}}</article>
+            </section>
+            <section class="p-picker-svg-box">
+                <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
+                <CalendarSvg v-else />
+            </section>
         </div>
         <transition name="opacityTop">
             <!--
@@ -24,14 +32,14 @@
                     @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
-                    <div class="p-picker-main-item-input-box">
-                        <section class="p-picker-input p-picker-input-values-default">
+                    <div class="p-picker-main-input p-picker-main-double-week">
+                        <section class="p-picker-main-tip-double">
                             <article
-                                    :class="[thTextSelectedStart&&'p-picker-input-values']"
+                                    :class="['p-picker-main-values', thTextSelectedStart&&'p-picker-main-values-selected']"
                             >{{thTextSelectedStart?thTextSelectedStart:'开始日期'}}</article>
-                            <article class="p-picker-input-solstice">至</article>
+                            <article class="p-picker-input-tip-to">至</article>
                             <article
-                                    :class="[thTextSelectedEnd&&'p-picker-input-values']"
+                                    :class="['p-picker-main-values', thTextSelectedEnd&&'p-picker-main-values-selected']"
                             >{{thTextSelectedEnd?thTextSelectedEnd:'结束日期'}}</article>
                         </section>
                     </div>
@@ -125,6 +133,7 @@
     import Button from '../../Button';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
+    import CalendarSvg from '../../static/iconSvg/calendar.svg';
     import CountPrevMonth from "../../static/utils/datePicker/CountPrevMonth";
     import CountNextMonth from "../../static/utils/datePicker/CountNextMonth";
     import CountPrevYear from "../../static/utils/datePicker/CountPrevYear";
@@ -137,7 +146,8 @@
             SingleMonth,
             WeekSelect,
             Button,
-            ClearSvg
+            ClearSvg,
+            CalendarSvg
         },
         props: {
             /**
