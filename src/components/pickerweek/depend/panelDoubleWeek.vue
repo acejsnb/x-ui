@@ -2,17 +2,17 @@
     <div class="p-picker-child">
 <!--        :class="['p-picker-input', format?'p-picker-input-double-time':'p-picker-input-double']"-->
         <div
-                :class="['p-picker-input', 'p-picker-input-double-week']"
+                :class="['p-picker-input', 'p-picker-input-double-max']"
                 @click="pickerBoxShow"
                 @mouseover="pickerClearShow"
                 @mouseout="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip-double', thTextSelected?'p-picker-input-values':'p-picker-input-tip']"
+                    :class="['p-picker-input-double-tip', thTextSelected?'p-picker-input-values':'p-picker-input-tip']"
             >
-                <article class="p-picker-input-tip-double-values">{{thTextSelectedStart?thTextSelectedStart:'开始日期'}}</article>
+                <article class="p-picker-input-tip-values p-picker-ellipsis">{{thTextSelectedStart?thTextSelectedStart:'开始日期'}}</article>
                 <article class="p-picker-input-tip-to">至</article>
-                <article class="p-picker-input-tip-double-values">{{thTextSelectedEnd?thTextSelectedEnd:'结束日期'}}</article>
+                <article class="p-picker-input-tip-values p-picker-ellipsis">{{thTextSelectedEnd?thTextSelectedEnd:'结束日期'}}</article>
             </section>
             <section class="p-picker-svg-box">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
@@ -32,14 +32,14 @@
                     @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
-                    <div class="p-picker-main-input p-picker-main-double-week">
-                        <section class="p-picker-main-tip-double">
+                    <div class="p-picker-main-item-input-box">
+                        <section class="p-picker-input-alert">
                             <article
-                                    :class="['p-picker-main-values', thTextSelectedStart&&'p-picker-main-values-selected']"
+                                    :class="['p-picker-input-alert-tip', thTextSelectedStart?'p-picker-input-values':'p-picker-input-tip']"
                             >{{thTextSelectedStart?thTextSelectedStart:'开始日期'}}</article>
                             <article class="p-picker-input-tip-to">至</article>
                             <article
-                                    :class="['p-picker-main-values', thTextSelectedEnd&&'p-picker-main-values-selected']"
+                                    :class="['p-picker-input-alert-tip', thTextSelectedEnd?'p-picker-input-values':'p-picker-input-tip']"
                             >{{thTextSelectedEnd?thTextSelectedEnd:'结束日期'}}</article>
                         </section>
                     </div>

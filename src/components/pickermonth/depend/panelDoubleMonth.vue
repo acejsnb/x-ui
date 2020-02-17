@@ -7,11 +7,11 @@
                 @mouseout="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip-double', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+                    :class="['p-picker-input-double-tip', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
             >
-                <article class="p-picker-input-tip-double-values">{{dateStart?dateStart:'开始日期'}}</article>
+                <article class="p-picker-input-tip-values">{{dateStart?dateStart:'开始日期'}}</article>
                 <article class="p-picker-input-tip-to">至</article>
-                <article class="p-picker-input-tip-double-values">{{dateEnd?dateEnd:'结束日期'}}</article>
+                <article class="p-picker-input-tip-values">{{dateEnd?dateEnd:'结束日期'}}</article>
             </section>
             <section class="p-picker-svg-box">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
@@ -31,14 +31,14 @@
                     @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
-                    <div class="p-picker-main-input p-picker-main-double-week">
-                        <section class="p-picker-main-tip-double">
+                    <div class="p-picker-main-item-input-box">
+                        <section class="p-picker-input-alert">
                             <article
-                                    :class="['p-picker-main-values', yearSelectedStart&&'p-picker-main-values-selected']"
+                                    :class="['p-picker-input-alert-tip', yearSelectedStart?'p-picker-input-values':'p-picker-input-tip']"
                             >{{(yearSelectedStart&&monthSelectedStart)?(yearSelectedStart+'.'+monthSelectedStart):'开始日期'}}</article>
                             <article class="p-picker-input-tip-to">至</article>
                             <article
-                                    :class="['p-picker-main-values', yearSelectedEnd&&'p-picker-main-values-selected']"
+                                    :class="['p-picker-input-alert-tip', yearSelectedEnd?'p-picker-input-values':'p-picker-input-tip']"
                             >{{(yearSelectedEnd&&monthSelectedEnd)?(yearSelectedEnd+'.'+monthSelectedEnd):'结束日期'}}</article>
                         </section>
                     </div>

@@ -1,22 +1,33 @@
 <template>
     <div class="p-picker-child">
         <div
-                :class="['p-picker-input', format?'p-picker-input-double-time':'p-picker-input-double']"
+                :class="[
+                    'p-picker-input', format?'p-picker-input-double-max':'p-picker-input-double',
+                    quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
+                    ]"
                 @click="pickerBoxShow"
                 @mouseover="pickerClearShow"
                 @mouseout="pickerClearHide"
         >
+            <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
             <section
-                    :class="['p-picker-input-tip-double', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+                    :class="['p-picker-input-double-tip', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
             >
-                <article class="p-picker-input-tip-double-values">{{dateStart?(`${dateStart}${format?(' '+timeStart):''}`):'开始日期'}}</article>
-                <article class="p-picker-input-tip-to">至</article>
-                <article class="p-picker-input-tip-double-values">{{dateEnd?(`${dateEnd}${format?(' '+timeEnd):''}`):'结束日期'}}</article>
+                <article class="p-picker-input-tip-values p-picker-ellipsis"
+                         @mouseenter="pickerEllipsis"
+                >{{dateStart?(`${dateStart}${format?(' '+timeStart):''}`):'开始日期'}}</article>
+                <article :class="['p-picker-input-tip-to', (dateStart&&format)&&'p-picker-left-box-shadow']">至</article>
+                <article class="p-picker-input-tip-values p-picker-ellipsis"
+                         @mouseenter="pickerEllipsis"
+                >{{dateEnd?(`${dateEnd}${format?(' '+timeEnd):''}`):'结束日期'}}</article>
             </section>
-            <section class="p-picker-svg-box">
+            <section v-if="!quickSwitch" :class="['p-picker-svg-box', (dateEnd&&format)&&'p-picker-left-box-shadow']">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
                 <CalendarSvg v-else />
             </section>
+            <i v-if="quickSwitch"
+               :class="['p-picker-triangle', 'p-picker-triangle-right', (selectedDate&&format)&&'p-picker-left-box-shadow']"
+            ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
             <!--
@@ -31,16 +42,19 @@
                     @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
-                    <div :class="['p-picker-main-input', format?'p-picker-main-double-time':'p-picker-main-double']">
-                        <section class="p-picker-main-tip-double">
+                    <div class="p-picker-main-item-input-box">
+                        <section class="p-picker-input-alert">
                             <article
-                                    :class="['p-picker-main-values', (yearSelectedStart&&monthSelectedStart&&daySelectedStart)&&'p-picker-main-values-selected']"
+                                    :class="['p-picker-input-alert-tip', (yearSelectedStart&&monthSelectedStart&&daySelectedStart)?'p-picker-input-values':'p-picker-input-tip', 'p-picker-ellipsis']"
+                                    @mouseenter="pickerEllipsis"
                             >{{(yearSelectedStart&&monthSelectedStart&&daySelectedStart)?`${yearSelectedStart}.${monthSelectedStart}.${daySelectedStart}${format?(' '+timeStart):''}`:'开始日期'}}</article>
-                            <article class="p-picker-input-tip-to">至</article>
+                            <article :class="['p-picker-input-tip-to', (yearSelectedStart&&monthSelectedStart&&daySelectedStart&&format)&&'p-picker-left-box-shadow']">至</article>
                             <article
-                                    :class="['p-picker-main-values', (yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)&&'p-picker-main-values-selected']"
+                                    :class="['p-picker-input-alert-tip', (yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)?'p-picker-input-values':'p-picker-input-tip', 'p-picker-ellipsis']"
+                                    @mouseenter="pickerEllipsis"
                             >{{(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)?`${yearSelectedEnd}.${monthSelectedEnd}.${daySelectedEnd}${format?(' '+timeEnd):''}`:'结束日期'}}</article>
                         </section>
+                        <section v-if="(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd&&format)" class="p-picker-main-ph p-picker-left-box-shadow" />
                     </div>
                     <div class="p-picker-main-item">
                         <SingleYear
@@ -148,6 +162,8 @@
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     import CalendarSvg from '../../static/iconSvg/calendar.svg';
+    import TrianglePickerLeft from '../../static/iconSvg/triangle_picker_left.svg';
+    import TrianglePickerRight from '../../static/iconSvg/triangle_picker_right.svg';
     export default {
         name: "panelDoubleDay",
         components: {
@@ -156,7 +172,9 @@
             DaySelect,
             Button,
             ClearSvg,
-            CalendarSvg
+            CalendarSvg,
+            TrianglePickerLeft,
+            TrianglePickerRight
         },
         props: {
             /**
@@ -170,6 +188,11 @@
             format: {
                 type: String,
                 default: ''
+            },
+            // 快速切换时间
+            quickSwitch: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -234,6 +257,12 @@
             this.initEnd();
         },
         methods: {
+            // 文字超出显示省略号
+            pickerEllipsis(e) {
+                const target=e.target;
+                const {clientWidth, scrollWidth}=target;
+                if (scrollWidth > clientWidth) target.title=target.innerText;
+            },
             /**
              * 改变按钮状态
              */

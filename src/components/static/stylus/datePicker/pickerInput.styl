@@ -2,7 +2,6 @@
   position relative
   display flex
   align-items center
-  padding-left 12px
   border-width 1px
   border-style solid
   border-color $grey-400
@@ -13,6 +12,8 @@
   transition border .3s
   &:hover
     border-color $blue-500
+.p-picker-input-normal
+  padding-left 12px
 .p-picker-input-tip
   font-size 14px
   color $grey-400
@@ -22,17 +23,21 @@
   width 126px
 .p-picker-input-tip-double
   display flex
-  justify-content space-between
+  //justify-content center
 .p-picker-input-tip-to
-  width 40px
+  width 38px
+  line-height 30px
   text-align center
   font-size 14px
   color $grey-500
+.p-picker-left-box-shadow
+  box-shadow -1px 0 2px 0 rgba(31,35,41,.08)
 .p-picker-svg-box
   display flex
   align-items center
   justify-content center
   width 40px
+  height 30px
   .p-picker-clear-svg
     path
       transition fill .3s
@@ -40,37 +45,55 @@
       path
         fill $blue-500
 .p-picker-input-values
-  width 100%
   line-height 30px
   font-size 14px
   color $grey-900
+.p-picker-input-tip-values
+  line-height 30px
+  text-align center
 .p-picker-input-single
-  width 188px
+  width 180px
   text-align left
+  &.p-picker-input-triangle
+    .p-picker-input-tip,
+    .p-picker-input-values
+      text-align center
+    .p-picker-input-tip-single
+      width 138px
+
+.p-picker-input-double-tip
+  display flex
 .p-picker-input-double
-  width 242px
-  .p-picker-input-tip-double
+  width 240px
+  .p-picker-input-double-tip
     width 188px
-  .p-picker-input-tip-double-values
-    width 74px
+  .p-picker-input-tip-values
+    width 75px
     text-align center
-.p-picker-input-double-time
-  width 374px
-  .p-picker-input-tip-double
-    width 320px
-  .p-picker-input-tip-double-values
-    width 140px
+  &.p-picker-input-triangle
+    .p-picker-input-double-tip
+      width 200px
+      .p-picker-input-tip-values
+        width 81px
+.p-picker-input-double-max
+  width 308px
+  .p-picker-input-double-tip
+    width 254px
+  .p-picker-input-tip-values
+    width 108px
     text-align center
-.p-picker-input-double-week
-  width 294px
-  .p-picker-input-tip-double
-    width 240px
-  .p-picker-input-tip-double-values
-    width 100px
-    text-align center
+  &.p-picker-input-triangle
+    .p-picker-input-double-tip
+      width 266px
+    .p-picker-input-tip-values
+      width 114px
+
 .p-picker-input-alert
+  display flex
   margin-top 12px
   margin-bottom @margin-top
+  padding-left 12px
+  padding-right 12px
   border 1px solid $blue-500
   border-radius 4px
   width 294px
@@ -79,42 +102,45 @@
   .p-picker-input-values, .p-picker-input-tip
     width 100%
     text-align center
+  .p-picker-input-alert-tip
+    width 116px
 
-.p-picker-main-input
-  margin-top 12px
-  margin-bottom 12px
-  padding-left 12px
-  padding-right 12px
-  border 1px solid $blue-500
-  border-radius 4px
-  height 32px
-  line-height 30px
-  .p-picker-main-values
-    font-size 14px
-    color $grey-400
-    text-align center
-  .p-picker-main-values-selected
-    color $grey-900
-.p-picker-main-tip-double
-  display flex
-  justify-content space-between
-.p-picker-main-values
+.p-picker-main-ph
+  position absolute
+  right 0
+  top 13px
+  width 12px
+  height 30px
+
+.p-picker-ellipsis
+  overflow hidden
+  white-space nowrap
+  //text-overflow ellipsis
+
+.p-picker-triangle
+  position relative
+  display block
+  padding-left 2px
+  padding-right 2px
+  width 20px
+  height 30px
   text-align center
-.p-picker-main-double
-  width 212px
-  .p-picker-main-tip-double
-    width 188px
-  .p-picker-main-values
-    width 74px
-.p-picker-main-double-time
-  width 344px
-  .p-picker-main-tip-double
-    width 320px
-  .p-picker-main-values
-    width 140px
-.p-picker-main-double-week
-  width 294px
-  .p-picker-main-tip-double
-    width 270px
-  .p-picker-main-values
-    width 115px
+  &::after
+    position absolute
+    display block
+    background-color $grey-300
+    width 1px
+    height 16px
+    content ''
+    z-index 999
+  svg
+    margin-top 7px
+    margin-bottom 7px
+.p-picker-triangle-left
+  &::after
+    top 7px
+    right 0
+.p-picker-triangle-right
+  &::after
+    top 7px
+    left 0

@@ -1,18 +1,26 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input p-picker-input-trigger p-picker-input-single"
+                :class="[
+                    'p-picker-input', 'p-picker-input-trigger', 'p-picker-input-single',
+                    quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
+                    ]"
                 @click="pickerBoxShow"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
+            <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
             <section
-                    :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+                    :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip', 'p-picker-ellipsis']"
+                    @mouseover="pickerEllipsis"
             >{{selectedDate?selectedDate:'选择日期'}}</section>
-            <section class="p-picker-svg-box">
+            <section v-if="!quickSwitch" :class="['p-picker-svg-box', (selectedDate&&format==='hms')&&'p-picker-left-box-shadow']">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
                 <CalendarSvg v-else />
             </section>
+            <i v-if="quickSwitch"
+               :class="['p-picker-triangle', 'p-picker-triangle-right', (selectedDate&&format==='hms')&&'p-picker-left-box-shadow']"
+            ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
             <!--
@@ -94,6 +102,8 @@
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     import CalendarSvg from '../../static/iconSvg/calendar.svg';
+    import TrianglePickerLeft from '../../static/iconSvg/triangle_picker_left.svg';
+    import TrianglePickerRight from '../../static/iconSvg/triangle_picker_right.svg';
     export default {
         name: "panelSingleDay",
         components: {
@@ -102,7 +112,9 @@
             DaySelect,
             Button,
             ClearSvg,
-            CalendarSvg
+            CalendarSvg,
+            TrianglePickerLeft,
+            TrianglePickerRight
         },
         props: {
             /**
@@ -116,6 +128,11 @@
             format: {
                 type: String,
                 default: ''
+            },
+            // 快速切换时间
+            quickSwitch: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -166,6 +183,12 @@
             this.init();
         },
         methods: {
+            // 文字超出显示省略号
+            pickerEllipsis(e) {
+                const target=e.target;
+                const {clientWidth, scrollWidth}=target;
+                if (scrollWidth > clientWidth) target.title=target.innerText;
+            },
             /**
              * 改变按钮状态
              */

@@ -7,11 +7,11 @@
                 @mouseleave="pickerClearHide"
         >
             <section
-                    :class="['p-picker-input-tip-double', selectedTime?'p-picker-input-values':'p-picker-input-tip']"
+                    :class="['p-picker-input-double-tip', selectedTime?'p-picker-input-values':'p-picker-input-tip']"
             >
-                <article class="p-picker-input-tip-double-values">{{timeStart?timeStart:'开始时间'}}</article>
+                <article class="p-picker-input-tip-values">{{timeStart?timeStart:'开始时间'}}</article>
                 <article class="p-picker-input-tip-to">至</article>
-                <article class="p-picker-input-tip-double-values">{{timeEnd?timeEnd:'结束时间'}}</article>
+                <article class="p-picker-input-tip-values">{{timeEnd?timeEnd:'结束时间'}}</article>
             </section>
             <section class="p-picker-svg-box">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
@@ -31,14 +31,14 @@
                     @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
-                    <div class="p-picker-main-input p-picker-main-double-week">
-                        <section class="p-picker-main-tip-double">
+                    <div class="p-picker-main-item-input-box">
+                        <section class="p-picker-input-alert">
                             <article
-                                    :class="['p-picker-main-values', (hourStart&&minuteStart)&&'p-picker-main-values-selected']"
+                                    :class="['p-picker-input-alert-tip', (hourStart&&minuteStart)?'p-picker-input-values':'p-picker-input-tip']"
                             >{{(hourStart&&minuteStart)?`${hourStart}:${minuteStart}${format==='hms'?(':'+secondStart):''}`:'开始时间'}}</article>
                             <article class="p-picker-input-tip-to">至</article>
                             <article
-                                    :class="['p-picker-main-values', (hourEnd&&minuteEnd)&&'p-picker-main-values-selected']"
+                                    :class="['p-picker-input-alert-tip', (hourEnd&&minuteEnd)?'p-picker-input-values':'p-picker-input-tip']"
                             >{{(hourEnd&&minuteEnd)?`${hourEnd}:${minuteEnd}${format==='hms'?(':'+secondEnd):''}`:'结束时间'}}</article>
                         </section>
                     </div>

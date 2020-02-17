@@ -4,12 +4,14 @@
                 v-if="range"
                 :date="date"
                 :format="format"
+                :quickSwitch="quickSwitch"
                 @change="changeDouble"
         />
         <PanelSingleDay
                 v-else
                 :date="date"
                 :format="format"
+                :quickSwitch="quickSwitch"
                 @change="changeSingle"
         />
     </div>
@@ -46,6 +48,11 @@
             format: {
                 type: String,
                 default: ''
+            },
+            // 快速切换时间
+            quickSwitch: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {

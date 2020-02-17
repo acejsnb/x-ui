@@ -3,20 +3,36 @@
         <h1>PickerDay组件</h1>
         <PickerDay :date="dateSingleNull" @change="dateChangeSingleNull" />
         <br><br>
+        <PickerDay :date="dateSingleNull" :quickSwitch="true" @change="dateChangeSingleNull" />
+        <br><br>
         <PickerDay :date="dateSingle" @change="dateChangeSingle" />
+        <br><br>
+        <PickerDay :date="dateSingle" :quickSwitch="true" @change="dateChangeSingle" />
         <br><br>
         <PickerDay :date="dateSingleHm" format="hm" @change="dateChangeSingleHm" />
         <br><br>
+        <PickerDay :date="dateSingleHm" :quickSwitch="true" format="hm" @change="dateChangeSingleHm" />
+        <br><br>
         <PickerDay :date="dateSingleHms" format="hms" @change="dateChangeSingleHms" />
+        <br><br>
+        <PickerDay :date="dateSingleHms" :quickSwitch="true" format="hms" @change="dateChangeSingleHms" />
 
         <br><br><br><br><br>
         <PickerDay :date="dateDoubleNull" :range="true" @change="dateChangeDoubleNull" />
         <br><br>
+        <PickerDay :date="dateDoubleNull" :quickSwitch="true" :range="true" @change="dateChangeDoubleNull" />
+        <br><br>
         <PickerDay :date="dateDouble" :range="true" @change="dateChangeDouble" />
+        <br><br>
+        <PickerDay :date="dateDouble" :quickSwitch="true" :range="true" @change="dateChangeDouble" />
         <br><br>
         <PickerDay :date="dateDoubleHm" format="hm" :range="true" @change="dateChangeDoubleHm" />
         <br><br>
+        <PickerDay :date="dateDoubleHm" :quickSwitch="true" format="hm" :range="true" @change="dateChangeDoubleHm" />
+        <br><br>
         <PickerDay :date="dateDoubleHms" format="hms" :range="true" @change="dateChangeDoubleHms" />
+        <br><br>
+        <PickerDay :date="dateDoubleHms" :quickSwitch="true" format="hms" :range="true" @change="dateChangeDoubleHms" />
     </div>
 </template>
 
