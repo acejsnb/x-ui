@@ -1,22 +1,30 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input p-picker-input-double"
-                @click="pickerBoxShow"
+                :class="['p-picker-input', 'p-picker-input-double', quickSwitch?'p-picker-input-triangle':'p-picker-input-normal']"
                 @mouseover="pickerClearShow"
-                @mouseout="pickerClearHide"
+                @mouseleave="pickerClearHide"
         >
+            <i v-if="quickSwitch"
+               :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
+               @click="quickLeft"
+            ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-double-tip', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+                    @click="pickerBoxShow"
             >
                 <article class="p-picker-input-tip-values">{{dateStart?dateStart:'开始日期'}}</article>
                 <article class="p-picker-input-tip-to">至</article>
                 <article class="p-picker-input-tip-values">{{dateEnd?dateEnd:'结束日期'}}</article>
             </section>
-            <section class="p-picker-svg-box">
+            <section v-if="!quickSwitch" class="p-picker-svg-box">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
                 <CalendarSvg v-else />
             </section>
+            <i v-if="quickSwitch"
+               :class="['p-picker-triangle', 'p-picker-triangle-right', !selectedDate&&'p-picker-triangle-disabled']"
+               @click="quickRight"
+            ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
             <!--
@@ -107,6 +115,8 @@
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     import CalendarSvg from '../../static/iconSvg/calendar.svg';
+    import TrianglePickerLeft from '../../static/iconSvg/triangle_picker_left.svg';
+    import TrianglePickerRight from '../../static/iconSvg/triangle_picker_right.svg';
     export default {
         name: "panelDoubleMonth",
         components: {
@@ -114,7 +124,9 @@
             DoubleMonth,
             Button,
             ClearSvg,
-            CalendarSvg
+            CalendarSvg,
+            TrianglePickerLeft,
+            TrianglePickerRight
         },
         props: {
             /**
@@ -123,6 +135,11 @@
             date: {
                 type: String,
                 default: ''
+            },
+            // 快速切换时间
+            quickSwitch: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -163,6 +180,12 @@
             }
         },
         watch: {
+            date(n, o) {
+                if (n === o) return;
+                this.dateFormat(n);
+
+                this.initEnd();
+            },
             pickerBoxStatus(n) {
                 if (n) return;
                 this.panelYearHandleStart(false);
@@ -704,6 +727,95 @@
                 }
             },
             /**
+             * 获取下一组开始年月 加年
+             * @param dateS '2020.02'
+             * @param dateE '2020.04'
+             */
+            getYearAndMonthAdd(dateS, dateE) {
+                let YS, MS, YE, ME;
+                const [ys, ms]=dateS.split('.'),
+                    [ye, me]=dateE.split('.'),
+                    yDiff=ye-ys; // 年差值
+
+                const msNum=Number(ms), meNum=Number(me),
+                    mDiff=(yDiff*12+meNum)-msNum, // 月差值
+                    ms2=meNum+1; // 开始时间月
+                YS=(ms2 === 13)?(Number(ye)+1).toString():ye;
+                MS=(ms2 === 13)?'01':(ms2>9?''+ms2:'0'+ms2);
+
+                const me2=Number(MS)+mDiff, yAdd=Math.floor(me2/12), rem=(me2%12);
+
+                YE=rem>0?(Number(YS)+yAdd).toString():YS;
+                ME=rem>9?''+rem:(rem===0?'12':'0'+rem);
+
+                return [YS, MS, YE, ME]
+            },
+            /**
+             * 获取下一组开始年月 减年
+             * @param dateS '2020.02'
+             * @param dateE '2020.04'
+             */
+            getYearAndMonthMin(dateS, dateE) {
+                let YS, MS, YE, ME;
+                const [ys, ms]=dateS.split('.'),
+                    [ye, me]=dateE.split('.'),
+                    yDiff=ye-ys; // 年差值
+
+                const msNum=Number(ms), meNum=Number(me),
+                    mDiff=(yDiff*12+meNum)-msNum, // 月差值
+                    me2=msNum-1; // 结束时间月
+                YE=(me2 === 0)?(Number(ys)-1).toString():ys;
+                ME=(me2 === 0)?'12':(me2>9?''+me2:'0'+me2);
+
+                const ms2=ME-mDiff, yMin=Math.floor(ms2/12), rem=(ms2%12);
+                YS=rem>0?YE:(rem===0?String(Number(YE)+yMin-1):String(Number(YE)+yMin));
+                MS=rem>0?(ms2>9?''+ms2:'0'+ms2):(rem===0?'12':((12+rem)>9?String(12+rem):'0'+(12+rem)));
+
+                return [YS, MS, YE, ME]
+            },
+            // 快速选择-设置时间 flat可选值【add，min】
+            setSelectedDate(flag) {
+                const dateS=this.yearSelectedStart+'.'+this.monthSelectedStart, dateE=this.yearSelectedEnd+'.'+this.monthSelectedEnd;
+                let YS='', MS='', YE='', ME='';
+                if (flag === 'add') {
+                    const [ys, ms, ye, me]=this.getYearAndMonthAdd(dateS, dateE);
+                    YS=ys;
+                    MS=ms;
+                    YE=ye;
+                    ME=me;
+                } else {
+                    const [ys, ms, ye, me]=this.getYearAndMonthMin(dateS, dateE);
+                    YS=ys;
+                    MS=ms;
+                    YE=ye;
+                    ME=me;
+                }
+
+                const dateStart=YS+'.'+MS, dateEnd=YE+'.'+ME;
+                this.dateStart=dateStart;
+                this.dateEnd=dateEnd;
+
+                const selectedDate=dateStart+'-'+dateEnd;
+                this.yearSelectedStart=YS;
+                this.monthSelectedStart=MS;
+                this.yearSelectedEnd=YE;
+                this.monthSelectedEnd=ME;
+                this.selectedDate=selectedDate;
+
+                this.initEnd();
+                this.$emit('change', selectedDate);
+            },
+            // 向左快速选择
+            quickLeft() {
+                if (!this.selectedDate) return;
+                this.setSelectedDate('min');
+            },
+            // 向右快速选择
+            quickRight() {
+                if (!this.selectedDate) return;
+                this.setSelectedDate('add');
+            },
+            /**
              * 确定
              */
             pickerConfirm() {
@@ -711,6 +823,8 @@
                 const dateE=this.yearSelectedEnd+'.'+this.monthSelectedEnd;
                 const selectedDate=dateS>dateE?(dateE+'-'+dateS):(dateS+'-'+dateE);
                 this.selectedDate=selectedDate;
+                this.dateStart=dateS;
+                this.dateEnd=dateE;
                 /**
                  * 返回选择的时分秒
                  * @type Function

@@ -1,13 +1,13 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input p-picker-input-trigger p-picker-input-single"
-                @click="pickerBoxShow"
+                class="p-picker-input p-picker-input-trigger p-picker-input-single p-picker-input-normal"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
             <section
                     :class="['p-picker-input-tip-single', selectedTime?'p-picker-input-values':'p-picker-input-tip']"
+                    @click="pickerBoxShow"
             >{{selectedTime?selectedTime:'选择时间'}}</section>
             <section class="p-picker-svg-box">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />

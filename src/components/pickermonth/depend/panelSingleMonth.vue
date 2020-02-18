@@ -1,18 +1,29 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input p-picker-input-trigger p-picker-input-single"
-                @click="pickerBoxShow"
+                :class="[
+                    'p-picker-input', 'p-picker-input-trigger', 'p-picker-input-single',
+                    quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
+                ]"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
+            <i v-if="quickSwitch"
+               :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
+               @click="quickLeft"
+            ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+                    @click="pickerBoxShow"
             >{{selectedDate?selectedDate:'选择日期'}}</section>
-            <section class="p-picker-svg-box">
+            <section v-if="!quickSwitch" class="p-picker-svg-box">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
                 <CalendarSvg v-else />
             </section>
+            <i v-if="quickSwitch"
+               :class="['p-picker-triangle', 'p-picker-triangle-right', !selectedDate&&'p-picker-triangle-disabled']"
+               @click="quickRight"
+            ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
             <!--
@@ -68,6 +79,8 @@
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     import CalendarSvg from '../../static/iconSvg/calendar.svg';
+    import TrianglePickerLeft from '../../static/iconSvg/triangle_picker_left.svg';
+    import TrianglePickerRight from '../../static/iconSvg/triangle_picker_right.svg';
     export default {
         name: "panelSingleMonth",
         components: {
@@ -75,7 +88,9 @@
             SingleMonth,
             Button,
             ClearSvg,
-            CalendarSvg
+            CalendarSvg,
+            TrianglePickerLeft,
+            TrianglePickerRight
         },
         props: {
             /**
@@ -84,6 +99,11 @@
             date: {
                 type: String,
                 default: ''
+            },
+            // 快速切换时间
+            quickSwitch: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -187,6 +207,41 @@
                 this.yearSelected=year;
                 this.monthSelected=month;
                 this.btnType='primary';
+            },
+            // 快速选择-设置时间 flat可选值【add，min】
+            setSelectedDate(flag) {
+                const ys=Number(this.yearSelected), ms=Number(this.monthSelected);
+                const m=flag==='min'?ms-1:ms+1;
+                let Y='', M='';
+                if (m === 0) {
+                    Y=(ys-1).toString();
+                    M='12';
+                } else if (m === 13) {
+                    Y=(ys+1).toString();
+                    M='01';
+                } else {
+                    Y=ys.toString();
+                    M=m>9?''+m:'0'+m;
+                }
+
+                const selectedDate=Y+'.'+M;
+                this.yearSelected=Y;
+                this.monthSelected=M;
+                this.selectedDate=selectedDate;
+                const singleMonth=this.$refs.singleMonth;
+                const ma=singleMonth.monthsArray;
+                if (!ma.some(d => d.year === Y && d.month === M)) singleMonth.init(selectedDate);
+                this.$emit('change', selectedDate);
+            },
+            // 向左快速选择
+            quickLeft() {
+                if (!this.selectedDate) return;
+                this.setSelectedDate('min');
+            },
+            // 向右快速选择
+            quickRight() {
+                if (!this.selectedDate) return;
+                this.setSelectedDate('add');
             },
             /**
              * 确定

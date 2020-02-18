@@ -1,18 +1,31 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input p-picker-input-trigger p-picker-input-single"
-                @click="pickerBoxShow"
+                :class="[
+                    'p-picker-input', 'p-picker-input-trigger', 'p-picker-input-single',
+                    quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
+                ]"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
+            <i
+                    v-if="quickSwitch"
+                    :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
+                    @click="quickLeft"
+            ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+                    @click="pickerBoxShow"
             >{{selectedDate?selectedDate:'选择日期'}}</section>
-            <section class="p-picker-svg-box">
+            <section v-if="!quickSwitch" class="p-picker-svg-box">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
                 <CalendarSvg v-else />
             </section>
+            <i
+                    v-if="quickSwitch"
+                    :class="['p-picker-triangle', 'p-picker-triangle-right', !selectedDate&&'p-picker-triangle-disabled']"
+                    @click="quickRight"
+            ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
             <!--
@@ -36,6 +49,7 @@
                     </div>
                     <div class="p-picker-main-item">
                         <SingleYear
+                                ref="singleYear"
                                 :date="date"
                                 @change="changeDate"
                         />
@@ -57,13 +71,17 @@
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     import CalendarSvg from '../../static/iconSvg/calendar.svg';
+    import TrianglePickerLeft from '../../static/iconSvg/triangle_picker_left.svg';
+    import TrianglePickerRight from '../../static/iconSvg/triangle_picker_right.svg';
     export default {
         name: "panelSingleYear",
         components: {
             SingleYear,
             Button,
             ClearSvg,
-            CalendarSvg
+            CalendarSvg,
+            TrianglePickerLeft,
+            TrianglePickerRight
         },
         props: {
             /**
@@ -72,6 +90,11 @@
             date: {
                 type: String,
                 default: ''
+            },
+            // 快速切换时间
+            quickSwitch: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
@@ -161,6 +184,27 @@
             changeDate(year) {
                 this.yearSelected=year;
                 this.btnType='primary';
+            },
+            // 快速选择-设置时间 flat可选值【add，min】
+            setSelectedDate(flag) {
+                const ys=Number(this.yearSelected);
+                const selectedDate=((flag==='min'?ys-1:ys+1)).toString();
+                this.yearSelected=selectedDate;
+                this.selectedDate=selectedDate;
+                const singleYear=this.$refs.singleYear;
+                const ya=singleYear.yearsArray;
+                if (!ya.some(d => d.year === selectedDate)) singleYear.init(selectedDate);
+                this.$emit('change', selectedDate);
+            },
+            // 向左快速选择
+            quickLeft() {
+                if (!this.selectedDate) return;
+                this.setSelectedDate('min');
+            },
+            // 向右快速选择
+            quickRight() {
+                if (!this.selectedDate) return;
+                this.setSelectedDate('add');
             },
             /**
              * 确定

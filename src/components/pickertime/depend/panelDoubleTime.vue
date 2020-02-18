@@ -1,7 +1,7 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input p-picker-input-double"
+                class="p-picker-input p-picker-input-double p-picker-input-normal"
                 @click="pickerBoxShow"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"

@@ -80,7 +80,11 @@
         watch: {
             date(n, o) {
                 if (n === o) return;
-                this.changeYearsArray(n);
+                if (this.yearsArray.some(d => d.year === n)) {
+                    this.changeYearsArray(n);
+                } else {
+                    this.init(n);
+                }
             }
         },
         created() {

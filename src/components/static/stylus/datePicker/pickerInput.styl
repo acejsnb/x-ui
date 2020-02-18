@@ -10,6 +10,7 @@
   font-size 0
   cursor pointer
   transition border .3s
+  user-select none
   &:hover
     border-color $blue-500
 .p-picker-input-normal
@@ -132,7 +133,6 @@
     width 1px
     height 16px
     content ''
-    z-index 999
   svg
     margin-top 7px
     margin-bottom 7px
@@ -144,3 +144,8 @@
   &::after
     top 7px
     left 0
+.p-picker-triangle-disabled
+  cursor not-allowed
+  svg
+    path
+      fill $grey-300

@@ -4,14 +4,14 @@
                 :class="[
                     'p-picker-input', 'p-picker-input-trigger', 'p-picker-input-single',
                     quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
-                    ]"
-                @click="pickerBoxShow"
+                ]"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
             <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip', 'p-picker-ellipsis']"
+                    @click="pickerBoxShow"
                     @mouseover="pickerEllipsis"
             >{{selectedDate?selectedDate:'选择日期'}}</section>
             <section v-if="!quickSwitch" :class="['p-picker-svg-box', (selectedDate&&format==='hms')&&'p-picker-left-box-shadow']">

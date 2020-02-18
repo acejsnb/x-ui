@@ -5,13 +5,13 @@
                     'p-picker-input', format?'p-picker-input-double-max':'p-picker-input-double',
                     quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
                     ]"
-                @click="pickerBoxShow"
                 @mouseover="pickerClearShow"
-                @mouseout="pickerClearHide"
+                @mouseleave="pickerClearHide"
         >
             <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-double-tip', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
+                    @click="pickerBoxShow"
             >
                 <article class="p-picker-input-tip-values p-picker-ellipsis"
                          @mouseenter="pickerEllipsis"

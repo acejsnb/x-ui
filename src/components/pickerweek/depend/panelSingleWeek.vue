@@ -1,18 +1,25 @@
 <template>
     <div class="p-picker-child">
         <div
-                class="p-picker-input p-picker-input-trigger p-picker-input-single"
-                @click="pickerBoxShow"
+                :class="[
+                    'p-picker-input', 'p-picker-input-trigger', 'p-picker-input-single',
+                    quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
+                ]"
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
+            <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-tip-single', thTextSelected?'p-picker-input-values':'p-picker-input-tip']"
+                    @click="pickerBoxShow"
             >{{thTextSelected?thTextSelected:'选择日期'}}</section>
-            <section class="p-picker-svg-box">
+            <section v-if="!quickSwitch" class="p-picker-svg-box">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
                 <CalendarSvg v-else />
             </section>
+            <i v-if="quickSwitch"
+               class="p-picker-triangle p-picker-triangle-right"
+            ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
             <!--
@@ -88,6 +95,8 @@
     import CountNextMonth from "../../static/utils/datePicker/CountNextMonth";
     import CountPrevYear from "../../static/utils/datePicker/CountPrevYear";
     import CountNextYear from "../../static/utils/datePicker/CountNextYear";
+    import TrianglePickerLeft from '../../static/iconSvg/triangle_picker_left.svg';
+    import TrianglePickerRight from '../../static/iconSvg/triangle_picker_right.svg';
     export default {
         name: "panelSingleMonth",
         components: {
@@ -96,7 +105,9 @@
             WeekSelect,
             Button,
             ClearSvg,
-            CalendarSvg
+            CalendarSvg,
+            TrianglePickerLeft,
+            TrianglePickerRight
         },
         props: {
             /**
@@ -113,6 +124,11 @@
             sort: {
                 type: String,
                 default: 'year'
+            },
+            // 快速切换时间
+            quickSwitch: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
