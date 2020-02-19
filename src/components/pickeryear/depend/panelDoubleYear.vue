@@ -644,7 +644,7 @@
                 }
             },
             // 快速选择-设置时间 flat可选值【add，min】
-            setSelectedDate(flag) {
+            setQuickDate(flag) {
                 const yss=Number(this.yearSelectedStart), yse=Number(this.yearSelectedEnd);
                 const diff=yse-yss;
                 const sds=((flag==='min'?yss-1-diff:yse+1)).toString(), sde=((flag==='min'?yss-1:yse+1+diff)).toString();
@@ -661,12 +661,12 @@
             // 向左快速选择
             quickLeft() {
                 if (!this.selectedDate) return;
-                this.setSelectedDate('min');
+                this.setQuickDate('min');
             },
             // 向右快速选择
             quickRight() {
                 if (!this.selectedDate) return;
-                this.setSelectedDate('add');
+                this.setQuickDate('add');
             },
             /**
              * 确定

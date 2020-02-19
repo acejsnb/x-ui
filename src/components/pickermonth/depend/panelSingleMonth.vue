@@ -209,7 +209,7 @@
                 this.btnType='primary';
             },
             // 快速选择-设置时间 flat可选值【add，min】
-            setSelectedDate(flag) {
+            setQuickDate(flag) {
                 const ys=Number(this.yearSelected), ms=Number(this.monthSelected);
                 const m=flag==='min'?ms-1:ms+1;
                 let Y='', M='';
@@ -236,12 +236,12 @@
             // 向左快速选择
             quickLeft() {
                 if (!this.selectedDate) return;
-                this.setSelectedDate('min');
+                this.setQuickDate('min');
             },
             // 向右快速选择
             quickRight() {
                 if (!this.selectedDate) return;
-                this.setSelectedDate('add');
+                this.setQuickDate('add');
             },
             /**
              * 确定

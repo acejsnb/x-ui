@@ -5,7 +5,11 @@
                 @mouseover="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
-            <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
+            <i
+                    v-if="quickSwitch"
+                    :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
+                    @click="quickLeft"
+            ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-double-tip', thTextSelected?'p-picker-input-values':'p-picker-input-tip']"
                     @click="pickerBoxShow"
@@ -19,7 +23,11 @@
                 <CalendarSvg v-else />
             </section>
             <i v-if="quickSwitch"
-               class="p-picker-triangle p-picker-triangle-right"
+               :class="[
+                   'p-picker-triangle', 'p-picker-triangle-right',
+                    !selectedDate&&'p-picker-triangle-disabled'
+               ]"
+               @click="quickRight"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -144,6 +152,7 @@
     import CountStartOrEndDate from "../../static/utils/datePicker/CountStartOrEndDate";
     import TrianglePickerLeft from '../../static/iconSvg/triangle_picker_left.svg';
     import TrianglePickerRight from '../../static/iconSvg/triangle_picker_right.svg';
+    import CountBeforeOrAfterDay from "../../static/utils/datePicker/CountBeforeOrAfterDay";
     export default {
         name: "panelDoubleMonth",
         components: {
@@ -227,6 +236,10 @@
             }
         },
         watch: {
+            date(n, o) {
+                if (n === o) return;
+                this.dateFormat(n);
+            },
             pickerBoxStatus(n) {
                 if (n) return;
                 this.panelYearHandleStart(false);
@@ -251,6 +264,7 @@
              * @param date String '2020.01.06-2020.01.19'
              */
             dateFormat(date) {
+                this.selectedDate=date;
                 if (date) {
                     const [ds, de]=date.split('-'); // 得到开始、结束时间
                     const yms=ds.substr(0, 7); // 得到开始时间年月
@@ -1070,6 +1084,42 @@
                 this.monthActiveEnd=month;
                 this.weeksArrayEnd=this.countWeekEnd.yearChangeCountWeek(year, month, this.sort);
                 if (this.yearSelectedStart && this.yearSelectedEnd) this.clearWeeksArrayStart();
+            },
+
+            // 快速选择-设置时间 flat可选值【add，min】
+            setQuickDate(flag) {
+                const ws=this.weeksSelectedStart, s=ws[0],
+                    we=this.weeksSelectedEnd, e=we[6];
+                const ys=s.year, ms=s.month, ds=s.day,
+                    ye=e.year, me=e.month, de=e.day;
+                const diff=(new Date(ye, me-1, de).getTime() - new Date(ys, ms-1, ds).getTime()) / (1000*60*60*24);
+
+                let selectedDateStart, selectedDateEnd;
+                if (flag === 'min') {
+                    const [ey, em, ed]=CountBeforeOrAfterDay(ys, ms, ds, -1);
+                    const [sy, sm, sd]=CountBeforeOrAfterDay(ey, em, ed, -diff);
+                    selectedDateStart=sy+'.'+sm+'.'+sd;
+                    selectedDateEnd=ey+'.'+em+'.'+ed;
+                } else {
+                    const [sy, sm, sd]=CountBeforeOrAfterDay(ye, me, de, 1);
+                    const [ey, em, ed]=CountBeforeOrAfterDay(sy, sm, sd, diff);
+                    selectedDateStart=sy+'.'+sm+'.'+sd;
+                    selectedDateEnd=ey+'.'+em+'.'+ed;
+                }
+
+                const selectedDate=selectedDateStart+'-'+selectedDateEnd;
+                this.dateFormat(selectedDate);
+                this.$emit('change', {thTextSelected: this.thTextSelected, selectedDate});
+            },
+            // 向左快速选择
+            quickLeft() {
+                if (!this.selectedDate) return;
+                this.setQuickDate('min');
+            },
+            // 向右快速选择
+            quickRight() {
+                if (!this.selectedDate) return;
+                this.setQuickDate('add');
             },
             /**
              * 确定

@@ -8,7 +8,11 @@
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
-            <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
+            <i
+                    v-if="quickSwitch"
+                    :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
+                    @click="quickLeft"
+            ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip', 'p-picker-ellipsis']"
                     @click="pickerBoxShow"
@@ -19,7 +23,12 @@
                 <CalendarSvg v-else />
             </section>
             <i v-if="quickSwitch"
-               :class="['p-picker-triangle', 'p-picker-triangle-right', (selectedDate&&format==='hms')&&'p-picker-left-box-shadow']"
+               :class="[
+                   'p-picker-triangle', 'p-picker-triangle-right',
+                    (selectedDate&&format==='hms')&&'p-picker-left-box-shadow',
+                    !selectedDate&&'p-picker-triangle-disabled'
+               ]"
+               @click="quickRight"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -57,7 +66,7 @@
                                 @panelYearHandle="panelYearHandle"
                         />
                         <DaySelect
-                                v-show="!panelYear&&!panelMonth"
+                                v-show="!panelYear&&!panelMonth&&!panelTime"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
                                 :dayNow="dayNow"
@@ -76,11 +85,27 @@
                                 @panelYearHandle="panelYearHandle"
                                 @panelMonthHandle="panelMonthHandle"
                         />
+                        <TimeSelect
+                                ref="timeSelect"
+                                class="p-picker-main-item-time-select"
+                                v-show="format && panelTime"
+                                :time="time"
+                                :format="format"
+                                @change="panelTimeChange"
+                        />
                     </div>
                 </div>
 
                 <div class="p-picker-main-handle">
-                    <Button :type="btnType" size="small" @click="pickerConfirm">确定</Button>
+                    <span
+                            v-if="format"
+                            :class="['p-picker-handle-time', (panelTime||!daySelected)?'p-picker-handle-time-disabled':'p-picker-handle-time-normal']"
+                            @click="panelTimeOpen"
+                    >选择时间</span>
+                    <template>
+                        <Button v-if="panelTime" type="primary" size="small" @click="panelTimeClose">确定</Button>
+                        <Button v-else :type="btnType" size="small" @click="pickerConfirm">确定</Button>
+                    </template>
                 </div>
             </div>
         </transition>
@@ -89,6 +114,7 @@
 
 <script>
     import CountDay from '../../static/utils/datePicker/CountDay';
+    import CountBeforeOrAfterDay from '../../static/utils/datePicker/CountBeforeOrAfterDay';
 
     import CountNextYear from '../../static/utils/datePicker/CountNextYear';
     import CountPrevYear from '../../static/utils/datePicker/CountPrevYear';
@@ -99,6 +125,7 @@
     import SingleMonth from '../../PickerMonth/depend/singleMonth';
     import DaySelect from './day';
     import Button from '../../Button';
+    import TimeSelect from '../../PickerTime/depend/time';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     import CalendarSvg from '../../static/iconSvg/calendar.svg';
@@ -111,6 +138,7 @@
             SingleMonth,
             DaySelect,
             Button,
+            TimeSelect,
             ClearSvg,
             CalendarSvg,
             TrianglePickerLeft,
@@ -159,28 +187,26 @@
 
                 daysArray: [], // 日列表
                 panelYear: false, // 显示年面板
-                panelMonth: false // 显示月面板
+                panelMonth: false, // 显示月面板
+                panelTime: false // 显示时分(秒)面板
             }
         },
         watch: {
             // 监听日期改变
             date(n, o) {
                 if (n === o) return;
-                if (this.countDay) {
-                    this.daysArray=this.countDay.changeDay(n);
-                }
-                const [date, time]=this.setSelectedDate(n);
-                this.setDate(date, time);
+                this.init(n);
             },
             pickerBoxStatus(n) {
                 if (n) return;
                 this.panelYearHandle(false);
                 this.panelMonthHandle(false);
+                this.panelTime=false;
             }
         },
         created() {
             // 初始化日期对象
-            this.init();
+            this.init(this.date);
         },
         methods: {
             // 文字超出显示省略号
@@ -219,15 +245,15 @@
             /**
              * 初始化日期对象
              */
-            init() {
-                const [date, time]=this.setSelectedDate(this.date);
-                this.countDay=new CountDay(date); // 当前计算天的对象
+            init(date) {
+                const [tDate, time]=this.setSelectedDate(date);
+                this.countDay=new CountDay(tDate); // 当前计算天的对象
                 this.daysArray=this.countDay.getDaysArray();
                 const [year, month, day]=this.countDay.countNowDate(); // 获取当前时间、日期
                 this.yearNow=year;
                 this.monthNow=month;
                 this.dayNow=day;
-                this.setDate(date, time);
+                this.setDate(tDate, time);
             },
             /**
              * 设置选择的年月日
@@ -251,6 +277,7 @@
                     dayActive=this.dayNow;
                 }
 
+                this.time=time;
                 this.yearActive=yearActive;
                 this.monthActive=monthActive;
                 this.dayActive=dayActive;
@@ -353,7 +380,6 @@
              */
             prevMonth() {
                 const date=CountPrevMonth([this.yearActive, this.monthActive, this.dayActive]);
-                console.log(date);
                 this.switchDate(date);
             },
             /**
@@ -403,11 +429,52 @@
                 this.daysArray=this.countDay.yearChangeCountDay(year, month);
                 this.btnType='disabled';
             },
+
+            // 时间面板显示切换
+            panelTimeOpen() {
+                this.panelYear=false;
+                this.panelMonth=false;
+                this.panelTime=true;
+                setTimeout(() => {
+                    this.$refs.timeSelect.setTimeDom();
+                })
+            },
+            // 关闭时分(秒)面板
+            panelTimeClose() {
+                this.panelTime=false;
+            },
+            // 时间切换
+            panelTimeChange(time) {
+                // this.panelTime=false;
+                this.time=time;
+            },
+            // 快速选择-设置时间 flat可选值【add，min】
+            setQuickDate(flag) {
+                const [Y, M, D]=CountBeforeOrAfterDay(this.yearSelected, this.monthSelected, this.daySelected, flag==='min'?-1:1);
+
+                const selectedDate=Y+'.'+M+'.'+D+`${this.format?' '+this.time:''}`;
+                this.yearSelected=Y;
+                this.monthSelected=M;
+                this.daySelected=D;
+                this.selectedDate=selectedDate;
+                this.init();
+                this.$emit('change', selectedDate);
+            },
+            // 向左快速选择
+            quickLeft() {
+                if (!this.selectedDate) return;
+                this.setQuickDate('min');
+            },
+            // 向右快速选择
+            quickRight() {
+                if (!this.selectedDate) return;
+                this.setQuickDate('add');
+            },
             /**
              * 确定
              */
             pickerConfirm() {
-                const selectedDate=this.yearSelected+'.'+this.monthSelected+'.'+this.daySelected;
+                const selectedDate=this.yearSelected+'.'+this.monthSelected+'.'+this.daySelected+`${this.format?' '+this.time:''}`;
                 this.selectedDate=selectedDate;
                 this.blurStatus=false;
                 this.pickerBoxStatus=false;

@@ -10,8 +10,6 @@
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
                     ref="hoursDom"
                     @scroll="hourScroll"
-                    @mousedown="hourDown"
-                    @mouseup="hourUp"
             >
                 <ul>
                     <li
@@ -26,8 +24,6 @@
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
                     ref="minutesDom"
                     @scroll="minuteScroll"
-                    @mousedown="minuteDown"
-                    @mouseup="minuteUp"
             >
                 <ul>
                     <li
@@ -39,12 +35,10 @@
                 </ul>
             </div>
             <div
+                    v-if="format==='hms'"
                     :class="['p-picker-time-select', 'p-picker-time-select-'+format]"
                     ref="secondsDom"
                     @scroll="secondScroll"
-                    @mousedown="secondDown"
-                    @mouseup="secondUp"
-                    v-if="format==='hms'"
             >
                 <ul>
                     <li
@@ -61,6 +55,7 @@
 
 <script>
     import CountNumber from '../../static/utils/datePicker/CountNumber';
+    import CountNowDate from '../../static/utils/datePicker/CountNowDate';
 
     export default {
         name: "TimeSelect",
@@ -71,23 +66,9 @@
                 default: ''
             },
             /**
-             * 选择的小时
+             * 选择的时间
              */
-            hour: {
-                type: String,
-                default: ''
-            },
-            /**
-             * 选择的分钟
-             */
-            minute: {
-                type: String,
-                default: ''
-            },
-            /**
-             * 选择的秒
-             */
-            second: {
+            time: {
                 type: String,
                 default: ''
             },
@@ -100,6 +81,13 @@
                 default: 'hms'
             },
         },
+        data() {
+            return {
+                hour: '', // 选择的小时
+                minute: '', // 选择的分钟
+                second: '' // 选择的秒
+            }
+        },
         computed: {
             hours() {
                 return CountNumber(0, 24)
@@ -111,40 +99,71 @@
                 return CountNumber(0, 60)
             }
         },
-        mounted() {
-            this.$nextTick(() => {
-                this.$refs.hoursDom.scrollTop=this.hour*32;
-                this.$refs.minutesDom.scrollTop=this.minute*32;
-                if (this.$refs.secondsDom) this.$refs.secondsDom.scrollTop=this.second*32;
-            });
+        watch: {
+            time(n, o) {
+                if (n === o) return;
+                this.setTime(n);
+            }
+        },
+        created() {
+            this.setTime(this.time);
+            this.setTimeDom();
         },
         methods: {
+            /**
+             * 设置时间
+             */
+            setTime(time) {
+                let hour='00', minute='00', second='00';
+                if (time) {
+                    const [hh, mm, ss]=this.time.split(':');
+                    hour=hh;
+                    minute=mm;
+                    if (this.format === 'hms') second=ss;
+                } else {
+                    const [YY, MM, DD, hh, mm, ss]=CountNowDate();
+                    hour=hh;
+                    minute=mm;
+                    second=ss;
+                }
+                this.hour=hour;
+                this.minute=minute;
+                this.second=second;
+            },
+            // 设置时分秒位置
+            setTimeDom() {
+                this.$nextTick(() => {
+                    this.$refs.hoursDom.scrollTop=this.hour*32;
+                    this.$refs.minutesDom.scrollTop=this.minute*32;
+                    if (this.$refs.secondsDom) this.$refs.secondsDom.scrollTop=this.second*32;
+                });
+            },
             /**
              * 点击小时
              * @param hour
              */
             hourClick(hour) {
-                this.hourMouse=true;
+                this.hour=hour;
                 this.scrollTopTimer(hour*32, 'hoursDom');
-                this.$emit('hourChange', hour);
+                this.$emit('change', hour+':'+this.minute+`${this.format==='hms'?':'+this.second:''}`);
             },
             /**
              * 点击分钟
              * @param minute
              */
             minuteClick(minute) {
-                this.minuteMouse=true;
+                this.minute=minute;
                 this.scrollTopTimer(minute*32, 'minutesDom');
-                this.$emit('minuteChange', minute);
+                this.$emit('change', this.hour+':'+minute+`${this.format==='hms'?':'+this.second:''}`);
             },
             /**
              * 点击秒
              * @param second
              */
             secondClick(second) {
-                this.secondMouse=true;
+                this.second=second;
                 this.scrollTopTimer(second*32, 'secondsDom');
-                this.$emit('secondChange', second);
+                this.$emit('change', this.hour+':'+this.minute+':'+second);
             },
             /**
              * 滚动条过度
@@ -156,9 +175,12 @@
                 let top = this.$refs[obj].scrollTop;
                 let differ=st-top; // 差值
                 let remain=differ; // 剩余差值
-                this.timer=setInterval(() => {
+                this.timer=window.setInterval(() => {
                     let speed = window.Math.round(remain / 3);
-                    if (speed <= 0) window.clearInterval(this.timer);
+                    if (speed <= 0) {
+                        window.clearInterval(this.timer);
+                        this.timer=null;
+                    }
                     remain=remain-speed;
                     if (differ) {
                         this.$refs[obj].scrollTop+=speed;
@@ -167,56 +189,39 @@
                     }
                     if (remain<=0) {
                         window.clearInterval(this.timer);
+                        this.timer=null;
                         this.$refs[obj].scrollTop=st;
                     }
                 }, 30)
             },
-            // 小时相关scroll
-            hourDown() {
-                this.hourMouse=true;
-            },
-            hourUp(e) {
-                this.hourMouse=false;
-                this.hourScroll(this.$refs.hoursDom)
-            },
+            // 小时scroll
             hourScroll(e) {
-                if (this.hourTimer) clearTimeout(this.hourTimer);
+                if (this.timer) return;
+                if (this.hourTimer) window.clearTimeout(this.hourTimer);
                 const target=e.target || e;
                 const st=window.Math.round(target.scrollTop/32);
-                this.hourTimer=setTimeout(() => {
-                    if (!this.hourMouse) target.scrollTop=st*32;
+                this.hourTimer=window.setTimeout(() => {
+                    target.scrollTop=st*32;
                 }, 30);
             },
-            // 分钟相关scroll
-            minuteDown() {
-                this.minuteMouse=true;
-            },
-            minuteUp() {
-                this.minuteMouse=false;
-                this.hourScroll(this.$refs.minutesDom)
-            },
+            // 分钟scroll
             minuteScroll(e) {
-                if (this.minuteTimer) clearTimeout(this.minuteTimer);
+                if (this.timer) return;
+                if (this.minuteTimer) window.clearTimeout(this.minuteTimer);
                 const target=e.target || e;
                 const st=window.Math.round(target.scrollTop/32);
-                this.minuteTimer=setTimeout(() => {
-                    if (!this.minuteMouse) target.scrollTop=st*32;
+                this.minuteTimer=window.setTimeout(() => {
+                    target.scrollTop=st*32;
                 }, 30);
             },
-            // 秒钟相关scroll
-            secondDown() {
-                this.secondMouse=true;
-            },
-            secondUp() {
-                this.secondMouse=false;
-                this.hourScroll(this.$refs.secondsDom)
-            },
+            // 秒钟scroll
             secondScroll(e) {
-                if (this.secondTimer) clearTimeout(this.secondTimer);
+                if (this.timer) return;
+                if (this.secondTimer) window.clearTimeout(this.secondTimer);
                 const target=e.target || e;
-                const st=window.Math.floor(target.scrollTop/32);
-                this.secondTimer=setTimeout(() => {
-                    if (!this.secondMouse) target.scrollTop=st*32;
+                const st=window.Math.round(target.scrollTop/32);
+                this.secondTimer=window.setTimeout(() => {
+                    target.scrollTop=st*32;
                 }, 30);
             }
         }

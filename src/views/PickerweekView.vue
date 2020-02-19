@@ -1,14 +1,6 @@
 <template>
     <div class="component component-padding">
         <h1>PickerWeek组件</h1>
-        <h3>多选-按年排序</h3>
-        <PickerWeek :date="dateDoubleYear" sort="year" :range="true" @change="dateChangeDoubleByYear" />
-        <br><br>
-        <PickerWeek :date="dateDoubleYear" :quickSwitch="true" sort="year" :range="true" @change="dateChangeDoubleByYear" />
-        <h3>多选-按月排序</h3>
-        <PickerWeek :date="dateDoubleMonth" sort="month" :range="true" @change="dateChangeDoubleByMonth" />
-        <br><br>
-        <PickerWeek :date="dateDoubleMonth" :quickSwitch="true" sort="month" :range="true" @change="dateChangeDoubleByMonth" />
         <h3>单选-按年排序</h3>
         <PickerWeek :date="dateSingleYear" sort="year" @change="dateChangeSingleByYear" />
         <br><br>
@@ -17,6 +9,16 @@
         <PickerWeek :date="dateSingleMonth" sort="month" @change="dateChangeSingleByMonth" />
         <br><br>
         <PickerWeek :date="dateSingleMonth" :quickSwitch="true" sort="month" @change="dateChangeSingleByMonth" />
+
+        <br><br><br><br>
+        <h3>多选-按年排序</h3>
+        <PickerWeek :date="dateDoubleYear" sort="year" :range="true" @change="dateChangeDoubleByYear" />
+        <br><br>
+        <PickerWeek :date="dateDoubleYear" :quickSwitch="true" sort="year" :range="true" @change="dateChangeDoubleByYear" />
+        <h3>多选-按月排序</h3>
+        <PickerWeek :date="dateDoubleMonth" sort="month" :range="true" @change="dateChangeDoubleByMonth" />
+        <br><br>
+        <PickerWeek :date="dateDoubleMonth" :quickSwitch="true" sort="month" :range="true" @change="dateChangeDoubleByMonth" />
     </div>
 </template>
 

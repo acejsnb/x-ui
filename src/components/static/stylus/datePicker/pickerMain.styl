@@ -30,6 +30,22 @@
       padding 16px
       text-align right
       width 100%
+      .p-picker-handle-time
+        margin-right 16px
+        font-size 14px
+        user-select none
+        transition color .3s
+      .p-picker-handle-time-normal
+        color $blue-500
+        cursor pointer
+        &:hover
+          color $blue-600
+      .p-picker-handle-time-disabled
+        color $grey-400
+        cursor not-allowed
+.p-picker-main-item-time-select
+  margin-top 16px
+  margin-bottom 16px
 
 @keyframes opacityTopIn
   from

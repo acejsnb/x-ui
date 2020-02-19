@@ -30,26 +30,21 @@
                     <div class="p-picker-main-item-input-box">
                         <section class="p-picker-input-alert">
                             <article
-                                    :class="[(hour&&minute)?'p-picker-input-values':'p-picker-input-tip']"
-                            >{{(hour&&minute)?`${hour}:${minute}${format==='hms'?(':'+second):''}`:'选择时间'}}</article>
+                                    :class="[selectedTime?'p-picker-input-values':'p-picker-input-tip']"
+                            >{{selectedTime?selectedTime:'选择时间'}}</article>
                         </section>
                     </div>
                     <div class="p-picker-main-item">
                         <TimeSelect
-                                :range="range"
-                                :hour="hour"
-                                :minute="minute"
-                                :second="second"
+                                :time="time"
                                 :format="format"
-                                @hourChange="hourChange"
-                                @minuteChange="minuteChange"
-                                @secondChange="secondChange"
+                                @change="timeChange"
                         />
                     </div>
                 </div>
 
                 <div class="p-picker-main-handle">
-                    <Button type="primary" size="small" @click="pickerConfirm">确定</Button>
+                    <Button :type="selectedTime?'primary':'disabled'" size="small" @click="pickerConfirm">确定</Button>
                 </div>
             </div>
         </transition>
@@ -57,8 +52,6 @@
 </template>
 
 <script>
-    import CountNowDate from '../../static/utils/datePicker/CountNowDate';
-
     import TimeSelect from './time';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
@@ -81,14 +74,6 @@
             format: {
                 type: String,
                 default: 'hms'
-            },
-            /**
-             * 时间段
-             * @value 【false-时间点（默认值），true-时间段】
-             */
-            range: {
-                type: Boolean,
-                default: false
             }
         },
         data() {
@@ -96,14 +81,17 @@
                 pickerBoxStatus: false, // 显示选择时间框
                 blurStatus: false, // 是否可执行blur
                 clearStatus: false, // 关闭按钮
-                selectedTime: '', // 选中的时间
-                hour: '', // 选择的小时
-                minute: '', // 选择的分钟
-                second: '', // 选择的秒
+                selectedTime: '' // 选中的时间
+            }
+        },
+        watch: {
+            time(n ,o) {
+                if (n === o) return;
+                this.selectedTime=n;
             }
         },
         created() {
-            this.setTime();
+            this.selectedTime=this.time;
         },
         methods: {
             pickerMainBlur() {
@@ -123,35 +111,12 @@
              */
             pickerBoxShow() {
                 this.pickerBoxStatus=true;
-                this.setTime();
             },
             /**
              * 关闭时间选择盒子
              */
             pickerBoxHide() {
                 if (this.pickerBoxStatus && this.blurStatus) this.pickerBoxStatus=false;
-            },
-            /**
-             * 设置时间
-             */
-            setTime() {
-                const time=this.time;
-                let hour='00', minute='00', second='00';
-                if (time) {
-                    const [hh, mm, ss]=this.time.split(':');
-                    hour=hh;
-                    minute=mm;
-                    second=ss;
-                } else {
-                    const [YY, MM, DD, hh, mm, ss]=CountNowDate();
-                    hour=hh;
-                    minute=mm;
-                    second=ss;
-                }
-                this.selectedTime=time;
-                this.hour=hour;
-                this.minute=minute;
-                this.second=second;
             },
             /**
              * 显示清除按钮
@@ -170,45 +135,22 @@
              */
             clearTime() {
                 this.selectedTime='';
-                this.hour='';
-                this.minute='';
-                this.second='';
                 this.$emit('change', '');
                 this.pickerClearHide();
             },
-            /**
-             * 点击小时
-             * @param hour
-             */
-            hourChange(hour) {
-                this.hour=hour;
-            },
-            /**
-             * 点击分钟
-             * @param minute
-             */
-            minuteChange(minute) {
-                this.minute=minute;
-            },
-            /**
-             * 点击秒
-             * @param second
-             */
-            secondChange(second) {
-                this.second=second;
+            // 选中的时间
+            timeChange(time) {
+                this.selectedTime=time;
             },
             /**
              * 确定
              */
             pickerConfirm() {
-                const timeS=this.format==='hms'?this.hour+':'+this.minute+':'+this.second:this.hour+':'+this.minute;
-                const selectedTime=timeS;
-                this.selectedTime=timeS;
                 /**
                  * 返回选择的时分秒
                  * @type Function
                  */
-                this.$emit('change', selectedTime);
+                this.$emit('change', this.selectedTime);
                 this.blurStatus=false;
                 this.pickerBoxStatus=false;
             }

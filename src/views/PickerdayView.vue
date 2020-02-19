@@ -33,6 +33,7 @@
         <PickerDay :date="dateDoubleHms" format="hms" :range="true" @change="dateChangeDoubleHms" />
         <br><br>
         <PickerDay :date="dateDoubleHms" :quickSwitch="true" format="hms" :range="true" @change="dateChangeDoubleHms" />
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     </div>
 </template>
 

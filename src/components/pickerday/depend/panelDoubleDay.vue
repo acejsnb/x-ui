@@ -8,7 +8,11 @@
                 @mouseover="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
-            <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
+            <i
+                    v-if="quickSwitch"
+                    :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
+                    @click="quickLeft"
+            ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-double-tip', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
                     @click="pickerBoxShow"
@@ -26,7 +30,11 @@
                 <CalendarSvg v-else />
             </section>
             <i v-if="quickSwitch"
-               :class="['p-picker-triangle', 'p-picker-triangle-right', (selectedDate&&format)&&'p-picker-left-box-shadow']"
+               :class="[
+                   'p-picker-triangle', 'p-picker-triangle-right', (selectedDate&&format)&&'p-picker-left-box-shadow',
+                    !selectedDate&&'p-picker-triangle-disabled'
+               ]"
+               @click="quickRight"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -71,8 +79,16 @@
                                 @change="panelMonthChangeDateStart"
                                 @panelYearHandle="panelYearHandleStart"
                         />
+                        <TimeSelect
+                                ref="timeSelectStart"
+                                class="p-picker-main-item-time-select"
+                                v-show="format && panelTime"
+                                :time="timeStart"
+                                :format="format"
+                                @change="panelTimeChangeDateStart"
+                        />
                         <DaySelect
-                                v-show="!panelYearStart&&!panelMonthStart"
+                                v-show="!panelYearStart&&!panelMonthStart&&!panelTime"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
                                 :dayNow="dayNow"
@@ -111,8 +127,16 @@
                                 @change="panelMonthChangeDateEnd"
                                 @panelYearHandle="panelYearHandleEnd"
                         />
+                        <TimeSelect
+                                ref="timeSelectEnd"
+                                class="p-picker-main-item-time-select"
+                                v-show="format && panelTime"
+                                :time="timeEnd"
+                                :format="format"
+                                @change="panelTimeChangeDateEnd"
+                        />
                         <DaySelect
-                                v-show="!panelYearEnd&&!panelMonthEnd"
+                                v-show="!panelYearEnd&&!panelMonthEnd&&!panelTime"
                                 borderLeft="border-left"
                                 :yearNow="yearNow"
                                 :monthNow="monthNow"
@@ -140,7 +164,15 @@
                 </div>
 
                 <div class="p-picker-main-handle">
-                    <Button :type="btnType" size="small" @click="pickerConfirm">确定</Button>
+                    <span
+                            v-if="format"
+                            :class="['p-picker-handle-time', (panelTime||!(daySelectedStart&&daySelectedEnd))?'p-picker-handle-time-disabled':'p-picker-handle-time-normal']"
+                            @click="panelTimeOpen"
+                    >选择时间</span>
+                    <template>
+                        <Button v-if="panelTime" type="primary" size="small" @click="panelTimeClose">确定</Button>
+                        <Button v-else :type="btnType" size="small" @click="pickerConfirm">确定</Button>
+                    </template>
                 </div>
             </div>
         </transition>
@@ -151,6 +183,7 @@
     import SingleYear from '../../PickerYear/depend/singleYear';
     import SingleMonth from '../../PickerMonth/depend/singleMonth';
     import CountDay from '../../static/utils/datePicker/CountDay';
+    import CountBeforeOrAfterDay from '../../static/utils/datePicker/CountBeforeOrAfterDay';
 
     import CountNextYear from '../../static/utils/datePicker/CountNextYear';
     import CountPrevYear from '../../static/utils/datePicker/CountPrevYear';
@@ -159,6 +192,7 @@
 
     import DaySelect from './day';
     import Button from '../../Button';
+    import TimeSelect from '../../PickerTime/depend/time';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     import CalendarSvg from '../../static/iconSvg/calendar.svg';
@@ -171,6 +205,7 @@
             SingleMonth,
             DaySelect,
             Button,
+            TimeSelect,
             ClearSvg,
             CalendarSvg,
             TrianglePickerLeft,
@@ -241,7 +276,8 @@
                 panelYearStart: false, // 显示年面板
                 panelMonthStart: false, // 显示月面板
                 panelYearEnd: false, // 显示年面板
-                panelMonthEnd: false // 显示月面板
+                panelMonthEnd: false, // 显示月面板
+                panelTime: false // 显示时分(秒)面板
             }
         },
         watch: {
@@ -251,10 +287,14 @@
                 this.panelMonthHandleStart(false);
                 this.panelYearHandleEnd(false);
                 this.panelMonthHandleEnd(false);
+            },
+            date(n, o) {
+                if (n === o) return;
+                this.initEnd(n);
             }
         },
         created() {
-            this.initEnd();
+            this.initEnd(this.date);
         },
         methods: {
             // 文字超出显示省略号
@@ -324,8 +364,8 @@
             /**
              * 初始化日期对象
              */
-            initEnd() {
-                const [dateStart, dateEnd]=this.dateFormat(this.date);
+            initEnd(date) {
+                const [dateStart, dateEnd]=this.dateFormat(date);
                 const [dateS, timeS]=this.setSelectedDate(dateStart);
                 const [dateE, timeE]=this.setSelectedDate(dateEnd);
                 this.dateStart=dateS;
@@ -1028,13 +1068,107 @@
                 this.daysArrayEnd=this.countDayEnd.yearChangeCountDay(year, month, this.sort);
                 if (this.yearSelectedStart && this.yearSelectedEnd) this.clearDaysArrayStart();
             },
+
+            // 点击时分(秒)-start
+            panelTimeChangeDateStart(time) {
+                this.timeStart=time;
+            },
+            // 点击时分(秒)-end
+            panelTimeChangeDateEnd(time) {
+                this.timeEnd=time;
+            },
+            // 打开时间选择器
+            panelTimeOpen() {
+                this.panelTime=true;
+                this.panelYearStart=false;
+                this.panelMonthStart=false;
+                this.panelYearEnd=false;
+                this.panelMonthEnd=false;
+
+                setTimeout(() => {
+                    this.$refs.timeSelectStart.setTimeDom();
+                    this.$refs.timeSelectEnd.setTimeDom();
+                })
+            },
+            // 关闭时间选择器
+            panelTimeClose() {
+                this.panelTime=false;
+            },
+
+            // 快速选择-设置时间 flat可选值【add，min】
+            setQuickDate(flag) {
+                const y1=this.yearSelectedStart, m1=this.monthSelectedStart, d1=this.daySelectedStart,
+                    y2=this.yearSelectedEnd, m2=this.monthSelectedEnd, d2=this.daySelectedEnd;
+                let sy, sm, sd // 计算后的开始年月日
+                    ,ey, em, ed; // 计算后的结束年月日
+                // 天差值
+                const diff=(new Date(y2, m2-1, d2).getTime() - new Date(y1, m1-1, d1).getTime()) / (1000*60*60*24);
+                if (flag === 'min') {
+                    // 计算结束时间
+                    const [ey1, em1, ed1]=CountBeforeOrAfterDay(y1, m1, d1, -1);
+                    ey=ey1;
+                    em=em1;
+                    ed=ed1;
+                    // 计算开始时间
+                    const [sy1, sm1, sd1]=CountBeforeOrAfterDay(ey, em, ed, -diff);
+                    sy=sy1;
+                    sm=sm1;
+                    sd=sd1;
+                } else {
+                    // 计算开始时间
+                    const [sy1, sm1, sd1]=CountBeforeOrAfterDay(y2, m2, d2, 1);
+                    sy=sy1;
+                    sm=sm1;
+                    sd=sd1;
+                    // 计算结束时间
+                    const [ey1, em1, ed1]=CountBeforeOrAfterDay(sy, sm, sd, diff);
+                    ey=ey1;
+                    em=em1;
+                    ed=ed1;
+                }
+
+                const dateStart=sy+'.'+sm+'.'+sd+`${this.format?' '+this.timeStart:''}`,
+                    dateEnd=ey+'.'+em+'.'+ed+`${this.format?' '+this.timeStart:''}`;
+
+                this.dateStart=dateStart;
+                this.dateEnd=dateEnd;
+                this.yearSelectedStart=sy;
+                this.monthSelectedStart=sm;
+                this.daySelectedStart=sd;
+                this.yearSelectedEnd=ey;
+                this.monthSelectedEnd=em;
+                this.daySelectedEnd=ed;
+                const selectedDate=dateStart+'-'+dateEnd;
+                this.selectedDate=selectedDate;
+                this.$emit('change', selectedDate);
+            },
+            // 向左快速选择
+            quickLeft() {
+                if (!this.selectedDate) return;
+                this.setQuickDate('min');
+            },
+            // 向右快速选择
+            quickRight() {
+                if (!this.selectedDate) return;
+                this.setQuickDate('add');
+            },
             /**
              * 确定
              */
             pickerConfirm() {
-                const dateS=this.yearSelectedStart+'.'+this.monthSelectedStart+'.'+this.daySelectedStart;
-                const dateE=this.yearSelectedEnd+'.'+this.monthSelectedEnd+'.'+this.daySelectedEnd;
-                const selectedDate=dateS>dateE?(dateE+'-'+dateS):(dateS+'-'+dateE);
+                const y1=this.yearSelectedStart, m1=this.monthSelectedStart, d1=this.daySelectedStart,
+                    y2=this.yearSelectedEnd, m2=this.monthSelectedEnd, d2=this.daySelectedEnd;
+                let dateStart, dateEnd;
+                if (y1+m1+d1 > y2+m2+d2) {
+                    dateStart=y2+'.'+m2+'.'+d2+`${this.format?' '+this.timeStart:''}`;
+                    dateEnd=y1+'.'+m1+'.'+d1+`${this.format?' '+this.timeEnd:''}`;
+                } else {
+                    dateStart=y1+'.'+m1+'.'+d1+`${this.format?' '+this.timeStart:''}`;
+                    dateEnd=y2+'.'+m2+'.'+d2+`${this.format?' '+this.timeEnd:''}`;
+                }
+                this.dateStart=dateStart;
+                this.dateEnd=dateEnd;
+                const selectedDate=dateStart+'-'+dateEnd;
                 this.selectedDate=selectedDate;
                 /**
                  * 返回选择的时分秒

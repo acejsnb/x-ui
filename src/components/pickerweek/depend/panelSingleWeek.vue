@@ -8,7 +8,11 @@
                 @mouseenter="pickerClearShow"
                 @mouseleave="pickerClearHide"
         >
-            <i v-if="quickSwitch" class="p-picker-triangle p-picker-triangle-left"><TrianglePickerLeft /></i>
+            <i
+                    v-if="quickSwitch"
+                    :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
+                    @click="quickLeft"
+            ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-tip-single', thTextSelected?'p-picker-input-values':'p-picker-input-tip']"
                     @click="pickerBoxShow"
@@ -18,7 +22,11 @@
                 <CalendarSvg v-else />
             </section>
             <i v-if="quickSwitch"
-               class="p-picker-triangle p-picker-triangle-right"
+               :class="[
+                   'p-picker-triangle', 'p-picker-triangle-right',
+                    !selectedDate&&'p-picker-triangle-disabled'
+               ]"
+               @click="quickRight"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -83,6 +91,7 @@
 
 <script>
     import CountWeek from '../../static/utils/datePicker/CountWeek';
+    import CountBeforeOrAfterDay from '../../static/utils/datePicker/CountBeforeOrAfterDay';
 
     import SingleYear from '../../PickerYear/depend/singleYear';
     import SingleMonth from '../../PickerMonth/depend/singleMonth';
@@ -142,7 +151,7 @@
                 yearNow: '', // 当前年
                 monthNow: '', // 当前月
 
-                // 活动的年月日
+                // 活动的年月
                 yearActive: '',
                 monthActive: '',
 
@@ -411,6 +420,41 @@
                 this.monthActive=month;
                 this.weeksArray=this.countWeek.yearChangeCountWeek(year, month, this.sort);
                 this.btnType='disabled';
+            },
+
+            // 快速选择-设置时间 flat可选值【add，min】
+            setQuickDate(flag) {
+                const ws=this.weeksSelected, s=ws[0], e=ws[6];
+                const y1=s.year, m1=s.month, d1=s.day, y2=e.year, m2=e.month, d2=e.day;
+
+                let selectedDate;
+                if (flag === 'min') {
+                    const [ey, em, ed]=CountBeforeOrAfterDay(y1, m1, d1, -1);
+                    const [sy, sm, sd]=CountBeforeOrAfterDay(ey, em, ed, -6);
+                    const start=sy+'.'+sm+'.'+sd;
+                    const end=ey+'.'+em+'.'+ed;
+                    selectedDate=start+'-'+end;
+                } else {
+                    const [sy, sm, sd]=CountBeforeOrAfterDay(y2, m2, d2, 1);
+                    const [ey, em, ed]=CountBeforeOrAfterDay(sy, sm, sd, 6);
+                    const start=sy+'.'+sm+'.'+sd;
+                    const end=ey+'.'+em+'.'+ed;
+                    selectedDate=start+'-'+end;
+                }
+
+                this.init(selectedDate);
+                this.selectedDate=selectedDate;
+                this.$emit('change', {thTextSelected: this.thTextSelected, selectedDate});
+            },
+            // 向左快速选择
+            quickLeft() {
+                if (!this.selectedDate) return;
+                this.setQuickDate('min');
+            },
+            // 向右快速选择
+            quickRight() {
+                if (!this.selectedDate) return;
+                this.setQuickDate('add');
             },
             /**
              * 确定
