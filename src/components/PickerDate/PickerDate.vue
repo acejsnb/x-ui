@@ -1,13 +1,9 @@
 <template>
-    <div class="p-picker">
-        <PanelDoubleDay
+    <div class="p-picker-date">
+        <DoubleDate
                 v-if="range"
-                :date="date"
-                :format="format"
-                :quickSwitch="quickSwitch"
-                @change="changeDouble"
         />
-        <PanelSingleDay
+        <SingleDate
                 v-else
                 :date="date"
                 :format="format"
@@ -18,15 +14,12 @@
 </template>
 
 <script>
-    import PanelSingleDay from './depend/panelSingleDay';
-    import PanelDoubleDay from './depend/panelDoubleDay';
+    import SingleDate from './depend/singleDate';
+    import DoubleDate from './depend/doubleDate';
 
     export default {
-        name: "PickerDay",
-        components: {
-            PanelSingleDay,
-            PanelDoubleDay
-        },
+        name: "PickerDate",
+        components: { SingleDate, DoubleDate },
         props: {
             /**
              * 设置时间
@@ -74,7 +67,7 @@
 </script>
 
 <style lang="stylus">
-    @import "../static/stylus/datePicker/pickerMain.styl"
-    @import "../static/stylus/datePicker/pickerInput.styl"
+    .p-picker-date
+        display inline-block
 
 </style>

@@ -28,6 +28,7 @@
                     {title: 'Tabs', more: '标签页', url: 'tabsView'},
                     {title: 'Breadcrumb', more: '面包屑', url: 'breadcrumbView'},
                     {title: 'PickerTime', more: '时分秒选择', url: 'pickerTimeView'},
+                    {title: 'PickerDate', more: '时间选择器', url: 'pickerDateView'},
                     {title: 'PickerDay', more: '日选择', url: 'pickerDayView'},
                     {title: 'PickerWeek', more: '周选择', url: 'pickerWeekView'},
                     {title: 'PickerMonth', more: '月选择', url: 'pickerMonthView'},

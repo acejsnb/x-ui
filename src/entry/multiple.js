@@ -16,6 +16,7 @@ import Divider from '../components/Divider';
 import Tabs from '../components/Tabs';
 import Breadcrumb from '../components/Breadcrumb';
 import PickerTime from '../components/PickerTime';
+import PickerDate from '../components/PickerDate';
 import PickerDay from '../components/PickerDay';
 import PickerWeek from '../components/PickerWeek';
 import PickerYear from '../components/PickerYear';
@@ -60,6 +61,7 @@ const Components = {
     ,Tabs
     ,Breadcrumb
     ,PickerTime
+    ,PickerDate
     ,PickerDay
     ,PickerWeek
     ,PickerMonth

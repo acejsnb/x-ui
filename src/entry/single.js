@@ -16,6 +16,7 @@ const Components = {
     Tabs: './src/components/Tabs',
     Breadcrumb: './src/components/Breadcrumb',
     PickerTime: './src/components/PickerTime',
+    PickerDate: './src/components/PickerDate',
     PickerDay: './src/components/PickerDay',
     PickerWeek: './src/components/PickerWeek',
     PickerMonth: './src/components/PickerMonth',
