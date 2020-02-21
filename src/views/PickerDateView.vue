@@ -1,7 +1,7 @@
 <template>
     <div class="component component-padding">
         <h1>PickerDate组件</h1>
-        <PickerDate :date="dateSingleNull" @change="dateChangeSingleNull" />
+        <PickerDate :date="dateSingleNull" format="hm" @change="dateChangeSingleNull" />
     </div>
 </template>
 

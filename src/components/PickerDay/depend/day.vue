@@ -276,7 +276,7 @@
             &:nth-of-type(7n)
                 margin-right 0
     .p-picker-day-content
-        padding 8px 0 8px 16px
+        padding 8px 0 8px 15px
         width 100%
         height 208px
         .p-picker-day-select
@@ -300,7 +300,7 @@
                     margin-right 0
                 span
                     position relative
-                    line-height 24px
+                    line-height 22px
                     color $grey-900
                     font-size 14px
                     text-align center

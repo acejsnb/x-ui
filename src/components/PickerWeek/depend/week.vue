@@ -362,7 +362,7 @@
                     margin-right 0
                 span
                     position relative
-                    line-height 24px
+                    line-height 22px
                     color $grey-900
                     font-size 14px
                     transition color .3s

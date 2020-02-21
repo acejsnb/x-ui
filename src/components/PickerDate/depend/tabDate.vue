@@ -1,7 +1,7 @@
 <template>
     <section class="p-picker-tab">
         <article
-                :class="['p-picker-tab-item', tabKey===tab.key&&'p-picker-tab-active']"
+                :class="['p-picker-tab-item', value===tab.key&&'p-picker-tab-active']"
                 v-for="tab in tabData"
                 :key="tab.key"
                 @click="tabHandle(tab.key)"
@@ -11,9 +11,9 @@
 
 <script>
     export default {
-        name: "tabDate",
+        name: "TabDate",
         props: {
-            tabKey: {
+            value: {
                 type: String,
                 default: 'day'
             }
@@ -31,7 +31,7 @@
         },
         methods: {
             tabHandle(key) {
-                this.$emit('change', key)
+                this.$emit('input', key)
             }
         }
     }

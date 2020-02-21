@@ -33,24 +33,23 @@
         </div>
         <transition name="opacityTop">
             <!--
-                    v-show="pickerBoxStatus"
-                    @mouseenter="pickerMainBlur"
-                    @mouseleave="pickerMainFocus"
-                    @blur="pickerBoxHide"
             -->
             <div
                     class="p-picker-main"
                     ref="pickerMain"
                     tabindex="-1"
+                    v-show="pickerBoxStatus"
+                    @mouseenter="pickerMainBlur"
+                    @mouseleave="pickerMainFocus"
+                    @blur="pickerBoxHide"
             >
                 <div class="p-picker-main-item-box">
                     <div class="p-picker-main-item-input-box">
-                        <section :class="['p-picker-input-alert', picker&&'p-picker-input-alert-picker']">
+                        <section class="p-picker-input-alert">
                             <article
                                     :class="[(yearSelected&&monthSelected&&daySelected)?'p-picker-input-values':'p-picker-input-tip']"
                             >{{(yearSelected&&monthSelected&&daySelected)?`${yearSelected}.${monthSelected}.${daySelected}${format?(' '+time):''}`:'请选择日期'}}</article>
                         </section>
-                        <TabDate :tabKey="tabKey" @change="tabHandle" />
                     </div>
                     <div class="p-picker-main-item">
                         <SingleYear
@@ -128,7 +127,6 @@
     import DaySelect from './day';
     import Button from '../../Button';
     import TimeSelect from '../../PickerTime/depend/time';
-    import TabDate from '../../PickerDate/depend/tabDate';
 
     import ClearSvg from '../../static/iconSvg/clear2.svg';
     import CalendarSvg from '../../static/iconSvg/calendar.svg';
@@ -142,7 +140,6 @@
             DaySelect,
             Button,
             TimeSelect,
-            TabDate,
             ClearSvg,
             CalendarSvg,
             TrianglePickerLeft,
@@ -170,11 +167,6 @@
             picker: {
                 type: Boolean,
                 default: false
-            },
-            // 是否显示时分秒 可选值[hms, hm]
-            tabKey: {
-                type: String,
-                default: 'day'
             }
         },
         data() {
@@ -485,10 +477,6 @@
                 this.setQuickDate('add');
             },
 
-            // tab切换日周月年
-            tabHandle(key) {
-                this.$emit('tabChange', key)
-            },
             /**
              * 确定
              */
