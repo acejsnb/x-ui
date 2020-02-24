@@ -260,7 +260,7 @@ if(isProd){
         , compress: true // 开启Gzip压缩
         // , host: 'localhost' // 设置服务器的ip地址，默认localhost
         , host: get_ip // 设置服务器的ip地址，默认localhost
-        , port: 3001 // 端口号
+        , port: 3002 // 端口号
         , open: true // 自动打开浏览器
         , hot: true
         , overlay: { // 当出现编译器错误或警告时，就在网页上显示一层黑色的背景层和错误信息

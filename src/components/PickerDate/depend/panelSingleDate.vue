@@ -13,11 +13,11 @@
                     :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
                     @click="quickLeft"
             ><TrianglePickerLeft /></i>
+<!--            @mouseover="pickerEllipsis"-->
             <section
                     :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip', 'p-picker-ellipsis']"
                     @click="pickerBoxShow"
-                    @mouseover="pickerEllipsis"
-            >{{selectedDate?selectedDate:'选择日期'}}</section>
+            >{{(tabKey==='week'&&thTextSelected)?thTextSelected:(selectedDate?selectedDate:'选择日期')}}</section>
             <section v-if="!quickSwitch" :class="['p-picker-svg-box', (selectedDate&&format==='hms')&&'p-picker-left-box-shadow']">
                 <ClearSvg class="p-picker-clear-svg" v-if="clearStatus" @click.stop="clearTime" />
                 <CalendarSvg v-else />
@@ -47,8 +47,9 @@
                     <div class="p-picker-main-item-input-box">
                         <section class="p-picker-input-alert p-picker-input-alert-picker">
                             <article
-                                    :class="[(yearSelected&&monthSelected&&daySelected)?'p-picker-input-values':'p-picker-input-tip']"
-                            >{{(yearSelected&&monthSelected&&daySelected)?`${yearSelected}.${monthSelected}.${daySelected}${format?(' '+time):''}`:'请选择日期'}}</article>
+                                    :class="[clickSelectedDate?'p-picker-input-values':'p-picker-input-tip', format&&'p-picker-ellipsis p-picker-ellipsis-overflow']"
+                                    @mouseenter="pickerEllipsis"
+                            >{{(tabKey==='week'&&clickThTextSelected)?clickThTextSelected:(clickSelectedDate?clickSelectedDate:'选择日期')}}</article>
                         </section>
                         <TabDate v-model="tabKey" />
                     </div>
@@ -66,20 +67,20 @@
                                     <article
                                             class="p-picker-child-select-box-icon-svg p-picker-child-select-box-icon-svg-left"
                                             @click="prevMonth"
-                                            v-if="!disableMonthLeft"
+                                            v-if="!disableMonthLeft&&tabKey!=='year'"
                                     >
                                         <ArrowRightSvg />
                                     </article>
                                 </section>
                                 <section class="p-picker-child-select-box-title-text">
                                     <article class="p-picker-active-title" @click="yearActiveClick">{{yearActive}}年</article>
-                                    <article class="p-picker-active-title" @click="monthActiveClick">{{monthActive}}月</article>
+                                    <article v-show="tabKey!=='year'" class="p-picker-active-title" @click="monthActiveClick">{{monthActive}}月</article>
                                 </section>
                                 <section class="p-picker-child-select-box-icon">
                                     <article
                                             class="p-picker-child-select-box-icon-svg"
                                             @click="nextMonth"
-                                            v-if="!disableMonthRight"
+                                            v-if="!disableMonthRight&&tabKey!=='year'"
                                     >
                                         <ArrowRightSvg />
                                     </article>
@@ -143,7 +144,7 @@
                             @click="panelTimeOpen"
                     >选择时间</span>
                     <template>
-                        <Button v-if="tabKey==='day'" type="primary" size="small" @click="panelTimeClose">确定</Button>
+                        <Button v-if="format&&tabKey==='time'" type="primary" size="small" @click="panelTimeClose">确定</Button>
                         <Button v-else :type="btnType" size="small" @click="pickerConfirm">确定</Button>
                     </template>
                 </div>
@@ -265,6 +266,7 @@
                 blurStatus: false, // 是否可执行blur
                 clearStatus: false, // 关闭按钮
                 selectedDate: '', // 选中的时间
+                clickSelectedDate: '', // 当前点击改变的时间
                 time: '', // 时分|时分秒
 
                 yearNow: '', // 当前年
@@ -281,6 +283,7 @@
                 daySelected: '', // 选择的日
 
                 thTextSelected: '', // 选择的第几周 String
+                clickThTextSelected: '', // 当前点击选择的第几周 String
                 weeksSelected: [], // 选择的周列表
 
                 daysArray: [], // 日列表
@@ -302,7 +305,16 @@
             // 监听日期改变
             date(n, o) {
                 if (n === o) return;
-                this.paramsChange(this.tabKey, n);
+                const tabKey=this.tabKey;
+                console.log('tabKey:::', tabKey);
+                if (tabKey === 'week') {
+                    const [date]=n.split('-');
+                    this.paramsChange(tabKey, date);
+                } else {
+                    const y=this.yearSelected, m=this.monthSelected, d=this.daySelected, t=this.time;
+                    const date=(y && m && d)?(y+'.'+m+'.'+d+(this.format?' '+t:'')):'';
+                    this.paramsChange(tabKey, date);
+                }
             },
             // 选择时间框状态改变
             pickerBoxStatus(n) {
@@ -310,18 +322,21 @@
             },
             // 日周月年切换显示
             tabKey(n, o) {
-                if (n === o) return;
-                console.log('日周月年切换显示:::', n);
-                this.paramsChange(n, this.date);
+                if (n === o || o === 'time') return;
+                console.log('日周月年切换显示::::', n);
+                const y=this.yearSelected, m=this.monthSelected, d=this.daySelected, t=this.time;
+                const date=(y && m && d)?(y+'.'+m+'.'+d+(this.format?' '+t:'')):'';
+                this.paramsChange(n, date);
             }
         },
         created() {
             // 初始化日期对象
-            this.dayInit(this.date);
+            this.paramsChange(this.tabKey, this.date);
         },
         methods: {
             // 文字超出显示省略号
             pickerEllipsis(e) {
+                if (!this.format) return;
                 const target=e.target;
                 const {clientWidth, scrollWidth}=target;
                 if (scrollWidth > clientWidth) target.title=target.innerText;
@@ -333,40 +348,37 @@
                 if (str && str.replace(/\./g, '')) this.btnType='primary';
                 else this.btnType='disabled';
             },
-            /**
-             * 格式化传入的时间
-             * @param date String '2020.02.14 08:09:10'
-             */
-            setSelectedDate(date) {
-                this.selectedDate=date;
-                this.changeBtnType(date);
-                let sDate='', time='';
-                if (date) {
-                    if (this.format && date.includes(':')) {
-                        const [d, t]=date.split(' ');
-                        sDate=d;
-                        time=t;
-                    } else {
-                        sDate=date;
-                    }
-                }
-                this.time=time;
-                return [sDate, time]
-            },
             // 参数改变设置面板初始化
             paramsChange(params, date) {
+                if (params === 'time') return;
+                this.clickSelectedDate='';
+                this.clickThTextSelected='';
+                let time=this.time, year='', yearMonth='', yearMonthDay='';
+                let DATE=date;
+                if (date) {
+                    if (date.includes(':')) {
+                        const [de, t]=date.split(' ');
+                        DATE=de;
+                        time=t;
+                    }
+                    const [Y, M, D]=DATE.split('.');
+                    // const [Y, M]=DATE.split('.');
+                    year=Y;
+                    yearMonth=Y+'.'+M;
+                    yearMonthDay=Y+'.'+M+'.'+D;
+                }
                 switch (params) {
                     case 'day':
-                        this.dayInit(date);
+                        this.dayInit(DATE, time);
                         break;
                     case 'week':
-                        this.weekInit(date);
+                        this.weekInit(yearMonthDay);
                         break;
                     case 'month':
-                        this.monthInit(date);
+                        this.monthInit(yearMonth);
                         break;
                     case 'year':
-                        this.yearInit(date);
+                        this.yearInit(year);
                         break;
                     default:
                         break;
@@ -375,38 +387,34 @@
             /**
              * 初始化日期对象
              */
-            dayInit(date) {
-                const [tDate, time]=this.setSelectedDate(date);
-                this.countDay=new CountDay(tDate); // 当前计算天的对象
+            dayInit(date, time) {
+                this.countDay=new CountDay(date); // 当前计算天的对象
                 this.daysArray=this.countDay.getDaysArray();
                 const [year, month, day]=this.countDay.countNowDate(); // 获取当前时间、日期
                 this.yearNow=year;
                 this.monthNow=month;
                 this.dayNow=day;
-                this.setDay(tDate, time);
+                this.setDay(date, time);
             },
             weekInit(date) {
-                const countWeek=new CountWeek({date, sort: this.sort});
-                this.weeksArray=countWeek.getWeeksArray();
-                this.countWeek=countWeek;
-                // const [year, month]=countWeek.countNowDate();
-                // this.yearNow=year;
-                // this.monthNow=month;
+                const countWeek=new CountWeek({date: '', sort: this.sort});
+                if (date) {
+                    const [Y, M]=date.split('.');
+                    this.weeksArray=countWeek.yearChangeCountWeek(Y, M, this.sort);
+                } else {
+                    this.weeksArray=countWeek.getWeeksArray();
+                }
 
                 this.setWeek(date);
             },
             monthInit(date) {
                 const countMonth=new CountMonth(date);
                 this.monthsArray=countMonth.getMonthsArray();
-                // const [year, month]=countMonth.countNowMonth();
-                // this.yearNow=year;
-                // this.monthNow=month;
 
                 this.setMonth(date);
             },
             yearInit(date) {
                 this.countYear=new CountYear(date); // 当前计算年的对象
-                // this.yearNow=this.countYear.countNowYear(); // 获取当前年
                 this.yearsArray=this.countYear.getYearsArray();
 
                 this.setYear(date);
@@ -420,6 +428,9 @@
                 let year='', month='', day='',
                     yearActive='', monthActive='', dayActive='';
                 if (date) {
+                    const sd=date+`${time?' '+time:''}`;
+                    this.selectedDate=sd;
+                    this.clickSelectedDate=sd;
                     const [YY, MM, DD]=date.split('.'); // 获取传入的时间、日期
                     year=YY;
                     month=MM;
@@ -443,38 +454,33 @@
                 this.changeDaysArray({year, month, day});
             },
             setWeek(date) {
-                this.selectedDate=date;
-                this.changeBtnType(date);
+                // this.changeBtnType(date);
                 if (date) {
-                    const [sd, ed]=date.split('-');
-                    if (ed - sd < 6) {
-                        // 一周时间必须等于七天
-                        console.error('Date error, there must be seven days in a week.');
-                        return;
-                    }
-                    const [year, month]=sd.split('.');
+                    const [Y, M, D]=date.split('.');
                     const wa=this.weeksArray;
 
-                    this.yearSelected=year;
-                    this.monthSelected=month;
-                    this.yearActive=year;
-                    this.monthActive=month;
-
-                    const {weeks, thText}=wa.find(d => {
-                        const dw=d.weeks;
-                        const dStr=dw[0].year+'.'+dw[0].month+'.'+dw[0].day+'-'+dw[6].year+'.'+dw[6].month+'.'+dw[6].day;
-                        return (dStr === date);
-                    });
+                    const {weeks, thText}=wa.find(d => d.weeks.some(d2 => d2.year===Y&&d2.month===M&&d2.day===D));
+                    const ws1=weeks[0], ws2=weeks[6];
+                    const sd=ws1.year+'.'+ws1.month+'.'+ws1.day+'-'+ws2.year+'.'+ws2.month+'.'+ws2.day;
+                    this.selectedDate=sd;
+                    this.clickSelectedDate=sd;
                     this.weeksSelected=weeks;
                     this.thTextSelected=thText;
+                    this.clickThTextSelected=thText;
                     this.changeWeeksArray(thText);
                 } else {
+                    this.weeksSelected=[];
+                    this.selectedDate=date;
+                    this.clickSelectedDate='';
+                    this.thTextSelected='';
+                    this.clickThTextSelected='';
                     this.yearActive=this.yearNow;
                     this.monthActive=this.monthNow;
                 }
             },
             setMonth(date) {
                 this.selectedDate=date;
+                this.clickSelectedDate=date;
                 if (date) {
                     const [year, m]=date.split('.');
                     const month=m?m:'';
@@ -490,6 +496,8 @@
                 }
             },
             setYear(date) {
+                this.selectedDate=date;
+                this.clickSelectedDate=date;
                 this.changeYearsArray(date);
             },
             /**
@@ -634,6 +642,7 @@
                 this.yearSelected=year;
                 this.monthSelected=month;
                 this.daySelected=day;
+                this.clickSelectedDate=year+'.'+month+'.'+day+(this.format?' '+this.time:'');
                 this.btnType='primary';
                 this.changeDaysArray({year, month, day});
             },
@@ -645,7 +654,10 @@
                 this.weeksSelected=weeks;
                 this.yearSelected=year;
                 this.monthSelected=month;
-                this.thTextSelected=thText;
+                const ws1=weeks[0], ws2=weeks[6];
+                this.daySelected=ws1.day;
+                this.clickSelectedDate=ws1.year+'.'+ws1.month+'.'+ws1.day+'-'+ws2.year+'.'+ws2.month+'.'+ws2.day;
+                this.clickThTextSelected=thText;
                 this.btnType='primary';
                 this.changeWeeksArray(thText);
             },
@@ -656,6 +668,7 @@
             monthChange({year, month}) {
                 this.yearSelected=year;
                 this.monthSelected=month;
+                this.clickSelectedDate=year+'.'+month;
                 this.btnType='primary';
                 this.changeMonthsArray({year, month});
             },
@@ -665,6 +678,7 @@
              */
             yearChange({year}) {
                 this.yearSelected=year;
+                this.clickSelectedDate=year;
                 this.btnType='primary';
                 this.changeYearsArray(year);
             },
@@ -674,6 +688,7 @@
              */
             timeChange(time) {
                 this.time=time;
+                this.clickSelectedDate=this.yearSelected+'.'+this.monthSelected+'.'+this.daySelected+' '+time;
             },
 
             // 时间面板显示切换
@@ -714,7 +729,27 @@
              * 确定
              */
             pickerConfirm() {
-                const selectedDate=this.yearSelected+'.'+this.monthSelected+'.'+this.daySelected+`${this.format?' '+this.time:''}`;
+                let selectedDate='';
+                console.log('确定::::::::', this.format);
+                switch (this.tabKey) {
+                    case 'day':
+                        selectedDate=this.yearSelected+'.'+this.monthSelected+'.'+this.daySelected+(this.format?' '+this.time:'');
+                        break;
+                    case 'week':
+                        const ws=this.weeksSelected, ws1=ws[0], ws2=ws[6];
+                        selectedDate=ws1.year+'.'+ws1.month+'.'+ws1.day+'-'+ws2.year+'.'+ws2.month+'.'+ws2.day;
+                        this.thTextSelected=this.clickThTextSelected;
+                        break;
+                    case 'month':
+                        selectedDate=this.yearSelected+'.'+this.monthSelected;
+                        break;
+                    case 'year':
+                        selectedDate=this.yearSelected;
+                        break;
+                    default:
+                        break;
+                }
+                console.log('确定::::::::', selectedDate);
                 this.selectedDate=selectedDate;
                 this.blurStatus=false;
                 this.pickerBoxStatus=false;
@@ -727,3 +762,6 @@
         }
     }
 </script>
+
+<style lang="stylus">
+</style>
