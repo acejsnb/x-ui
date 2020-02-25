@@ -2,13 +2,19 @@
     <div class="p-picker">
         <PanelDoubleDate
                 v-if="range"
+                :date="date"
+                :format="format"
+                :sort="sort"
+                :quickSwitch="quickSwitch"
+                @change="changeDate"
         />
         <PanelSingleDate
                 v-else
                 :date="date"
                 :format="format"
+                :sort="sort"
                 :quickSwitch="quickSwitch"
-                @change="changeSingle"
+                @change="changeDate"
         />
     </div>
 </template>
@@ -41,6 +47,12 @@
                 type: String,
                 default: ''
             },
+
+            // weeks-按照年or周排序 【year、month】
+            sort: {
+                type: String,
+                default: 'year'
+            },
             // 快速切换时间
             quickSwitch: {
                 type: Boolean,
@@ -52,14 +64,7 @@
              * 点击日期
              * @param date String
              */
-            changeSingle(date) {
-                this.$emit('change', date)
-            },
-            /**
-             * 点击日期
-             * @param date String
-             */
-            changeDouble(date) {
+            changeDate(date) {
                 this.$emit('change', date)
             }
         }
@@ -69,5 +74,9 @@
 <style lang="stylus">
     @import "../static/stylus/datePicker/pickerInput.styl"
     @import "../static/stylus/datePicker/pickerMain.styl"
+
+    .p-picker-main-item-time-date
+        margin-top 22px
+        margin-bottom 22px
 
 </style>

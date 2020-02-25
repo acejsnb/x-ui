@@ -40,6 +40,7 @@
 <style lang="stylus">
     .p-picker-tab
         display flex
+        user-select none
         .p-picker-tab-item
             margin-left -1px
             border 1px solid $grey-400

@@ -49,6 +49,7 @@ module.exports = {
                     '/guide/transfer/',
                     '/guide/transferSelect/',
                     '/guide/transferSelectModal/',
+                    '/guide/pickerDate/',
                     '/guide/pickerDay/',
                     '/guide/pickerMonth/',
                     '/guide/pickerTime/',

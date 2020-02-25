@@ -11,7 +11,7 @@
             <i
                     v-if="quickSwitch"
                     :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
-                    @click="quickLeft"
+                    @click="quickSort('left')"
             ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-tip-single', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
@@ -24,7 +24,7 @@
             <i
                     v-if="quickSwitch"
                     :class="['p-picker-triangle', 'p-picker-triangle-right', !selectedDate&&'p-picker-triangle-disabled']"
-                    @click="quickRight"
+                    @click="quickSort('right')"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -185,26 +185,16 @@
                 this.yearSelected=year;
                 this.btnType='primary';
             },
-            // 快速选择-设置时间 flat可选值【add，min】
-            setQuickDate(flag) {
+            // 快速选择-设置时间 flag【left，right】
+            quickSort(flag) {
                 const ys=Number(this.yearSelected);
-                const selectedDate=((flag==='min'?ys-1:ys+1)).toString();
+                const selectedDate=((flag==='left'?ys-1:ys+1)).toString();
                 this.yearSelected=selectedDate;
                 this.selectedDate=selectedDate;
                 const singleYear=this.$refs.singleYear;
                 const ya=singleYear.yearsArray;
                 if (!ya.some(d => d.year === selectedDate)) singleYear.init(selectedDate);
                 this.$emit('change', selectedDate);
-            },
-            // 向左快速选择
-            quickLeft() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('min');
-            },
-            // 向右快速选择
-            quickRight() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('add');
             },
             /**
              * 确定

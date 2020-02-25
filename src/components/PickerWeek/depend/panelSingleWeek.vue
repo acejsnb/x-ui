@@ -11,7 +11,7 @@
             <i
                     v-if="quickSwitch"
                     :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
-                    @click="quickLeft"
+                    @click="quickSort('left')"
             ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-tip-single', thTextSelected?'p-picker-input-values':'p-picker-input-tip']"
@@ -26,7 +26,7 @@
                    'p-picker-triangle', 'p-picker-triangle-right',
                     !selectedDate&&'p-picker-triangle-disabled'
                ]"
-               @click="quickRight"
+               @click="quickSort('right')"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -422,13 +422,14 @@
                 this.btnType='disabled';
             },
 
-            // 快速选择-设置时间 flat可选值【add，min】
-            setQuickDate(flag) {
+            // 快速选择-设置时间 flat可选值【left，right】
+            quickSort(flag) {
+                if (!this.selectedDate) return;
                 const ws=this.weeksSelected, s=ws[0], e=ws[6];
                 const y1=s.year, m1=s.month, d1=s.day, y2=e.year, m2=e.month, d2=e.day;
 
                 let selectedDate;
-                if (flag === 'min') {
+                if (flag === 'left') {
                     const [ey, em, ed]=CountBeforeOrAfterDay(y1, m1, d1, -1);
                     const [sy, sm, sd]=CountBeforeOrAfterDay(ey, em, ed, -6);
                     const start=sy+'.'+sm+'.'+sd;
@@ -445,16 +446,6 @@
                 this.init(selectedDate);
                 this.selectedDate=selectedDate;
                 this.$emit('change', {thTextSelected: this.thTextSelected, selectedDate});
-            },
-            // 向左快速选择
-            quickLeft() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('min');
-            },
-            // 向右快速选择
-            quickRight() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('add');
             },
             /**
              * 确定
