@@ -1,17 +1,17 @@
 <template>
     <div class="p-picker-child">
         <div
-                :class="[
-                    'p-picker-input', format?'p-picker-input-double-max':'p-picker-input-double',
-                    quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
-                    ]"
-                @mouseover="pickerClearShow"
-                @mouseleave="pickerClearHide"
+            :class="[
+                'p-picker-input', format?'p-picker-input-double-max':'p-picker-input-double',
+                quickSwitch?'p-picker-input-triangle':'p-picker-input-normal'
+                ]"
+            @mouseover="pickerClearShow"
+            @mouseleave="pickerClearHide"
         >
             <i
                     v-if="quickSwitch"
                     :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
-                    @click="quickLeft"
+                    @click="quickSort('left')"
             ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-double-tip', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
@@ -34,7 +34,7 @@
                    'p-picker-triangle', 'p-picker-triangle-right', (selectedDate&&format)&&'p-picker-left-box-shadow',
                     !selectedDate&&'p-picker-triangle-disabled'
                ]"
-               @click="quickRight"
+               @click="quickSort('right')"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -51,7 +51,7 @@
             >
                 <div class="p-picker-main-item-box">
                     <div class="p-picker-main-item-input-box">
-                        <section class="p-picker-input-alert">
+                        <section :class="['p-picker-input-alert', (yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd&&format)&&'p-picker-input-alert-shadow']">
                             <article
                                     :class="['p-picker-input-alert-tip', (yearSelectedStart&&monthSelectedStart&&daySelectedStart)?'p-picker-input-values':'p-picker-input-tip', 'p-picker-ellipsis']"
                                     @mouseenter="pickerEllipsis"
@@ -62,7 +62,6 @@
                                     @mouseenter="pickerEllipsis"
                             >{{(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd)?`${yearSelectedEnd}.${monthSelectedEnd}.${daySelectedEnd}${format?(' '+timeEnd):''}`:'结束日期'}}</article>
                         </section>
-                        <section v-if="(yearSelectedEnd&&monthSelectedEnd&&daySelectedEnd&&format)" class="p-picker-main-ph p-picker-left-box-shadow" />
                     </div>
                     <div class="p-picker-main-item">
                         <SingleYear
@@ -1095,15 +1094,15 @@
                 this.panelTime=false;
             },
 
-            // 快速选择-设置时间 flat可选值【add，min】
-            setQuickDate(flag) {
+            // 快速选择-设置时间 flat可选值【left，right】
+            quickSort(flag) {
                 const y1=this.yearSelectedStart, m1=this.monthSelectedStart, d1=this.daySelectedStart,
                     y2=this.yearSelectedEnd, m2=this.monthSelectedEnd, d2=this.daySelectedEnd;
                 let sy, sm, sd // 计算后的开始年月日
                     ,ey, em, ed; // 计算后的结束年月日
                 // 天差值
                 const diff=(new Date(y2, m2-1, d2).getTime() - new Date(y1, m1-1, d1).getTime()) / (1000*60*60*24);
-                if (flag === 'min') {
+                if (flag === 'left') {
                     // 计算结束时间
                     const [ey1, em1, ed1]=CountBeforeOrAfterDay(y1, m1, d1, -1);
                     ey=ey1;
@@ -1141,16 +1140,6 @@
                 const selectedDate=dateStart+'-'+dateEnd;
                 this.selectedDate=selectedDate;
                 this.$emit('change', selectedDate);
-            },
-            // 向左快速选择
-            quickLeft() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('min');
-            },
-            // 向右快速选择
-            quickRight() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('add');
             },
             /**
              * 确定

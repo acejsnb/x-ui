@@ -100,8 +100,6 @@
   width 294px
   height 32px
   line-height 30px
-  //&+.p-picker-input-alert-picker
-  //  width 136px
   .p-picker-input-values, .p-picker-input-tip
     width 100%
     text-align center
@@ -110,12 +108,17 @@
 .p-picker-input-alert-picker
   width 136px
 
-.p-picker-main-ph
-  position absolute
-  right 0
-  top 13px
-  width 12px
-  height 30px
+.p-picker-input-alert-shadow
+  position relative
+  &::after
+    position absolute
+    right 0
+    top 1px
+    display block
+    box-shadow -1px 0 2px 0 rgba(31,35,41,.08)
+    width 12px
+    height 30px
+    content ''
 
 .p-picker-ellipsis
   overflow hidden

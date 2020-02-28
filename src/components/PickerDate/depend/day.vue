@@ -13,6 +13,7 @@
                         v-for="(da, dai) in daysArray"
                         :key="'day-'+da.day+dai"
                         @click="dayClick(da)"
+                        @mouseenter="dayEnter(da)"
                 >
                     <span>{{da.day}}</span>
                 </li>
@@ -47,8 +48,13 @@
             }
         },
         methods: {
-            dayClick(day) {
-                this.$emit('change', day)
+            dayClick(obj) {
+                if (obj.flag !== 'n') return;
+                this.$emit('change', obj)
+            },
+            dayEnter(obj) {
+                if (!this.multiple || obj.flag !== 'n') return;
+                this.$emit('enter', obj);
             }
         }
     }

@@ -252,8 +252,8 @@
              * 初始化日期对象
              */
             initStart(date) {
-                const dateS=date.replace(/\./, '');
-                const dateE=this.dateEnd.replace(/\./, '');
+                const dateS=date.replace(/\./g, '');
+                const dateE=this.dateEnd.replace(/\./g, '');
                 const dateStart=(date && (dateE - dateS > 12))?date:(this.monthsArrayEnd[0].year-1).toString();
                 const countMonthStart=new CountMonth(dateStart+'.01.01'); // 当前计算年的对象
                 this.monthsArrayStart=countMonthStart.getMonthsArray();
@@ -268,8 +268,8 @@
              */
             setDateEnd(date) {
                 if (date) {
-                    const dateS=this.dateStart.replace(/\./, '');
-                    const dateE=date.replace(/\./, '');
+                    const dateS=this.dateStart.replace(/\./g, '');
+                    const dateE=date.replace(/\./g, '');
                     const [year, month]=date.split('.');
                     this.yearSelectedEnd=year;
                     this.monthSelectedEnd=month;
@@ -304,8 +304,8 @@
              */
             setDateStart(date) {
                 if (date) {
-                    const dateS=date.replace(/\./, '');
-                    const dateE=this.dateEnd.replace(/\./, '');
+                    const dateS=date.replace(/\./g, '');
+                    const dateE=this.dateEnd.replace(/\./g, '');
                     const [year, month]=date.split('.');
                     this.yearSelectedStart=year;
                     this.monthSelectedStart=month;

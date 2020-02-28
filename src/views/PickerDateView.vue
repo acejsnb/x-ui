@@ -1,6 +1,8 @@
 <template>
     <div class="component component-padding">
         <h1>PickerDate组件</h1>
+
+        <h2 class="titleLine">一、单选</h2>
         <h3>1.空状态</h3>
         <PickerDate :date="dateSingleNull" @change="dateChangeSingleNull" />
         <br><br>
@@ -38,9 +40,16 @@
         <br><br>
         <PickerDate :date="dateSingleHmQuickMonth" :quickSwitch="true" sort="month" format="hm" @change="dateChangeSingleHmQuickMonth" />
         <br><br>
+
         <PickerDate :date="dateSingleHmsQuickMonth" :quickSwitch="true" sort="month" format="hms" @change="dateChangeSingleHmsQuickMonth" />
 
-        <br><br><br><br><br><br><br><br>
+        <br><br><br><br>
+
+        <h2 class="titleLine">二、多选</h2>
+        <h3>1.空状态</h3>
+        <PickerDate :date="dateDoubleNull" :range="true" @change="dateChangeDoubleNull" />
+        <br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br>
     </div>
 </template>
 
@@ -49,6 +58,7 @@
         name: "PickerDateView",
         data() {
             return {
+                // 单选
                 dateSingleNull: '',
                 dateSingleNullHm: '',
                 dateSingleNullHms: '',
@@ -68,9 +78,13 @@
                 dateSingleQuickMonth: '2020.02.24',
                 dateSingleHmQuickMonth: '2020.02.24 12:12',
                 dateSingleHmsQuickMonth: '2020.02.24 12:12:25',
+
+                // 多选
+                dateDoubleNull: '',
             }
         },
         methods: {
+            // 单选
             dateChangeSingleNull(date) {
                 console.log('选择的日期::::', date);
                 this.dateSingleNull=date;
@@ -134,7 +148,13 @@
             dateChangeSingleHmsQuickMonth(date) {
                 console.log('选择的日期::::', date);
                 this.dateSingleHmsQuickMonth=date;
-            }
+            },
+
+            // 多选
+            dateChangeDoubleNull(date) {
+                console.log('选择的日期::::', date);
+                this.dateDoubleNull=date;
+            },
         }
     }
 </script>
@@ -143,6 +163,5 @@
 
 .component-padding
     padding-bottom 200px !important
-    width 240px
 
 </style>

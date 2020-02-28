@@ -13,6 +13,7 @@
                         v-for="(ma, mai) in monthsArray"
                         :key="'month-'+ma.month+mai"
                         @click="monthClick(ma)"
+                        @mouseenter="monthEnter(ma)"
                 >
                     <span>{{ma.monthText}}</span>
                 </li>
@@ -41,6 +42,9 @@
         methods: {
             monthClick(month) {
                 this.$emit('change', month)
+            },
+            monthEnter(month) {
+                this.$emit('enter', month)
             }
         }
     }

@@ -12,6 +12,7 @@
                         v-for="(ya, yai) in yearsArray"
                         :key="'year-'+ya.year+yai"
                         @click="yearClick(ya)"
+                        @mouseenter="yearEnter(ya)"
                 >
                     <span>{{ya.year}}</span>
                 </li>
@@ -31,11 +32,19 @@
             yearsArray: {
                 type: Array,
                 default: () => []
+            },
+            multiple: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
-            yearClick(year) {
+            yearClick({year}) {
                 this.$emit('change', year)
+            },
+            yearEnter({year}) {
+                if (!this.multiple) return;
+                this.$emit('enter', year)
             }
         }
     }

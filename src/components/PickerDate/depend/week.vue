@@ -10,6 +10,7 @@
                     :style="weeks.flag!=='n'&&{pointerEvents: 'none'}"
                     v-for="(weeks, i) in weeksArray" :key="'weeks'+i"
                     @click="weekClick(weeks)"
+                    @mouseenter="weekEnter(weeks)"
             >
                 <article class="p-picker-weeks-list-text">
                     第<span>{{weeks.th}}</span>周
@@ -33,11 +34,19 @@
             weeksArray: {
                 type: Array,
                 default: () => []
+            },
+            multiple: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
             weekClick(weeks) {
                 this.$emit('change', weeks)
+            },
+            weekEnter(weeks) {
+                if (!this.multiple) return;
+                this.$emit('enter', weeks);
             }
         }
     }

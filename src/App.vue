@@ -60,5 +60,8 @@
       h1
         margin-bottom 8px
         font-size 20px
+    .titleLine
+      padding-left 12px
+      border-left 4px solid $grey-400
 
 </style>
