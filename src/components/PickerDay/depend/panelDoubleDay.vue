@@ -1126,8 +1126,8 @@
                     ed=ed1;
                 }
 
-                const dateStart=sy+'.'+sm+'.'+sd+`${this.format?' '+this.timeStart:''}`,
-                    dateEnd=ey+'.'+em+'.'+ed+`${this.format?' '+this.timeStart:''}`;
+                const dateStart=sy+'.'+sm+'.'+sd+`${this.format&&this.timeStart?' '+this.timeStart:''}`,
+                    dateEnd=ey+'.'+em+'.'+ed+`${this.format&&this.timeEnd?' '+this.timeEnd:''}`;
 
                 this.dateStart=dateStart;
                 this.dateEnd=dateEnd;

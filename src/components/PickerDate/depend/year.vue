@@ -39,12 +39,12 @@
             }
         },
         methods: {
-            yearClick({year}) {
-                this.$emit('change', year)
+            yearClick(obj) {
+                this.$emit('change', obj)
             },
-            yearEnter({year}) {
+            yearEnter(obj) {
                 if (!this.multiple) return;
-                this.$emit('enter', year)
+                this.$emit('enter', obj)
             }
         }
     }

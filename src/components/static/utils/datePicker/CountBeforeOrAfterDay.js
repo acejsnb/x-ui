@@ -7,7 +7,7 @@
  * @returns [Object]
  */
 
-const CountBeforeOrAfterDay = (Y, M, D, len) => {
+const CountBeforeOrAfterMonth = (Y, M, D, len) => {
     const now = new Date(Y, M-1, D);
     now.setDate(now.getDate() + len);
     const year=now.getFullYear(),
@@ -20,4 +20,4 @@ const CountBeforeOrAfterDay = (Y, M, D, len) => {
     return [y, m, d];
 };
 
-export default CountBeforeOrAfterDay;
+export default CountBeforeOrAfterMonth;

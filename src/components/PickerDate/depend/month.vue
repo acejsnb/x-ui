@@ -37,14 +37,20 @@
             monthsArray: {
                 type: Array,
                 default: () => []
+            },
+            multiple: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
-            monthClick(month) {
-                this.$emit('change', month)
+            monthClick(obj) {
+                if (obj.disabled) return;
+                this.$emit('change', obj)
             },
-            monthEnter(month) {
-                this.$emit('enter', month)
+            monthEnter(obj) {
+                if (!this.multiple || obj.disabled) return;
+                this.$emit('enter', obj)
             }
         }
     }

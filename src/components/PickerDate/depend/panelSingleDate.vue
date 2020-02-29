@@ -129,8 +129,8 @@
                                         class="p-picker-main-item-time-date"
                                         :time="time"
                                         :format="format"
-                                        @change="timeChange"
                                 />
+<!--                                @change="timeChange"-->
                             </template>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                 <div class="p-picker-main-handle">
                     <span
                             v-if="format&&tabKey==='day'"
-                            :class="['p-picker-handle-time', daySelected?'p-picker-handle-time-normal':'p-picker-handle-time-disabled']"
+                            :class="['p-picker-handle-time', clickDaySelected?'p-picker-handle-time-normal':'p-picker-handle-time-disabled']"
                             @click="panelTimeOpen"
                     >选择时间</span>
                     <template>
@@ -264,7 +264,7 @@
                 yearsArray: [], // 年列表
                 panelYear: false, // 显示年面板
                 panelMonth: false, // 显示月面板
-                panelTime: false, // 显示时分(秒)面板
+                //panelTime: false, // 显示时分(秒)面板
                 tabKey: 'day' // 日周月年切换显示
             }
         },
@@ -281,16 +281,9 @@
                 if (n) {
                     if (n.includes('-')) {
                         const [date]=n.split('-');
-                        this.paramsChange(tabKey, date);
+                        this.paramsChange(tabKey, date, true);
                     } else {
-                        let y=this.yearSelected, m=this.monthSelected, d=this.daySelected;
-                        // this.yearActive=y;
-                        // this.monthActive=m;
-                        // this.dayActive=d;
-                        this.clickYearSelected=y;
-                        this.clickMonthSelected=m;
-                        this.clickDaySelected=d;
-                        this.paramsChange(tabKey, n);
+                        this.paramsChange(tabKey, n, true);
                     }
                 } else {
                     this.paramsChange(tabKey, '');
@@ -303,15 +296,6 @@
                 this.panelMonth=false;
                 let date='';
                 let y=this.yearActive, m=this.monthActive, d=this.dayActive, t=this.time;
-                if (this.selectedDate) {
-                    this.clickYearSelected=this.yearSelected;
-                    this.clickMonthSelected=this.monthSelected;
-                    this.clickDaySelected=this.daySelected;
-                } else {
-                    this.clickYearSelected='';
-                    this.clickMonthSelected='';
-                    this.clickDaySelected='';
-                }
 
                 if (m === '02' && Number(d) >= 29) {
                     if (LeapYear(y)) {
@@ -652,10 +636,6 @@
             switchMonth(year) {
                 this.yearActive=year;
                 let date=`${year}.${this.monthActive}`;
-                // if (this.date && this.date.includes('.')) {
-                //     const month=this.date.substr(5);
-                //     date=`${year}.${month}`;
-                // }
                 const countMonth=new CountMonth(date);
                 this.monthsArray=countMonth.getMonthsArray().map(d => {
                     if (d.year===this.yearSelected && d.month===this.monthSelected) d.selected='selected';
@@ -872,7 +852,7 @@
                                 d='28';
                             }
                         }
-                        const date=y+'.'+m+'.'+d+(this.format?' '+t:'');
+                        const date=y+'.'+m+'.'+d+(this.format&&t?' '+t:'');
                         this.dayInit(date, t);
                     } else if (tabKey==='week') {
                         this.weekInit(y+'.'+m+'.'+d);
@@ -893,21 +873,27 @@
              * 点击日期-时间改变
              * @param time
              */
-            timeChange(time) {
-                this.time=time;
-                this.clickSelectedDate=this.clickYearSelected+'.'+this.clickMonthSelected+'.'+this.clickDaySelected+' '+time;
-            },
+            // timeChange(time) {
+                // this.time=time;
+                // this.clickSelectedDate=this.clickYearSelected+'.'+this.clickMonthSelected+'.'+this.clickDaySelected+' '+time;
+            // },
 
             // 时间面板显示切换
             panelTimeOpen() {
-                if (!this.daySelected) return;
+                if (!this.clickDaySelected) return;
                 this.tabKey='time';
+                // this.panelTime=true;
                 setTimeout(() => {
                     this.$refs.timeSelect.setTimeDom();
                 })
             },
             // 关闭时分(秒)面板
             panelTimeClose() {
+                // this.panelTime=false;
+                const ts=this.$refs.timeSelect;
+                const time=ts.hour+':'+ts.minute+(this.format==='hms'?':'+ts.second:'');
+                this.time=time;
+                this.clickSelectedDate=this.clickYearSelected+'.'+this.clickMonthSelected+'.'+this.clickDaySelected+' '+time;
                 this.tabKey='day';
             },
             // 日-快速选择-设置时间 flag可选值【left，right】

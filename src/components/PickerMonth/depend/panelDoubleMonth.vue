@@ -7,7 +7,7 @@
         >
             <i v-if="quickSwitch"
                :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
-               @click="quickLeft"
+               @click="quickSort('left')"
             ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-double-tip', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
@@ -23,7 +23,7 @@
             </section>
             <i v-if="quickSwitch"
                :class="['p-picker-triangle', 'p-picker-triangle-right', !selectedDate&&'p-picker-triangle-disabled']"
-               @click="quickRight"
+               @click="quickSort('right')"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -109,6 +109,7 @@
 <script>
     import SingleYear from '../../PickerYear/depend/singleYear';
     import CountMonth from '../../static/utils/datePicker/CountMonth';
+    import CountLeftOrRightMonth from '../../static/utils/datePicker/CountLeftOrRightMonth';
 
     import DoubleMonth from './doubleMonth';
     import Button from '../../Button';
@@ -726,70 +727,11 @@
                     }
                 }
             },
-            /**
-             * 获取下一组开始年月 加年
-             * @param dateS '2020.02'
-             * @param dateE '2020.04'
-             */
-            getYearAndMonthAdd(dateS, dateE) {
-                let YS, MS, YE, ME;
-                const [ys, ms]=dateS.split('.'),
-                    [ye, me]=dateE.split('.'),
-                    yDiff=ye-ys; // 年差值
-
-                const msNum=Number(ms), meNum=Number(me),
-                    mDiff=(yDiff*12+meNum)-msNum, // 月差值
-                    ms2=meNum+1; // 开始时间月
-                YS=(ms2 === 13)?(Number(ye)+1).toString():ye;
-                MS=(ms2 === 13)?'01':(ms2>9?''+ms2:'0'+ms2);
-
-                const me2=Number(MS)+mDiff, yAdd=Math.floor(me2/12), rem=(me2%12);
-
-                YE=rem>0?(Number(YS)+yAdd).toString():YS;
-                ME=rem>9?''+rem:(rem===0?'12':'0'+rem);
-
-                return [YS, MS, YE, ME]
-            },
-            /**
-             * 获取下一组开始年月 减年
-             * @param dateS '2020.02'
-             * @param dateE '2020.04'
-             */
-            getYearAndMonthMin(dateS, dateE) {
-                let YS, MS, YE, ME;
-                const [ys, ms]=dateS.split('.'),
-                    [ye, me]=dateE.split('.'),
-                    yDiff=ye-ys; // 年差值
-
-                const msNum=Number(ms), meNum=Number(me),
-                    mDiff=(yDiff*12+meNum)-msNum, // 月差值
-                    me2=msNum-1; // 结束时间月
-                YE=(me2 === 0)?(Number(ys)-1).toString():ys;
-                ME=(me2 === 0)?'12':(me2>9?''+me2:'0'+me2);
-
-                const ms2=ME-mDiff, yMin=Math.floor(ms2/12), rem=(ms2%12);
-                YS=rem>0?YE:(rem===0?String(Number(YE)+yMin-1):String(Number(YE)+yMin));
-                MS=rem>0?(ms2>9?''+ms2:'0'+ms2):(rem===0?'12':((12+rem)>9?String(12+rem):'0'+(12+rem)));
-
-                return [YS, MS, YE, ME]
-            },
-            // 快速选择-设置时间 flat可选值【add，min】
-            setQuickDate(flag) {
+            // 快速选择-设置时间 flag可选值【left，right】
+            quickSort(flag) {
+                if (!this.selectedDate) return;
                 const dateS=this.yearSelectedStart+'.'+this.monthSelectedStart, dateE=this.yearSelectedEnd+'.'+this.monthSelectedEnd;
-                let YS='', MS='', YE='', ME='';
-                if (flag === 'add') {
-                    const [ys, ms, ye, me]=this.getYearAndMonthAdd(dateS, dateE);
-                    YS=ys;
-                    MS=ms;
-                    YE=ye;
-                    ME=me;
-                } else {
-                    const [ys, ms, ye, me]=this.getYearAndMonthMin(dateS, dateE);
-                    YS=ys;
-                    MS=ms;
-                    YE=ye;
-                    ME=me;
-                }
+                const [YS, MS, YE, ME]=CountLeftOrRightMonth(flag, dateS, dateE);
 
                 const dateStart=YS+'.'+MS, dateEnd=YE+'.'+ME;
                 this.dateStart=dateStart;
@@ -804,16 +746,6 @@
 
                 this.initEnd();
                 this.$emit('change', selectedDate);
-            },
-            // 向左快速选择
-            quickLeft() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('min');
-            },
-            // 向右快速选择
-            quickRight() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('add');
             },
             /**
              * 确定

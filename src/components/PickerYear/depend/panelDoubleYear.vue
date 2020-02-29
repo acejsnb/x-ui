@@ -8,7 +8,7 @@
             <i
                     v-if="quickSwitch"
                     :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
-                    @click="quickLeft"
+                    @click="quickSort('left')"
             ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-double-tip', selectedDate?'p-picker-input-values':'p-picker-input-tip']"
@@ -25,7 +25,7 @@
             <i
                v-if="quickSwitch"
                :class="['p-picker-triangle', 'p-picker-triangle-right', !selectedDate&&'p-picker-triangle-disabled']"
-               @click="quickRight"
+               @click="quickSort('right')"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -643,11 +643,12 @@
                     }
                 }
             },
-            // 快速选择-设置时间 flat可选值【add，min】
-            setQuickDate(flag) {
+            // 快速选择-设置时间 flag可选值【left，right】
+            quickSort(flag) {
+                if (!this.selectedDate) return;
                 const yss=Number(this.yearSelectedStart), yse=Number(this.yearSelectedEnd);
                 const diff=yse-yss;
-                const sds=((flag==='min'?yss-1-diff:yse+1)).toString(), sde=((flag==='min'?yss-1:yse+1+diff)).toString();
+                const sds=((flag==='left'?yss-1-diff:yse+1)).toString(), sde=((flag==='left'?yss-1:yse+1+diff)).toString();
                 this.yearSelectedStart=sds;
                 this.yearSelectedEnd=sde;
                 this.dateStart=sds;
@@ -657,16 +658,6 @@
 
                 this.initEnd();
                 this.$emit('change', selectedDate);
-            },
-            // 向左快速选择
-            quickLeft() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('min');
-            },
-            // 向右快速选择
-            quickRight() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('add');
             },
             /**
              * 确定

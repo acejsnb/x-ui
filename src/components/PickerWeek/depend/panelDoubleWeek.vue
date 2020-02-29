@@ -8,7 +8,7 @@
             <i
                     v-if="quickSwitch"
                     :class="['p-picker-triangle', 'p-picker-triangle-left', !selectedDate&&'p-picker-triangle-disabled']"
-                    @click="quickLeft"
+                    @click="quickSort('left')"
             ><TrianglePickerLeft /></i>
             <section
                     :class="['p-picker-input-double-tip', thTextSelected?'p-picker-input-values':'p-picker-input-tip']"
@@ -27,7 +27,7 @@
                    'p-picker-triangle', 'p-picker-triangle-right',
                     !selectedDate&&'p-picker-triangle-disabled'
                ]"
-               @click="quickRight"
+               @click="quickSort('right')"
             ><TrianglePickerRight /></i>
         </div>
         <transition name="opacityTop">
@@ -1086,8 +1086,9 @@
                 if (this.yearSelectedStart && this.yearSelectedEnd) this.clearWeeksArrayStart();
             },
 
-            // 快速选择-设置时间 flat可选值【add，min】
-            setQuickDate(flag) {
+            // 快速选择-设置时间 flag可选值【left，right】
+            quickSort(flag) {
+                if (!this.selectedDate) return;
                 const ws=this.weeksSelectedStart, s=ws[0],
                     we=this.weeksSelectedEnd, e=we[6];
                 const ys=s.year, ms=s.month, ds=s.day,
@@ -1095,7 +1096,7 @@
                 const diff=(new Date(ye, me-1, de).getTime() - new Date(ys, ms-1, ds).getTime()) / (1000*60*60*24);
 
                 let selectedDateStart, selectedDateEnd;
-                if (flag === 'min') {
+                if (flag === 'left') {
                     const [ey, em, ed]=CountBeforeOrAfterDay(ys, ms, ds, -1);
                     const [sy, sm, sd]=CountBeforeOrAfterDay(ey, em, ed, -diff);
                     selectedDateStart=sy+'.'+sm+'.'+sd;
@@ -1110,16 +1111,6 @@
                 const selectedDate=selectedDateStart+'-'+selectedDateEnd;
                 this.dateFormat(selectedDate);
                 this.$emit('change', {thTextSelected: this.thTextSelected, selectedDate});
-            },
-            // 向左快速选择
-            quickLeft() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('min');
-            },
-            // 向右快速选择
-            quickRight() {
-                if (!this.selectedDate) return;
-                this.setQuickDate('add');
             },
             /**
              * 确定
