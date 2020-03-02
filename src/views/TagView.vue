@@ -1,62 +1,33 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-02-21 15:36:53
+ * @LastEditTime: 2020-02-24 18:52:56
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \persagy-ui-kit\src\views\TagView.vue
+ -->
 <template>
     <div class="toggleView">
         <div class="component component-padding">
             <h1>Tag组件</h1>
-            <div>
+            <div class="display-panel">
                 <h3>1.big</h3>
-                <Tag size="big" type="blue">属性标签-大标签</Tag>
-                <Tag size="big" type="cyan">大标签</Tag>
-                <Tag size="big" type="turquoise">大标签</Tag>
-                <Tag size="big" type="green">大标签</Tag>
-                <Tag size="big" type="lime">大标签</Tag>
-                <Tag size="big" type="yellow">大标签</Tag>
-                <Tag size="big" type="orange">大标签</Tag>
-                <Tag size="big" type="red">大标签</Tag>
-                <Tag size="big" type="carmine">大标签</Tag>
-                <Tag size="big" type="purple">大标签</Tag>
-                <Tag size="big" type="grey">大标签</Tag>
+                <Tag v-for="(color, i1) in tagBgColors" :key="'big'+color+i1" size='big' :color="color">大标签</Tag>
             </div>
-            <div>
+
+            <div class="display-panel">
                 <h3>2.small</h3>
-                <Tag size="small" type="blue">属性标签-小标签</Tag>
-                <Tag size="small" type="cyan">小标签</Tag>
-                <Tag size="small" type="turquoise">小标签</Tag>
-                <Tag size="small" type="green">小标签</Tag>
-                <Tag size="small" type="lime">小标签</Tag>
-                <Tag size="small" type="yellow">小标签</Tag>
-                <Tag size="small" type="orange">小标签</Tag>
-                <Tag size="small" type="red">小标签</Tag>
-                <Tag size="small" type="carmine">小标签</Tag>
-                <Tag size="small" type="purple">小标签</Tag>
-                <Tag size="small" type="grey">小标签</Tag>
+                <Tag v-for="(color, i2) in tagBgColors" :key="'small'+color+i2" size='small' :color="color">小标签</Tag>
             </div>
-            <div>
-                <h3>3.better</h3>
-                <Tag size="big" type="blue-better">属性标签-大标签</Tag>
-                <Tag size="big" type="cyan-better">大标签</Tag>
-                <Tag size="big" type="turquoise-better">大标签</Tag>
-                <Tag size="big" type="green-better">大标签</Tag>
-                <Tag size="big" type="lime-better">大标签</Tag>
-                <Tag size="big" type="yellow-better">大标签</Tag>
-                <Tag size="big" type="orange-better">大标签</Tag>
-                <Tag size="big" type="red-better">大标签</Tag>
-                <Tag size="big" type="carmine-better">大标签</Tag>
-                <Tag size="big" type="purple-better">大标签</Tag>
-                <Tag size="big" type="grey-better">大标签</Tag>
+
+            <div class="display-panel">
+                <h3>3.status</h3>
+                <Tag v-for="(status, i3) in statusList" :key="'status'+status+i3"  :status="status" type="circular">状态标签</Tag>
             </div>
-            <div>
-                <h3>4.weak</h3>
-                <Tag size="small" type="blue-weak">属性标签-小标签</Tag>
-                <Tag size="small" type="cyan-weak">小标签</Tag>
-                <Tag size="small" type="turquoise-weak">小标签</Tag>
-                <Tag size="small" type="green-weak">小标签</Tag>
-                <Tag size="small" type="lime-weak">小标签</Tag>
-                <Tag size="small" type="yellow-weak">小标签</Tag>
-                <Tag size="small" type="orange-weak">小标签</Tag>
-                <Tag size="small" type="red-weak">小标签</Tag>
-                <Tag size="small" type="carmine-weak">小标签</Tag>
-                <Tag size="small" type="purple-weak">小标签</Tag>
-                <Tag size="small" type="grey-weak">小标签</Tag>
+
+            <div class="display-panel">
+                <h3>4.dot</h3>
+                <Tag v-for="(dot, i4) in statusList" :key="'status'+dot+i4"   :status="dot" type="dot">状态标签</Tag>
             </div>
         </div>
     </div>
@@ -64,13 +35,21 @@
 
 <script>
     export default {
-        name: "TagView"
+        name: "TagView",
+        data () {
+            return {
+                tagBgColors: ['#E1F2FF' , '#D5F6F2', '#D9F5D6', '#FAF1D1', '#FEEAD2', '#FDE3E2', '#FDDDEF', '#ECE2FE' ,'#B2E6F2', '#EFF0F1'],
+                statusList : ['processing', 'error', 'completed', 'rejected','remove']
+            }
+        }
     }
 </script>
 
 <style lang="stylus" scoped>
 
     .component
+        .display-panel
+            margin-bottom 40px
         h3
             padding 8px
             font-size 16px

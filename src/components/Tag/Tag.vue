@@ -1,182 +1,165 @@
 <template>
-    <div :class="['p-tag', 'p-tag-'+size, 'p-tag-'+type, 'p-tag-'+status]">
-        <slot></slot>
+    <div :class="classes" :style="tagStyle">
+        <div :class="[prefixCls + '-wrapper']">
+            <span v-if="showDot" :class="[prefixCls + '-dot-icon']" :style="dotStyle"></span>
+            <component :is="status" v-if="showIcon" :class="[prefixCls + '-icon']" style="width:12px; height:12px"/>
+            <span :class="[prefixCls + '-text']"><slot></slot></span>
+        </div>
     </div>
 </template>
 
 <script>
+    // 以下为引入的五个SVG图标
+    import completed from '../static/iconSvg/completed.svg';
+    import error from '../static/iconSvg/error.svg';
+    import processing from '../static/iconSvg/processing.svg';
+    import rejected from '../static/iconSvg/rejected.svg';
+    import remove from '../static/iconSvg/remove.svg';
+    const tagBgColors = ['#E1F2FF' , '#D5F6F2', '#D9F5D6', '#FAF1D1', '#FEEAD2', '#FDE3E2', '#FDDDEF', '#ECE2FE' ,'#B2E6F2', '#EFF0F1']
+    const tagTextColors = ['#0065B3', '#078372', '#237B19', '#AA7803', '#B26206', '#AC2F28', '#8C218C', '#4E1BA7', '#161FA2', '#373C43']
+    const radiusTagBgColors = ['#E1F2FF', '#FDE3E2', '#D9F5D6' , '#FEEAD2', '#EFF0F1']
+    const radiusTagTextColors = ['#0091FF', '#F54E45', '#34C724' , '#F58300', '#8D9399']
+    const statusList = ['processing', 'error', 'completed', 'rejected','remove']
+    const oneOf = (value, checkList) =>{
+        return checkList.includes(value)
+    }
+    const findColorIndex = (color, colorList) => {
+        return colorList.indexOf(color)
+    }
+    const prefixCls = "p-tag"
+     
     export default {
         name: "Tag",
-        props: {
-            /**
-             * 标签大小
-             * @value big/small
-             */
-            size: {
-                type: String,
-                default: 'big'
-            },
-            /**
-             * 标签类型
-             * @value blue cyan turquoise green lime yellow orange red carmine purple grey
-             * @value blue-better cyan-better turquoise-better green-better lime-better yellow-better orange-better red-better carmine-better purple-better grey-better
-             * @value blue-weak cyan-weak turquoise-weak green-weak lime-weak yellow-weak orange-weak red-weak carmine-weak purple-weak grey-weak
-             */
-            type: {
-                type: String,
-                default: 'grey'
+        components: { completed,error,processing,rejected,remove },
+        data () {
+            return {
+                prefixCls:prefixCls,
             }
         },
-        computed: {
-            status() {
-                if (this.type.includes('weak')) return 'weak';
-                if (this.type.includes('better')) return 'better';
+        computed:{
+            classes () {
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-${this.size}`]: !this.type ,
+                        [`${prefixCls}-${this.type}`]: !!this.type,
+                    }
+                ]
+            },
+            showDot () {
+                return !!this.type && this.type === 'dot' 
+            },
+            dotStyle () {
+                let colorPos = findColorIndex(this.status, statusList)
+                return {backgroundColor: radiusTagTextColors[colorPos]}
+            },
+            showIcon () {
+                return !!this.type && this.type === 'circular'
+            },
+            iconSrc () {
+                if (!!this.status ) {
+                    return `../static/iconSvg/${this.status}.svg`
+                } else {
+                    return ''
+                }
+            },
+            tagStyle () {
+                let color =''
+                let backgroundColor = ''
+                if (!this.type) {
+                    let colorPos = findColorIndex(this.color, tagBgColors)
+                    if (colorPos < 0) {
+                        return {}
+                    } else {
+                        color = tagTextColors[colorPos]
+                        backgroundColor = this.color
+                    }
+                } else {
+                    if (this.type === 'circular' && !!this.status) {
+                    let colorPos = findColorIndex(this.status, statusList)
+                        if (colorPos < 0) {
+                            return {}
+                        } else {
+                            color = radiusTagTextColors[colorPos]
+                            backgroundColor = radiusTagBgColors[colorPos]
+                        }
+                    } 
+                    if (this.type === 'dot' && !!this.status){
+                        color = '#2B2F36'
+                        backgroundColor = ''
+                    }
+                } 
+                return {color, backgroundColor}
+            },
+        },
+        props: {
+            size: {
+                type: String,
+                validator(value){
+                    return oneOf(value, ['big', 'small'])
+                },
+                default: 'big'
+            },
+            type: {
+                type: String,
+                validator(value){
+                    return oneOf(value, ['circular', 'dot'])
+                }
+            },
+            color: {
+                type: String,
+                validator(value){
+                    return oneOf(value, tagBgColors)
+                },
+                default:'#E1F2FF'
+            },
+            status: {
+                type: String,
+                validator(value){
+                    return oneOf(value, statusList)
+                },
+                default: 'processing'
             }
-        }
+        },
     }
 </script>
 
-<style lang="stylus">
-    .p-tag
-        display inline-block
-        padding 0 8px
-        border-radius 2px
-        cursor pointer
-        &+.p-tag
-            margin-left 8px
-            margin-bottom 4px
-        &.p-tag-big
-            line-height 24px
-            font-size 14px
-            &+.p-tag-big
-                margin-left 8px
-        &.p-tag-small
-            line-height 18px
-            font-size 12px
-            &+.p-tag-small
-                margin-left 4px
-        &.p-tag-weak
-            position relative
-            color $grey-900
-            &::before
-                position absolute
-                top 6px
-                left -4px
-                display block
-                width 6px
-                height @width
-                border-radius 3px
-                content ''
-        &.p-tag-better
-            position relative
-            color $grey-900
-            &::before
-                position absolute
-                top 9px
-                left -4px
-                display block
-                width 6px
-                height @width
-                border-radius 3px
-                content ''
-        &.p-tag-blue
-            background-color $blue-100
-            color $blue-700
-        &.p-tag-turquoise
-            background-color $turquoise-100
-            color $turquoise-700
-        &.p-tag-cyan
-            background-color $cyan-100
-            color $cyan-700
-        &.p-tag-green
-            background-color $green-100
-            color $green-700
-        &.p-tag-lime
-            background-color $lime-100
-            color $lime-700
-        &.p-tag-yellow
-            background-color $yellow-100
-            color $yellow-700
-        &.p-tag-orange
-            background-color $orange-100
-            color $orange-700
-        &.p-tag-red
-            background-color $red-100
-            color $red-700
-        &.p-tag-carmine
-            background-color $carmine-100
-            color $carmine-700
-        &.p-tag-purple
-            background-color $purple-100
-            color $purple-700
-        &.p-tag-grey
-            background-color $grey-200
-            color $grey-800
-        &.p-tag-blue-weak
-            &::before
-                background-color $blue-500
-        &.p-tag-turquoise-weak
-            &::before
-                background-color $turquoise-500
-        &.p-tag-cyan-weak
-            &::before
-                background-color $cyan-500
-        &.p-tag-green-weak
-            &::before
-                background-color $green-500
-        &.p-tag-lime-weak
-            &::before
-                background-color $lime-500
-        &.p-tag-yellow-weak
-            &::before
-                background-color $yellow-500
-        &.p-tag-orange-weak
-            &::before
-                background-color $orange-500
-        &.p-tag-red-weak
-            &::before
-                background-color $red-500
-        &.p-tag-carmine-weak
-            &::before
-                background-color $carmine-500
-        &.p-tag-purple-weak
-            &::before
-                background-color $purple-500
-        &.p-tag-grey-weak
-            &::before
-                background-color $grey-500
-        &.p-tag-blue-better
-            &::before
-                background-color $blue-500
-        &.p-tag-turquoise-better
-            &::before
-                background-color $turquoise-500
-        &.p-tag-cyan-better
-            &::before
-                background-color $cyan-500
-        &.p-tag-green-better
-            &::before
-                background-color $green-500
-        &.p-tag-lime-better
-            &::before
-                background-color $lime-500
-        &.p-tag-yellow-better
-            &::before
-                background-color $yellow-500
-        &.p-tag-orange-better
-            &::before
-                background-color $orange-500
-        &.p-tag-red-better
-            &::before
-                background-color $red-500
-        &.p-tag-carmine-better
-            &::before
-                background-color $carmine-500
-        &.p-tag-purple-better
-            &::before
-                background-color $purple-500
-        &.p-tag-grey-better
-            &::before
-                background-color $grey-500
 
+<style lang="stylus">
+.p-tag
+    display inline-block
+    font-size 14px
+    .p-tag-wrapper
+        display flex
+        justify-content center
+        align-items center
+        box-sizing border-box 
+.p-tag-big
+    min-width 40px
+    margin-right 8px
+    padding 4px 8px
+.p-tag-small
+    height 18px
+    margin-right 4px
+    font-size 12px
+    padding 2px 4px
+.p-tag-circular
+    margin-right 12px
+    border-radius 12px
+    padding 4px 8px
+    .p-tag-icon
+        width 12px
+        height 12px
+        margin 0px 6px
+    svg 
+        width 12px
+        height 12px
+.p-tag-dot
+    margin-right 12px
+    .p-tag-dot-icon
+        width 6px
+        height 6px
+        border-radius 50%
+        margin 0px 8px
 </style>
+

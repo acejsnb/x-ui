@@ -28,6 +28,10 @@ const Components = {
     Transfer: './src/components/Transfer',
     TransferSelect: './src/components/TransferSelect',
     TransferSelectModal: './src/components/TransferSelectModal',
+    Avatar: './src/components/Avatar',
+    FileUpload: './src/components/FileUpload',
+    ImageUpload: './src/components/ImageUpload',
+    Inserted: './src/components/Tooltip',
 
     // 组合组件
     Headers: './src/components/Headers',

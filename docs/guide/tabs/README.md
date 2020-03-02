@@ -3,8 +3,10 @@
 <template>
     <div class="toggleView">
         <div class="component component-padding">
-            <h1>Tabs组件</h1>
-            <Tabs :data="tabData" v-model="tabId" />
+            <div class="display-panel">
+                <h5>一级页签</h5>
+                <Tabs type="first-nav" :data="tabData" :tab-id="tabId"/>
+            </div>
         </div>
     </div>
 </template>
@@ -14,34 +16,29 @@
         name: "TabsView",
         data() {
             return {
-                tabId: '1'
-            }
-        },
-        computed: {
-            tabData() {
-                return [
-                    { id: '1', name: '第1模块' },
-                    { id: '2', name: '第2模块' },
-                    { id: '3', name: '第3模块' },
-                    { id: '4', name: '第4模块' },
-                    { id: '5', name: '第5模块' },
+                tabId: 0,
+                tabData:[
+                    {name: '一' },
+                    {name: '弟二' },
+                    {name: '第三个' },
+                    {name: '第四个字' },
+                    {name: '五个字字字' },
+                    {name: '六个字的情况' },
                 ]
-            }
-        },
-        watch: {
-            tabId(n, o) {
-                console.log('tabId:::', n);
             }
         }
     }
 </script>
 
+
 ```vue
 <template>
     <div class="toggleView">
         <div class="component component-padding">
-            <h1>Tabs组件</h1>
-            <Tabs :data="tabData" v-model="tabId" />
+            <div class="display-panel">
+                <h5>一级页签</h5>
+                <Tabs type="first-nav" :data="tabData" :tab-id="tabId"/>
+            </div>
         </div>
     </div>
 </template>
@@ -51,23 +48,15 @@
         name: "TabsView",
         data() {
             return {
-                tabId: '1'
-            }
-        },
-        computed: {
-            tabData() {
-                return [
-                    { id: '1', name: '第1模块' },
-                    { id: '2', name: '第2模块' },
-                    { id: '3', name: '第3模块' },
-                    { id: '4', name: '第4模块' },
-                    { id: '5', name: '第5模块' },
+                tabId: 0,
+                tabData:[
+                    {name: '一' },
+                    {name: '弟二' },
+                    {name: '第三个' },
+                    {name: '第四个字' },
+                    {name: '五个字字字' },
+                    {name: '六个字的情况' },
                 ]
-            }
-        },
-        watch: {
-            tabId(n, o) {
-                console.log('tabId:::', n);
             }
         }
     }
@@ -77,7 +66,11 @@
 
 ### Attributes
 
-| 参数     | 说明  | 类型    | 默认值  | 必须    |
-| ------- | ---- | ------ | ------- | ------ |
-| data    | 数据列表 | Array | [] | Yes     |
-| v-model    | 绑定的id | String | '' | Yes     |
+| 参数     |    说明     | 类型    | 默认值  | 必须    |
+| -------  |   ----     | ------  | -------| ------ |
+| data     |  数据列表   | Array   | []     | Yes     |
+| tabId    |  默认选中项 | String  |  0     | Yes     |
+
+
+
+

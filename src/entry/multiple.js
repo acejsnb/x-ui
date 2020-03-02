@@ -28,6 +28,9 @@ import Tag from '../components/Tag';
 import Transfer from '../components/Transfer';
 import TransferSelect from '../components/TransferSelect';
 import TransferSelectModal from '../components/TransferSelectModal';
+import Avatar from '../components/Avatar';
+import FileUpload from '../components/FileUpload';
+import ImageUpload from '../components/ImageUpload';
 
 // 组合组件
 import Headers from '../components/Headers';
@@ -46,6 +49,9 @@ import Checkbox from '../components/Checkbox';
 import Radio from '../components/Radio';
 import Input from '../components/Input';
 import Icon from '../components/Icon';
+
+// 自定义指令
+import Inserted from '../components/Tooltip'
 
 const Components = {
     Button
@@ -73,6 +79,9 @@ const Components = {
     ,Transfer
     ,TransferSelect
     ,TransferSelectModal
+    ,Avatar
+    ,FileUpload
+    ,ImageUpload
 
     // 组合组件
     ,Headers
@@ -94,6 +103,10 @@ const Components = {
 };
 
 const install = Vue => Object.keys(Components).forEach(name => {
+    Vue.directive('ptitle', {
+        inserted: Inserted
+    });
+
     if (name === 'Message') Vue.prototype.$message = Message;
     else Vue.component(name, Components[name]);
 });

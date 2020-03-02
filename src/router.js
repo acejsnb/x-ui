@@ -37,6 +37,10 @@ import TransferView from './views/TransferView';
 import TransferSelectView from './views/TransferSelectView';
 import TransferSelectModalView from './views/TransferSelectModalView';
 import TransferMiniView from './views/TransferMiniView';
+import AvatarView from './views/AvatarView';
+import FileUploadView from './views/FileUploadView';
+import ImageUploadView from './views/ImageUploadView';
+import TooltipView from './views/TooltipView';
 
 import MessageView from './views/MessageView';
 
@@ -318,6 +322,30 @@ export default new Router({
                 title: 'TransferMiniView'
             }
         },
+        {
+            path: '/avatarView',
+            name: 'AvatarView',
+            component: AvatarView,
+            meta: {
+                title: 'AvatarView'
+            }
+        },
+        {
+            path: '/fileUploadView',
+            name: 'FileUploadView',
+            component: FileUploadView,
+            meta: {
+                title: 'FileUploadView'
+            }
+        },
+        {
+            path: '/imageUploadView',
+            name: 'ImageUploadView',
+            component: ImageUploadView,
+            meta: {
+                title: 'ImageUploadView'
+            }
+        },
 
         // 函数组件
         {
@@ -326,6 +354,14 @@ export default new Router({
             component: MessageView,
             meta: {
                 title: 'MessageView'
+            }
+        },
+        {
+            path: '/tooltipView',
+            name: 'TooltipView',
+            component: TooltipView,
+            meta: {
+                title: 'TooltipView'
             }
         },
 

@@ -467,10 +467,12 @@
                         const Y=this.yearSelected, M=this.monthSelected, D=this.daySelected;
                         const countWeek=new CountWeek({date: Y+'.'+M+'.'+D, sort: this.sort});
                         const weeksArray=countWeek.getWeeksArray();
-                        const obj=weeksArray.find(d => (d.year===Y&&d.month===M)&&d.weeks.some(d2 => d2.year===Y&&d2.month===M&&d2.day===D));
-                        const {weeks: W, thText: T}=obj;
-                        weeks=W;
-                        thText=T;
+                        const obj=weeksArray.find(d => d.flag==='n'&&d.weeks.some(d2 => d2.year===Y&&d2.month===M&&d2.day===D));
+                        if (obj && obj.hasOwnProperty('weeks')) {
+                            const {weeks: W, thText: T}=obj;
+                            weeks=W;
+                            thText=T;
+                        }
                     }
 
                     if (!weeks || !weeks.length) return;

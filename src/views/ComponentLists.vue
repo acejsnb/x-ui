@@ -43,6 +43,10 @@
                     {title: 'TransferSelect', more: '穿梭框-select', url: 'transferSelectView'},
                     {title: 'TransferSelectModal', more: '穿梭框-selectModal', url: 'transferSelectModalView'},
                     {title: 'TransferMini', more: '穿梭框-TransferMini', url: 'transferMiniView'},
+                    {title: 'Avatar', more: '头像', url: 'avatarView'},
+                    {title: 'FileUpload', more: '文件上传', url: 'fileUploadView'},
+                    {title: 'ImageUpload', more: '图片上传', url: 'imageUploadView'},
+                    {title: 'Tooltip', more: '省略内容提示', url: 'tooltipView'},
 
                     {title: 'Headers', more: '头部title', url: 'headersView'},
 

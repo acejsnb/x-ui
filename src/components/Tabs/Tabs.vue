@@ -1,75 +1,177 @@
 <template>
-    <div class="p-tabs" ref="pTabs">
-        <section
-                :class="['p-tab-item', value===tab.id&&'p-tab-active']"
-                v-for="tab in data"
-                :key="tab.id"
-                @click="tabClick($event, tab.id)"
-        >
-            <span>{{tab.name}}</span>
-        </section>
-        <section class="p-tabs-line" :style="{left: left+'px', width: lineWidth+'px'}"/>
+    <div :class="classes">
+        <div :class="[prefixCls + '-nav-container']">
+            <div ref="navWrap" :class="[prefixCls + '-nav-wrap']" :style="navWrapStyle">
+                <div :class="[prefixCls + '-navbar']" :style="barStyle"></div>
+                <div :class="tabItemCls(index)" v-for="(item, index) in data" :key="index" @click="handleClick(item, index)" :style="itemStyle(item)">{{item.name}}</div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    const prefixCls = "p-tabs"
+    const oneOf = (value, checkList) =>{
+        return checkList.includes(value)
+    }
     export default {
         name: "Tabs",
-        props: {
-            /**
-             * 标签页id
-             */
-            value: {
-                type: String,
-                default: ''
+        computed:{
+            classes () {   // 设置组件最外层的class
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-first-nav`] : this.type === 'first-nav',
+                        [`${prefixCls}-second-nav`] : this.type === 'second-nav',
+                        [`${prefixCls}-card-nav`] : this.type === 'card',
+                    }
+                ]
             },
-            /**
-             * 标签页数据
-             */
-            data: {
+            navWrapStyle () { // 设置页签包裹层的样式
+                return {
+                    height : this.type === 'first-nav' || this.type === 'second-nav' ? '48px' : '32px' ,
+                    borderBottom : this.type === 'first-nav' || this.type === 'second-nav' ? '1px solid #EFF0F1' : 'none'
+                }
+            },
+            barStyle () {  // 设置页签指示条的样式
+                let style = {
+                    display: 'block',
+                    width: `${this.barWidth}px`
+                }
+                if (this.type === 'card') style.display = 'none'
+                style.left = `${this.baroffset}px`
+                return style
+            },
+
+        },
+        props: {
+            tabId: {   // 设置默认选中项
+                type: [Number,String],
+                default:0
+            },
+            type: {   // 设置页签类型  first-nav：一级页签，  second-nav：二级页签， card：卡片式页签
+                validator (value) {
+                    return oneOf(value, ['first-nav','second-nav','card'])
+                }
+            },
+            data: {  // 用户传递的数据
                 type: Array,
                 default: []
-            }
+            },
+
         },
-        data() {
+        data () {
             return {
-                lineWidth: 0, // 线条宽度
-                left: 0 // 线条距离左边位置
+                prefixCls: prefixCls,  // 类名称前缀
+                activeKey: 0,  // 记录用户点击项
+                baroffset:0,  // 页签指示条距离左边的值
+                barWidth:0,   // 指示条的宽度
             }
         },
         watch: {
-            value(n, o) {
-                if (n === o) return;
-                const ind=this.data.findIndex(d => d.id===n);
-                this.countWidth(ind);
+            type (curVal, oldVal) {  // 监听到类型改变时触发
+                if (curVal !== oldVal) this.updateBarPos()
+            },
+            tabId: {  // 监听到默认选中项改变时触发
+                handler(curVal, oldVal) {
+                    this.activeKey = parseInt(curVal)
+                },
+                immediate:true
+            },
+            activeKey:{
+                handler(curVal, oldVal) {  // 监听到当前选中项改变时触发
+                    if ( (this.type === 'first-nav' || this.type === 'second-nav') && (curVal !== oldVal)) {
+                        this.updateBarPos()
+                    }
+                },
+                immediate:true
             }
         },
-        mounted() {
-            this.$nextTick(() => {
-                this.countWidth(0)
-            })
-        },
         methods: {
-            tabClick(e, id) {
-                const ind=this.data.findIndex(d => d.id===id);
-                this.countWidth(ind);
-                /**
-                 * 提交绑定的值
-                 */
-                this.$emit('input', id);
-            },
-            countWidth(ind) {
-                if (ind) {
-                    const items=this.$refs.pTabs.getElementsByClassName('p-tab-item');
-                    let w=0, len=items.length;
-                    for (let i=0; i< len; i++) {
-                        if (i < ind) w+=items[i].scrollWidth;
-                        if (i === ind) this.lineWidth=items[i].scrollWidth;
+            /**
+             * @description: 一级页签和二级页签点击页签的情况下改变指示条的位置
+             * @param：
+             * @return:
+             * @author: XXD
+             * @Date: 2020-02-24 14:31:36
+             */
+            updateBarPos () {
+                this.$nextTick(() => {
+                    const index = this.activeKey
+                    const tabs = this.$refs.navWrap.querySelectorAll(`.${prefixCls}-nav-item`)
+                    const tab = tabs[index]
+                    if (this.type === 'first-nav') {
+                        this.barWidth = tab ? parseFloat(tab.offsetWidth) : 0
+                    } else {
+                        this.barWidth = 40
                     }
-                    this.left=w+(ind*16);
-                } else {
-                    this.lineWidth=this.$refs.pTabs.firstElementChild.scrollWidth;
-                    this.left=0;
+                    let offset = 0
+                    let gutter = 16
+                    let centerDis = (tab.offsetWidth - this.barWidth) / 2
+                    if (index > 0) {
+                        for (let i=0; i < index; i++) {
+                            offset += parseFloat(tabs[i].offsetWidth) + gutter
+                        }
+                        if (this.type === 'first-nav') {
+                            this.baroffset = offset
+                        } else {
+                            this.baroffset = centerDis + offset
+                        }
+                    } else {
+                        if (this.type === 'first-nav') {
+                            this.baroffset = 0
+                        } else {
+                            this.baroffset = centerDis
+                        }
+                    }
+                })
+            },
+
+            /**
+             * @description: 点击页签时触发事件
+             * @param item:点击项
+             * @param index:点击项的序号
+             * @return:
+             * @author: XXD
+             * @Date: 2020-02-24 14:34:39
+             */
+            handleClick (item, index) {
+                this.activeKey = index
+                this.$emit('on-click', item.name)
+            },
+
+            /**
+             * @description: 根据用户选择的类型取class名称
+             * @param index: 页签的序号
+             * @return:
+             * @author: XXD
+             * @Date: 2020-02-24 14:36:29
+             */
+            tabItemCls (index) {
+                return [
+                    `${prefixCls}-nav-item`,
+                    {
+                        [`${prefixCls}-first-nav-item`] : this.type === 'first-nav',
+                        [`${prefixCls}-second-nav-item`] : this.type === 'second-nav',
+                        [`${prefixCls}-card-nav-item`] : this.type === 'card',
+                        [`${prefixCls}-line-item-active`] : (this.type === 'second-nav' || this.type === 'first-nav') && this.activeKey === index,
+                        [`${prefixCls}-card-item-active`] : this.type === 'card' && this.activeKey === index
+                    }
+                ]
+            },
+
+            /**
+             * @description: 选择卡片式时根据字数设置padding值
+             * @param item:每个页签
+             * @return:
+             * @author: XXD
+             * @Date: 2020-02-24 14:37:28
+             */
+            itemStyle (item) {
+                if (this.type === 'card') {
+                    return {
+                        padding: item.name.length > 1 ? '5px 16px' : '5px 8px'
+                    }
                 }
             }
         }
@@ -78,34 +180,59 @@
 
 <style lang="stylus">
     .p-tabs
-        position relative
-        display inline-block
-        text-align center
-        .p-tab-item
+        font-size 24px
+    .p-tabs-nav-container
+        .p-tabs-nav-wrap
+            position relative
+        .p-tabs-navbar
+            position absolute
+            height 2px
+            bottom 0
+            background $blue-500
+            transition left .3s ease-in-out
+        .p-tabs-nav-item
             display inline-block
+            height 100%
             padding 12px 16px
-            height 48px
+            margin-right 16px
             line-height 24px
             font-size 16px
             color $grey-900
             cursor pointer
+            text-align center
             transition color .3s
-            &+.p-tab-item
-                margin-left 16px
-            &:hover
-                color $blue-500
-            span
-                display ruby
-                font-size 16px
-                line-height 24px
-        .p-tab-active
+        .p-tabs-card-nav-item
+            height 32px
+            min-width 30px
+            line-height 22px
+            padding 5px 16px
+            margin-right 0
+            box-sizing border-box
+            border 1px solid #C3C7CB
+            border-right none
+            font-size 14px
+            color $grey-900
+            overflow hidden
+            white-space: nowrap
+            text-align center
+            background #FFFFFF
+        div.p-tabs-card-nav-item:nth-child(2)
+            border-top-left-radius 4px
+            border-bottom-left-radius 4px
+
+        div.p-tabs-card-nav-item:last-child
+            border-top-right-radius 4px
+            border-bottom-right-radius 4px
+            border-right 1px solid #C3C7CB
+
+        .p-tabs-line-item-active
             color $blue-500
-        .p-tabs-line
-            position absolute
-            bottom 0
-            background $blue-500
-            width 100%
-            height 2px
-            transition left .2s ease-out
+        .p-tabs-card-item-active
+            color $blue-500
+            border 1px solid $blue-500!important
+            border-right 1px solid $blue-500
+            background #E1F2FF
+        .p-tabs-card-item-active + div
+            border-left none
 
 </style>

@@ -1,6 +1,11 @@
 ### 更新日志
 
 ::: tip
+版本：0.9.1<br>
+1.新增Tooltip、PickerDate、Avatar、ImageUpload、FileUpload<br>
+:::
+
+::: tip
 版本：0.9.0<br>
 1.Select组件新增尺寸
 :::

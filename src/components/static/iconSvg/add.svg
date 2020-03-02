@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>add</title>
+    <desc>Created with Sketch.</desc>
+    <g id="框架" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-切图" transform="translate(-361.000000, -212.000000)">
+            <g id="相机" transform="translate(361.000000, 212.000000)">
+                <rect id="矩形" x="0.833333333" y="0.833333333" width="20" height="20"></rect>
+                <g id="编组-3" transform="translate(1.333333, 0.833333)">
+                    <rect id="矩形" fill="#8D9399" x="0" y="9" width="18.3333333" height="1.66666667" rx="0.833333333"></rect>
+                    <rect id="矩形备份-2" fill="#1F2329" transform="translate(9.166667, 9.833333) rotate(90.000000) translate(-9.166667, -9.833333) " x="0" y="9" width="18.3333333" height="1.66666667" rx="0.833333333"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

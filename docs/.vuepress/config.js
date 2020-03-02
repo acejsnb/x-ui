@@ -55,6 +55,10 @@ module.exports = {
                     '/guide/pickerTime/',
                     '/guide/pickerWeek/',
                     '/guide/pickerYear/',
+                    '/guide/avatar/',
+                    '/guide/imageUpload/',
+                    '/guide/fileUpload/',
+                    '/guide/tooltip/',
                 ]
             },
         ]
