@@ -127,15 +127,15 @@
                     background-color $blue-500
                     .p-picker-day-text
                         span
-                            color #fff
+                            color $white
                 .p-picker-weeks-list-text
                     position absolute
                     top -12px
                     left 50%
                     padding-top 4px
                     padding-bottom 4px
-                    background-color #fff
-                    box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
+                    background-color $white
+                    box-shadow $box-shadow-bottom
                     border-radius 4px
                     transform translateX(-36px)
                     opacity 0
@@ -155,8 +155,8 @@
                         border-width 4px
                         width 0
                         height 0
-                        border-color #fff #fff transparent transparent
-                        box-shadow 2px -2px 4px 0 rgba(31,35,41,.1)
+                        border-color $white $white transparent transparent
+                        box-shadow $box-shadow-min-bottom
                         transform rotate(135deg) translateX(5.5px)
                         pointer-events none
                         content ''

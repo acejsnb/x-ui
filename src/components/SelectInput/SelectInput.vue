@@ -236,7 +236,7 @@
         display flex
         align-items center
         justify-content space-between
-        background-color #fff
+        background-color $white
         border 1px solid $grey-400
         border-radius 4px
         width 100%
@@ -252,7 +252,7 @@
             transition transform .3s
         &.p-select-input-content-active
             border-color $blue-500
-            box-shadow 0 0 0 2px rgba(0,145,255,.2)
+            box-shadow $box-shadow-blue
     .p-select-input-section
         position relative
         width 100%
@@ -290,7 +290,7 @@
     .p-select-input-tip
         position absolute
         padding 16px 20px
-        background-color #fff
+        background-color $white
         border-radius 4px
         pointer-events none
         max-width 280px
@@ -322,37 +322,37 @@
                 display inline-block
                 width 20px
                 height 22px
-                background-color #fff
+                background-color $white
                 content '...'
     .p-select-input-tip-top
-        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
+        box-shadow $box-shadow-bottom
         &:after
             bottom -4px
             left 32px
-            border-color transparent transparent #fff #fff
-            box-shadow -2px 2px 4px 0 rgba(31,35,41,.1)
+            border-color transparent transparent $white $white
+            box-shadow $box-shadow-min-top
             z-index -1
     .p-select-input-tip-bottom
-        box-shadow -2px 0 10px 0 rgba(31,35,41,.1)
+        box-shadow $box-shadow-left
         &:after
             top -4px
             left 32px
-            border-color #fff #fff transparent transparent
-            box-shadow 2px -2px 4px 0 rgba(31,35,41,.1)
+            border-color $white $white transparent transparent
+            box-shadow $box-shadow-min-bottom
     .p-select-input-tip-left
-        box-shadow 2px 0 10px 0 rgba(31,35,41,.1)
+        box-shadow $box-shadow-right
         &:after
             top 49%
             right -4px
-            border-color transparent #fff #fff transparent
-            box-shadow 2px 2px 4px 0 rgba(31,35,41,.1)
+            border-color transparent $white $white transparent
+            box-shadow $box-shadow-min-right
     .p-select-input-tip-right
-        box-shadow 0 -2px 10px 0 rgba(31,35,41,.1)
+        box-shadow $box-shadow-top
         &:after
             top 49%
             left -4px
-            border-color #fff transparent transparent #fff
-            box-shadow -2px -2px 4px 0 rgba(31,35,41,.1)
+            border-color $white transparent transparent $white
+            box-shadow $box-shadow-min-left
 
 @keyframes slidetop
     from

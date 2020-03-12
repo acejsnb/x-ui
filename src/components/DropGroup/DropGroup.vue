@@ -135,7 +135,7 @@
     background-color #fff
     border 1px solid $grey-300
     border-radius 4px
-    box-shadow 0 5px 10px rgba(31,35,41,.1)
+    box-shadow $box-shadow-bottom
     min-width 120px
     max-width 240px
     max-height 240px

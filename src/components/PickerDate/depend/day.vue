@@ -150,7 +150,7 @@
                     span
                         color $grey-400
                 &.p-picker-day-text-current
-                    background-color #fff !important
+                    background-color $white !important
                     border-color $blue-500
                     span
                         color $blue-500
@@ -168,7 +168,7 @@
                 &.p-picker-day-text-selected
                     background-color $blue-500 !important
                     span
-                        color #fff
+                        color $white
                     &::before
                         display none
 

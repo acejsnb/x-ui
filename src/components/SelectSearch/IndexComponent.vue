@@ -149,7 +149,7 @@
         position relative
         padding-left 12px
         padding-right @padding-left
-        background-color #fff
+        background-color $white
         border 1px solid $grey-400
         border-radius 4px
         width 100%
@@ -162,7 +162,7 @@
             border-color $blue-500
         &.p-select-search-box-focus
             border-color $blue-500
-            box-shadow 0 0 0 2px rgba(0,145,255,.2)
+            box-shadow $box-shadow-blue
         &.p-select-search-box-disabled
             background-color $grey-200
             cursor not-allowed
@@ -250,10 +250,10 @@
         top 100%
         left 0
         margin-top 8px
-        background-color #fff
+        background-color $white
         border 1px solid $grey-300
         border-radius 4px
-        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
+        box-shadow $box-shadow-bottom
         width 100%
         max-height 202px
         overflow-y auto
@@ -261,17 +261,17 @@
         .p-select-drop-down-not
             //margin-top 8px
             padding 16px 12px
-            //background-color #fff
+            //background-color $white
             //border 1px solid $grey-300
             //border-radius 4px
             color $grey-400
             font-size 14px
         //.p-select-drop-down-tree
             //margin-top 8px
-            //background-color #fff
+            //background-color $white
             //border 1px solid $grey-300
             //border-radius 4px
-            //box-shadow 0 5px 10px rgba(31,35,41,.1)
+            //box-shadow $box-shadow-bottom
             //max-height 184px
             //overflow-y auto
 

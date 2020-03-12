@@ -8,16 +8,16 @@
                     <Button @click="tap" type="default" size="large">default</Button>
                     <Button @click="tap" type="primary" size="large" :text.sync="text2">primary</Button>
                     <Button @click="tap" type="error" size="large" :text.sync="text3">error</Button>
-                    <Button @click="tap" type="disabled" size="large" :text.sync="text4">disabled</Button>
+                    <Button @click="tap" type="default" size="large" :text.sync="text4" :disabled="true">disabled</Button>
                     <Button @click="tap" type="primary" :loading="true" size="large" :text.sync="text5">primary-loading</Button>
-                    <Button @click="tap" type="text" icon-type="edit" size="large">text</Button>
-                    <Button @click="tap" type="text" icon-type="edit" :disabled="true" size="large">text</Button>
-                    <Button @click="tap" type="icon-border" icon-type="edit" size="large" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon-border" icon-type="edit" :disabled="true" size="large" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon" icon-type="edit" size="large" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon" icon-type="edit" :disabled="true" size="large" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon-text" icon-type="plus" size="large">icon-text</Button>
-                    <Button @click="tap" type="icon-text" icon-type="plus" :disabled="true" size="large">icon-text</Button>
+                    <Button @click="tap" type="text" icon="edit" size="large">text</Button>
+                    <Button @click="tap" type="text" icon="edit" :disabled="true" size="large">text</Button>
+                    <Button @click="tap" type="icon-border" icon="edit" size="large" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon-border" icon="edit" :disabled="true" size="large" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon" icon="edit" size="large" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon" icon="edit" :disabled="true" size="large" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon-text" icon="plus" size="large">icon-text</Button>
+                    <Button @click="tap" type="icon-text" icon="plus" :disabled="true" size="large">icon-text</Button>
                 </section>
             </div>
             <div class="btn">
@@ -26,16 +26,16 @@
                     <Button @click="tap" type="default" >default</Button>
                     <Button @click="tap" type="primary" :text.sync="text2">primary</Button>
                     <Button @click="tap" type="error" :text.sync="text3">error</Button>
-                    <Button @click="tap" type="disabled" :text.sync="text4">disabled</Button>
+                    <Button @click="tap" type="primary" :text.sync="text4" :disabled="true">disabled</Button>
                     <Button @click="tap" type="primary" :loading="true" :text.sync="text5">primary-loading</Button>
-                    <Button @click="tap" type="text" icon-type="edit">text</Button>
-                    <Button @click="tap" type="text" icon-type="edit" :disabled="true">text</Button>
-                    <Button @click="tap" type="icon-border" icon-type="edit" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon-border" icon-type="edit" :disabled="true" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon" icon-type="edit" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon" icon-type="edit" :disabled="true" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon-text" icon-type="plus">icon-text</Button>
-                    <Button @click="tap" type="icon-text" icon-type="plus" :disabled="true">icon-text</Button>
+                    <Button @click="tap" type="text" icon="edit">text</Button>
+                    <Button @click="tap" type="text" icon="edit" :disabled="true">text</Button>
+                    <Button @click="tap" type="icon-border" icon="edit" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon-border" icon="edit" :disabled="true" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon" icon="edit" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon" icon="edit" :disabled="true" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon-text" icon="plus">icon-text</Button>
+                    <Button @click="tap" type="icon-text" icon="plus" :disabled="true">icon-text</Button>
                 </section>
                 <section class="list">
                     <Button @click="tap" type="text-blue">text</Button>
@@ -48,16 +48,16 @@
                     <Button @click="tap" type="default" size="small">default</Button>
                     <Button @click="tap" type="primary" size="small" :text.sync="text2">primary</Button>
                     <Button @click="tap" type="error" size="small" :text.sync="text3">error</Button>
-                    <Button @click="tap" type="disabled" size="small" :text.sync="text4">disabled</Button>
+                    <Button @click="tap" type="error" size="small" :text.sync="text4" :disabled="true">disabled</Button>
                     <Button @click="tap" type="primary" :loading="true" size="small" :text.sync="text5">primary-loading</Button>
-                    <Button @click="tap" type="text" icon-type="edit" size="small">text</Button>
-                    <Button @click="tap" type="text" icon-type="edit" size="small" :disabled="true">text</Button>
-                    <Button @click="tap" type="icon-border" icon-type="edit" size="small" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon-border" icon-type="edit" :disabled="true" size="small" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon" icon-type="edit" size="small" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon" icon-type="edit" :disabled="true" size="small" :text.sync="text4">text</Button>
-                    <Button @click="tap" type="icon-text" icon-type="plus" size="small">icon-text</Button>
-                    <Button @click="tap" type="icon-text" icon-type="plus" :disabled="true" size="small">icon-text</Button>
+                    <Button @click="tap" type="text" icon="edit" size="small">text</Button>
+                    <Button @click="tap" type="text" icon="edit" size="small" :disabled="true">text</Button>
+                    <Button @click="tap" type="icon-border" icon="edit" size="small" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon-border" icon="edit" :disabled="true" size="small" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon" icon="edit" size="small" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon" icon="edit" :disabled="true" size="small" :text.sync="text4">text</Button>
+                    <Button @click="tap" type="icon-text" icon="plus" size="small">icon-text</Button>
+                    <Button @click="tap" type="icon-text" icon="plus" :disabled="true" size="small">icon-text</Button>
                 </section>
                 <section class="list">
                 </section>

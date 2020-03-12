@@ -21,7 +21,7 @@ export default {
         white-space:nowrap
         border 1px solid #E4E5E7
         border-radius 2px
-        box-shadow 0 2px 10px 0 rgba(31, 35, 41, .1)
+        box-shadow $box-shadow-bottom
         background-color white
         color #1F2329
         font-size 12px

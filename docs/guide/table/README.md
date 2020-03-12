@@ -1,183 +1,238 @@
 ### Table 表格
 
 <template>
-    <div class="component component-padding">
-        <h1>Table组件</h1>
-        <br />
-        <h6>基础表格</h6>
-        <div class="container">
-            <Table
-                :head="headList2"
-                :source="defaultSourceComputed[defaultPage-1]"
-            ></Table>
+    <div>
+        <div class="demo">
+            <h4>基础表格</h4>
+            <div class="component-wrapper">
+                <div class="component-wrapper-demo">
+                    <div class="tableView1">
+                        <Table
+                            :head="headList2"
+                            :source="source1"
+                            height="100%"
+                        > 
+                        </Table>
+                    </div>
+                </div>
+                <div class="code-content" style="height: 0;">
+                    <div class="code-content-height">
+                        <pre><code class="vue">
+                        {{defaultTableCode}}
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="lock-code" @click="showCode(0)" ref="xxx">
+                    <span class="lock-code-word">{{isShow[0] === false ? '显示代码' : '隐藏代码'}}</span>
+                </div>
+            </div>
         </div>
-        <br />
-        <div class="container">
-            <Table
-                :head="headList2"
-                :source="defaultSourceComputed[defaultPage-1]"
-                :pageCount="defaultSource.length"
-                :toolButtons="toolBtns"
-                @page-size-change="pageSizeChange2"
-            ></Table>
+        <br/>
+        <div class="demo">
+            <h4>分页、分组表格</h4>
+            <div class="component-wrapper">
+                <div class="component-wrapper-demo">
+                    <div class="tableView">
+                        <Table
+                            :head="headList2"
+                            :source="source2Computed[page2-1]"
+                            :group="groupMsg"
+                            :selectWidth="180"
+                            :pageCount="source2.length"
+                            :pagination="true"
+                            :reloadPage="true"
+                            :pageSizeSetting="true"
+                            height="100%"
+                            @page-size-change="pageSize2ChangeHandle"
+                            @reload-page="reloadPageHandle"
+                        > 
+                        </Table>
+                    </div>
+                </div>
+                <div class="code-content" style="height: 0;">
+                    <div class="code-content-height">
+                        <pre><code class="vue">
+                        {{groupAndPaginationCode}}
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="lock-code" @click="showCode(1)" ref="xxx">
+                    <span class="lock-code-word">{{isShow[1] === false ? '显示代码' : '隐藏代码'}}</span>
+                </div>
+            </div>
         </div>
-        <br />
-        <div class="container">
-            <Table
-                :head="headList2"
-                :source="defaultSourceComputed[defaultPage-1]"
-                :group="groupMsg"
-                height="100%"
-                :selectWidth="180"
-                :pageCount="defaultSource.length"
-                :toolButtons="toolBtns"
-                @page-size-change="pageSizeChange2"
-            ></Table>
+        <br/>
+        <div class="demo">
+            <h4>可筛选、带工具栏表格</h4>
+            <div class="component-wrapper">
+                <div class="component-wrapper-demo">
+                    <div class="tableView">
+                        <Table
+                            :head="headList2"
+                            :source="filterTableSource"
+                            :filtersList="filters"
+                            :toolButtons="toolBtns"
+                            height="100%"
+                            @tool-button-click="buttonClickHandle"
+                            @filter-change="filterChangeHandle"
+                        > 
+                        </Table>
+                    </div>
+                </div>
+                <div class="code-content" style="height: 0;">
+                    <div class="code-content-height">
+                        <pre><code class="vue">
+                        {{filterTableCode}}
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="lock-code" @click="showCode(2)" ref="xxx">
+                    <span class="lock-code-word">{{isShow[2] === false ? '显示代码' : '隐藏代码'}}</span>
+                </div>
+            </div>
         </div>
-        <br />
-        <h5>多选</h5>
-        <div class="container">
-            <Table
-                :head="headList2"
-                :source="defaultSourceComputed[defaultPage-1]"
-                :checkAble="true"
-                height="100%"
-                :pageCount="defaultSource.length"
-                :toolButtons="toolBtns"
-                @page-size-change="pageSizeChange2"
-            ></Table>
+        <br/>
+        <div class="demo">
+            <h4>标签、列设置、排序功能、多选的表格</h4>
+            <div class="component-wrapper">
+                <div class="component-wrapper-demo">
+                    <div class="tableView1">
+                        <Table
+                            :head="headList3"
+                            :source="tagSource"
+                            :columnSet="true"
+                            :checkAble="true"
+                            height="100%"
+                            @column-set-change="columnSetHandle"
+                            @column-set-resume="resumeColumnSetHandle"
+                            @order-change="tableSortHandle"
+                            @check-change="checkedChangeHandle"
+                            @delete="deleteRowHandle"
+                        >
+                            <span
+                                slot="tag"
+                                slot-scope="{col, row}"
+                            >
+                                <Tag
+                                    size="big"
+                                    v-for="(tag,i) in row._tags"
+                                    v-if="tag.key === col.key"
+                                    :key="i"
+                                    type="dot"
+                                    :status="tag.tag"
+                                >
+                                    {{row[col.key]}}
+                                </Tag>
+                            </span>
+                        </Table> 
+                    </div>
+                </div>
+                <div class="code-content" style="height: 0;">
+                    <div class="code-content-height">
+                        <pre><code class="vue">
+                        {{tagTableCode}}
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="lock-code" @click="showCode(3)" ref="xxx">
+                    <span class="lock-code-word">{{isShow[3] === false ? '显示代码' : '隐藏代码'}}</span>
+                </div>
+            </div>
         </div>
-        <br />
-        <h6>可配表格</h6>
-        <br />
-        <div>
-            <Table
-                :head="headList1"
-                :source="sourceComputed[page-1]"
-                selectWidth="180"
-                :setColumnWidth="true"
-                align="left"
-                height="500"
-                :checkAble="true"
-                :group="groupMsg"
-                :pagination="true"
-                :pageCount="source.length"
-                :columnSet="true"
-                :toolButtons="toolBtns"
-                :filtersList="filters"
-                :reloadPage="true"
-                @check-change="tableCheckChange"
-                @page-size-change="pageSizeChange"
-                @reload-page="reloadPageHandle"
-                @column-set-change="submitColumnSet"
-                @column-set-resume="resumeDefault"
-                @order-change="sourceOrder"
-                @tool-button-click="buttonClickHandle"
-                @group-change="groupMsgChange"
-                @filter-change="filterChange"
-                @delete="deleteTableRow"
-                @download="download"
-                @row-click="rowClickHandle"
-            >
-                <span
-                    slot="tag"
-                    slot-scope="{col, row}"
+        <br/>
+         <div class="demo">
+            <h4>可变列宽表格</h4>
+            <div class="component-wrapper">
+                <div class="component-wrapper-demo">
+                    <div class="tableView1">
+                        <Table
+                            :head="headList2"
+                            :source="source1"
+                            height="100%"
+                            :setColumnWidth="true"
+                        ></Table> 
+                    </div>
+                </div>
+                <div class="code-content" style="height: 0;">
+                    <div class="code-content-height">
+                        <pre><code class="vue">
+                        {{setColumnWidthTableCode}}
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="lock-code" @click="showCode(4)" ref="xxx">
+                    <span class="lock-code-word">{{isShow[4] === false ? '显示代码' : '隐藏代码'}}</span>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <!-- 全配置表格 -->
+        <!-- <div class="tableView">
+            <div class="container">
+                <Table
+                    :head="headList1"
+                    :source="sourceComputed[page-1]"
+                    selectWidth="180"
+                    :setColumnWidth="true"
+                    :checkAble="true"
+                    :group="groupMsg"
+                    :pageCount="source.length"
+                    :columnSet="true"
+                    :toolButtons="toolBtns"
+                    :filtersList="filters"
+                    :reloadPage="true"
+                    @check-change="checkedChangeHandle"
+                    @page-size-change="pageSizeChangeHandle"
+                    @reload-page="reloadPageHandle"
+                    @column-set-change="columnSetHandle"
+                    @column-set-resume="resumeColumnSetHandle"
+                    @order-change="tableSortHandle"
+                    @tool-button-click="buttonClickHandle"
+                    @group-change="groupMsgChangeHandle"
+                    @filter-change="filterChangeHandle"
+                    @delete="deleteRowHandle"
+                    @download="downloadHandle"
                 >
-                    <Tag
-                        size="big"
-                        v-for="(tag,i) in row._tags"
-                        v-if="tag.key === col.key"
-                        :key="i"
-                        type="dot"
-                        :status="tag.tag"
-                    >
-                        {{row[col.key]}}
-                    </Tag>
-                </span>
-            </Table>
-        </div>
+                    <span slot="tag" slot-scope="{col, row}">
+                        <Tag
+                            size="big"
+                            v-for="(tag,i) in row._tags"
+                            v-if="tag.key === col.key"
+                            :key="i"
+                            type="dot"
+                            :status="tag.tag"
+                        >
+                            {{row[col.key]}}
+                        </Tag>
+                    </span>
+                </Table>
+            </div>
+        </div> -->
     </div>
+
 </template>
 
 <script>
+import codeStr from './code.js'
+import mixin from '../../.vuepress/mixin.js'
 export default {
-    name: "TableView",
+    name: 'TableView', 
+    mixins: [mixin],
     data() {
         return {
-            toggle: false,
-            arr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            t: "1",
-            tt: [
-                {
-                    id: "1",
-                    name: "aaa"
-                },
-                {
-                    id: "2",
-                    name: "bbb"
-                },
-                {
-                    id: "3",
-                    name: "ccc"
-                },
-                {
-                    id: "4",
-                    name: "ddd"
-                },
-                {
-                    id: "5",
-                    name: "eee"
-                }
-            ],
-            headList2: [
-                {
-                    title: "设备状态", // 列的名称
-                    key: "state", // 列的标识
-                    show: true // 是否显示该列
-                },
-                {
-                    title: "设备名称",
-                    key: "name",
-                    show: true
-                },
-                {
-                    title: "专业",
-                    key: "job",
-                    show: true
-                },
-                {
-                    title: "所属系统",
-                    key: "system",
-                    show: false
-                },
-                {
-                    title: "设备类型",
-                    key: "type",
-                    show: false
-                },
-                {
-                    title: "购置时间",
-                    key: "acquisitionTime",
-                    show: true
-                },
-                {
-                    title: "采购类型",
-                    key: "purchaseType",
-                    show: true
-                },
-                {
-                    title: "所属部门",
-                    key: "department",
-                    show: true
-                },
-                {
-                    title: "设备位置",
-                    key: "position",
-                    show: false
-                }
-            ],
+            // 基础表格代码
+            defaultTableCode: codeStr.defaultTableCode.replace(/^\s*$/g,''),
+            // 分页分组表格代码
+            groupAndPaginationCode: codeStr.groupAndPaginationCode,
+            // 可筛选表格代码
+            filterTableCode: codeStr.filterTableCode,
+            // 标签、排序、列设置、多选表格代码
+            tagTableCode: codeStr.tagTableCode,
+            // 可变列宽表格代码
+            setColumnWidthTableCode: codeStr.setColumnWidthTableCode,
+            // 可配表格表头列表
             headList1: [
-                {
+                  {
                     title: "设备状态",
                     key: "state",
                     show: true
@@ -224,8 +279,376 @@ export default {
                     show: false
                 }
             ],
-            // 默认表格数据
-            defaultSource: [
+            // 基础表格表头列表
+            headList2: [
+                  {
+                    title: "设备状态", // 列的名称
+                    key: "state", // 列的标识
+                    show: true // 是否显示该列
+                },
+                {
+                    title: "设备名称",
+                    key: "name",
+                    show: true
+                },
+                {
+                    title: "专业",
+                    key: "job",
+                    show: true
+                },
+                {
+                    title: "所属系统",
+                    key: "system",
+                    show: false
+                },
+                {
+                    title: "设备类型",
+                    key: "type",
+                    show: false
+                },
+                {
+                    title: "购置时间",
+                    key: "acquisitionTime",
+                    show: true
+                },
+                {
+                    title: "采购类型",
+                    key: "purchaseType",
+                    show: true
+                },
+                {
+                    title: "所属部门",
+                    key: "department",
+                    show: true
+                },
+                {
+                    title: "设备位置",
+                    key: "position",
+                    show: false
+                }
+            ],
+            // 标签表表头列表
+            headList3: [
+                {
+                    title: "设备状态", // 列的名称
+                    key: "state", // 列的标识
+                    show: true // 是否显示该列
+                },
+                {
+                    title: "设备名称",
+                    key: "name",
+                    show: true
+                },
+                {
+                    title: "专业",
+                    key: "job",
+                    show: true
+                },
+                {
+                    title: "购置时间",
+                    key: "acquisitionTime",
+                    show: true
+                },
+                {
+                    title: "所属部门",
+                    key: "department",
+                    show: true
+                },
+                {
+                    title: "设备数量",
+                    key: "count",
+                    isOrder: true,
+                    show: true
+                }
+            ],
+            // 保存默认的列配置
+            headList3Static: [],
+            // 基础表格的数据
+            source1: [
+                {
+                    id: "1", // 该条数据id （可以不叫id,只要保证该字段唯一即可）
+                    state: "闲置", // 数据字段，与headList2中字段对应
+                    name: "佳能-网络视频录像机-315",
+                    job: "强电",
+                    system: "给排水系统",
+                    type: "通用设备",
+                    acquisitionTime: "2018.12.12",
+                    purchaseType: "试用",
+                    department: "物业部",
+                    position: "办公室"
+                },
+                {
+                    id: "2",
+                    state: "检测中",
+                    name: "尼康-摄影机-314",
+                    job: "给排水",
+                    system: "供配电系统",
+                    type: "专业设备",
+                    acquisitionTime: "2018.12.11",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "服务用房"
+                },
+                {
+                    id: "3",
+                    state: "使用中",
+                    name: "尼康-网络视频录像机-313",
+                    job: "消防",
+                    system: "冷热源系统",
+                    type: "暖通设备",
+                    acquisitionTime: "2018.12.10",
+                    purchaseType: "购买",
+                    department: "维修部",
+                    position: "服务用房"
+                },
+                {
+                    id: "5",
+                    state: "封存",
+                    name: "三菱-立式空调-311",
+                    job: "暖通空调",
+                    system: "空调系统",
+                    type: "仪器仪表",
+                    acquisitionTime: "2018.12.08",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "起居室"
+                }
+            ],
+            // filterTableSourceStatic副本
+            filterTableSourceStatic: [],
+            // 可筛选表格数据
+            filterTableSource: [
+                {
+                    id: "1", // 该条数据id （可以不叫id,只要保证该字段唯一即可）
+                    state: "闲置", // 数据字段，与headList2中字段对应
+                    name: "佳能-网络视频录像机-315",
+                    job: "强电",
+                    system: "给排水系统",
+                    type: "通用设备",
+                    acquisitionTime: "2018.12.12",
+                    purchaseType: "试用",
+                    department: "物业部",
+                    position: "办公室"
+                },
+                {
+                    id: "1.1", // 该条数据id （可以不叫id,只要保证该字段唯一即可）
+                    state: "闲置", // 数据字段，与headList2中字段对应
+                    name: "佳能-网络视频录像机-315",
+                    job: "强电",
+                    system: "给排水系统",
+                    type: "通用设备",
+                    acquisitionTime: "2018.12.12",
+                    purchaseType: "租用",
+                    department: "物业部",
+                    position: "办公室"
+                },
+                {
+                    id: "1.2", // 该条数据id （可以不叫id,只要保证该字段唯一即可）
+                    state: "闲置", // 数据字段，与headList2中字段对应
+                    name: "佳能-网络视频录像机-315",
+                    job: "给排水",
+                    system: "给排水系统",
+                    type: "通用设备",
+                    acquisitionTime: "2018.12.12",
+                    purchaseType: "购买",
+                    department: "物业部",
+                    position: "办公室"
+                },
+                {
+                    id: "2",
+                    state: "检测中",
+                    name: "尼康-摄影机-314",
+                    job: "给排水",
+                    system: "供配电系统",
+                    type: "专业设备",
+                    acquisitionTime: "2018.12.11",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "服务用房"
+                },
+                {
+                    id: "2.1",
+                    state: "检测中",
+                    name: "尼康-摄影机-314",
+                    job: "强电",
+                    system: "供配电系统",
+                    type: "专业设备",
+                    acquisitionTime: "2018.12.11",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "服务用房"
+                },
+                {
+                    id: "2.2",
+                    state: "检测中",
+                    name: "尼康-摄影机-314",
+                    job: "强电",
+                    system: "供配电系统",
+                    type: "专业设备",
+                    acquisitionTime: "2018.12.11",
+                    purchaseType: "试用",
+                    department: "资产部",
+                    position: "服务用房"
+                },
+                {
+                    id: "2.3",
+                    state: "使用中",
+                    name: "尼康-摄影机-314",
+                    job: "强电",
+                    system: "供配电系统",
+                    type: "专业设备",
+                    acquisitionTime: "2018.12.11",
+                    purchaseType: "试用",
+                    department: "资产部",
+                    position: "服务用房"
+                },
+                {
+                    id: "2.4",
+                    state: "封存",
+                    name: "尼康-摄影机-314",
+                    job: "强电",
+                    system: "供配电系统",
+                    type: "专业设备",
+                    acquisitionTime: "2018.12.11",
+                    purchaseType: "试用",
+                    department: "资产部",
+                    position: "服务用房"
+                },
+                {
+                    id: "3",
+                    state: "使用中",
+                    name: "尼康-网络视频录像机-313",
+                    job: "消防",
+                    system: "冷热源系统",
+                    type: "暖通设备",
+                    acquisitionTime: "2018.12.10",
+                    purchaseType: "购买",
+                    department: "维修部",
+                    position: "服务用房"
+                },
+                {
+                    id: "3.1",
+                    state: "闲置",
+                    name: "尼康-网络视频录像机-313",
+                    job: "消防",
+                    system: "冷热源系统",
+                    type: "暖通设备",
+                    acquisitionTime: "2018.12.10",
+                    purchaseType: "购买",
+                    department: "维修部",
+                    position: "服务用房"
+                },
+                {
+                    id: "3.2",
+                    state: "闲置",
+                    name: "尼康-网络视频录像机-313",
+                    job: "消防",
+                    system: "冷热源系统",
+                    type: "暖通设备",
+                    acquisitionTime: "2018.12.10",
+                    purchaseType: "试用",
+                    department: "维修部",
+                    position: "服务用房"
+                },
+                {
+                    id: "3.4",
+                    state: "封存",
+                    name: "尼康-网络视频录像机-313",
+                    job: "消防",
+                    system: "冷热源系统",
+                    type: "暖通设备",
+                    acquisitionTime: "2018.12.10",
+                    purchaseType: "购买",
+                    department: "维修部",
+                    position: "服务用房"
+                },
+                {
+                    id: "3.5",
+                    state: "封存",
+                    name: "尼康-网络视频录像机-313",
+                    job: "暖通空调",
+                    system: "冷热源系统",
+                    type: "暖通设备",
+                    acquisitionTime: "2018.12.10",
+                    purchaseType: "购买",
+                    department: "维修部",
+                    position: "服务用房"
+                },
+                {
+                    id: "3.6",
+                    state: "封存",
+                    name: "尼康-网络视频录像机-313",
+                    job: "暖通空调",
+                    system: "冷热源系统",
+                    type: "暖通设备",
+                    acquisitionTime: "2018.12.10",
+                    purchaseType: "租用",
+                    department: "维修部",
+                    position: "服务用房"
+                },
+                {
+                    id: "5",
+                    state: "封存",
+                    name: "三菱-立式空调-311",
+                    job: "暖通空调",
+                    system: "空调系统",
+                    type: "仪器仪表",
+                    acquisitionTime: "2018.12.08",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "起居室"
+                },
+                {
+                    id: "5.1",
+                    state: "检测中",
+                    name: "三菱-立式空调-311",
+                    job: "暖通空调",
+                    system: "空调系统",
+                    type: "仪器仪表",
+                    acquisitionTime: "2018.12.08",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "起居室"
+                },
+                {
+                    id: "5.1",
+                    state: "使用中",
+                    name: "三菱-立式空调-311",
+                    job: "暖通空调",
+                    system: "空调系统",
+                    type: "仪器仪表",
+                    acquisitionTime: "2018.12.08",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "起居室"
+                },
+                {
+                    id: "5.1",
+                    state: "使用中",
+                    name: "三菱-立式空调-311",
+                    job: "该排水",
+                    system: "空调系统",
+                    type: "仪器仪表",
+                    acquisitionTime: "2018.12.08",
+                    purchaseType: "试用",
+                    department: "资产部",
+                    position: "起居室"
+                },
+                {
+                    id: "5.1",
+                    state: "使用中",
+                    name: "三菱-立式空调-311",
+                    job: "消防",
+                    system: "空调系统",
+                    type: "仪器仪表",
+                    acquisitionTime: "2018.12.08",
+                    purchaseType: "购买",
+                    department: "资产部",
+                    position: "起居室"
+                },
+            ],
+            // 分页表格的数据
+            source2: [
                 {
                     id: "1", // 该条数据id （可以不叫id,只要保证该字段唯一即可）
                     state: "闲置", // 数据字段，与headList2中字段对应
@@ -706,6 +1129,104 @@ export default {
                     department: "物业部",
                     position: "会议室"
                 },
+            ],
+            // 标签、列设置、排序功能、多选的表格数据
+            tagSource: [
+                {
+                    id: "1",
+                    state: "闲置",
+                    name: "佳能-网络视频录像机-315",
+                    job: "强电",
+                    system: "给排水系统",
+                    type: "通用设备",
+                    acquisitionTime: "2018.12.12",
+                    purchaseType: "试用",
+                    department: "物业部",
+                    position: "办公室",
+                    count: 1,
+                    _tags: [
+                        {
+                            key: "state",
+                            tag: "rejected"
+                        }
+                    ]
+                },
+                {
+                    id: "2",
+                    state: "检测中",
+                    name: "尼康-摄影机-314",
+                    job: "给排水",
+                    system: "供配电系统",
+                    type: "专业设备",
+                    acquisitionTime: "2018.12.11",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "服务用房",
+                    count: 2,
+                    _tags: [
+                        {
+                            key: "state",
+                            tag: "processing"
+                        }
+                    ]
+                },
+                {
+                    id: "3",
+                    state: "使用中",
+                    name: "尼康-网络视频录像机-313",
+                    job: "消防",
+                    system: "冷热源系统",
+                    type: "暖通设备",
+                    acquisitionTime: "2018.12.10",
+                    purchaseType: "购买",
+                    department: "维修部",
+                    position: "服务用房",
+                    count: 3,
+                    _tags: [
+                        {
+                            key: "state",
+                            tag: "completed"
+                        }
+                    ]
+                },
+                {
+                    id: "5",
+                    state: "封存",
+                    name: "三菱-立式空调-311",
+                    job: "暖通空调",
+                    system: "空调系统",
+                    type: "仪器仪表",
+                    acquisitionTime: "2018.12.08",
+                    purchaseType: "租用",
+                    department: "资产部",
+                    position: "起居室",
+                    count: 4,
+                    _tags: [
+                        {
+                            key: "state",
+                            tag: "rejected"
+                        }
+                    ]
+                },
+                {
+                    id: "6",
+                    state: "已报废",
+                    name: "尼康-液晶屏-310",
+                    job: "弱电",
+                    system: "物业管理系统",
+                    type: "通用设备",
+                    acquisitionTime: "2018.12.07",
+                    purchaseType: "购买",
+                    department: "维修部",
+                    position: "电气开关室",
+                    count: 5,
+                    _tags: [
+                        {
+                            key: "state",
+                            tag: "remove"
+                        }
+                    ]
+                }
             ],
             // 可配表格数据
             source: [
@@ -1451,7 +1972,7 @@ export default {
                 ]
             },
             // 操作按钮组 (非必填)
-            toolBtns: [
+             toolBtns: [
                 {
                     icon: "edit", // 按钮的icon
                     name: "编辑", // 按钮名称
@@ -1491,13 +2012,21 @@ export default {
                             name: "全部"
                         },
                         {
-                            id: "0",
+                            id: "闲置",
                             name: "闲置"
                         },
                         {
-                            id: "1",
+                            id: "检测中",
                             name: "检测中"
-                        }
+                        },
+                        {
+                            id: "使用中",
+                            name: "使用中"
+                        },
+                        {
+                            id: "封存",
+                            name: "封存"
+                        },
                     ]
                 },
                 {
@@ -1510,13 +2039,21 @@ export default {
                             name: "全部"
                         },
                         {
-                            id: "0",
+                            id: "强电",
                             name: "强电"
                         },
                         {
-                            id: "1",
-                            name: "弱电"
-                        }
+                            id: "给排水",
+                            name: "给排水"
+                        },
+                        {
+                            id: "消防",
+                            name: "消防"
+                        },
+                        {
+                            id: "暖通空调",
+                            name: "暖通空调"
+                        },
                     ]
                 },
                 {
@@ -1529,70 +2066,40 @@ export default {
                             name: "全部"
                         },
                         {
-                            id: "0",
+                            id: "试用",
                             name: "试用"
                         },
                         {
-                            id: "1",
+                            id: "购买",
                             name: "购买"
-                        }
-                    ]
-                },
-                {
-                    title: "部门:",
-                    key: "department",
-                    value: "all",
-                    source: [
-                        {
-                            id: "all",
-                            name: "全部"
                         },
                         {
-                            id: "0",
-                            name: "物业部"
-                        },
-                        {
-                            id: "1",
-                            name: "维修部"
-                        }
-                    ]
-                },
-                {
-                    title: "系统:",
-                    key: "system",
-                    value: "",
-                    source: [
-                        {
-                            id: "0",
-                            name: "照明系统"
-                        },
-                        {
-                            id: "1",
-                            name: "空调系统"
+                            id: "租用",
+                            name: "租用"
                         }
                     ]
                 }
             ],
-            defaultPage: 1,
-            defaultPageSize: 20,
-            page: 1,
-            pageSize: 20,
+            page2: 1, // 分页表格的当前页码
+            pageSize2: 20, // 分页表格每页数据条数
+            page: 1, // 可配表格的当前页码
+            pageSize: 20, // 可配表格每页数据条数
         };
     },
     computed: {
-        /**
-         * 默认表格分页数据
+         /**
+         * 分页分组表格分页数据
          */
-        defaultSourceComputed() {
-            const len = this.defaultSource.length;
-            let pagecount = Math.ceil(len / this.defaultPageSize);
+        source2Computed() {
+            const len = this.source2.length;
+            let pagecount = Math.ceil(len / this.pageSize2);
             let source = [];
 
             for (let i=1; i<=pagecount; i++) {
                 const temp = [];
                 for (let j=0; j<len; j++) {
-                    if ((j > (i-1)*this.defaultPageSize || j === 0) && j <= i*this.defaultPageSize-1) {
-                        temp.push(this.defaultSource[j])
+                    if ((j > (i-1)*this.pageSize2 || j === 0) && j <= i*this.pageSize2-1) {
+                        temp.push(this.source2[j])
                     }
                 }
                 source.push(temp);
@@ -1620,1771 +2127,142 @@ export default {
         }
     },
     methods: {
-        rowClickHandle(obj) {
-            console.log(obj)
-        },
-        tableCheckChange(data) {
-            console.log(data);
-        },
-        submitColumnSet(data) {
+        /**
+         * 行勾选事件回调方法
+         * @param {Array} data: 已勾选的行数据列表
+         *  例：[{
+                    id: '12',
+                    state: '维修中',
+                    name: '德力西-开关插座-102',
+                    job: '综合',
+                    system: '访客管理系统',
+                    type: '专业设备',
+                    acquisitionTime: '2018.12.01',
+                    purchaseType: '购买',
+                    department: '维修部',
+                    position: '接待处'
+                }]
+        */
+        checkedChangeHandle(data) {
             console.log(data);
         },
         /**
-         * 默认表格切换页码或者改变每页条数
-         */
-        pageSizeChange2(pageSize) {
-            this.defaultPage = pageSize.newPage;
-            this.defaultPageSize = pageSize.newPageSize;
+         * 列的顺序和显隐改变时回调方法
+         * @param {Array} data: 改变顺序和显隐属性的表头列表
+        */
+        columnSetHandle(data) {
+            console.log(data);
         },
         /**
-         * 可配置表格切换页码或者改变每页条数
-         */
-        pageSizeChange(pageSize) {
+         * 基础表格页码改变时的回调方法 
+         * @param {Object} pageSize: {newPage: '当前页码'， newPageSize: '当前每页条数'}
+        */
+        pageSize2ChangeHandle(pageSize) {
+            this.page2 = pageSize.newPage;
+            this.pageSize2 = pageSize.newPageSize;
+        },
+        /** 
+         * 页码或者每页条数改变时的回调方法
+         * @param {Object} pageSize: {newPage: '当前页码'， newPageSize: '当前每页条数'}
+        */
+        pageSizeChangeHandle(pageSize) {
             this.page = pageSize.newPage;
-            this.pageSize = pageSize.newPageSize;
+            this.pageSize = pageSize.newPageSize; 
         },
-        resumeDefault() {
+        /** 
+         * 列设置中恢复默认设置的事件
+         * 注意：需要开发人员保存一份默认的列信息，this.headCopy = [...this.head]列表,在回调方法中使用
+        */
+        resumeColumnSetHandle() {
             console.log("恢复默认");
+            this.headList3 = JSON.parse(JSON.stringify(this.headList3Static))
         },
-        sourceOrder(data) {
+        /** 
+         * 列的上下箭头排序回调方法
+         * @param {Object} data: { key: 列的key值, orderType: 'desc降序或asc升序' }
+        */
+        tableSortHandle(data) {
             console.log(data);
+            // 升序
+            if (data.orderType == 'asc') 
+                this.tagSource.sort((a, b) => a[data.key] - b[data.key]);
+            // 降序
+            if (data.orderType == 'desc') 
+                this.tagSource.sort((a, b) => b[data.key] - a[data.key]);
+            
         },
-        resetPagination() {
-            console.log("重置分页器");
+        /** 
+         * 按钮组点击回调方法
+         * @param {String} name: 按钮的name属性值
+        */
+        buttonClickHandle(name) {
+            console.log(name);
+            alert(name)
         },
-        buttonClickHandle(value) {
-            console.log(value);
+        /** 
+         * 改变分组回调方法
+         * @param {String} key: 分组的key值，及this.groupMsg.key
+        */
+        groupMsgChangeHandle(key) {
+            console.log(key);
         },
-        groupMsgChange(value) {
-            console.log(value);
-        },
-        filterChange(val) {
+        /** 
+         * 改变筛选条件回调方法
+         * @param {Object} val: {key: '条件标识key值，及this.filters[i].key', value: '筛选条件的值，及this.filters[i].value'}
+        */
+        filterChangeHandle(val) {
             console.log(val);
+            let filterSourceCopy = JSON.parse(JSON.stringify(this.filterTableSourceStatic));
+            this.filters.map(f => {
+                filterSourceCopy = filterSourceCopy.filter(s => s[f.key] === f.value || f.value === 'all');
+                
+            })
+            this.filterTableSource = JSON.parse(JSON.stringify(filterSourceCopy));
         },
+        /** 
+         * 刷新当前页回调方法
+         * @param {Object} page: {newPage: '当前页码', newPageSize: '当前每页条数'}
+        */
         reloadPageHandle(page) {
-            console.log(page);
+            console.log(page)
+            alert(JSON.stringify(page)+'\n'+'调用接口刷新本页数据');
         },
         /**
          * 删除已选行回调
          * @param {Array} rows 已勾选的行数据
          */
-        deleteTableRow(rows) {
+        deleteRowHandle(rows) {
             const ids = rows.map(row => row.id);
-            this.source = this.source.filter(row => !ids.includes(row.id));
+            this.tagSource = this.tagSource.filter(row => !ids.includes(row.id));
         },
         /**
          * 下载事件回调
          * @param {Array} rows 已勾选的行数据
          */
-        download(rows) {
-            console.log(rows);
+        downloadHandle(rows) {
+            console.log(rows)
         }
     },
-};
+    created() {
+        this.headList3Static = JSON.parse(JSON.stringify(this.headList3));
+        this.filterTableSourceStatic =  JSON.parse(JSON.stringify(this.filterTableSource));
+    }
+
+}; 
 </script>
 
 <style lang="stylus">
-.container
-    width 1000px
-    height 500px
-    padding 20px
-    border 1px solid #eee
-.t
-    border 1px solid #333
-.e
-    height 44px
-    display flex
-    flex-wrap wrap-reverse
-    overflow hidden
+    .tableView
+        width 800px
+        height 400px
+    .tableView1
+        width 800px
+        height 290px
+
+ul
+    padding 0 !important
 
 </style>
-
-```vue
-
-<template>
-    <div class="component component-padding">
-        <h1>Table组件</h1>
-        <br />
-        <h6>基础表格</h6>
-        <div class="container">
-            <Table
-                :head="headList2"
-                :source="defaultSourceComputed[defaultPage-1]"
-            ></Table>
-        </div>
-        <br />
-        <div class="container">
-            <Table
-                :head="headList2"
-                :source="defaultSourceComputed[defaultPage-1]"
-                :pageCount="defaultSource.length"
-                :toolButtons="toolBtns"
-                @page-size-change="pageSizeChange2"
-            ></Table>
-        </div>
-        <br />
-        <div class="container">
-            <Table
-                :head="headList2"
-                :source="defaultSourceComputed[defaultPage-1]"
-                :group="groupMsg"
-                height="100%"
-                :selectWidth="180"
-                :pageCount="defaultSource.length"
-                :toolButtons="toolBtns"
-                @page-size-change="pageSizeChange2"
-            ></Table>
-        </div>
-        <br />
-        <h5>多选</h5>
-        <div class="container">
-            <Table
-                :head="headList2"
-                :source="defaultSourceComputed[defaultPage-1]"
-                :checkAble="true"
-                height="100%"
-                :pageCount="defaultSource.length"
-                :toolButtons="toolBtns"
-                @page-size-change="pageSizeChange2"
-            ></Table>
-        </div>
-        <br />
-        <h6>可配表格</h6>
-        <br />
-        <div>
-            <Table
-                :head="headList1"
-                :source="sourceComputed[page-1]"
-                selectWidth="180"
-                :setColumnWidth="true"
-                align="left"
-                height="500"
-                :checkAble="true"
-                :group="groupMsg"
-                :pagination="true"
-                :pageCount="source.length"
-                :columnSet="true"
-                :toolButtons="toolBtns"
-                :filtersList="filters"
-                :reloadPage="true"
-                @check-change="tableCheckChange"
-                @page-size-change="pageSizeChange"
-                @reload-page="reloadPageHandle"
-                @column-set-change="submitColumnSet"
-                @column-set-resume="resumeDefault"
-                @order-change="sourceOrder"
-                @tool-button-click="buttonClickHandle"
-                @group-change="groupMsgChange"
-                @filter-change="filterChange"
-                @delete="deleteTableRow"
-                @download="download"
-                @row-click="rowClickHandle"
-            >
-                <span
-                    slot="tag"
-                    slot-scope="{col, row}"
-                >
-                    <Tag
-                        size="big"
-                        v-for="(tag,i) in row._tags"
-                        v-if="tag.key === col.key"
-                        :key="i"
-                        type="dot"
-                        :status="tag.tag"
-                    >
-                        {{row[col.key]}}
-                    </Tag>
-                </span>
-            </Table>
-        </div>
-    </div>
-</template>
-
-<script>
-export default {
-    name: "TableView",
-    data() {
-        return {
-            toggle: false,
-            arr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            t: "1",
-            tt: [
-                {
-                    id: "1",
-                    name: "aaa"
-                },
-                {
-                    id: "2",
-                    name: "bbb"
-                },
-                {
-                    id: "3",
-                    name: "ccc"
-                },
-                {
-                    id: "4",
-                    name: "ddd"
-                },
-                {
-                    id: "5",
-                    name: "eee"
-                }
-            ],
-            headList2: [
-                {
-                    title: "设备状态", // 列的名称
-                    key: "state", // 列的标识
-                    show: true // 是否显示该列
-                },
-                {
-                    title: "设备名称",
-                    key: "name",
-                    show: true
-                },
-                {
-                    title: "专业",
-                    key: "job",
-                    show: true
-                },
-                {
-                    title: "所属系统",
-                    key: "system",
-                    show: false
-                },
-                {
-                    title: "设备类型",
-                    key: "type",
-                    show: false
-                },
-                {
-                    title: "购置时间",
-                    key: "acquisitionTime",
-                    show: true
-                },
-                {
-                    title: "采购类型",
-                    key: "purchaseType",
-                    show: true
-                },
-                {
-                    title: "所属部门",
-                    key: "department",
-                    show: true
-                },
-                {
-                    title: "设备位置",
-                    key: "position",
-                    show: false
-                }
-            ],
-            headList1: [
-                {
-                    title: "设备状态",
-                    key: "state",
-                    show: true
-                },
-                {
-                    title: "设备名称",
-                    key: "name",
-                    show: true
-                },
-                {
-                    title: "专业",
-                    key: "job",
-                    show: true
-                },
-                {
-                    title: "所属系统",
-                    key: "system",
-                    show: false
-                },
-                {
-                    title: "设备类型",
-                    key: "type",
-                    show: false
-                },
-                {
-                    title: "购置时间",
-                    key: "acquisitionTime",
-                    show: true,
-                    isOrder: true
-                },
-                {
-                    title: "采购类型",
-                    key: "purchaseType",
-                    show: true
-                },
-                {
-                    title: "所属部门",
-                    key: "department",
-                    show: true
-                },
-                {
-                    title: "设备位置",
-                    key: "position",
-                    show: false
-                }
-            ],
-            // 默认表格数据
-            defaultSource: [
-                {
-                    id: "1", // 该条数据id （可以不叫id,只要保证该字段唯一即可）
-                    state: "闲置", // 数据字段，与headList2中字段对应
-                    name: "佳能-网络视频录像机-315",
-                    job: "强电",
-                    system: "给排水系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.12",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "办公室"
-                },
-                {
-                    id: "2",
-                    state: "检测中",
-                    name: "尼康-摄影机-314",
-                    job: "给排水",
-                    system: "供配电系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.11",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "服务用房"
-                },
-                {
-                    id: "3",
-                    state: "使用中",
-                    name: "尼康-网络视频录像机-313",
-                    job: "消防",
-                    system: "冷热源系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.10",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "服务用房"
-                },
-                {
-                    id: "5",
-                    state: "封存",
-                    name: "三菱-立式空调-311",
-                    job: "暖通空调",
-                    system: "空调系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.08",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "起居室"
-                },
-                {
-                    id: "6",
-                    state: "已报废",
-                    name: "尼康-液晶屏-310",
-                    job: "弱电",
-                    system: "物业管理系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.07",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "电气开关室"
-                },
-                {
-                    id: "7",
-                    state: "使用中",
-                    name: "海尔-吸尘器-315",
-                    job: "综合",
-                    system: "信息网络系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.06",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "档案室"
-                },
-                {
-                    id: "4",
-                    state: "维修中",
-                    name: "三菱-中央变频空调-312",
-                    job: "电梯",
-                    system: "照明系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.09",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "休息室"
-                },
-                {
-                    id: "8",
-                    state: "维修中",
-                    name: "联想-智能摄像机-314",
-                    job: "安管",
-                    system: "有限电视系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.05",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "电梯机房"
-                },
-                {
-                    id: "9",
-                    state: "封存",
-                    name: "萤石-智能摄像头-313",
-                    job: "环境",
-                    system: "公告广播系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.04",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "清洁间"
-                },
-                {
-                    id: "10",
-                    state: "已报废",
-                    name: "佳能-打印机-312",
-                    job: "安品",
-                    system: "电话交换系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.03",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "会议室"
-                },
-                {
-                    id: "11",
-                    state: "闲置",
-                    name: "佳能-网络视频录像机-315",
-                    job: "强电",
-                    system: "给排水系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.12",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "办公室"
-                },
-                {
-                    id: "12",
-                    state: "检测中",
-                    name: "尼康-摄影机-314",
-                    job: "给排水",
-                    system: "供配电系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.11",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "服务用房"
-                },
-                {
-                    id: "13",
-                    state: "使用中",
-                    name: "尼康-网络视频录像机-313",
-                    job: "消防",
-                    system: "冷热源系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.10",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "服务用房"
-                },
-                {
-                    id: "14",
-                    state: "维修中",
-                    name: "三菱-中央变频空调-312",
-                    job: "电梯",
-                    system: "照明系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.09",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "休息室"
-                },
-                {
-                    id: "15",
-                    state: "封存",
-                    name: "三菱-立式空调-311",
-                    job: "暖通空调",
-                    system: "空调系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.08",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "起居室"
-                },
-                {
-                    id: "16",
-                    state: "已报废",
-                    name: "尼康-液晶屏-310",
-                    job: "弱电",
-                    system: "物业管理系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.07",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "电气开关室"
-                },
-                {
-                    id: "17",
-                    state: "使用中",
-                    name: "海尔-吸尘器-315",
-                    job: "综合",
-                    system: "信息网络系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.06",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "档案室"
-                },
-                {
-                    id: "18",
-                    state: "维修中",
-                    name: "联想-智能摄像机-314",
-                    job: "安管",
-                    system: "有限电视系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.05",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "电梯机房"
-                },
-                {
-                    id: "19",
-                    state: "封存",
-                    name: "萤石-智能摄像头-313",
-                    job: "环境",
-                    system: "公告广播系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.04",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "清洁间"
-                },
-                {
-                    id: "20",
-                    state: "已报废",
-                    name: "佳能-打印机-312",
-                    job: "安品",
-                    system: "电话交换系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.03",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "会议室"
-                },
-                {
-                    id: "21",
-                    state: "维修中",
-                    name: "联想-智能摄像机-314",
-                    job: "安管",
-                    system: "有限电视系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.05",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "电梯机房"
-                },
-                {
-                    id: "22",
-                    state: "使用中",
-                    name: "尼康-网络视频录像机-313",
-                    job: "消防",
-                    system: "冷热源系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.10",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "服务用房"
-                },
-                {
-                    id: "23",
-                    state: "维修中",
-                    name: "三菱-中央变频空调-312",
-                    job: "电梯",
-                    system: "照明系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.09",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "休息室"
-                },
-                {
-                    id: "24",
-                    state: "闲置",
-                    name: "佳能-网络视频录像机-315",
-                    job: "强电",
-                    system: "给排水系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.12",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "办公室"
-                },
-                {
-                    id: "25",
-                    state: "封存",
-                    name: "三菱-立式空调-311",
-                    job: "暖通空调",
-                    system: "空调系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.08",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "起居室"
-                },
-                {
-                    id: "26",
-                    state: "检测中",
-                    name: "尼康-摄影机-314",
-                    job: "给排水",
-                    system: "供配电系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.11",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "服务用房"
-                },
-                {
-                    id: "27",
-                    state: "已报废",
-                    name: "尼康-液晶屏-310",
-                    job: "弱电",
-                    system: "物业管理系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.07",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "电气开关室"
-                },
-                {
-                    id: "28",
-                    state: "使用中",
-                    name: "海尔-吸尘器-315",
-                    job: "综合",
-                    system: "信息网络系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.06",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "档案室"
-                },
-                {
-                    id: "29",
-                    state: "已报废",
-                    name: "佳能-打印机-312",
-                    job: "安品",
-                    system: "电话交换系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.03",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "会议室"
-                },
-                {
-                    id: "30",
-                    state: "封存",
-                    name: "萤石-智能摄像头-313",
-                    job: "环境",
-                    system: "公告广播系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.04",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "清洁间"
-                },
-                 {
-                    id: "31",
-                    state: "闲置",
-                    name: "佳能-网络视频录像机-315",
-                    job: "强电",
-                    system: "给排水系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.12",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "办公室"
-                },
-                {
-                    id: "32",
-                    state: "检测中",
-                    name: "尼康-摄影机-314",
-                    job: "给排水",
-                    system: "供配电系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.11",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "服务用房"
-                },
-                {
-                    id: "33",
-                    state: "使用中",
-                    name: "尼康-网络视频录像机-313",
-                    job: "消防",
-                    system: "冷热源系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.10",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "服务用房"
-                },
-                {
-                    id: "34",
-                    state: "维修中",
-                    name: "三菱-中央变频空调-312",
-                    job: "电梯",
-                    system: "照明系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.09",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "休息室"
-                },
-                {
-                    id: "35",
-                    state: "封存",
-                    name: "三菱-立式空调-311",
-                    job: "暖通空调",
-                    system: "空调系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.08",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "起居室"
-                },
-                {
-                    id: "36",
-                    state: "已报废",
-                    name: "尼康-液晶屏-310",
-                    job: "弱电",
-                    system: "物业管理系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.07",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "电气开关室"
-                },
-                {
-                    id: "37",
-                    state: "使用中",
-                    name: "海尔-吸尘器-315",
-                    job: "综合",
-                    system: "信息网络系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.06",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "档案室"
-                },
-                {
-                    id: "38",
-                    state: "维修中",
-                    name: "联想-智能摄像机-314",
-                    job: "安管",
-                    system: "有限电视系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.05",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "电梯机房"
-                },
-                {
-                    id: "39",
-                    state: "封存",
-                    name: "萤石-智能摄像头-313",
-                    job: "环境",
-                    system: "公告广播系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.04",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "清洁间"
-                },
-                {
-                    id: "40",
-                    state: "已报废",
-                    name: "佳能-打印机-312",
-                    job: "安品",
-                    system: "电话交换系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.03",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "会议室"
-                },
-            ],
-            // 可配表格数据
-            source: [
-                {
-                    id: "1",
-                    state: "闲置",
-                    name: "佳能-网络视频录像机-315",
-                    job: "强电",
-                    system: "给排水系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.12",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "办公室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "2",
-                    state: "检测中",
-                    name: "尼康-摄影机-314",
-                    job: "给排水",
-                    system: "供配电系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.11",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "服务用房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "processing"
-                        }
-                    ]
-                },
-                {
-                    id: "3",
-                    state: "使用中",
-                    name: "尼康-网络视频录像机-313",
-                    job: "消防",
-                    system: "冷热源系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.10",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "服务用房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "completed"
-                        }
-                    ]
-                },
-                {
-                    id: "5",
-                    state: "封存",
-                    name: "三菱-立式空调-311",
-                    job: "暖通空调",
-                    system: "空调系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.08",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "起居室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "6",
-                    state: "已报废",
-                    name: "尼康-液晶屏-310",
-                    job: "弱电",
-                    system: "物业管理系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.07",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "电气开关室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "remove"
-                        }
-                    ]
-                },
-                {
-                    id: "7",
-                    state: "使用中",
-                    name: "海尔-吸尘器-315",
-                    job: "综合",
-                    system: "信息网络系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.06",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "档案室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "completed"
-                        }
-                    ]
-                },
-                {
-                    id: "4",
-                    state: "维修中",
-                    name: "三菱-中央变频空调-312",
-                    job: "电梯",
-                    system: "照明系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.09",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "休息室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "error"
-                        }
-                    ]
-                },
-                {
-                    id: "8",
-                    state: "维修中",
-                    name: "联想-智能摄像机-314",
-                    job: "安管",
-                    system: "有限电视系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.05",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "电梯机房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "error"
-                        }
-                    ]
-                },
-                {
-                    id: "9",
-                    state: "封存",
-                    name: "萤石-智能摄像头-313",
-                    job: "环境",
-                    system: "公告广播系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.04",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "清洁间",
-                    _tags: [
-                        {
-                            key: "purchaseType",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "10",
-                    state: "已报废",
-                    name: "佳能-打印机-312",
-                    job: "安品",
-                    system: "电话交换系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.03",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "会议室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "remove"
-                        }
-                    ]
-                },
-                {
-                    id: "11",
-                    state: "闲置",
-                    name: "佳能-网络视频录像机-315",
-                    job: "强电",
-                    system: "给排水系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.12",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "办公室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "12",
-                    state: "检测中",
-                    name: "尼康-摄影机-314",
-                    job: "给排水",
-                    system: "供配电系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.11",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "服务用房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "processing"
-                        }
-                    ]
-                },
-                {
-                    id: "13",
-                    state: "使用中",
-                    name: "尼康-网络视频录像机-313",
-                    job: "消防",
-                    system: "冷热源系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.10",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "服务用房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "completed"
-                        }
-                    ]
-                },
-                {
-                    id: "14",
-                    state: "维修中",
-                    name: "三菱-中央变频空调-312",
-                    job: "电梯",
-                    system: "照明系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.09",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "休息室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "error"
-                        }
-                    ]
-                },
-                {
-                    id: "15",
-                    state: "封存",
-                    name: "三菱-立式空调-311",
-                    job: "暖通空调",
-                    system: "空调系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.08",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "起居室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "16",
-                    state: "已报废",
-                    name: "尼康-液晶屏-310",
-                    job: "弱电",
-                    system: "物业管理系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.07",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "电气开关室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "remove"
-                        }
-                    ]
-                },
-                {
-                    id: "17",
-                    state: "使用中",
-                    name: "海尔-吸尘器-315",
-                    job: "综合",
-                    system: "信息网络系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.06",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "档案室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "completed"
-                        }
-                    ]
-                },
-                {
-                    id: "18",
-                    state: "维修中",
-                    name: "联想-智能摄像机-314",
-                    job: "安管",
-                    system: "有限电视系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.05",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "电梯机房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "error"
-                        }
-                    ]
-                },
-                {
-                    id: "19",
-                    state: "封存",
-                    name: "萤石-智能摄像头-313",
-                    job: "环境",
-                    system: "公告广播系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.04",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "清洁间",
-                    _tags: [
-                        {
-                            key: "purchaseType",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "20",
-                    state: "已报废",
-                    name: "佳能-打印机-312",
-                    job: "安品",
-                    system: "电话交换系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.03",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "会议室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "remove"
-                        }
-                    ]
-                },
-                 {
-                    id: "21",
-                    state: "维修中",
-                    name: "联想-智能摄像机-314",
-                    job: "安管",
-                    system: "有限电视系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.05",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "电梯机房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "error"
-                        }
-                    ]
-                },
-                {
-                    id: "22",
-                    state: "使用中",
-                    name: "尼康-网络视频录像机-313",
-                    job: "消防",
-                    system: "冷热源系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.10",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "服务用房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "completed"
-                        }
-                    ]
-                },
-                {
-                    id: "23",
-                    state: "维修中",
-                    name: "三菱-中央变频空调-312",
-                    job: "电梯",
-                    system: "照明系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.09",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "休息室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "error"
-                        }
-                    ]
-                },
-                {
-                    id: "24",
-                    state: "闲置",
-                    name: "佳能-网络视频录像机-315",
-                    job: "强电",
-                    system: "给排水系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.12",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "办公室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "25",
-                    state: "封存",
-                    name: "三菱-立式空调-311",
-                    job: "暖通空调",
-                    system: "空调系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.08",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "起居室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "26",
-                    state: "检测中",
-                    name: "尼康-摄影机-314",
-                    job: "给排水",
-                    system: "供配电系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.11",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "服务用房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "processing"
-                        }
-                    ]
-                },
-                {
-                    id: "27",
-                    state: "已报废",
-                    name: "尼康-液晶屏-310",
-                    job: "弱电",
-                    system: "物业管理系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.07",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "电气开关室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "remove"
-                        }
-                    ]
-                },
-                {
-                    id: "28",
-                    state: "使用中",
-                    name: "海尔-吸尘器-315",
-                    job: "综合",
-                    system: "信息网络系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.06",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "档案室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "completed"
-                        }
-                    ]
-                },
-                {
-                    id: "29",
-                    state: "已报废",
-                    name: "佳能-打印机-312",
-                    job: "安品",
-                    system: "电话交换系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.03",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "会议室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "remove"
-                        }
-                    ]
-                },
-                {
-                    id: "30",
-                    state: "封存",
-                    name: "萤石-智能摄像头-313",
-                    job: "环境",
-                    system: "公告广播系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.04",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "清洁间",
-                    _tags: [
-                        {
-                            key: "purchaseType",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                 {
-                    id: "31",
-                    state: "闲置",
-                    name: "佳能-网络视频录像机-315",
-                    job: "强电",
-                    system: "给排水系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.12",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "办公室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "32",
-                    state: "检测中",
-                    name: "尼康-摄影机-314",
-                    job: "给排水",
-                    system: "供配电系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.11",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "服务用房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "processing"
-                        }
-                    ]
-                },
-                {
-                    id: "33",
-                    state: "使用中",
-                    name: "尼康-网络视频录像机-313",
-                    job: "消防",
-                    system: "冷热源系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.10",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "服务用房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "completed"
-                        }
-                    ]
-                },
-                {
-                    id: "34",
-                    state: "维修中",
-                    name: "三菱-中央变频空调-312",
-                    job: "电梯",
-                    system: "照明系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.09",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "休息室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "error"
-                        }
-                    ]
-                },
-                {
-                    id: "35",
-                    state: "封存",
-                    name: "三菱-立式空调-311",
-                    job: "暖通空调",
-                    system: "空调系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.08",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "起居室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "36",
-                    state: "已报废",
-                    name: "尼康-液晶屏-310",
-                    job: "弱电",
-                    system: "物业管理系统",
-                    type: "通用设备",
-                    acquisitionTime: "2018.12.07",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "电气开关室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "remove"
-                        }
-                    ]
-                },
-                {
-                    id: "37",
-                    state: "使用中",
-                    name: "海尔-吸尘器-315",
-                    job: "综合",
-                    system: "信息网络系统",
-                    type: "专业设备",
-                    acquisitionTime: "2018.12.06",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "档案室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "completed"
-                        }
-                    ]
-                },
-                {
-                    id: "38",
-                    state: "维修中",
-                    name: "联想-智能摄像机-314",
-                    job: "安管",
-                    system: "有限电视系统",
-                    type: "暖通设备",
-                    acquisitionTime: "2018.12.05",
-                    purchaseType: "租用",
-                    department: "资产部",
-                    position: "电梯机房",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "error"
-                        }
-                    ]
-                },
-                {
-                    id: "39",
-                    state: "封存",
-                    name: "萤石-智能摄像头-313",
-                    job: "环境",
-                    system: "公告广播系统",
-                    type: "弱电设备",
-                    acquisitionTime: "2018.12.04",
-                    purchaseType: "购买",
-                    department: "维修部",
-                    position: "清洁间",
-                    _tags: [
-                        {
-                            key: "purchaseType",
-                            tag: "rejected"
-                        }
-                    ]
-                },
-                {
-                    id: "40",
-                    state: "已报废",
-                    name: "佳能-打印机-312",
-                    job: "安品",
-                    system: "电话交换系统",
-                    type: "仪器仪表",
-                    acquisitionTime: "2018.12.03",
-                    purchaseType: "试用",
-                    department: "物业部",
-                    position: "会议室",
-                    _tags: [
-                        {
-                            key: "state",
-                            tag: "remove"
-                        }
-                    ]
-                },
-            ],
-            // 分组信息 （非必需）
-            groupMsg: {
-                key: "all", // 当前选中的分组条件的id值，'all'为内置的key,代表无分组
-                isGroup: true, // 是否分组
-                // 分组条件列表，参考Select组件数据要求
-                options: [
-                    {
-                        id: "all",
-                        name: "全部"
-                    },
-                    {
-                        id: "state",
-                        name: "设备状态"
-                    },
-                    {
-                        id: "purchaseType",
-                        name: "采购类型"
-                    }
-                ]
-            },
-            // 操作按钮组 (非必填)
-            toolBtns: [
-                {
-                    icon: "edit", // 按钮的icon
-                    name: "编辑", // 按钮名称
-                    disabled: true // 是否禁用
-                },
-                {
-                    icon: "copy",
-                    name: "复制"
-                },
-                {
-                    icon: "request",
-                    name: "申请"
-                },
-                {
-                    icon: "update",
-                    name: "修改"
-                },
-                {
-                    icon: "download",
-                    name: "下载"
-                },
-                {
-                    icon: "use",
-                    name: "应用"
-                }
-            ],
-            // 条件筛选列表
-            filters: [
-                {
-                    title: "状态:", // 筛选条件的名称
-                    key: "state", // 条件标识
-                    value: "all", // 当前选中的条件id值
-                    // 条件列表，参考Select组件数据要求
-                    source: [
-                        {
-                            id: "all",
-                            name: "全部"
-                        },
-                        {
-                            id: "0",
-                            name: "闲置"
-                        },
-                        {
-                            id: "1",
-                            name: "检测中"
-                        }
-                    ]
-                },
-                {
-                    title: "专业:",
-                    key: "job",
-                    value: "all",
-                    source: [
-                        {
-                            id: "all",
-                            name: "全部"
-                        },
-                        {
-                            id: "0",
-                            name: "强电"
-                        },
-                        {
-                            id: "1",
-                            name: "弱电"
-                        }
-                    ]
-                },
-                {
-                    title: "采购:",
-                    key: "purchaseType",
-                    value: "all",
-                    source: [
-                        {
-                            id: "all",
-                            name: "全部"
-                        },
-                        {
-                            id: "0",
-                            name: "试用"
-                        },
-                        {
-                            id: "1",
-                            name: "购买"
-                        }
-                    ]
-                },
-                {
-                    title: "部门:",
-                    key: "department",
-                    value: "all",
-                    source: [
-                        {
-                            id: "all",
-                            name: "全部"
-                        },
-                        {
-                            id: "0",
-                            name: "物业部"
-                        },
-                        {
-                            id: "1",
-                            name: "维修部"
-                        }
-                    ]
-                },
-                {
-                    title: "系统:",
-                    key: "system",
-                    value: "",
-                    source: [
-                        {
-                            id: "0",
-                            name: "照明系统"
-                        },
-                        {
-                            id: "1",
-                            name: "空调系统"
-                        }
-                    ]
-                }
-            ],
-            defaultPage: 1,
-            defaultPageSize: 20,
-            page: 1,
-            pageSize: 20,
-        };
-    },
-    computed: {
-        /**
-         * 默认表格分页数据
-         */
-        defaultSourceComputed() {
-            const len = this.defaultSource.length;
-            let pagecount = Math.ceil(len / this.defaultPageSize);
-            let source = [];
-
-            for (let i=1; i<=pagecount; i++) {
-                const temp = [];
-                for (let j=0; j<len; j++) {
-                    if ((j > (i-1)*this.defaultPageSize || j === 0) && j <= i*this.defaultPageSize-1) {
-                        temp.push(this.defaultSource[j])
-                    }
-                }
-                source.push(temp);
-            }
-            return source;
-        },
-        /**
-         * 可配置表格计算数据
-         */
-        sourceComputed() {
-            const len = this.source.length;
-            let pagecount = Math.ceil(len / this.pageSize);
-            let source = [];
-
-            for (let i=1; i<=pagecount; i++) {
-                const temp = [];
-                for (let j=0; j<len; j++) {
-                    if ((j > (i-1)*this.pageSize || j === 0) && j <= i*this.pageSize-1) {
-                        temp.push(this.source[j])
-                    }
-                }
-                source.push(temp);
-            }
-            return source;
-        }
-    },
-    methods: {
-        rowClickHandle(obj) {
-            console.log(obj)
-        },
-        tableCheckChange(data) {
-            console.log(data);
-        },
-        submitColumnSet(data) {
-            console.log(data);
-        },
-        /**
-         * 默认表格切换页码或者改变每页条数
-         */
-        pageSizeChange2(pageSize) {
-            this.defaultPage = pageSize.newPage;
-            this.defaultPageSize = pageSize.newPageSize;
-        },
-        /**
-         * 可配置表格切换页码或者改变每页条数
-         */
-        pageSizeChange(pageSize) {
-            this.page = pageSize.newPage;
-            this.pageSize = pageSize.newPageSize;
-        },
-        resumeDefault() {
-            console.log("恢复默认");
-        },
-        sourceOrder(data) {
-            console.log(data);
-        },
-        resetPagination() {
-            console.log("重置分页器");
-        },
-        buttonClickHandle(value) {
-            console.log(value);
-        },
-        groupMsgChange(value) {
-            console.log(value);
-        },
-        filterChange(val) {
-            console.log(val);
-        },
-        reloadPageHandle(page) {
-            console.log(page);
-        },
-        /**
-         * 删除已选行回调
-         * @param {Array} rows 已勾选的行数据
-         */
-        deleteTableRow(rows) {
-            const ids = rows.map(row => row.id);
-            this.source = this.source.filter(row => !ids.includes(row.id));
-        },
-        /**
-         * 下载事件回调
-         * @param {Array} rows 已勾选的行数据
-         */
-        download(rows) {
-            console.log(rows);
-        }
-    },
-};
-</script>
-
-```
 
 
 ### Attributes

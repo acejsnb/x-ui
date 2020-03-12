@@ -82,6 +82,36 @@ web三组相关同事正在根据PUD最新出的UI在做新的版本，预计20�
 
 ```stylus
 /* base-color -start */
+
+// base
+$white=#fff
+$black=#000
+
+// 蓝色
+// input、触发器、按钮在focus时的投影
+$box-shadow-blue=(0 0 0 2px rgba(0, 145, 255, .2))
+
+// 灰色
+// 下拉选择器、按钮盒子相关投影
+// 向上
+$box-shadow-top=(0 -2px 10px 0 rgba(31, 35, 41, .1))
+// 向下
+$box-shadow-bottom=(0 2px 10px 0 rgba(31, 35, 41, .1))
+// 向左
+$box-shadow-left=(-2px 0 10px 0 rgba(31, 35, 41, .1))
+// 向右
+$box-shadow-right=(2px 0 10px 0 rgba(31, 35, 41, .1))
+
+// 箭头相关投影
+// 向左
+$box-shadow-min-top=(-2px 2px 4px 0 rgba(31, 35, 41, .1))
+// 向下
+$box-shadow-min-bottom=(2px -2px 4px 0 rgba(31, 35, 41, .1))
+// 向左
+$box-shadow-min-left=(-2px -2px 4px 0 rgba(31, 35, 41, .1))
+// 向左
+$box-shadow-min-right=(2px 2px 4px 0 rgba(31, 35, 41, .1))
+
 // blue
 $blue-900=#004275
 $blue-800=#00518f
@@ -127,7 +157,7 @@ $green-500=#34c724
 $green-400=#62d256
 $green-300=#8ee085
 $green-200=#b7edb1
-$green-100=#eef6c6
+$green-100=#d9f5d6
 $green-50=#f0fbef
 
 // lime
@@ -213,6 +243,8 @@ $grey-300=#e4e5e7
 $grey-200=#eff0f1
 $grey-100=#f5f6f7
 $grey-50=#f8f9fa
+
+/* base-color -end */
 
 /* base-color -end */
 ```

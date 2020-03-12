@@ -67,6 +67,10 @@ module.exports = {
                     '/guide/icon/',
                     '/guide/table/',
                     '/guide/pagination/',
+                    '/guide/checkbox/',
+                    '/guide/checkboxGroup/',
+                    '/guide/radio/',
+                    '/guide/radioGroup/',
                 ]
             },
         ]

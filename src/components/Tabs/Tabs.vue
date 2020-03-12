@@ -56,7 +56,7 @@
             },
             data: {  // 用户传递的数据
                 type: Array,
-                default: () => []
+                default: []
             },
 
         },
@@ -138,19 +138,17 @@
             /**
              * @description: 点击页签时触发事件
              * @param item:点击项
-             * @return:
              * @author: XXD
              * @Date: 2020-02-24 14:34:39
              */
-            handleClick ({id}) {
-                this.activeKey = id;
-                this.$emit('input', id)
+            handleClick (item) {
+                this.activeKey = item.id
+                this.$emit('change', item)
             },
 
             /**
              * @description: 根据用户选择的类型取class名称
              * @param id
-             * @return:
              * @author: XXD
              * @Date: 2020-02-24 14:36:29
              */
@@ -170,7 +168,6 @@
             /**
              * @description: 选择卡片式时根据字数设置padding值
              * @param item:每个页签
-             * @return:
              * @author: XXD
              * @Date: 2020-02-24 14:37:28
              */
@@ -209,7 +206,7 @@
             text-align center
             transition color .3s
             &:hover
-                color $blue-500
+                color $blue-500 
         .p-tabs-card-nav-item
             height 32px
             min-width 30px
@@ -224,7 +221,7 @@
             overflow hidden
             white-space: nowrap
             text-align center
-            background #FFFFFF
+            background $white
         div.p-tabs-card-nav-item:nth-child(2)
             border-top-left-radius 4px
             border-bottom-left-radius 4px

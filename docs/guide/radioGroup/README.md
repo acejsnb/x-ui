@@ -1,4 +1,4 @@
-### Button 按钮
+### RadioGroup 单选组
 
 <template>
   <div class="radio-group-view">

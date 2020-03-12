@@ -1,10 +1,14 @@
 <template>
     <div :class="`p-button p-button-${type} p-button-${size} ${minWidth ? 'min-size' : ''} ${disabled ? ('p-button-' + type + '-disabled') : ''} `" @click="handleClick">
-        <Icon v-if="type === 'icon' || type === 'icon-border'" type="action" :name='iconType' :disabled="disabled"/>
-        <Icon v-else-if="type === 'icon-text'" type="action" :name='iconType' :disabled="disabled"/>
-        <div v-if="text && type !== 'icon' && type !== 'icon-border'" ref="text" class="text">{{text}}</div>
-        <div v-else-if="type !== 'icon' && type !== 'icon-border'" ref="text" class="text"><slot/></div>
-        <LoadingIcon class="p-button-loading" v-if="loading && type !== 'icon' && type !== 'icon-border' && type !== 'icon-text'" />
+        <template>
+            <Icon v-if="type === 'icon' || type === 'icon-border'" type="action" :name='icon' />
+            <Icon v-else-if="type === 'icon-text'" type="action" :name='icon' />
+        </template>
+        <template>
+            <div v-if="text && type !== 'icon' && type !== 'icon-border'" ref="text" class="text">{{text}}</div>
+            <div v-else-if="type !== 'icon' && type !== 'icon-border'" ref="text" class="text"><slot/></div>
+        </template>
+        <LoadingIcon class="p-button-loading" v-if="!disabled && loading && type !== 'icon' && type !== 'icon-border' && type !== 'icon-text' && type !== 'text' && type !== 'text-red' && type !== 'text-blue'" />
     </div>
 </template>
 
@@ -33,7 +37,7 @@
             /**
              * icon类型
              */
-            iconType: {
+            icon: {
                 type: String,
                 default: ''
             },
@@ -99,7 +103,7 @@
         justify-content center
         padding-left 8px
         padding-right 8px
-        background-color #fff
+        background-color $white
         border-width 1px
         border-style solid
         border-radius 4px
@@ -107,10 +111,10 @@
         font-size 0
         text-align center
         &:after
-            content '1'
+            content ''
             color transparent
         &:before
-            content '1'
+            content ''
             color transparent
         &+.p-button
             margin-left 12px
@@ -123,31 +127,9 @@
             vertical-align middle
             z-index 1
             user-select none
-        //font-size 14px
         .p-button-loading
             margin-left 4px
             vertical-align middle
-    /*&::after
-        content ''
-        display block
-        position absolute
-        width 100%
-        height 100%
-        top 0
-        left 0
-        pointer-events none
-        //设置径向渐
-        //background radial-gradient(circle, red 10%, transparent 10.01%) !important
-        background-repeat no-repeat
-        //background-position 50%
-        transform scale(10, 10)
-        opacity 0
-        transition transform .3s, opacity .5s
-    &:active::after
-        transform scale(0, 0)
-        opacity 1
-        //设置初始状
-        transition 0s*/
     .p-button-large
         max-width 128px
         min-width 80px
@@ -179,10 +161,13 @@
             width 12px
             height 12px
     .p-button-default, .p-button-icon-text
-        background-color #fff
+        background-color $white
         border-color $grey-400
         color $grey-900
         cursor pointer
+        .p-button-loading
+            path
+                fill $grey-900
         &:hover
             border-color $blue-500
             color $blue-500
@@ -197,7 +182,7 @@
     .p-button-primary
         background-color $blue-500
         border-color $blue-500
-        color #fff
+        color $white
         cursor pointer
         &:hover
             background-color $blue-400
@@ -210,7 +195,7 @@
     .p-button-error
         background-color $red-500
         border-color $red-500
-        color #fff
+        color $white
         cursor pointer
         &:hover
             background-color $red-400
@@ -220,11 +205,22 @@
             border-color $red-600
         &::after
             background radial-gradient(circle, $red-300 10%, transparent 10%)
-    .p-button-disabled
+    .p-button-disabled,
+    .p-button-default-disabled,
+    .p-button-primary-disabled,
+    .p-button-error-disabled
         background-color $red-200
         color $grey-400
         cursor not-allowed
         border-color $grey-200
+        &:hover
+            background-color $red-200
+            border-color $red-200
+            color $grey-400
+        &:active
+            background-color $red-200
+            border-color $red-200
+            color $grey-400
     .p-button-text-blue
         border-style none
         color $blue-500

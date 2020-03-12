@@ -1,4 +1,4 @@
-### Button 按钮
+### CheckboxGroup 复选框组
 
 <template>
   <div class="checkbox-group-view">

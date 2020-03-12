@@ -10,18 +10,19 @@
                 @mouseleave="drawerLeave"
         >
             <div class="p-drawer-title" v-show="title">
-                <section class="p-title-text">{{title}}</section>
-                <Icon type="close" class="p-drawer-title-icon" @click="onClose" />
+                <section class="p-drawer-title-text">{{title}}</section>
+                <i class="p-drawer-title-icon">
+                    <IconClose @click="onClose" />
+                </i>
             </div>
             <div :class="['p-drawer-content', bottom&&'p-drawer-content-bottom']" @scroll="contentScroll">
                 <!-- @slot html内容 -->
-                <slot></slot>
+                <slot />
                 <section class="p-drawer-content-loading" v-if="loadingMore">
                     <LoadingGrey />
                     <span>加载中...</span>
                 </section>
             </div>
-            <!--<div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="btnShow">-->
             <div :class="['p-drawer-handle', bottom&&'p-drawer-handle-bottom']" v-if="bottom">
                 <Button type="primary" @click="onConfirm" :loading="loading">确定</Button>
                 <Button type="default" @click="onClose">取消</Button>
@@ -31,13 +32,13 @@
 </template>
 
 <script>
-    import Icon from '../Icon';
+    import IconClose from '../static/iconSvg/icon_close.svg';
     import Button from '../Button';
     import LoadingGrey from '../static/iconSvg/loading_grey.svg';
 
     export default {
         name: 'Drawer',
-        components: { Icon, Button, LoadingGrey },
+        components: { IconClose, Button, LoadingGrey },
         props: {
             /**
              * 侧拉窗显示状态
@@ -102,11 +103,11 @@
                 }
             },
             // 监听滚动的距离
-            scrollTop(n, o) {
-                if (n === o && n>0) {
-                    console.log(n)
-                }
-            }
+            // scrollTop(n, o) {
+            //     if (n === o && n>0) {
+            //         console.log(n)
+            //     }
+            // }
         },
         created() {
             this.autoClose=this.focus;
@@ -167,8 +168,8 @@
         position fixed
         right 0
         top 48px
-        background-color #fff
-        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
+        background-color $white
+        box-shadow $box-shadow-bottom
         min-width 304px
         max-width 680px
         height calc(100% - 48px)
@@ -181,8 +182,8 @@
         width 100%
         height 56px
         line-height @height
-        .p-title-text
-            max-width 98%
+        .p-drawer-title-text
+            max-width calc(100% - 16px)
             color $grey-900
             font-size 16px
             overflow hidden
@@ -190,9 +191,14 @@
             white-space nowrap
         .p-drawer-title-icon
             position absolute
-            top 16px
+            top 0
             right 28px
-            //overflow-y auto
+            svg
+                cursor pointer
+                &:hover
+                    path
+                        fill $blue-500
+                        transition fill .3s
     .p-drawer-content
         padding 12px 32px
         width 100%
@@ -211,12 +217,12 @@
         height calc(100% - 128px)
     .p-drawer-handle
         padding 20px 32px
-        background-color #fff
+        background-color $white
         width 100%
     .p-drawer-handle-bottom
         position absolute
         right 0
         bottom 0
-        box-shadow 0 -2px 10px 0 rgba(31,35,41,.1)
+        box-shadow $box-shadow-top
 
 </style>

@@ -160,12 +160,12 @@
 		position absolute
 		top 0
 		right 28px
-		cursor pointer
-		svg>path
-			transition fill .36s
-		&:hover
-			svg>path 
-				fill $blue-500
+		svg
+			cursor pointer
+			&:hover
+				path
+					fill $blue-500
+					transition fill .36s
 .p-modal-content
 	margin-bottom 72px
 	padding 16px 32px

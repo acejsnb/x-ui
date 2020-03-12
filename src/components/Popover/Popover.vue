@@ -173,14 +173,14 @@
 
 <style lang="stylus">
 	$bottomShadow = 3px 3px 7px rgba(31,35,41,0.1)
-	$bottomBorder = transparent #ffffff #ffffff transparent
+	$bottomBorder = transparent $white $white transparent
 	.p-popover
 		display: inline-block
 		.p-popover-wrap
 			position: fixed
 			width: auto
-			background: #fff
-			box-shadow: 0 2px 10px 0 rgba(31,35,41,0.1)
+			background: $white
+			box-shadow: $box-shadow-bottom
 			border: 1px solid $grey-300
 			border-radius: 4px
 			transition-property: top,bottom,opacity
@@ -215,9 +215,9 @@
 					width: 8px
 					height: @width
 					box-shadow: -2px -2px 5px rgba(31,35,41,0.1)
-					border-color: #ffffff transparent transparent #ffffff
+					border-color: $white transparent transparent $white
 					border-width: 4px
-					background: #fff
+					background: $white
 					transform: rotate(45deg)
 				.p-popover-arrow-bottom-center
 					left: 50%

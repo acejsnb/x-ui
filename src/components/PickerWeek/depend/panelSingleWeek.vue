@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="p-picker-main-handle">
-                    <Button :type="btnType" size="small" disabled @click="pickerConfirm">确定</Button>
+                    <Button :type="btnType" size="small" @click="pickerConfirm">确定</Button>
                 </div>
             </div>
         </transition>

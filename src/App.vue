@@ -44,14 +44,14 @@
   .app
     //font-size 0
     .backBox
-      background-color #fff
+      background-color $white
       box-shadow 0 3px 3px rgba(0,0,0,.1)
       width 100%
       height 48px
       line-height 48px
       .title
         text-align center
-        color #000
+        color $black
         font-size 18px
         font-weight 600
     .component-padding

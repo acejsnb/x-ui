@@ -51,7 +51,7 @@
         display inline-block
         padding 8px
         border-radius 4px
-        box-shadow 0 2px 10px 0 rgba(31,35,41,.1)
+        box-shadow $box-shadow-bottom
         min-width 240px
         max-width 600px
         min-height 40px
@@ -67,7 +67,7 @@
             width calc(100% - 52px)
             text-align left
             font-size 14px
-            color #fff
+            color $white
             word-wrap break-word
             line-height 24px
         .p-message-close

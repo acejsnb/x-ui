@@ -14,15 +14,16 @@
             </div>
             <div class="display-panel">
                 <h3>3.status</h3>
-                <Tag v-for="(status, i3) in statusList" :key="'status'+status+i3"  :status="status" type="circular"></Tag>
+                <Tag v-for="(status, i3) in statusList" :key="'status'+status+i3"  :status="status" type="circular" />
             </div>
             <div class="display-panel">
                 <h3>4.dot</h3>
-                <Tag v-for="(dot, i4) in statusList" :key="'status'+dot+i4"   :status="dot" type="dot"></Tag>
+                <Tag v-for="(dot, i4) in statusList" :key="'status'+dot+i4"   :status="dot" type="dot" />
             </div>
         </div>
     </div>
 </template>
+
 <script>
     export default {
         name: "TagView",
@@ -53,11 +54,11 @@
             </div>
             <div class="display-panel">
                 <h3>3.status</h3>
-                <Tag v-for="(status, i3) in statusList" :key="'status'+status+i3"  :status="status" type="circular"></Tag>
+                <Tag v-for="(status, i3) in statusList" :key="'status'+status+i3"  :status="status" type="circular" />
             </div>
             <div class="display-panel">
                 <h3>4.dot</h3>
-                <Tag v-for="(dot, i4) in statusList" :key="'status'+dot+i4"   :status="dot" type="dot"></Tag>
+                <Tag v-for="(dot, i4) in statusList" :key="'status'+dot+i4"   :status="dot" type="dot" />
             </div>
         </div>
     </div>

@@ -98,7 +98,7 @@
 		border-color: $blue-500
 	&.p-input-focus
 		border-color: $blue-500
-		box-shadow: 0 0 0 2px rgba(0,145,255,0.2)
+		box-shadow: $box-shadow-blue
 	.p-input-icon-search
 		display: inline-block
 		padding-left: 8px

@@ -1,4 +1,4 @@
-### Radio 单选
+### Checkbox 复选框
 
 <template>
     <div class="checkbox">

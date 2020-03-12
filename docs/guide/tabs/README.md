@@ -8,7 +8,7 @@
                 <div class="display-panel">
                     <h5>一级页签</h5>
                     <Tabs type="first-nav" :data="tabData" v-model="model1" />
-                </div>            
+                </div>
                 <div class="display-panel">
                     <h5>二级页签</h5>
                     <Tabs type="second-nav" :data="tabData" v-model="model2"/>
@@ -21,6 +21,7 @@
         </div>
     </div>
 </template>
+
 <script>
     export default {
         name: "TabsView",

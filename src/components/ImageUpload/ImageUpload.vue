@@ -539,7 +539,7 @@ export default {
 		padding: 4px
 		border: 1px solid $grey-400
 		border-radius: 4px
-		background: #fff
+		background: $white
 		.p-list-image
 			width: 100%
 			height: 100%
@@ -591,7 +591,7 @@ export default {
 		left: 0
 		width: 100%
 		height: 100%
-		background: #fff
+		background: $white
 		z-index: 999
 		.p-image-modal-back
 			position: fixed

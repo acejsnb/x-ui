@@ -393,7 +393,7 @@
 		font-size 0
 		width: 400px
 		overflow: hidden
-		background: #FFFFFF
+		background: $white
 		display inline-block
 		.p-add-file-input
 			position: absolute
@@ -406,7 +406,7 @@
 			position: relative
 			width: 130px
 			height: 32px
-			background-color: #FFFFFF
+			background-color: $white
 			border: 1px solid $grey-400
 			display: flex
 			padding: 0 8px

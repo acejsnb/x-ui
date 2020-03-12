@@ -1,6 +1,6 @@
 <template>
 	<div class="p-icon">
-		<component :is="handleName"></component>
+		<component :is="handleName" />
 	</div>
 </template>
 
@@ -17,8 +17,9 @@
              */
             name: {
 				type: String,
-				required: true
-			},
+				default: '',
+				require: true
+			}
 		},
 		computed: {
 			/**
@@ -42,4 +43,5 @@
 	text-align: center
 	cursor: pointer
 	font-size: 0
+
 </style>

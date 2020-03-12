@@ -68,9 +68,9 @@
   position absolute
   right 0
   bottom 0
-  //background-color #fff
+  //background-color $white
   padding 20px 32px
-  //box-shadow 0 -2px 10px 0 rgba(31,35,41,.1)
+  //box-shadow $box-shadow-bottom
   width 100%
   text-align right
 
