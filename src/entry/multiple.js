@@ -4,6 +4,7 @@
 
 import '../components/base';
 import Button from '../components/Button';
+import DropDownButton from '../components/DropDownButton';
 import Modal from '../components/Modal';
 import Drawer from '../components/Drawer';
 import Toggle from '../components/Toggle';
@@ -28,25 +29,30 @@ import Tag from '../components/Tag';
 import Transfer from '../components/Transfer';
 import TransferSelect from '../components/TransferSelect';
 import TransferSelectModal from '../components/TransferSelectModal';
+import Checkbox from '../components/Checkbox';
+import CheckboxGroup from '../components/CheckboxGroup';
+import Radio from '../components/Radio';
+import RadioGroup from '../components/RadioGroup';
 import Avatar from '../components/Avatar';
 import FileUpload from '../components/FileUpload';
 import ImageUpload from '../components/ImageUpload';
+import Table from '../components/Table';
+import Pagination from '../components/Pagination';
+import Popover from '../components/Popover';
 
 // 组合组件
 import Headers from '../components/Headers';
 
 // 函数式组件
 import Message from '../components/Message';
+import Loading from '../components/Loading';
 
 // 未公开组件
 import TransferMini from '../components/TransferMini';
 import Shake from '../components/Shake';
 import TreeStage from '../components/TreeStage';
 import CarouselText from '../components/CarouselText';
-import SelectButton from '../components/SelectButton';
 import SelectInput from '../components/SelectInput';
-import Checkbox from '../components/Checkbox';
-import Radio from '../components/Radio';
 import Input from '../components/Input';
 import Icon from '../components/Icon';
 
@@ -55,6 +61,7 @@ import Inserted from '../components/Tooltip'
 
 const Components = {
     Button
+    ,DropDownButton
     ,Modal
     ,Drawer
     ,Toggle
@@ -82,24 +89,31 @@ const Components = {
     ,Avatar
     ,FileUpload
     ,ImageUpload
+    ,Table
+    ,Pagination
+
+    ,Checkbox
+    ,CheckboxGroup
+    ,Radio
+    ,RadioGroup
+
+    ,Icon
+    ,Popover
 
     // 组合组件
     ,Headers
 
     // 函数式组件
     ,Message
+    ,Loading
 
     // 未公开组件
     ,TransferMini
     ,Shake
     ,TreeStage
     ,CarouselText
-    ,SelectButton
     ,SelectInput
-    ,Checkbox
-    ,Radio
     ,Input
-    ,Icon
 };
 
 const install = Vue => Object.keys(Components).forEach(name => {
@@ -108,6 +122,7 @@ const install = Vue => Object.keys(Components).forEach(name => {
     });
 
     if (name === 'Message') Vue.prototype.$message = Message;
+    else if (name === 'Loading') Vue.prototype.$loading = Loading;
     else Vue.component(name, Components[name]);
 });
 

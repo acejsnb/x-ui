@@ -70,7 +70,7 @@
             // 传入的数据
             data: {
                 type: Array,
-                default: []
+                default: () => []
             }
         },
         data() {

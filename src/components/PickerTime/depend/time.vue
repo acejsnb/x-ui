@@ -133,8 +133,8 @@
             // 设置时分秒位置
             setTimeDom() {
                 this.$nextTick(() => {
-                    this.$refs.hoursDom.scrollTop=this.hour*32;
-                    this.$refs.minutesDom.scrollTop=this.minute*32;
+                    if (this.$refs.hoursDom) this.$refs.hoursDom.scrollTop=this.hour*32;
+                    if (this.$refs.minutesDom) this.$refs.minutesDom.scrollTop=this.minute*32;
                     if (this.$refs.secondsDom) this.$refs.secondsDom.scrollTop=this.second*32;
                 });
             },

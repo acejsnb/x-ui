@@ -7,7 +7,8 @@
                                 'p-picker-panel-text',
                                 yearNow===ya.year&&'p-picker-panel-text-current',
                                 'p-picker-panel-text-'+ya.multiple,
-                                'p-picker-panel-text-'+ya.selected
+                                'p-picker-panel-text-'+ya.selected,
+                                'p-picker-panel-text-'+ya.disabled
                              ]"
                         v-for="(ya, yai) in yearsArray"
                         :key="'year-'+ya.year+yai"
@@ -40,6 +41,7 @@
         },
         methods: {
             yearClick(obj) {
+                if (obj.disabled) return;
                 this.$emit('change', obj)
             },
             yearEnter(obj) {

@@ -106,7 +106,7 @@
 
 <script>
     const selectData=[
-        {id: '100', name: '乔峰', selected: false},
+        {id: '100', name: '乔峰', selected: false, disabled: true},
         {id: '200', name: '阿三2', selected: false},
         {id: '300', name: '段誉3', selected: false},
         {id: '400', name: '阿紫4', selected: false},
@@ -119,7 +119,7 @@
             id: '0', name: '顶级顶级', open: true, checked: 'uncheck',
             children: [
                 {
-                    id: '1',  name: '一级1', open: false, checked: 'uncheck',
+                    id: '1',  name: '一级1', open: false, checked: 'uncheck', disabled: true,
                     children: [
                         {id: '12', name: '二级2', checked: 'uncheck'},
                         {id: '121', name: '二级3', checked: 'uncheck'},
@@ -162,7 +162,7 @@
                 selectData,
                 // 多选选中的id
                 selectedIds: [],
-                dataTreeSingle: dataTree,
+                dataTreeSingle: JSON.parse(JSON.stringify(dataTree)),
                 dataTreeMultiple: JSON.parse(JSON.stringify(dataTree)),
                 dataTreeMultiple2: JSON.parse(JSON.stringify(dataTree)),
             }

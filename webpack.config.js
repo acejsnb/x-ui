@@ -141,11 +141,6 @@ const config={
                         name: '[name].[ext]?[hash:8]',
                         outputPath: 'images/'
                     }
-                },{
-                    loader: 'image-webpack-loader', // 图片压缩
-                    options: {
-                        bypassOnDebug: true
-                    }
                 }]
             },
             {
@@ -179,7 +174,7 @@ const config={
         ]
     },
     plugins: [
-        new webpack.BannerPlugin(`@xs ${TimeFn()}`),
+        new webpack.BannerPlugin(`@persagy-web-trio ${TimeFn()}`),
         new VueLoaderPlugin(), // vue加载器
         new HappyPack({
             id: 'js_vue', // id值，与loader配置项对应

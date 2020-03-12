@@ -68,7 +68,7 @@
             // 传入的数据
             data: {
                 type: Array,
-                default: []
+                default: () => []
             },
             /* 单选模式相关数据 -s*/
             // v-model绑定的值

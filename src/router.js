@@ -5,7 +5,7 @@ Vue.use(Router);
 
 import ComponentLists from './views/ComponentLists';
 import ButtonView from './views/ButtonView';
-import SelectButtonView from './views/SelectButtonView';
+import DropDownButtonView from './views/DropDownButtonView';
 import SelectInputView from './views/SelectInputView';
 import ModalView from './views/ModalView';
 import DrawerView from './views/DrawerView';
@@ -41,14 +41,21 @@ import AvatarView from './views/AvatarView';
 import FileUploadView from './views/FileUploadView';
 import ImageUploadView from './views/ImageUploadView';
 import TooltipView from './views/TooltipView';
+import TableView from './views/TableView';
+import PaginationView from './views/PaginationView';
+import PopoverView from './views/PopoverView';
+import IconView from './views/IconView';
+
+import CheckboxView from './views/CheckboxView';
+import CheckboxGroupView from './views/CheckboxGroupView';
+import RadioView from './views/RadioView';
+import RadioGroupView from './views/RadioGroupView';
 
 import MessageView from './views/MessageView';
+import LoadingView from './views/LoadingView';
 
 // 未公开组件
-import CheckboxView from './views/CheckboxView';
-import RadioView from './views/RadioView';
 import InputView from './views/InputView';
-import IconView from './views/IconView';
 
 export default new Router({
     // mode: 'history',
@@ -73,11 +80,11 @@ export default new Router({
             }
         },
         {
-            path: '/selectButtonView',
-            name: 'SelectButtonView',
-            component: SelectButtonView,
+            path: '/dropDownButtonView',
+            name: 'DropDownButtonView',
+            component: DropDownButtonView,
             meta: {
-                title: 'SelectButtonView'
+                title: 'DropDownButtonView'
             }
         },
         {
@@ -357,6 +364,15 @@ export default new Router({
             }
         },
         {
+            path: '/loadingView',
+            name: 'LoadingView',
+            component: LoadingView,
+            meta: {
+                title: 'LoadingView'
+            }
+        },
+
+        {
             path: '/tooltipView',
             name: 'TooltipView',
             component: TooltipView,
@@ -364,14 +380,20 @@ export default new Router({
                 title: 'TooltipView'
             }
         },
-
-        // 未公开组件
         {
             path: '/checkboxView',
             name: 'CheckboxView',
             component: CheckboxView,
             meta: {
                 title: 'CheckboxView'
+            }
+        },
+        {
+            path: '/CheckboxGroupView',
+            name: 'CheckboxGroupView',
+            component: CheckboxGroupView,
+            meta: {
+                title: 'CheckboxGroupView'
             }
         },
         {
@@ -383,11 +405,11 @@ export default new Router({
             }
         },
         {
-            path: '/inputView',
-            name: 'InputView',
-            component: InputView,
+            path: '/RadioGroupView',
+            name: 'RadioGroupView',
+            component: RadioGroupView,
             meta: {
-                title: 'InputView'
+                title: 'RadioGroupView'
             }
         },
         {
@@ -396,6 +418,40 @@ export default new Router({
             component: IconView,
             meta: {
                 title: 'IconView'
+            }
+        },
+        {
+            path: '/popoverView',
+            name: 'PopoverView',
+            component: PopoverView,
+            meta: {
+                title: 'PopoverView'
+            }
+        },
+        {
+            path: '/tableView',
+            name: 'TableView',
+            component: TableView,
+            meta: {
+                title: 'TableView'
+            }
+        },
+        {
+            path: '/paginationView',
+            name: 'PaginationView',
+            component: PaginationView,
+            meta: {
+                title: 'PaginationView'
+            }
+        },
+
+        // 未公开组件
+        {
+            path: '/inputView',
+            name: 'InputView',
+            component: InputView,
+            meta: {
+                title: 'InputView'
             }
         },
 

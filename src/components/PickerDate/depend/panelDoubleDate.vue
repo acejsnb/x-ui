@@ -73,7 +73,7 @@
                                             class="p-picker-child-select-box-icon-svg p-picker-child-select-box-icon-svg-left"
                                             @click="prevYearStart"
                                     >
-                                        <ArrowRightDoubleSvg />
+                                        <ArrowRightDoubleSvg v-if="!disableStartYearLeft" />
                                     </article>
                                     <article
                                             class="p-picker-child-select-box-icon-svg p-picker-child-select-box-icon-svg-left"
@@ -91,16 +91,15 @@
                                     <article
                                             class="p-picker-child-select-box-icon-svg"
                                             @click="nextMonthStart"
-                                            v-if="(tabKey==='day'||tabKey==='week')&&!panelYearStart&&!panelMonthStart&&!disableMonthRight"
+                                            v-if="(tabKey==='day'||tabKey==='week')&&!panelYearStart&&!panelMonthStart&&!disableMonthStartRight"
                                     >
                                         <ArrowRightSvg />
                                     </article>
                                     <article
-                                            v-if="!disableYearRight"
                                             class="p-picker-child-select-box-icon-svg"
                                             @click="nextYearStart"
                                     >
-                                        <ArrowRightDoubleSvg />
+                                        <ArrowRightDoubleSvg v-if="!disableYearStartRight" />
                                     </article>
                                 </section>
                             </div>
@@ -161,16 +160,15 @@
                             <div class="p-picker-child-select-box-title" v-show="tabKey !== 'time'">
                                 <section class="p-picker-child-select-box-icon">
                                     <article
-                                            v-if="!disableYearLeft"
                                             class="p-picker-child-select-box-icon-svg p-picker-child-select-box-icon-svg-left"
                                             @click="prevYearEnd"
                                     >
-                                        <ArrowRightDoubleSvg />
+                                        <ArrowRightDoubleSvg v-if="!disableYearEndLeft" />
                                     </article>
                                     <article
                                             class="p-picker-child-select-box-icon-svg p-picker-child-select-box-icon-svg-left"
                                             @click="prevMonthEnd"
-                                            v-if="(tabKey==='day'||tabKey==='week')&&!panelYearEnd&&!panelMonthEnd&&!disableMonthLeft"
+                                            v-if="(tabKey==='day'||tabKey==='week')&&!panelYearEnd&&!panelMonthEnd&&!disableMonthEndLeft"
                                     >
                                         <ArrowRightSvg />
                                     </article>
@@ -409,10 +407,11 @@
                 yearsArrayStart: [], // 年列表
                 yearsArrayEnd: [], // 年列表
 
-                disableYearRight: false, // 禁用开始时间右箭头-年
-                disableMonthRight: false, // 禁用开始时间右箭头-月
-                disableYearLeft: false,  // 禁用结束时间左箭头-年
-                disableMonthLeft: false,  // 禁用结束时间左箭头-月
+                disableStartYearLeft: false, // 禁用开始时间左箭头-年
+                disableYearStartRight: false, // 禁用开始时间右箭头-年
+                disableMonthStartRight: false, // 禁用开始时间右箭头-月
+                disableYearEndLeft: false,  // 禁用结束时间左箭头-年
+                disableMonthEndLeft: false,  // 禁用结束时间左箭头-月
 
                 panelYearStart: false, // 显示年面板
                 panelYearEnd: false, // 显示年面板
@@ -429,13 +428,9 @@
             }
         },
         watch: {
-            pickerBoxStatus(n) {
-                if (n) return;
-            },
             // 监听日期改变
             date(n, o) {
-                console.log('111111111111111111111', n);
-                if (n === o) return;
+                if (n === o || n === this.selectedDate) return;
                 this.paramsChange(this.tabKey, n);
             },
             // 日周月年切换显示
@@ -445,34 +440,29 @@
                 this.panelMonthStart=false;
                 this.panelYearEnd=false;
                 this.panelMonthEnd=false;
-                let dateS='', dateE='';
-                const yas=this.yearActiveStart, mas=this.monthActiveStart, das=this.dayActiveStart;
-                const yae=this.yearActiveEnd, mae=this.monthActiveEnd, dae=this.dayActiveEnd;
-                const yss=this.yearSelectedStart, mss=this.monthSelectedStart, dss=this.daySelectedStart;
-                const yse=this.yearSelectedEnd, mse=this.monthSelectedEnd, dse=this.daySelectedEnd;
-                let ys=yss&&yss<yas?yss:yas, ms=mss&&mss<mas?mss:mas, ds=dss&&dss<das?dss:das, ts=this.timeStart;
-                let ye=yse&&yse<yae?yse:yae, me=mse&&mse<mae?mse:mae, de=dse&&dse<dae?dse:dae, te=this.timeEnd;
-                this.yearActiveStart=ys;this.monthActiveStart=ms;this.dayActiveStart=ds;
-                this.yearActiveEnd=ye;this.monthActiveEnd=me;this.dayActiveEnd=de;
+                const date=this.countInitDate(n);
 
-                if (ms === '02' && Number(ds) >= 29) {
-                    if (LeapYear(ys)) {
-                        ds='29';
-                    } else {
-                        ds='28';
-                    }
-                }
-                if (me === '02' && Number(de) >= 29) {
-                    if (LeapYear(ys)) {
-                        de='29';
-                    } else {
-                        de='28';
-                    }
-                }
-                dateS=ys+'.'+ms+'.'+ds+(n==='day'&&this.format&&ts?(' '+ts):'');
-                dateE=ye+'.'+me+'.'+de+(n==='day'&&this.format&&te?(' '+te):'');
-
-                this.paramsChange(n, dateS+'-'+dateE);
+                this.paramsChange(n, date);
+            },
+            // 如果活动的年小于1997就禁用左箭头
+            yearActiveStart(n, o) {
+                if (n === o) return;
+                this.disableStartYearLeft=n <= '1997';
+            },
+            // 如果活动的年小于1997就禁用左箭头
+            yearActiveEnd(n, o) {
+                if (n === o) return;
+                this.disableYearEndLeft=(n - 1) <= this.yearActiveStart;
+            },
+            // 如果活动的年小于1997就禁用左箭头
+            yearActiveStartLeft(n, o) {
+                if (n === o) return;
+                this.disableStartYearLeft=n <= '1997';
+            },
+            // 如果活动的年小于1997就禁用左箭头
+            yearActiveEndLeft(n, o) {
+                if (n === o) return;
+                this.disableYearEndLeft=(n-1) <= ((this.tabKey==='year'||this.panelYearStart)?this.yearActiveStartRight:this.yearActiveStart);
             }
         },
         created() {
@@ -491,8 +481,43 @@
              * 改变按钮状态
              */
             changeBtnType(str) {
-                if (str && str.replace(/\./g, '')) this.btnType='primary';
+                if (str && str.replace(/[.:\- ]/g, '')) this.btnType='primary';
                 else this.btnType='disabled';
+            },
+            // 计算开始结束日期-初始化数据
+            countInitDate(tabKey) {
+                let dateS='', dateE='';
+                // const yas=this.yearActiveStart, mas=this.monthActiveStart, das=this.dayActiveStart;
+                // const yas=this.yearActiveStartRight?this.yearActiveStartRight:this.yearActiveStart, mas=this.monthActiveStart, das=this.dayActiveStart;
+                // const yae=this.yearActiveEndRight?this.yearActiveEndRight:this.yearActiveEnd, mae=this.monthActiveEnd, dae=this.dayActiveEnd;
+                const yas=this.yearActiveStart, mas=this.monthActiveStart, das=this.dayActiveStart;
+                const yae=this.yearActiveEnd, mae=this.monthActiveEnd, dae=this.dayActiveEnd;
+                const yss=this.yearSelectedStart, mss=this.monthSelectedStart, dss=this.daySelectedStart;
+                const yse=this.yearSelectedEnd, mse=this.monthSelectedEnd, dse=this.daySelectedEnd;
+                // let ys=yss&&yss<yas?yss:yas, ms=mss&&mss<mas?mss:mas, ds=dss&&dss<das?dss:das, ts=this.timeStart;
+                // let ye=yse&&yse<yae?yse:yae, me=mse&&mse<mae?mse:mae, de=dse&&dse<dae?dse:dae, te=this.timeEnd;
+                let ys=yas?yas:yss, ms=mas?mas:mss, ds=das?das:dss, ts=this.timeStart;
+                let ye=yae?yae:yse, me=mae?mae:mse, de=dae?dae:dse, te=this.timeEnd;
+                this.yearActiveStart=ys;this.monthActiveStart=ms;this.dayActiveStart=ds;
+                this.yearActiveEnd=ye;this.monthActiveEnd=me;this.dayActiveEnd=de;
+
+                if (ms === '02' && Number(ds) >= 29) {
+                    if (LeapYear(ys)) {
+                        ds='29';
+                    } else {
+                        ds='28';
+                    }
+                }
+                if (me === '02' && Number(de) >= 29) {
+                    if (LeapYear(ys)) {
+                        de='29';
+                    } else {
+                        de='28';
+                    }
+                }
+                dateS=ys+'.'+ms+'.'+ds+(tabKey==='day'&&this.format&&ts?(' '+ts):'');
+                dateE=ye+'.'+me+'.'+de+(tabKey==='day'&&this.format&&te?(' '+te):'');
+                return dateS+'-'+dateE;
             },
 
             // 参数改变设置面板初始化 init-表示是否初次渲染
@@ -538,7 +563,54 @@
                     this.clickThTextSelectedEnd='';
                 }
 
-                this.changeBtnType(this.date);
+                if (this.selectedDate) {
+                    let dateStart='', dateEnd='';
+                    switch (this.tabKey) {
+                        case 'day':
+                            (() => {
+                                const format=this.format;
+                                const m1=this.clickMonthSelectedStart, d1=this.clickDaySelectedStart, ts=this.timeStart,
+                                    m2=this.clickMonthSelectedEnd, d2=this.clickDaySelectedEnd, te=this.timeEnd;
+                                dateStart=m1+'.'+d1+`${format&&ts?' '+ts:''}`;
+                                dateEnd=m2+'.'+d2+`${format&&te?' '+te:''}`;
+                            })();
+                            break;
+                        case 'week':
+                            (() => {
+                                // const wks=this.weeksSelectedStart, wke=this.weeksSelectedEnd;
+                                // if (wks && wks.length && wke && wke.length) {
+                                //     const {month: m1, day: d1}=wks[0], {month: m2, day: d2}=wke[6];
+                                //     dateStart=m1+'.'+d1;
+                                //     dateEnd=m2+'.'+d2;
+                                // }
+
+                                const m1=this.clickMonthSelectedStart, d1=this.clickDaySelectedStart, ts=this.timeStart,
+                                    m2=this.clickMonthSelectedEnd, d2=this.clickDaySelectedEnd, te=this.timeEnd;
+                                dateStart=m1+'.'+d1;
+                                dateEnd=m2+'.'+d2;
+                            })();
+                            break;
+                        case 'month':
+                            (() => {
+                                dateStart=this.clickMonthSelectedStart;
+                                dateEnd=this.clickMonthSelectedEnd;
+                            })();
+                            break;
+                        case 'year':
+                            (() => {
+                                dateStart=this.clickYearSelectedStart;
+                                dateEnd=this.clickYearSelectedEnd;
+                            })();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    // this.changeBtnType(this.date);
+                    this.changeBtnType(dateStart+'-'+dateEnd);
+                } else {
+                    this.btnType='disabled';
+                }
 
                 switch (params) {
                     case 'day':
@@ -609,26 +681,27 @@
                             const prevYear=CountPrevYear([yae, mae, dae]).replace(reg, '').substr(0, 6);
                             const prevMonth=CountPrevMonth([yae, mae, dae]).replace(reg, '').substr(0, 6);
 
-                            this.disableYearRight = nextYear >= activeEnd;
-                            this.disableMonthRight = nextMonth >= activeEnd;
-                            this.disableYearLeft = prevYear <= activeStart;
-                            this.disableMonthLeft = prevMonth <= activeStart;
+                            this.disableYearStartRight = activeEnd <= nextYear;
+                            this.disableMonthStartRight = activeEnd <= nextMonth;
+                            this.disableYearEndLeft = prevYear <= activeStart;
+                            this.disableMonthEndLeft = prevMonth <= activeStart;
                         })();
                         break;
                     case 'month':
                         (() => {
                             const activeStart=this.yearActiveStart, activeEnd=this.yearActiveEnd;
 
-                            this.disableYearRight = (activeEnd-1) <= activeStart;
-                            this.disableYearLeft = (activeEnd-1) <= activeStart;
+                            this.disableYearStartRight = (activeEnd-1) <= activeStart;
+                            this.disableYearEndLeft = (activeEnd-1) <= activeStart;
                         })();
                         break;
                     case 'year':
                         (() => {
-                            const yearStartRight=this.yearActiveStartRight, yearEndLeft=this.yearActiveEndLeft;
+                            const yearStartRight=(this.tabKey==='year'||this.panelYearStart)?this.yearActiveStartRight:this.yearActiveStart,
+                                yearEndLeft=this.yearActiveEndLeft;
 
-                            this.disableYearRight = (yearEndLeft-1) <= yearStartRight;
-                            this.disableYearLeft = (yearEndLeft-1) <= yearStartRight;
+                            this.disableYearStartRight = (yearEndLeft-1) <= yearStartRight;
+                            this.disableYearEndLeft = (yearEndLeft-1) <= yearStartRight;
                         })();
                         break;
                     default:
@@ -642,26 +715,6 @@
              * @param init -表示是否初次渲染
              */
             dayInitEnd(date, init) {
-                const as=this.daysArrayStart, ae=this.daysArrayEnd;
-                if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd && (as && as.length) &&(ae && ae.length)) {
-                    // 不重新计算日
-                    const os=as.find(d => d.selected && d.flag==='n');
-                    const oe=ae.find(d => d.selected && d.flag==='n');
-                    if (os && os.hasOwnProperty('year') && oe && oe.hasOwnProperty('year')) {
-                        const {year: ys, month: ms, day: ds}=os;
-                        const {year: ye, month: me, day: de}=oe;
-                        this.clickYearSelectedStart=ys;
-                        this.clickMonthSelectedStart=ms;
-                        this.clickDaySelectedStart=ds;
-                        this.clickYearSelectedEnd=ye;
-                        this.clickMonthSelectedEnd=me;
-                        this.clickDaySelectedEnd=de;
-                        this.clickSelectedDateStart=ys+'.'+ms+'.'+ds+(this.format&&this.timeStart?' '+this.timeStart:'');
-                        this.clickSelectedDateEnd=ye+'.'+me+'.'+de+(this.format&&this.timeEnd?' '+this.timeEnd:'');
-                        this.btnType='primary';
-                    }
-                    return;
-                }
                 const [dateStart, dateEnd]=this.dateFormat(date);
                 const [dateS, timeS]=this.setSelectedDay(dateStart);
                 const [dateE, timeE]=this.setSelectedDay(dateEnd);
@@ -675,9 +728,16 @@
                     this.yearNow=year;
                     this.monthNow=month;
                     this.dayNow=day;
-                    this.yearActiveEnd=year;
-                    this.monthActiveEnd=month;
-                    this.dayActiveEnd=day;
+                    if (dateEnd) {
+                        const [year, month, day]=dateEnd.split('.');
+                        this.yearActiveEnd=year;
+                        this.monthActiveEnd=month;
+                        this.dayActiveEnd=day;
+                    } else {
+                        this.yearActiveEnd=year;
+                        this.monthActiveEnd=month;
+                        this.dayActiveEnd=day;
+                    }
                     // 初始化开始时间对象
                     this.dayInitStart(dateS?dateS:CountPrevMonth([year, month, day]), init);
                 } else {
@@ -755,7 +815,7 @@
                     const sd=dateS.replace(/\./g, '').substr(0, 6);
                     const ed=dateE.replace(/\./g, '').substr(0, 6);
                     if (this.panelYearStart || this.panelYearEnd || this.panelMonthStart || this.panelMonthEnd) {
-                        this.daysArrayStart=daysArray.map((d, i) => {
+                        this.daysArrayStart=daysArray.map(d => {
                             d.selected='';
                             d.multiple='';
                             return d;
@@ -763,12 +823,13 @@
                         return;
                     }
                     if (ed - sd > 0) {
-                        const sInd=daysArray.findIndex(d => d.flag==='n'&&(d.year+'.'+d.month+'.'+d.day)===dateS);
-                        this.daysArrayStart=daysArray.map((d, i) => {
+                        const sDate=dateS.replace(/\./g, '');
+                        this.daysArrayStart=daysArray.map(d => {
                             if (d.flag==='n') {
-                                if (i===sInd) {
+                                const cDate=d.year+d.month+d.day;
+                                if (cDate===sDate) {
                                     d.selected='selected'
-                                } else if (i>sInd) {
+                                } else if (cDate>sDate) {
                                     d.multiple='multiple'
                                 } else {
                                     d.selected='';
@@ -783,8 +844,10 @@
                 this.disableArrow();
             },
             weekInitEnd(date) {
+                /*
                 const as=this.weeksArrayStart, ae=this.weeksArrayEnd;
-                if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd && (as && as.length) && (ae && ae.length)) {
+                // if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd && (as && as.length) && (ae && ae.length)) {
+                if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd) {
                     const os=as.find(d => d.selected && d.flag==='n');
                     const oe=ae.find(d => d.selected && d.flag==='n');
                     if (os && os.hasOwnProperty('weeks') && oe && oe.hasOwnProperty('weeks')) {
@@ -809,6 +872,7 @@
                     }
                     return;
                 }
+                */
                 const[dateStart, dateEnd]=this.dateFormat(date);
                 const countWeek=new CountWeek({date: dateEnd, sort: this.sort});
                 this.countWeekEnd=countWeek;
@@ -826,8 +890,10 @@
                 if (this.daySelectedStart && this.daySelectedEnd) this.setWeekStart(this.yearSelectedStart, this.monthSelectedStart, this.daySelectedStart);
             },
             monthInitEnd(date) {
+                /*
                 const as=this.monthsArrayStart, ae=this.monthsArrayEnd;
-                if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd && (as && as.length) &&(ae && ae.length)) {
+                // if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd && (as && as.length) &&(ae && ae.length)) {
+                if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd) {
                     // 不重新计算月
                     const os=as.find(d => d.selected && !d.disabled);
                     const oe=ae.find(d => d.selected && !d.disabled);
@@ -844,11 +910,12 @@
                     }
                     return;
                 }
+                */
                 if (this.panelMonthEnd) {
                     const countMonthEnd=new CountMonth(date); // 当前计算年、月的对象
                     const monthsArrayEnd=countMonthEnd.getMonthsArray();
                     const YS=this.yearActiveStart, MS=this.monthActiveStart;
-                    const YE=this.yearActiveEnd, ME=this.monthActiveEnd;
+                    const YE=this.yearActiveEnd;
                     if (YS === YE) {
                         this.monthsArrayEnd=monthsArrayEnd.map(d => {
                             if (d.month<=MS) d.disabled='disabled';
@@ -886,7 +953,7 @@
                 const countMonthStart=new CountMonth(date); // 当前计算年的对象
                 const monthsArrayStart=countMonthStart.getMonthsArray();
                 if (this.panelYearStart || this.panelYearEnd || this.panelMonthStart || this.panelMonthEnd) {
-                    const YS=this.yearActiveStart, MS=this.monthActiveStart;
+                    const YS=this.yearActiveStart;
                     const YE=this.yearActiveEnd, ME=this.monthActiveEnd;
                     if (YS === YE) {
                         this.monthsArrayStart=monthsArrayStart.map(d => {
@@ -910,8 +977,10 @@
                 this.disableArrow();
             },
             yearInitEnd(date) {
+                /*
                 const as=this.yearsArrayStart, ae=this.yearsArrayEnd;
-                if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd && (as && as.length) &&(ae && ae.length)) {
+                // if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd && (as && as.length) &&(ae && ae.length)) {
+                if (this.pickerBoxStatus && !this.panelYearStart && !this.panelYearEnd && !this.panelMonthStart && !this.panelMonthEnd) {
                     // 不重新计算年
                     const os=as.find(d => d.selected);
                     const oe=ae.find(d => d.selected);
@@ -926,6 +995,7 @@
                     }
                     return;
                 }
+                */
                 let dateStart='',dateEnd='';
                 if (this.panelYearEnd) {
                     dateEnd=date;
@@ -939,7 +1009,10 @@
                 }
                 const dateE=dateEnd.substr(0, 4);
                 const countYearEnd=new CountYear(String(Number(dateE)+12)); // 当前计算年的对象
-                const yearsArrayEnd=countYearEnd.getYearsArray();
+                const yearsArrayEnd=countYearEnd.getYearsArray().map(d => {
+                    if (d.year < 1997) d.disabled='disabled';
+                    return d;
+                });
                 this.yearsArrayEnd=yearsArrayEnd;
                 this.yearActiveEndLeft=yearsArrayEnd[0].year;
                 this.yearActiveEndRight=yearsArrayEnd[11].year;
@@ -951,7 +1024,10 @@
             },
             yearInitStart(date) {
                 const countYearStart=new CountYear(date); // 当前计算年的对象
-                const yearsArrayStart=countYearStart.getYearsArray();
+                const yearsArrayStart=countYearStart.getYearsArray().map(d => {
+                    if (d.year < 1997) d.disabled='disabled';
+                    return d;
+                });
                 this.yearsArrayStart=yearsArrayStart;
                 this.yearActiveStartLeft=yearsArrayStart[0].year;
                 this.yearActiveStartRight=yearsArrayStart[11].year;
@@ -993,7 +1069,6 @@
 
                 // 结束时间
                 const obj=wa.find(d => d.weeks.some(d2 => d2.year===YE && d2.month===ME && d2.day===DE));
-                console.log('setWeekEnd:::', obj);
                 let weeksE=[], thTextE='';
                 if (obj && obj.hasOwnProperty('weeks')) {
                     const {weeks, thText}=obj;
@@ -1170,7 +1245,7 @@
                 }
             },
             setYearStart(Y) {
-                const yearsArray=this.yearsArrayStart, ys=this.yearSelectedStart;
+                const yearsArray=this.yearsArrayStart, ys=this.yearSelectedStart, ye=this.yearSelectedEnd;
                 if (this.panelYearStart) {
                     this.yearsArrayStart=yearsArray.map(d => {
                         if (d.year===ys) d.selected='selected';
@@ -1180,9 +1255,9 @@
                     if (this.panelYearEnd) return;
                     this.clickSelectedDateStart=Y;
                     this.yearsArrayStart=yearsArray.map(d => {
-                        if (d.year===ys) {
+                        if (d.year===ys || d.year===ye) {
                             d.selected='selected';
-                        } else if (d.year>ys) {
+                        } else if (d.year>ys && d.year<ye) {
                             d.multiple='multiple';
                         }
                         return d;
@@ -1363,6 +1438,10 @@
              * 清除时间
              */
             clearTime() {
+                this.yearActiveStartLeft='';
+                this.yearActiveStartRight='';
+                this.yearActiveEndLeft='';
+                this.yearActiveEndRight='';
                 this.selectedDate='';
                 this.selectedDateStart='';
                 this.selectedDateEnd='';
@@ -1562,7 +1641,10 @@
             },
             switchYearStart(date) {
                 this.countYearStart=new CountYear(date); // 当前计算天的对象
-                const yearsArrayStart=this.countYearStart.getYearsArray();
+                const yearsArrayStart=this.countYearStart.getYearsArray().map(d => {
+                    if (d.year < '1997') d.disabled='disabled';
+                    return d;
+                });
                 this.yearsArrayStart=yearsArrayStart;
 
                 this.yearActiveStartLeft=yearsArrayStart[0].year;
@@ -1590,7 +1672,10 @@
             },
             switchYearEnd(date) {
                 this.countYearEnd=new CountYear(date); // 当前计算天的对象
-                const yearsArrayEnd=this.countYearEnd.getYearsArray();
+                const yearsArrayEnd=this.countYearEnd.getYearsArray().map(d => {
+                    if (d.year < '1997') d.disabled='disabled';
+                    return d;
+                });
                 this.yearsArrayEnd=yearsArrayEnd;
 
                 this.yearActiveEndLeft=yearsArrayEnd[0].year;
@@ -1620,6 +1705,7 @@
              * 上一年
              */
             prevYearStart() {
+                if (this.disableStartYearLeft) return;
                 const tabKey=this.tabKey;
 
                 if (this.panelYearStart) {
@@ -1664,6 +1750,7 @@
              * 上一年
              */
             prevYearEnd() {
+                if (this.disableYearEndLeft) return;
                 const tabKey=this.tabKey;
 
                 if (this.panelYearEnd) {
@@ -1933,16 +2020,44 @@
                 this.monthInitEnd(this.yearActiveEnd+'.'+this.monthActiveEnd);
             },
             /**
+             * 设置时间的默认值
+             * @param format String 时间格式
+             * @param start Boolean 是否是开始时间
+             * @return String
+             */
+            setTimeDefault(format, start) {
+                if (start) {
+                    // 计算开始时间
+                    return format==='hm'?'00:00':'00:00:00';
+                } else {
+                    // 计算结束时间
+                    let t='';
+                    const d=new Date(),
+                        h=d.getHours(),
+                        m=d.getMinutes(),
+                        s=d.getSeconds(),
+                        hour=h<10?'0'+h:h,
+                        minute=m<10?'0'+m:m,
+                        second=s<10?'0'+s:s;
+                    if (format === 'hm') t=hour+':'+minute;
+                    else t=hour+':'+minute+':'+second;
+
+                    return t;
+                }
+            },
+            /**
              * 点击日期-开始日期
              * @param obj {year, month, day}
              */
             dayChangeStart({year, month, day}) {
                 let clearOther=false;
+                const format=this.format;
                 if (this.clickYearSelectedStart && this.clickYearSelectedEnd) {
                     this.clickYearSelectedStart=year;
                     this.clickMonthSelectedStart=month;
                     this.clickDaySelectedStart=day;
-                    this.clickSelectedDateStart=year+'.'+month+'.'+day+(this.format&&this.timeStart?' '+this.timeStart:'');
+                    // this.clickSelectedDateStart=year+'.'+month+'.'+day+(this.format&&this.timeStart?' '+this.timeStart:'');
+                    this.clickSelectedDateStart=year+'.'+month+'.'+day+(format?(this.timeStart?' '+this.timeStart:' '+(this.timeStart=this.setTimeDefault(format, true))):'');
 
                     this.clickYearSelectedEnd='';
                     this.clickMonthSelectedEnd='';
@@ -1955,12 +2070,13 @@
                     this.clickYearSelectedEnd=year;
                     this.clickMonthSelectedEnd=month;
                     this.clickDaySelectedEnd=day;
-                    this.clickSelectedDateEnd=year+'.'+month+'.'+day+(this.format&&this.timeEnd?' '+this.timeEnd:'');
+                    // this.clickSelectedDateEnd=year+'.'+month+'.'+day+(this.format&&this.timeEnd?' '+this.timeEnd:'');
+                    this.clickSelectedDateEnd=year+'.'+month+'.'+day+(format?(this.timeEnd?' '+this.timeEnd:' '+(this.timeEnd=this.setTimeDefault(format, false))):'');
                 } else {
                     this.clickYearSelectedStart=year;
                     this.clickMonthSelectedStart=month;
                     this.clickDaySelectedStart=day;
-                    this.clickSelectedDateStart=year+'.'+month+'.'+day+(this.format&&this.timeStart?' '+this.timeStart:'');
+                    this.clickSelectedDateStart=year+'.'+month+'.'+day+(format?(this.timeStart?' '+this.timeStart:' '+(this.timeStart=this.setTimeDefault(format, true))):'');
                 }
 
                 if (this.clickYearSelectedStart && this.clickYearSelectedEnd) this.btnType='primary';
@@ -1974,11 +2090,13 @@
              */
             dayChangeEnd({year, month, day}) {
                 let clearOther=false;
+                const format=this.format;
                 if (this.clickYearSelectedStart && this.clickYearSelectedEnd) {
                     this.clickYearSelectedEnd=year;
                     this.clickMonthSelectedEnd=month;
                     this.clickDaySelectedEnd=day;
-                    this.clickSelectedDateEnd=year+'.'+month+'.'+day+(this.format&&this.timeEnd?' '+this.timeEnd:'');
+                    // this.clickSelectedDateEnd=year+'.'+month+'.'+day+(this.format&&this.timeEnd?' '+this.timeEnd:'');
+                    this.clickSelectedDateEnd=year+'.'+month+'.'+day+(format?(this.timeEnd?' '+this.timeEnd:' '+(this.timeEnd=this.setTimeDefault(format, false))):'');
 
                     this.clickYearSelectedStart='';
                     this.clickMonthSelectedStart='';
@@ -1991,12 +2109,13 @@
                     this.clickYearSelectedStart=year;
                     this.clickMonthSelectedStart=month;
                     this.clickDaySelectedStart=day;
-                    this.clickSelectedDateStart=year+'.'+month+'.'+day+(this.format&&this.timeStart?' '+this.timeStart:'');
+                    // this.clickSelectedDateStart=year+'.'+month+'.'+day+(this.format&&this.timeStart?' '+this.timeStart:'');
+                    this.clickSelectedDateStart=year+'.'+month+'.'+day+(format?(this.timeStart?' '+this.timeStart:' '+(this.timeStart=this.setTimeDefault(format, true))):'');
                 } else {
                     this.clickYearSelectedEnd=year;
                     this.clickMonthSelectedEnd=month;
                     this.clickDaySelectedEnd=day;
-                    this.clickSelectedDateEnd=year+'.'+month+'.'+day+(this.format&&this.timeEnd?' '+this.timeEnd:'');
+                    this.clickSelectedDateEnd=year+'.'+month+'.'+day+(format?(this.timeEnd?' '+this.timeEnd:' '+(this.timeEnd=this.setTimeDefault(format, false))):'');
                 }
 
                 if (this.clickYearSelectedStart && this.clickYearSelectedEnd) this.btnType='primary';
@@ -3057,6 +3176,7 @@
                 const selectedDate=dateStart+'-'+dateEnd;
                 this.selectedDate=selectedDate;
                 this.$emit('change', selectedDate);
+                this.dayInitEnd(selectedDate);
             },
             setQuickWeek(flag) {
                 const ws=this.weeksSelectedStart, s=ws[0],
@@ -3107,6 +3227,7 @@
                 const selectedDate=dateStart+'-'+dateEnd;
                 this.selectedDate=selectedDate;
                 this.$emit('change', selectedDate);
+                this.weekInitEnd(selectedDate);
             },
             setQuickMonth(flag) {
                 const dateS=this.yearSelectedStart+'.'+this.monthSelectedStart, dateE=this.yearSelectedEnd+'.'+this.monthSelectedEnd;
@@ -3130,6 +3251,7 @@
                 this.selectedDate=selectedDate;
 
                 this.$emit('change', selectedDate);
+                this.monthInitEnd(selectedDate);
             },
             setQuickYear(flag) {
                 const yss=Number(this.yearSelectedStart), yse=Number(this.yearSelectedEnd);
@@ -3147,6 +3269,7 @@
                 this.selectedDate=selectedDate;
 
                 this.$emit('change', selectedDate);
+                this.yearInitEnd(selectedDate);
             },
             // 快速选择 flag可选值【left，right】
             quickSort(flag) {
@@ -3253,8 +3376,6 @@
                     default:
                         break;
                 }
-                console.log('dateStart:::', dateStart);
-                console.log('dateEnd:::', dateEnd);
 
                 this.selectedDateStart=dateStart;
                 this.selectedDateEnd=dateEnd;

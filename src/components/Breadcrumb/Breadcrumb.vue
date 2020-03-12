@@ -28,7 +28,7 @@
              */
             data: {
                 type: Array,
-                default: []
+                default: () => []
             },
             /**
              * 当前高亮显示的id
@@ -51,14 +51,13 @@
 </script>
 
 <style lang="stylus">
-
-
     .p-breadcrumb
         display flex
         align-items center
         .p-breadcrumb-item
             display inline-flex
             align-content center
+            line-height 24px
             .p-breadcrumb-item-text
                 display ruby
                 height 24px
@@ -78,7 +77,6 @@
             .p-breadcrumb-arrow
                 margin-left 4px
                 margin-right 4px
-                padding-top 5px
                 height 24px
                 svg
                     vertical-align middle

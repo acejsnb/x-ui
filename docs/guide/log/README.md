@@ -1,6 +1,17 @@
 ### 更新日志
 
 ::: tip
+版本：0.9.3<br>
+1.新增CheckboxGroup、RadioGroup、DropdownButton<br>
+2.修改PickerDate、Tabs文档<br>
+:::
+
+::: tip
+版本：0.9.2<br>
+1.新增Loading、Icon<br>
+:::
+
+::: tip
 版本：0.9.1<br>
 1.新增Tooltip、PickerDate、Avatar、ImageUpload、FileUpload<br>
 :::

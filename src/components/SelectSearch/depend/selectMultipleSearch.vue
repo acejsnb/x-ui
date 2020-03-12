@@ -71,7 +71,7 @@
             // 选中项的id
             selectedIds: {
                 type: Array,
-                default: []
+                default: () => []
             },
             // 是否禁用
             disabled: {
@@ -86,7 +86,7 @@
             // 传入的数据
             data: {
                 type: Array,
-                default: []
+                default: () => []
             }
         },
         data() {

@@ -1,61 +1,52 @@
 <template>
-    <div class="p-modal">
-        <transition name="opacityInUiOut">
-            <div class="p-modal-bg" @click="$emit('close')" v-if="show"></div>
-        </transition>
-        <transition-group name="bounceInUiOut">
-            <!-- 默认弹窗样式 -->
-            <Default
-                    key="default"
-                    v-if="show && mode==='default'"
-                    :title="title"
-                    :iconLoading="iconLoading"
-                    @close="$emit('close')"
-            >
-                <template #default>
-                    <!-- @slot html内容 -->
-                    <slot></slot>
-                </template>
-                <template #handle>
-                    <Handle
-                            :iconLoading="iconLoading"
-                            @close="$emit('close')"
-                            @confirm="$emit('confirm')"
-                    />
-                </template>
-            </Default>
-            <!-- 全屏弹窗样式 -->
-            <Full
-                    key="full"
-                    v-if="show && mode==='full'"
-                    :title="title"
-                    @close="$emit('close')"
-            >
-                <slot></slot>
-            </Full>
-            <!-- 最小弹窗样式 -->
-            <Small
-                    key="small"
-                    v-if="show && mode==='small'"
-                    :title="title"
-                    :iconLoading="iconLoading"
-                    :type="type"
-                    @close="$emit('close')"
-            >
-                <template #small>
-                    <slot></slot>
-                </template>
-                <template #handle>
-                    <Handle
-                            :iconLoading="iconLoading"
-                            :type="type"
-                            @close="$emit('close')"
-                            @confirm="$emit('confirm')"
-                    />
-                </template>
-            </Small>
-        </transition-group>
-    </div>
+	<div class="p-modal">
+		<transition name="opacityInUiOut">
+			<div class="p-modal-bg" @click="$emit('close')" v-if="show"></div>
+		</transition>
+		<transition-group name="bounceInUiOut">
+			<!-- 默认弹窗样式 -->
+			<Default
+				key="default"
+				v-if="show && mode==='default'"
+				:title="title"
+				:iconLoading="iconLoading"
+				@close="$emit('close')"
+			>
+				<template #default>
+					<!-- @slot html内容 -->
+					<slot />
+				</template>
+				<template #handle>
+					<Handle :iconLoading="iconLoading" @close="$emit('close')" @confirm="$emit('confirm')" />
+				</template>
+			</Default>
+			<!-- 全屏弹窗样式 -->
+			<Full key="full" v-if="show && mode==='full'" :title="title" @close="$emit('close')">
+				<slot />
+			</Full>
+			<!-- 最小弹窗样式 -->
+			<Small
+				key="small"
+				v-if="show && mode==='small'"
+				:title="title"
+				:iconLoading="iconLoading"
+				:type="type"
+				@close="$emit('close')"
+			>
+				<template #small>
+					<slot />
+				</template>
+				<template #handle>
+					<Handle
+						:iconLoading="iconLoading"
+						:type="type"
+						@close="$emit('close')"
+						@confirm="$emit('confirm')"
+					/>
+				</template>
+			</Small>
+		</transition-group>
+	</div>
 </template>
 
 <script>
@@ -129,55 +120,60 @@
 </script>
 
 <style lang="stylus">
-    @import "../static/stylus/animate/opacityInUiOut.styl"
-    @import "../static/stylus/animate/bounceInUiOut.styl"
-
-    .p-modal-bg
-        position fixed
-        left 0
-        top 0
-        background-color rgba(100,108,115,.5)
-        width 100%
-        height 100%
-        z-index 999
-    .p-modal-main
-        position fixed
-        background-color #fff
-        z-index 999
-    .p-modal-main-full
-        top 0
-        left 0
-        width 100%
-        height 100%
-    .p-modal-main-max
-        top 60px
-    .p-modal-title
-        position relative
-        padding-left 32px
-        padding-right 32px
-        border-bottom 1px solid $grey-300
-        width 100%
-        height 56px
-        line-height @height
-        .p-title-text
-            max-width 98%
-            color $grey-900
-            font-size 16px
-            overflow hidden
-            text-overflow ellipsis
-            white-space nowrap
-        .p-modal-title-icon
-            position absolute
-            top 16px
-            right 28px
-    .p-modal-content
-        margin-bottom 72px
-        padding 16px 32px
-        width 100%
-        min-height 77px
-    .p-modal-content-normal
-        max-height 648px
-    .p-modal-content-max
-        overflow auto
+@import '../static/stylus/animate/opacityInUiOut.styl'
+@import '../static/stylus/animate/bounceInUiOut.styl'
+.p-modal-bg
+	position fixed
+	left 0
+	top 0
+	background-color rgba(100,108,115,0.5)
+	width 100%
+	height 100%
+	z-index 9998
+.p-modal-main
+	position fixed
+	background-color #fff
+	z-index 9999
+.p-modal-main-full
+	top 0
+	left 0
+	width 100%
+	height 100%
+.p-modal-main-max
+	top 60px
+.p-modal-title
+	position relative
+	padding-left 32px
+	padding-right 32px
+	border-bottom 1px solid $grey-300
+	width 100%
+	height 56px
+	line-height @height
+	.p-title-text
+		max-width 98%
+		color $grey-900
+		font-size 16px
+		overflow hidden
+		text-overflow ellipsis
+		white-space nowrap
+	.p-modal-title-icon
+		position absolute
+		top 0
+		right 28px
+		cursor pointer
+		svg>path
+			transition fill .36s
+		&:hover
+			svg>path 
+				fill $blue-500
+.p-modal-content
+	margin-bottom 72px
+	padding 16px 32px
+	width 100%
+	min-height 77px
+.p-modal-content-normal
+	max-height 648px
+.p-modal-content-max
+	overflow auto
 
 </style>

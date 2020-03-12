@@ -1,5 +1,10 @@
 <template>
-    <div :class="['p-select', 'p-select-'+size]" :style="{width: width+'px'}" tabindex="-1" @blur="selectBlur">
+    <div
+            ref="pSelect"
+            :class="['p-select', 'p-select-'+size]"
+            :style="{width: width+'px'}" tabindex="-1"
+            @blur="selectBlur"
+    >
         <section
                 :class="['p-select-title', radius&&'p-select-title-radius']"
                 @click="selectBoxHandle"
@@ -7,25 +12,16 @@
             <article class="p-select-title-text"><span v-if="title" style="width: 32%">{{title}}</span><span :style="{width: title?'62%':'90%'}">{{text}}</span></article>
             <section :class="['p-select-triangle', !optionStatus && 'p-select-triangle-rotate']"><Triangle /></section>
         </section>
-        <transition name="selectDownUp">
-            <div class="p-select-option-box" v-show="optionStatus">
-                <SelectOption
-                        :selectedId="value"
-                        :data="data"
-                        @click="optionClick"
-                />
-            </div>
-        </transition>
     </div>
 </template>
 
 <script>
     import Triangle from '../static/iconSvg/triangle.svg';
-    import SelectOption from '../SelectOption';
+    import Options from './options';
 
     export default {
         name: "Select",
-        components: { Triangle, SelectOption },
+        components: { Triangle },
         props: {
             /**
              * 绑定的v-model值
@@ -39,7 +35,7 @@
              */
             data: {
                 type: Array,
-                default: []
+                default: () => []
             },
             /**
              * 下拉列表宽度
@@ -81,9 +77,9 @@
         },
         watch: {
             value(n, o) {
-                if (n !== o) {
-                    this.titleFormat(n)
-                }
+                if (n === o) return;
+                this.titleFormat(n);
+                if (this.options) this.options.value=n;
             }
         },
         methods: {
@@ -93,10 +89,22 @@
             },
             // 打开下拉选择盒子
             selectBoxHandle() {
-                if (this.optionStatus) {
-                    this.selectBlur();
+                // this.options ---> 表示当前实例
+                if (this.options) {
+                    this.options.optionStatus=!this.options.optionStatus;
                 } else {
-                    this.optionStatus=true;
+                    const data=this.data, value=this.value;
+                    // 初始化实例
+                    this.options=Options({
+                        tag: this.$refs.pSelect, prams: {data, value}
+                    }).$on('change', (id) => {
+                        // 监听自定义事件
+                        this.optionClick(id);
+                    });
+                    // 注意：监听dom挂载并更新完成，需如下写
+                    this.options.$nextTick(() => {
+                        this.options.optionStatus=true;
+                    })
                 }
             },
             // 提交当前选择的值
@@ -109,7 +117,7 @@
                 this.selectBlur();
             },
             selectBlur() {
-                this.optionStatus=false;
+                this.options.optionStatus=false;
             }
         }
     }
@@ -117,7 +125,7 @@
 
 <style lang="stylus">
 
-    @import "../static/stylus/animate/selectDownUp.styl"
+    @import "../static/stylus/animate/selectDownUpExtend.styl"
 
     .p-select
         outline none
@@ -148,7 +156,6 @@
                 span
                     display inline-block
                     width 100%
-                    line-height 22px
                     font-size 14px
                     overflow hidden
                     text-overflow ellipsis
@@ -166,20 +173,18 @@
                 transform rotate(180deg)
         .p-select-title-radius
             border-radius 16px
-        .p-select-option-box
-            position absolute
-            left 0
-            top 100%
-            margin-top 8px
-            //transform translateY(8px)
-            background-color #fff
-            border 1px solid $grey-300
-            border-radius 4px
-            box-shadow 0 5px 10px rgba(31,35,41,.1)
-            width 100%
-            max-height 184px
-            overflow-y auto
-            z-index 11
+    .p-select-option-box
+        position absolute
+        display inline-block
+        margin-top 8px
+        background-color #fff
+        border 1px solid $grey-300
+        border-radius 4px
+        box-shadow 0 5px 10px rgba(31,35,41,.1)
+        width 240px
+        max-height 184px
+        overflow-y auto
+        z-index 11
     .p-select-large
         .p-select-title
             height 32px
@@ -187,9 +192,6 @@
             .p-select-triangle
                 width 32px
                 height @width
-            .p-select-title-text
-                padding-top 5px
-                padding-bottom 5px
     .p-select-small
         .p-select-title
             height 28px
@@ -197,8 +199,5 @@
             .p-select-triangle
                 width 28px
                 height @width
-            .p-select-title-text
-                padding-top 3px
-                padding-bottom 3px
 
 </style>

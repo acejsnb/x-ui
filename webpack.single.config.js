@@ -110,11 +110,6 @@ const config={
                         name: '[name].[ext]?[hash:8]',
                         outputPath: 'images/'
                     }
-                },{
-                    loader: 'image-webpack-loader', // 图片压缩
-                    options: {
-                        bypassOnDebug: true
-                    }
                 }]
             },
             {
@@ -147,7 +142,7 @@ const config={
         ]
     },
     plugins: [
-        new webpack.BannerPlugin(`@xs ${TimeFn()}`),
+        new webpack.BannerPlugin(`@persagy-web-trio ${TimeFn()}`),
         new VueLoaderPlugin(), // vue加载器
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,       //一个正则表达式，指示应优化/最小化的资产的名称。提供的正则表达式针对配置中ExtractTextPlugin实例导出的文件的文件名运行，而不是源CSS文件的文件名。默认为/\.css$/g

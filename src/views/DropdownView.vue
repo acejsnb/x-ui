@@ -57,6 +57,18 @@
                 this.selText=this.dataSelect.find(d => d.id === n).name
             }
         },
+        mounted() {
+            setTimeout(() => {
+                this.dataSelect=[
+                    { id: 'totalEnergy', name: '总量' },
+                    { id: 'singleParty', name: '单平米' },
+                    { id: 'lowerLevel', name: '下级分项' },
+                    { id: 'lowerLevel222', name: '下级分项222' },
+                    { id: 'average', name: '滑动平均' }
+
+                ]
+            }, 5000)
+        },
         methods: {
         }
     }

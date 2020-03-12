@@ -7,7 +7,7 @@
 				<section class="list">
 					<ImageUpload
 						@change="changeFile"
-						hosts="http://47.95.122.141:8205/domita/backend"
+						hosts="http://47.95.122.141:8209/domita/backend"
 						action="/base/attachment/uploadX"
 						:multiple='false'
 					/>

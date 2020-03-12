@@ -4,7 +4,7 @@
             <h1>Message组件</h1>
             <Button type="default" @click="messageInfo">info</Button>
             <Button type="primary" @click="messageSuccess">success</Button>
-            <Button type="warning" @click="messageWarning">warning</Button>
+            <Button type="default" @click="messageWarning">warning</Button>
             <Button type="error" @click="messageError">error</Button>
         </div>
     </div>

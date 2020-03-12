@@ -70,6 +70,7 @@
         },
         methods: {
             groupChange({cId, cName, pId}) {
+                console.log(cId, cName, pId);
                 this.selVal=cId;
                 this.selText=cName
             }

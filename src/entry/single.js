@@ -4,6 +4,7 @@
 const Components = {
     base: './src/components/base',
     Button: './src/components/Button',
+    DropDownButton: './src/components/DropDownButton',
     Drawer: './src/components/Drawer',
     Modal: './src/components/Modal',
     Toggle: './src/components/Toggle',
@@ -32,24 +33,31 @@ const Components = {
     FileUpload: './src/components/FileUpload',
     ImageUpload: './src/components/ImageUpload',
     Inserted: './src/components/Tooltip',
+    Table: './src/components/Table',
+    Pagination: './src/components/Pagination',
+
+    Checkbox: './src/components/Checkbox',
+    CheckboxGroup: './src/components/CheckboxGroup',
+    Radio: './src/components/Radio',
+    RadioGroup: './src/components/RadioGroup',
+
+    Icon: './src/components/Icon',
+    Popover: './src/components/Popover',
 
     // 组合组件
     Headers: './src/components/Headers',
 
     // 函数式组件
     Message: './src/components/Message',
+    Loading: './src/components/Loading',
 
     // 未公开组件
     TransferMini: './src/components/TransferMini',
     Shake: './src/components/Shake',
     TreeStage: './src/components/TreeStage',
     CarouselText: './src/components/CarouselText',
-    SelectButton: './src/components/SelectButton',
     SelectInput: './src/components/SelectInput',
-    Checkbox: './src/components/Checkbox',
-    Radio: './src/components/Radio',
     Input: './src/components/Input',
-    Icon: './src/components/Icon'
 };
 
 module.exports=Components;

@@ -1,4 +1,3 @@
- 
 <template>
     <div class="toggleView">
         <div class="component component-padding">
@@ -6,17 +5,17 @@
             <div class="display-box">
                 <div class="display-panel">
                     <h5>一级页签</h5>
-                    <Tabs type="first-nav" :data="tabData"  :tabId="1"/>
+                    <Tabs type="first-nav" :data="tabData" v-model="model1" />
                 </div>
             
                 <div class="display-panel">
                     <h5>二级页签</h5>
-                    <Tabs type="second-nav" :data="tabData" :tabId="2"/>
+                    <Tabs type="second-nav" :data="tabData" v-model="model2"/>
                 </div>
             
                 <div class="display-panel">
                     <h5>卡片页签</h5>
-                    <Tabs type="card" :data="tabData" :tabId="3"/>
+                    <Tabs type="card" :data="tabData" v-model="model3"/>
                 </div>
             </div>
         </div>
@@ -27,28 +26,18 @@
         name: "TabsView",
         data() {
             return {
-                tabId: 0,
-            }
-        },
-        computed: {
-            tabData() {   
-                return [
-                    {name: '一' },
-                    {name: '弟二' },
-                    {name: '第三个' },
-                    {name: '第四个字' },
-                    {name: '五个字字字' },
-                    {name: '六个字的情况' },
+                model1: 'id1',
+                model2: 'id2',
+                model3: 'id5',
+                tabData:[
+                    {name: '一', id:'id1'},
+                    {name: '弟二', id:'id2' },
+                    {name: '第三个' , id:'id3'},
+                    {name: '第四个字', id:'id4' },
+                    {name: '五个字字字' , id:'id5'},
+                    {name: '六个字的情况', id:'id6' },
                 ]
             }
-        },
-        watch: {
-            
-        },
-        mounted() {
-          
-        },
-        methods:{
         }
     }
 </script>

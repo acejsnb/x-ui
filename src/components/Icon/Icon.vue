@@ -1,54 +1,45 @@
 <template>
-    <i class="p-icon" @click="handleClick">
-        <IconClose v-if="type==='close'" />
-        <IconSearch v-if="type==='search'" />
-    </i>
+	<div class="p-icon">
+		<component :is="handleName"></component>
+	</div>
 </template>
 
 <script>
-    import IconClose from '../static/iconSvg/icon_close.svg';
-    import IconSearch from '../static/iconSvg/sreach.svg';
-
+	import iconSvg from './iconHandler'
     export default {
-        name: 'Icon',
-        components: { IconClose, IconSearch },
+		name: 'Icon',
+		components: {
+			...iconSvg
+		},
         props: {
             /**
-             * icon类型
+             * icon名称
              */
-            type: {
-                type: String,
-                default: 'close'
-            }
-        },
-        methods: {
-            handleClick() {
-                /**
-                 * 点击icon的回调
-                 * @type {Function}
-                 */
-                this.$emit('click')
-            }
-        }
+            name: {
+				type: String,
+				required: true
+			},
+		},
+		computed: {
+			/**
+			 * 处理icon组件名字
+			 */
+			handleName() {
+				let _string = this.name
+				return 'Icon' + _string
+			},
+		},
     }
 </script>
 
 <style lang="stylus">
-
 .p-icon
-    display inline-block
-    width 16px
-    height @width
-    line-height @width
-    text-align center
-    cursor pointer
-    font-size 0
-    svg
-        vertical-align middle
-        path
-            transition fill .3s
-        &:hover
-            path
-                fill $blue-500
-
+	display: inline-block
+	width: 24px
+	height: @width
+	line-height: @width
+	overflow: hidden
+	text-align: center
+	cursor: pointer
+	font-size: 0
 </style>

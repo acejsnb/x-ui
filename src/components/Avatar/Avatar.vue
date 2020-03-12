@@ -86,10 +86,7 @@
 			if(this.isSlot && this.type === 'text') {
 				this.$slots.default[0].text = this.$slots.default[0].text.trim().slice(0,1)
 			}
-		},
-        methods: {
-
-        }
+		}
     }
 </script>
 

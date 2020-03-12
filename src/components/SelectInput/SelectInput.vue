@@ -62,7 +62,7 @@
             // 选中的数据
             data: {
                 type: Array,
-                default: []
+                default: () => []
             },
             // 三角形方向
             triangle: {

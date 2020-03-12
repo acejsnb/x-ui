@@ -13,7 +13,7 @@
  */
 const TileTool = (result, tree, pid) => {
     tree.forEach(d => {
-        let obj={parentId: pid, id: d.id, name: d.name, checked: d.checked, open: d.open};
+        let obj={parentId: pid, id: d.id, name: d.name, checked: d.checked, open: d.open, disabled: d.disabled?d.disabled:false};
         result.push(obj);
         if (d.children&&d.children.length) TileTool(result, d.children, d.id);
     });

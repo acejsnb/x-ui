@@ -5,7 +5,10 @@
     >
         <div class="p-modal-title">
             <section class="p-title-text">{{title}}</section>
-            <Icon type="close" class="p-modal-title-icon" @click="$emit('close')" />
+			<i class="p-modal-title-icon" @click="$emit('close')">
+				<Close />
+			</i>
+            <!-- <Icon type="close" class="p-modal-title-icon" @click="$emit('close')" /> -->
         </div>
         <div
                 :class="['p-modal-content', contentHeight>77&&'p-modal-content-max']"
@@ -20,11 +23,11 @@
 </template>
 
 <script>
-    import Icon from '../../Icon';
+    import Close from '../../static/iconSvg/icon_close.svg';
 
     export default {
         name: 'Default',
-        components: { Icon },
+        components: { Close },
         props: {
             title: {
                 type: String,

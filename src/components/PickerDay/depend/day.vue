@@ -129,7 +129,7 @@
              */
             daysArray: {
                 type: Array,
-                default: []
+                default: () => []
             },
 
             /**

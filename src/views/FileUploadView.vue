@@ -6,7 +6,7 @@
 			<div class="upload">
 				<section class="list">
 					<FileUpload
-						hosts='http://47.95.122.141:8205/domita/backend'
+						hosts='http://47.95.122.141:8209/domita/backend'
 						action="/base/attachment/uploadX"
 						:multiple="true"
 						@change="changeFile"
@@ -17,7 +17,7 @@
 					<FileUpload
 						type="drop"
 						:maxNumber='7'
-						hosts='http://47.95.122.141:8205/domita/backend'
+						hosts='http://47.95.122.141:8209/domita/backend'
 						action="/base/attachment/uploadX"
 						:multiple="true"
 						@change="changeFile"

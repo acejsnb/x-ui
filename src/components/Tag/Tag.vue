@@ -2,8 +2,11 @@
     <div :class="classes" :style="tagStyle">
         <div :class="[prefixCls + '-wrapper']">
             <span v-if="showDot" :class="[prefixCls + '-dot-icon']" :style="dotStyle"></span>
-            <component :is="status" v-if="showIcon" :class="[prefixCls + '-icon']" style="width:12px; height:12px"/>
-            <span :class="[prefixCls + '-text']"><slot></slot></span>
+            <component :is="status" v-if="showIcon" :class="[prefixCls + '-icon']" />
+            <span :class="[prefixCls + '-text']">
+                <span v-if="!!status">{{tagText}}</span>
+                <slot v-if="!!color"></slot>
+            </span>
         </div>
     </div>
 </template>
@@ -20,6 +23,7 @@
     const radiusTagBgColors = ['#E1F2FF', '#FDE3E2', '#D9F5D6' , '#FEEAD2', '#EFF0F1']
     const radiusTagTextColors = ['#0091FF', '#F54E45', '#34C724' , '#F58300', '#8D9399']
     const statusList = ['processing', 'error', 'completed', 'rejected','remove']
+    const statusText = ['进行中', '错误', '已完成', '已拒绝','删除']
     const oneOf = (value, checkList) =>{
         return checkList.includes(value)
     }
@@ -34,6 +38,7 @@
         data () {
             return {
                 prefixCls:prefixCls,
+                tagText:''
             }
         },
         computed:{
@@ -75,19 +80,18 @@
                         backgroundColor = this.color
                     }
                 } else {
-                    if (this.type === 'circular' && !!this.status) {
                     let colorPos = findColorIndex(this.status, statusList)
-                        if (colorPos < 0) {
-                            return {}
-                        } else {
-                            color = radiusTagTextColors[colorPos]
-                            backgroundColor = radiusTagBgColors[colorPos]
-                        }
+                    if (colorPos < 0) return {}
+                    if (this.type === 'circular' && !!this.status) {
+                        color = radiusTagTextColors[colorPos]
+                        backgroundColor = radiusTagBgColors[colorPos]
                     } 
                     if (this.type === 'dot' && !!this.status){
                         color = '#2B2F36'
                         backgroundColor = ''
                     }
+                    this.tagText = statusText[colorPos]
+                    
                 } 
                 return {color, backgroundColor}
             },
@@ -142,24 +146,22 @@
     height 18px
     margin-right 4px
     font-size 12px
-    padding 2px 4px
+    padding 2px 8px
 .p-tag-circular
     margin-right 12px
     border-radius 12px
-    padding 4px 8px
+    padding 4px 12px
     .p-tag-icon
         width 12px
         height 12px
-        margin 0px 6px
-    svg 
-        width 12px
-        height 12px
+        margin-right 4px
 .p-tag-dot
     margin-right 12px
     .p-tag-dot-icon
         width 6px
         height 6px
         border-radius 50%
-        margin 0px 8px
+        margin 0 8px
+
 </style>
 

@@ -135,7 +135,7 @@
              */
             weeksArray: {
                 type: Array,
-                default: []
+                default: () => []
             },
 
             /**

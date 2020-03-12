@@ -13,7 +13,7 @@
             listData() {
                 return [
                     {title: 'Button', more: '按钮', url: 'buttonView'},
-                    {title: 'SelectButton', more: '已选择-按钮', url: 'selectButtonView'},
+                    {title: 'DropDownButton', more: '下拉按钮', url: 'dropDownButtonView'},
                     {title: 'SelectInput', more: '已选择-搜索框', url: 'selectInputView'},
                     {title: 'Modal', more: '弹窗', url: 'ModalView'},
                     {title: 'Drawer', more: '抽屉', url: 'drawerView'},
@@ -47,16 +47,24 @@
                     {title: 'FileUpload', more: '文件上传', url: 'fileUploadView'},
                     {title: 'ImageUpload', more: '图片上传', url: 'imageUploadView'},
                     {title: 'Tooltip', more: '省略内容提示', url: 'tooltipView'},
+                    {title: 'Table', more: '表格', url: 'tableView'},
+                    {title: 'Pagination', more: '分页-pagination', url: 'paginationView'},
 
                     {title: 'Headers', more: '头部title', url: 'headersView'},
 
                     {title: 'Message', more: '信息提示', url: 'messageView'},
+                    {title: 'Loading', more: '加载动画', url: 'loadingView'},
+
+                    {title: 'Checkbox', more: '复选框', url: 'checkboxView'},
+                    {title: 'CheckboxGroup', more: '组合多选框-CheckboxGroupView', url: 'CheckboxGroupView'},
+                    {title: 'Radio', more: '单选框', url: 'radioView'},
+                    {title: 'RadioGroup', more: '组合单选框-RadioGroupView', url: 'RadioGroupView'},
+
 
                     // 未公开组件
-                    {title: 'Checkbox', more: '复选框', url: 'checkboxView'},
-                    {title: 'Radio', more: '单选框', url: 'radioView'},
                     {title: 'Input', more: '输入框', url: 'inputView'},
-                    {title: 'Icon', more: '图标', url: 'iconView'}
+                    {title: 'Icon', more: '图标', url: 'iconView'},
+                    {title: 'Popover', more: '气泡框', url: 'popoverView'}
                 ]
             }
         },

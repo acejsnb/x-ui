@@ -29,6 +29,7 @@ module.exports = {
                 collapsable: false,
                 children: [
                     '/guide/button/',
+                    '/guide/dropDownButton/',
                     '/guide/badge/',
                     '/guide/breadcrumb/',
                     '/guide/divider/',
@@ -37,6 +38,7 @@ module.exports = {
                     '/guide/dropGroup/',
                     '/guide/headers/',
                     '/guide/message/',
+                    '/guide/loading/',
                     '/guide/modal/',
                     '/guide/select/',
                     '/guide/selectSearch/',
@@ -59,6 +61,12 @@ module.exports = {
                     '/guide/imageUpload/',
                     '/guide/fileUpload/',
                     '/guide/tooltip/',
+                    '/guide/antdTooltip/',
+                    '/guide/loading/',
+                    '/guide/popover/',
+                    '/guide/icon/',
+                    '/guide/table/',
+                    '/guide/pagination/',
                 ]
             },
         ]

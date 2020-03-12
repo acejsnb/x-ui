@@ -61,7 +61,7 @@
                                             class="p-picker-child-select-box-icon-svg p-picker-child-select-box-icon-svg-left"
                                             @click="prevYear"
                                     >
-                                        <ArrowRightDoubleSvg />
+                                        <ArrowRightDoubleSvg v-if="!disableYearLeft" />
                                     </article>
                                     <article
                                             class="p-picker-child-select-box-icon-svg p-picker-child-select-box-icon-svg-left"
@@ -87,7 +87,7 @@
                                             class="p-picker-child-select-box-icon-svg"
                                             @click="nextYear"
                                     >
-                                        <ArrowRightDoubleSvg />
+                                        <ArrowRightDoubleSvg v-if="!disableYearRight" />
                                     </article>
                                 </section>
                             </div>
@@ -262,6 +262,10 @@
                 weeksArray: [], // 周列表
                 monthsArray: [], // 月列表
                 yearsArray: [], // 年列表
+
+                disableYearLeft: false,  // 禁用左箭头-年
+                disableYearRight: false, // 禁用右箭头-年
+
                 panelYear: false, // 显示年面板
                 panelMonth: false, // 显示月面板
                 //panelTime: false, // 显示时分(秒)面板
@@ -276,7 +280,7 @@
         watch: {
             // 监听日期改变
             date(n, o) {
-                if (n === o) return;
+                if (n === o || n === this.selectedDate) return;
                 const tabKey=this.tabKey;
                 if (n) {
                     if (n.includes('-')) {
@@ -296,6 +300,8 @@
                 this.panelMonth=false;
                 let date='';
                 let y=this.yearActive, m=this.monthActive, d=this.dayActive, t=this.time;
+                this.disableYearLeft=y === '1997';
+                // this.disableYearRight=y === '2032';
 
                 if (m === '02' && Number(d) >= 29) {
                     if (LeapYear(y)) {
@@ -306,7 +312,23 @@
                 }
                 date=y+'.'+m+'.'+d+(n==='day'&&this.format&&t?(' '+t):'');
                 this.paramsChange(n, date);
-            }
+            },
+            // 监听活动的年改变-禁用箭头
+            yearActive(n, o) {
+                if (n === o && this.tabKey==='year') return;
+                this.disableYearLeft=n === '1997';
+                // this.disableYearRight=n === '2032';
+            },
+            // tabKey==='year' 监听活动的年改变-禁用箭头
+            yearActiveStart(n, o) {
+                if (n === o && this.tabKey!=='year') return;
+                this.disableYearLeft=n <= '1997';
+            },
+            // tabKey==='year' 监听活动的年改变-禁用箭头
+            // yearActiveEnd(n, o) {
+            //     if (n === o && this.tabKey!=='year') return;
+            //     this.disableYearRight=n >= '2032';
+            // }
         },
         created() {
             // 初始化日期对象
@@ -653,6 +675,8 @@
                 const yearsArray=this.countYear.getYearsArray();
                 this.yearsArray=yearsArray.map(d => {
                     if (d.year===this.yearSelected) d.selected='selected';
+                    if (d.year<'1997') d.disabled ='disabled';
+                    // if (d.year<'1997' || d.year>'2032') d.disabled ='disabled';
                     return d;
                 });
                 this.yearActiveStart=yearsArray[0].year;
@@ -662,6 +686,7 @@
              * 上一年
              */
             prevYear() {
+                if ((this.tabKey!=='year' && this.yearActive === '1997') || (this.tabKey==='year' && this.yearActiveStart <= '1997')) return;
                 const tabKey=this.tabKey;
                 if (this.panelYear && tabKey!=='year') {
                     const date=(this.yearsArray.shift().year-1).toString();
@@ -700,6 +725,7 @@
              * 下一年
              */
             nextYear() {
+                // if ((this.tabKey!=='year' && this.yearActive === '2032') || (this.tabKey==='year' && this.yearActiveEnd >= '2032')) return;
                 const tabKey=this.tabKey;
                 if (this.panelYear && tabKey!=='year') {
                     const date=(parseInt(this.yearsArray.pop().year)+12).toString();
@@ -783,7 +809,28 @@
                 this.clickYearSelected=year;
                 this.clickMonthSelected=month;
                 this.clickDaySelected=day;
-                this.clickSelectedDate=year+'.'+month+'.'+day+(this.format&&this.time?' '+this.time:'');
+                const format=this.format, time=this.time;
+                // this.clickSelectedDate=year+'.'+month+'.'+day+(this.format&&this.time?' '+this.time:'');
+                let t='', space='';
+                if (format) {
+                    space=' ';
+                    if (time) {
+                        t=time;
+                    } else {
+                        const d=new Date(),
+                            h=d.getHours(),
+                            m=d.getMinutes(),
+                            s=d.getSeconds(),
+                            hour=h<10?'0'+h:h,
+                            minute=m<10?'0'+m:m,
+                            second=s<10?'0'+s:s;
+                        if (format === 'hm') t=hour+':'+minute;
+                        else t=hour+':'+minute+':'+second;
+
+                        this.time=t;
+                    }
+                }
+                this.clickSelectedDate=year+'.'+month+'.'+day+space+t;
                 this.btnType='primary';
                 this.changeDaysArray({year, month, day});
             },
@@ -916,6 +963,7 @@
                 this.clickSelectedDate=selectedDate;
 
                 this.$emit('change', selectedDate);
+                this.dayInit(selectedDate, this.time);
             },
             // 周-快速选择-设置时间 flat可选值【left，right】
             setQuickWeek(flag) {
@@ -956,6 +1004,7 @@
                 this.clickSelectedDate=selectedDate;
 
                 this.$emit('change', selectedDate);
+                this.weekInit(y+'.'+m+'.'+d);
             },
             // 月-快速选择-设置时间 flat可选值【left，right】
             setQuickMonth(flag) {
@@ -984,6 +1033,7 @@
                 this.clickSelectedDate=selectedDate;
 
                 this.$emit('change', selectedDate);
+                this.monthInit(selectedDate);
             },
             // 年-快速选择-设置时间 flat可选值【left，right】
             setQuickYear(flag) {
@@ -996,6 +1046,7 @@
                 this.clickSelectedDate=selectedDate;
 
                 this.$emit('change', selectedDate);
+                this.yearInit(selectedDate);
             },
             // 快速选择 flag可选值【left，right】
             quickSort(flag) {
@@ -1037,10 +1088,16 @@
                         this.thTextSelected=this.clickThTextSelected;
                         break;
                     case 'month':
+                        if (!D) this.clickDaySelected=this.dayNow, this.daySelected=this.dayNow;
                         selectedDate=Y+'.'+M;
+                        this.yearActive=Y;
+                        this.monthActive=M;
                         break;
                     case 'year':
                         selectedDate=Y;
+                        if (!M) this.clickMonthSelected=this.monthNow, this.monthSelected=this.monthNow;
+                        if (!D) this.clickDaySelected=this.dayNow, this.daySelected=this.dayNow;
+                        this.yearActive=Y;
                         break;
                     default:
                         break;

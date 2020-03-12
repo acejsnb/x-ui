@@ -80,7 +80,7 @@
             },
             monthsArray: {
                 type: Array,
-                default: []
+                default: () => []
             },
 
             /**

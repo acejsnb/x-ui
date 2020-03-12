@@ -6,7 +6,7 @@
                 <h2 style="font-size: 14px">·说明</h2>
                 <pre style="font-size: 14px;color: red;line-height: 20px;">
                     Headers组件分为左中右三块内容，使用具名插槽;
-                    插槽那么分别为left、middle、right
+                    插槽名分别为left、middle、right
                 </pre>
             </div>
             <h3 style="font-size: 14px">1.Select + Breadcrumb + Tabs + Button</h3>

@@ -3,7 +3,7 @@
         <div :class="[prefixCls + '-nav-container']">
             <div ref="navWrap" :class="[prefixCls + '-nav-wrap']" :style="navWrapStyle">
                 <div :class="[prefixCls + '-navbar']" :style="barStyle"></div>
-                <div :class="tabItemCls(index)" v-for="(item, index) in data" :key="index" @click="handleClick(item, index)" :style="itemStyle(item)">{{item.name}}</div>
+                <div :class="tabItemCls(item.id)" v-for="(item, index) in data" :key="index" @click="handleClick(item)" :style="itemStyle(item)">{{item.name}}</div>
             </div>
         </div>
     </div>
@@ -45,9 +45,9 @@
 
         },
         props: {
-            tabId: {   // 设置默认选中项
+            value: {   // 设置默认选中项
                 type: [Number,String],
-                default:0
+                default:''
             },
             type: {   // 设置页签类型  first-nav：一级页签，  second-nav：二级页签， card：卡片式页签
                 validator (value) {
@@ -56,7 +56,7 @@
             },
             data: {  // 用户传递的数据
                 type: Array,
-                default: []
+                default: () => []
             },
 
         },
@@ -72,19 +72,23 @@
             type (curVal, oldVal) {  // 监听到类型改变时触发
                 if (curVal !== oldVal) this.updateBarPos()
             },
-            tabId: {  // 监听到默认选中项改变时触发
+            value: {  // 监听到默认选中项改变时触发
                 handler(curVal, oldVal) {
-                    this.activeKey = parseInt(curVal)
+                    this.activeKey = curVal
                 },
                 immediate:true
             },
             activeKey:{
                 handler(curVal, oldVal) {  // 监听到当前选中项改变时触发
-                    if ( (this.type === 'first-nav' || this.type === 'second-nav') && (curVal !== oldVal)) {
+                    if ( (this.type !== 'card') && (curVal !== oldVal)) {
                         this.updateBarPos()
                     }
-                },
-                immediate:true
+                }
+            }
+        },
+        mounted() {
+            if (this.type !== 'card') {
+                this.updateBarPos()
             }
         },
         methods: {
@@ -97,8 +101,12 @@
              */
             updateBarPos () {
                 this.$nextTick(() => {
-                    const index = this.activeKey
-                    const tabs = this.$refs.navWrap.querySelectorAll(`.${prefixCls}-nav-item`)
+                    const index = this.data.findIndex(item => {
+                        return item.id === this.activeKey
+                    })
+                    if (index === -1) return
+                    const tabs = this.$refs.navWrap && this.$refs.navWrap.querySelectorAll(`.${prefixCls}-nav-item`)
+                    if (!tabs) return
                     const tab = tabs[index]
                     if (this.type === 'first-nav') {
                         this.barWidth = tab ? parseFloat(tab.offsetWidth) : 0
@@ -130,32 +138,31 @@
             /**
              * @description: 点击页签时触发事件
              * @param item:点击项
-             * @param index:点击项的序号
              * @return:
              * @author: XXD
              * @Date: 2020-02-24 14:34:39
              */
-            handleClick (item, index) {
-                this.activeKey = index
-                this.$emit('on-click', item.name)
+            handleClick ({id}) {
+                this.activeKey = id;
+                this.$emit('input', id)
             },
 
             /**
              * @description: 根据用户选择的类型取class名称
-             * @param index: 页签的序号
+             * @param id
              * @return:
              * @author: XXD
              * @Date: 2020-02-24 14:36:29
              */
-            tabItemCls (index) {
+            tabItemCls (id) {
                 return [
                     `${prefixCls}-nav-item`,
                     {
                         [`${prefixCls}-first-nav-item`] : this.type === 'first-nav',
                         [`${prefixCls}-second-nav-item`] : this.type === 'second-nav',
                         [`${prefixCls}-card-nav-item`] : this.type === 'card',
-                        [`${prefixCls}-line-item-active`] : (this.type === 'second-nav' || this.type === 'first-nav') && this.activeKey === index,
-                        [`${prefixCls}-card-item-active`] : this.type === 'card' && this.activeKey === index
+                        [`${prefixCls}-line-item-active`] : (this.type === 'second-nav' || this.type === 'first-nav') && this.activeKey === id,
+                        [`${prefixCls}-card-item-active`] : this.type === 'card' && this.activeKey === id
                     }
                 ]
             },
@@ -201,6 +208,8 @@
             cursor pointer
             text-align center
             transition color .3s
+            &:hover
+                color $blue-500
         .p-tabs-card-nav-item
             height 32px
             min-width 30px

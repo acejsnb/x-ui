@@ -1,15 +1,15 @@
 <template>
     <div class="p-tree-node">
         <div
-                :class="['p-tree-node-content', !multiple&&treeItem.checked==='checked'&&'p-tree-node-content-checked']"
+                :class="['p-tree-node-content', !multiple&&treeItem.checked==='checked'&&'p-tree-node-content-checked', treeItem.disabled&&'p-tree-node-content-disabled']"
                 :style="{paddingLeft: paddingLeft+'px'}"
         >
             <section
                     class="p-tree-svg"
                     @click="openChild"
-            ><ArrowTriangle :class="['p-tree-icon-svg', treeItem.open&&'p-tree-icon-rotate']" v-if="triangleShow" /></section>
+            ><ArrowTriangle :class="['p-tree-icon-svg', (treeItem.open&&!treeItem.disabled)&&'p-tree-icon-rotate']" v-if="triangleShow" /></section>
             <div class="p-tree-node-check" @click="handleCheck(treeItem, index)">
-                <Checkbox :checked="treeItem.checked" v-if="multiple&&(!lastStage||!triangleShow)" />
+                <Checkbox :checked="treeItem.checked" :disabled="treeItem.disabled" v-if="multiple&&(!lastStage||!triangleShow)" />
                 <section class="p-tree-node-title">
                     <article
                             class="p-tree-node-name"
@@ -19,7 +19,7 @@
                 </section>
             </div>
         </div>
-        <div class="p-tree-child" v-if="triangleShow" v-show="treeItem.open">
+        <div class="p-tree-child" v-if="triangleShow" v-show="treeItem.open&&!treeItem.disabled">
             <TreeNode
                     :multiple="multiple"
                     :linkage="linkage"
@@ -102,6 +102,7 @@
         methods: {
             // 展开/收起
             openChild() {
+                if (this.treeItem.disabled) return;
                 this.treeItem.open=!this.treeItem.open
             },
             // 鼠标hover
@@ -112,6 +113,7 @@
             },
             // 选择
             handleCheck(obj, index) {
+                if (obj.disabled) return;
                 if (this.multiple) {
                     let status='';
                     const treeItem=this.treeItem;
