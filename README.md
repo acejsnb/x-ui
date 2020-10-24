@@ -1,5 +1,5 @@
-# persagy-ui：
-- 基于vue的ui库，github地址 `ssh://git@101.254.183.198:5522/bi-web/persagy-ui-kit.git`
+# x-ui：
+- 基于vue的ui库
 
 ## config
 - 开发预览 `webpack.config.js`
