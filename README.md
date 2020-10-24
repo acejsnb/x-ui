@@ -10,12 +10,12 @@
 
 
 ## 安装
-- `npm install -S persagy-ui`
+- `npm install -S xxx`
 
 ## 全局引入
 ```
-    import Pui from 'persagy-ui';
-    import 'persagy-ui/dist/index.css'；
+    import Xx from 'xxx';
+    import 'xxx/dist/index.css'；
     
     Vue.use(Pui);
 ```
@@ -25,7 +25,7 @@
     [
           "component",
           {
-            "libraryName": "persagy-ui",
+            "libraryName": "xxx",
             "camel2Dash": false,
             "libDir": "dist",
             "style": false
@@ -34,14 +34,14 @@
 ```
 
 ## 按需引入
-- 引入组件 `import { Button } from 'persagy-ui''`
+- 引入组件 `import { Button } from 'xxx''`
 - 安装依赖包   `npm i -D babel-plugin-component`
 - 在 .babelrc中的plugins里添加
 ```json
     [
           "component",
           {
-            "libraryName": "persagy-ui",
+            "libraryName": "xxx",
             "camel2Dash": false,
             "libDir": "dist",
             "styleLibrary": { "name": "theme", "base": true }
